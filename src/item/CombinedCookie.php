@@ -16,7 +16,7 @@ class CombinedCookie extends Item
         $session = Session::get($player);
 
         if ($session->inCooldown("cookie_combined")) {
-            $player->sendMessage(Util::PREFIX . "Veuillez attendre §9" . ($session->getCooldownData("cookie_combined")[0] - time()) . " §fsecondes avant de remanger un cookie combiné");
+            $player->sendMessage(Util::PREFIX . "Veuillez attendre §q" . ($session->getCooldownData("cookie_combined")[0] - time()) . " §fsecondes avant de remanger un cookie combiné");
             $event->cancel();
         } else {
             $player->getEffects()->add(new EffectInstance(VanillaEffects::ABSORPTION(), (10 * 20), 0, false));

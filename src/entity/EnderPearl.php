@@ -37,7 +37,7 @@ class EnderPearl extends PmEnderPearl
         $player = $this->getOwningEntity();
 
         if ($player instanceof Player && ($block->isSameState(VanillaBlocks::STAINED_GLASS()->setColor(DyeColor::BROWN())) || $block->hasSameTypeId(VanillaBlocks::REDSTONE()))) {
-            $player->sendMessage(Util::PREFIX . "Votre perle a été annulé car elle a touché un bloc antiback, votre cooldown perle à été reset à §92 §fsecondes");
+            $player->sendMessage(Util::PREFIX . "Votre perle a été annulé car elle a touché un bloc antiback, votre cooldown perle à été reset à §q2 §fsecondes");
             Session::get($player)->setCooldown("enderpearl", 2);
 
             $this->flagForDespawn();

@@ -66,10 +66,10 @@ class Fork extends Durable
 
         if ($mode === 3) {
             $this->changeForkMode($player, 5);
-            $player->sendMessage(Util::PREFIX . "Votre fourche vient de passer en §9mode 5x5 §fet elle perdra donc §93 points de durabilité §fpar utilisation !");
+            $player->sendMessage(Util::PREFIX . "Votre fourche vient de passer en §qmode 5x5 §fet elle perdra donc §q3 points de durabilité §fpar utilisation !");
         } else {
             $this->changeForkMode($player, 3);
-            $player->sendMessage(Util::PREFIX . "Votre fourche vient de passer en §9mode 3x3 §fet elle perdra donc §91 point de durabilité §fpar utilisation !");
+            $player->sendMessage(Util::PREFIX . "Votre fourche vient de passer en §qmode 3x3 §fet elle perdra donc §q1 point de durabilité §fpar utilisation !");
         }
     }
 
@@ -158,6 +158,11 @@ class Fork extends Durable
         }
     }
 
+    public function getMaxDurability(): int
+    {
+        return 500;
+    }
+
     private function getSeedByBlock(Crops $block): ?PmItem
     {
         return match (true) {
@@ -167,10 +172,5 @@ class Fork extends Durable
             $block instanceof Wheat => VanillaItems::WHEAT_SEEDS(),
             default => null
         };
-    }
-
-    public function getMaxDurability(): int
-    {
-        return 500;
     }
 }

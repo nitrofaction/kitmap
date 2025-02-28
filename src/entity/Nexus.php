@@ -109,7 +109,7 @@ class Nexus extends Living
                 "Nexus | Vie restante " . round($this->getHealth()),
                 2,
                 $percentage,
-                BossBarAPI::COLOR_BLUE
+                BossBarAPI::COLOR_PINK
             );
         }
     }
@@ -117,6 +117,16 @@ class Nexus extends Living
     public function getMaxHealth(): int
     {
         return 10000;
+    }
+
+    protected function entityBaseTick(int $tickDiff = 1): bool
+    {
+        // Despawn if not killed within 30 minutes
+        if ($this->ticksLived > 30 * 60 * 20) {
+            $this->flagForDespawn();
+        }
+
+        return parent::entityBaseTick($tickDiff);
     }
 
     protected function initEntity(CompoundTag $nbt): void

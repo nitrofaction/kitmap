@@ -9,7 +9,7 @@ use Kitmap\entity\Entities;
 use Kitmap\handler\Cache;
 use Kitmap\handler\Rank;
 use Kitmap\item\ExtraVanillaItems;
-use Kitmap\listener\EventsListener;
+use Kitmap\listener\EventListener;
 use Kitmap\task\repeat\child\GamblingTask;
 use Kitmap\task\repeat\PlayerTask;
 use muqsit\invmenu\InvMenuHandler;
@@ -19,6 +19,11 @@ use pocketmine\utils\SingletonTrait;
 class Main extends PluginBase
 {
     use SingletonTrait;
+
+    public function getFile(): string
+    {
+        return parent::getFile();
+    }
 
     protected function onLoad(): void
     {
@@ -45,7 +50,7 @@ class Main extends PluginBase
         new ExtraVanillaItems();
 
         $this->getScheduler()->scheduleRepeatingTask(new PlayerTask(), 20);
-        $this->getServer()->getPluginManager()->registerEvents(new EventsListener(), $this);
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
 
         $this->getServer()->getWorldManager()->getDefaultWorld()->setTime(13200);
         $this->getServer()->getWorldManager()->getDefaultWorld()->stopTime();

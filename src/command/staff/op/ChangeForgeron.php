@@ -27,7 +27,7 @@ class ChangeForgeron extends BaseCommand
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
-        $positions = Cache::$config["forgeron-positions"];
+        $positions = Cache::$config["pos"]["forgeron"];
         $position = $positions[array_rand($positions)];
 
         Cache::$data["forgeron-position"] = $position;

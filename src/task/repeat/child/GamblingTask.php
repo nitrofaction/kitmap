@@ -85,7 +85,7 @@ class GamblingTask
                 }
             }
 
-            if ($player instanceof Player && $target instanceof Player) {
+            if ($player instanceof Player || $target instanceof Player) {
                 $player->sendTitle("§4C'est parti !!!", "§7Vous affrontez " . $target->getName());
                 $target->sendTitle("§4C'est parti !!!", "§7Vous affrontez " . $player->getName());
             }
@@ -109,7 +109,7 @@ class GamblingTask
             default => "first-spawn"
         };
 
-        [$x, $y, $z, $yaw] = explode(":", Cache::$config["gambling"][$name]);
+        [$x, $y, $z, $yaw] = explode(":", Cache::$config["pos"]["gambling"][$name]);
         return new Location(floatval($x), floatval($y), floatval($z), $world, $yaw, 0);
     }
 
@@ -155,14 +155,14 @@ class GamblingTask
         if (!is_null($winner)) {
             $loser = (self::$players[0] === $winner) ? self::$players[1] : self::$players[0];
 
-            $message = $bet > 1 ? " Le prix de la victoire était de §9" . Util::formatNumberWithSuffix($bet * 2) . " §fpièces !" : "";
-            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§9" . $winner . "[§7" . $winnerPot . "§9] §fvient de gagner un gambling ou il affrontait §9" . $loser . "[§7" . $loserPot . "§9] §f!" . $message);
+            $message = $bet > 1 ? " Le prix de la victoire était de §q" . Util::formatNumberWithSuffix($bet * 2) . " §fpièces !" : "";
+            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $winner . "[§7" . $winnerPot . "§q] §fvient de gagner un gambling ou il affrontait §q" . $loser . "[§7" . $loserPot . "§q] §f!" . $message);
 
             if (($p = Main::getInstance()->getServer()->getPlayerExact($winner)) instanceof Player) {
                 Session::get($p)->addValue("money", $bet * 2);
             }
         } else {
-            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le gambling affrontant §9" . self::$players[0] . " §fet §9" . self::$players[1] . " §fa été annulé");
+            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le gambling affrontant §q" . self::$players[0] . " §fet §q" . self::$players[1] . " §fa été annulé");
 
             if ($bet > 1) {
                 Util::addValue("CONSOLE", strtolower(self::$players[0]), "money", $bet);

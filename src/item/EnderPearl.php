@@ -25,11 +25,11 @@ class EnderPearl extends Item
         $event->cancel();
 
         if ($session->inCooldown("enderpearl")) {
-            $player->sendMessage(Util::PREFIX . "Veuillez attendre §9" . ($session->getCooldownData("enderpearl")[0] - time()) . " §fsecondes avant de relancer une nouvelle perle");
+            $player->sendMessage(Util::PREFIX . "Veuillez attendre §q" . ($session->getCooldownData("enderpearl")[0] - time()) . " §fsecondes avant de relancer une nouvelle perle");
             $event->cancel();
             return true;
         } else if ($session->inCooldown("_antipearl")) {
-            $player->sendTip(Util::PREFIX . "Veuillez attendre §9" . ($session->getCooldownData("_antipearl")[0] - time()) . " §fsecondes avant de relancer une nouvelle perle");
+            $player->sendTip(Util::PREFIX . "Veuillez attendre §q" . ($session->getCooldownData("_antipearl")[0] - time()) . " §fsecondes avant de relancer une nouvelle perle");
             $event->cancel();
             return true;
         } else if (!is_null($item->getNamedTag()->getTag("partneritem"))) {

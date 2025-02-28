@@ -49,7 +49,7 @@ class Nick extends BaseCommand
                         $this->customNickForm($player);
                         return;
                     case 1:
-                        $usernames = Cache::$config["usernames"];
+                        $usernames = Cache::$config["nick"];
                         $username = $usernames[array_rand($usernames)];
 
                         $this->nickPlayer($player, $username);
@@ -104,7 +104,7 @@ class Nick extends BaseCommand
     private function nickPlayer(Player $player, string $name): void
     {
         $player->setDisplayName($name);
-        $player->sendMessage(Util::PREFIX . "Vous vous appellez désormais §9" . $name);
+        $player->sendMessage(Util::PREFIX . "Vous vous appellez désormais §q" . $name);
 
         Rank::updateNameTag($player);
         ScoreFactory::updateScoreboard($player);
@@ -123,7 +123,7 @@ class Nick extends BaseCommand
         $embed = new EmbedBuilder();
         $embed->setDescription("**Nick**\n\n**Joueur**\n" . $player->getName() . "\n" . $description);
         $embed->setColor(16755200);
-        Discord::send($embed, Cache::$config["nick-webhook"]);
+        Discord::send($embed, Cache::$config["webhook"]["nick"]);
     }
 
     protected function prepare(): void

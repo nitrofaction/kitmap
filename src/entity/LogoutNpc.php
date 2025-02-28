@@ -79,7 +79,7 @@ class LogoutNpc extends Human
             $pot2 = Util::getItemCount($damager, VanillaItems::SPLASH_POTION()->setType(PotionType::STRONG_HEALING()));
 
             Main::getInstance()->getLogger()->info($this->player . " (PNJ) a été tué par " . $damager->getDisplayName() . " (" . $damager->getName() . ")");
-            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§9" . $this->player . "[§7" . $pot1 . "§9] §fa été tué par le joueur §9" . $damager->getDisplayName() . "[§7" . $pot2 . "§9]");
+            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $this->player . "[§7" . $pot1 . "§q] §fa été tué par le joueur §q" . $damager->getDisplayName() . "[§7" . $pot2 . "§q]");
 
             $session->addValue("kill", 1);
             $session->addValue("killstreak", 1);
@@ -88,7 +88,7 @@ class LogoutNpc extends Human
             if (!is_null($this->faction)) Faction::addPower($this->faction, -4);
 
             if ($session->data["killstreak"] % 5 == 0) {
-                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §9" . $damager->getName() . " §fa fait §9" . $session->data["killstreak"] . " §fkill sans mourrir !");
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §q" . $damager->getName() . " §fa fait §q" . $session->data["killstreak"] . " §fkill sans mourrir !");
             }
         } else {
             Main::getInstance()->getLogger()->info($this->player . " (PNJ) est mort (" . $source->getCause() . ")");

@@ -1,0 +1,36 @@
+{
+  "permission": {
+    "delete": "Supprimer la faction §c(Risqué)",
+    "leader": "Promouvoir chef un membre §c(Risqué)",
+    "permissions": "Modifier les permissions §c(Risqué)",
+    "chunk-buster": "Utiliser un chunk buster §c(Risqué)",
+    "invite": "Inviter des joueurs",
+    "kick": "Expulser des membres",
+    "sethome": "Définir la position du f home",
+    "delhome": "Supprimer le f home",
+    "claim": "Récupérer un claim",
+    "unclaim": "Supprimer son claim",
+    "logs": "Accèder aux logs",
+    "rename": "Renommer la faction",
+    "home": "Se téléporter au f home",
+    "place": "Placer des blocs",
+    "break": "Casser des blocs",
+    "chest": "Ouvrir des coffres",
+    "fence-gates": "Ouvrir les portillons",
+    "trapdoor": "Ouvrir les traps",
+    "door": "Ouvrir les portes",
+    "demote": "Rétrograder des membres",
+    "promote": "Promouvoir des membres",
+    "island": "Permet de se téléporter à l'ile",
+    "set-spawn": "Changer le point de spawn de l'ile",
+    "delete-island": "Supprimer l'ile",
+    "lock": "Gérer les visiteurs de l'ile",
+    "time": "Gérer la météo de l'ile"
+  },
+  "rank": {
+    "leader": "Chef",
+    "officier": "Officier",
+    "member": "Membre",
+    "recruit": "Recrue"
+  }
+}

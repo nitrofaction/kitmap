@@ -26,7 +26,7 @@ class Rank
 
     public static function existRank(string $rank): bool
     {
-        return isset(Cache::$config["ranks"][$rank]);
+        return isset(Cache::$config["rank"][$rank]);
     }
 
     public static function getEqualRank(string $name): string
@@ -72,7 +72,7 @@ class Rank
 
     public static function hasRankOffline(string $rank, string $needle): bool
     {
-        $ranks = array_keys(Cache::$config["ranks"]);
+        $ranks = array_keys(Cache::$config["rank"]);
         return array_search($rank, $ranks) >= array_search($needle, $ranks);
     }
 
@@ -117,7 +117,7 @@ class Rank
 
     public static function getRankValue(string $rank, string $value): mixed
     {
-        return Cache::$config["ranks"][$rank][$value] ?? "joueur";
+        return Cache::$config["rank"][$rank][$value] ?? "joueur";
     }
 
     public static function setReplace(string $replace, Player $player, string $msg = ""): string

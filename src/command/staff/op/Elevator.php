@@ -64,11 +64,11 @@ class Elevator extends BaseCommand
 
     private static function teleportTo(Player $player, string $teleport): void
     {
-        if (!in_array($teleport, array_keys(Cache::$config["elevator"]))) {
+        if (!in_array($teleport, array_keys(Cache::$config["pos"]["elevator"]))) {
             return;
         }
 
-        list($x, $y, $z) = explode(":", Cache::$config["elevator"][$teleport]);
+        list($x, $y, $z) = explode(":", Cache::$config["pos"]["elevator"][$teleport]);
         $player->teleport(new Position(floatval($x), floatval($y), floatval($z), $player->getWorld()));
     }
 

@@ -15,7 +15,7 @@ class Wheat extends Block
         $block = clone $block;
 
         Session::get($player)->addValue("money", ($rand = mt_rand(1, 10)));
-        $player->sendTip("+ §9" . $rand . " §fPièces §9+");
+        $player->sendTip("+ §q" . $rand . " §fPièces §q+");
 
         return [
             15,

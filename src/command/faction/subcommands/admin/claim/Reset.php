@@ -44,7 +44,7 @@ class Reset extends BaseSubCommand
             Cache::$factions[$claim[1]]["claim"] = null;
             unset(Cache::$claims[$claim[2]]);
 
-            $sender->sendMessage(Util::PREFIX . "Vous venez de reset le claim de la §9" . $claim[1]);
+            $sender->sendMessage(Util::PREFIX . "Vous venez de reset le claim de la §q" . $claim[1]);
         }
     }
 

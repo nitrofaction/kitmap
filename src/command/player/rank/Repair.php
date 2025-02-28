@@ -5,6 +5,7 @@ namespace Kitmap\command\player\rank;
 use CortexPE\Commando\args\OptionArgument;
 use CortexPE\Commando\BaseCommand;
 use Kitmap\handler\Rank;
+use Kitmap\item\Durable as CustomDurable;
 use Kitmap\Session;
 use Kitmap\Util;
 use pocketmine\command\CommandSender;
@@ -13,7 +14,6 @@ use pocketmine\item\Item;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
-use Kitmap\item\Durable as CustomDurable;
 
 class Repair extends BaseCommand
 {
@@ -38,7 +38,7 @@ class Repair extends BaseCommand
                 return;
             } else if ($session->inCooldown("repair")) {
                 $format = Util::formatDurationFromSeconds($session->getCooldownData("repair")[0] - time());
-                $sender->sendMessage(Util::PREFIX . "Vous ne pourrez ré-utiliser la commande §9/repair §fque dans: §9" . $format);
+                $sender->sendMessage(Util::PREFIX . "Vous ne pourrez ré-utiliser la commande §q/repair §fque dans: §q" . $format);
                 return;
             } else if ($session->inCooldown("combat")) {
                 $sender->sendMessage(Util::PREFIX . "Cette commande est interdite en combat");

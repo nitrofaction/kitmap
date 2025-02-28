@@ -6,11 +6,11 @@ use CortexPE\Commando\args\IntegerArgument;
 use CortexPE\Commando\args\OptionArgument;
 use CortexPE\Commando\BaseCommand;
 use Kitmap\handler\Cache;
-use Kitmap\handler\PartnerItems;
 use Kitmap\Util;
 use pocketmine\command\CommandSender;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\Player;
+use Kitmap\handler\PartnerItem as Api;
 use pocketmine\plugin\PluginBase;
 
 class PartnerItem extends BaseCommand
@@ -32,17 +32,17 @@ class PartnerItem extends BaseCommand
         if ($sender instanceof Player) {
             $amount = $args["montant"] ?? 1;
 
-            $item = PartnerItems::createItem($args["item"]);
+            $item = Api::createItem($args["item"]);
             $item->setCount($amount);
 
             Util::addItem($sender, $item);
-            $sender->sendMessage(Util::PREFIX . "Vous venez de recevoir " . $amount . " §9" . $args["item"]);
+            $sender->sendMessage(Util::PREFIX . "Vous venez de recevoir " . $amount . " §q" . $args["item"]);
         }
     }
 
     protected function prepare(): void
     {
-        $this->registerArgument(0, new OptionArgument("item", array_keys(Cache::$config["partneritems"])));
+        $this->registerArgument(0, new OptionArgument("item", array_keys(Cache::$config["partneritem"])));
         $this->registerArgument(1, new IntegerArgument("montant", true));
     }
 }

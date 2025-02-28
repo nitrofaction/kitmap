@@ -16,8 +16,8 @@ class Craft
     /** @noinspection PhpExpressionResultUnusedInspection */
     public function __construct()
     {
-        $remove = Cache::$config["crafts"]["remove"];
-        $add = Cache::$config["crafts"]["add"];
+        $remove = Cache::$config["craft"]["remove"];
+        $add = Cache::$config["craft"]["add"];
 
         $craftMgr = Main::getInstance()->getServer()->getCraftingManager();
         $reflectionClass = new ReflectionClass($craftMgr);

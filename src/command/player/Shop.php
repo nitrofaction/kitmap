@@ -80,7 +80,7 @@ class Shop extends BaseCommand
             list($name, $itemName, $buy) = explode(":", $item);
 
             $form->addButton(
-                $name . "\nPrix: §9" . $buy . " §8pièces§9/u",
+                $name . "\nPrix: §q" . $buy . " §8pièces§q/u",
                 0,
                 "textures/render/" . $itemName,
                 $item
@@ -128,7 +128,7 @@ class Shop extends BaseCommand
                 Util::addItem($player, $item);
 
                 Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient d'acheter au shop " . $name . " x" . $count . " pour " . ($sell * $count));
-                $player->sendMessage(Util::PREFIX . "Vous venez d'acheter §9" . $count . " §f" . $name . " pour §9" . ($buy * $count) . " §fpièces");
+                $player->sendMessage(Util::PREFIX . "Vous venez d'acheter §q" . $count . " §f" . $name . " pour §q" . ($buy * $count) . " §fpièces");
             } else {
                 if ($count > Util::getItemCount($player, $testItem)) {
                     $player->sendMessage(Util::PREFIX . "Vous n'avez pas assez d'item dans votre inventaire");
@@ -143,11 +143,11 @@ class Shop extends BaseCommand
                 }
 
                 Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient de vendre au shop " . $name . " x" . $count . " pour " . ($sell * $count));
-                $player->sendMessage(Util::PREFIX . "Vous venez de vendre §9" . $count . " §f" . $name . " pour §9" . ($sell * $count) . " §fpièces");
+                $player->sendMessage(Util::PREFIX . "Vous venez de vendre §q" . $count . " §f" . $name . " pour §q" . ($sell * $count) . " §fpièces");
             }
         });
         $form->setTitle("Boutique");
-        $form->addLabel("Nombre de §9" . $name . " §rdans votre inventaire: §9" . $items . "\n\n§fPrix achat unité: §9" . $buy . "\n§fPrix vente unité: §9" . $sell);
+        $form->addLabel("Nombre de §q" . $name . " §rdans votre inventaire: §q" . $items . "\n\n§fPrix achat unité: §q" . $buy . "\n§fPrix vente unité: §q" . $sell);
         $form->addDropdown("Voulez vous achetez ou vendre", (intval($sell) == 0) ? ["Acheter"] : ["Acheter", "Vendre"]);
         $form->addSlider("Combien voulez vous en acheter/vendre?", 1, $limit);
         $player->sendForm($form);

@@ -37,7 +37,7 @@ class Addvalue extends BaseCommand
             return;
         }
 
-        $sender->sendMessage(Util::PREFIX . "Vous venez d'ajouter §9" . $amount . " §f" . $data . " au joueur §9" . $player);
+        $sender->sendMessage(Util::PREFIX . "Vous venez d'ajouter §q" . $amount . " §f" . $data . " au joueur §q" . $player);
         Util::addValue($sender->getName(), $player, $data, $amount);
     }
 

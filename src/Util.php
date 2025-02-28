@@ -42,7 +42,7 @@ use Symfony\Component\Filesystem\Path;
 
 class Util
 {
-    const PREFIX = "§9§l» §r§f";
+    const PREFIX = "§q§l» §r§f";
 
     public static function arrayToPage(array $array, ?int $page, int $separator): array
     {
@@ -115,8 +115,8 @@ class Util
 
             $player->sendMessage(
                 $substraction ?
-                    self::PREFIX . "Le staff §9" . $staff . " §fvient de vous retirer §9" . $value . " " . $word :
-                    self::PREFIX . "Le staff §9" . $staff . " §fvient de vous ajouter §9" . $value . " " . $word
+                    self::PREFIX . "Le staff §q" . $staff . " §fvient de vous retirer §q" . $value . " " . $word :
+                    self::PREFIX . "Le staff §q" . $staff . " §fvient de vous ajouter §q" . $value . " " . $word
             );
         } else {
             $file = self::getFile("data/players/" . $player);
@@ -186,7 +186,7 @@ class Util
 
         $player->setViewDistance(8);
 
-        foreach (Cache::$config["atouts"] as $name => $atout) {
+        foreach (Cache::$config["atout"] as $name => $atout) {
             $enabled = $data["atouts"][$name][0] ?? false;
 
             if ($enabled) {
@@ -223,7 +223,7 @@ class Util
         $sup = "";
 
         if (($bounty = Session::get($player)->data["bounty"]) > 0) {
-            $sup .= " §7| §9" . self::formatNumberWithSuffix($bounty) . " \u{E102}";
+            $sup .= " §7| §q" . self::formatNumberWithSuffix($bounty) . " \u{E102}";
         }
 
         $player->setScoreTag("§7" . round($player->getHealth(), 2) . " §c❤" . $sup);
@@ -364,7 +364,7 @@ class Util
 
     public static function insideZone(Position $position, string $zone): bool
     {
-        [$x1, $y1, $z1, $x2, $y2, $z2, $world] = explode(":", Cache::$config["zones"][$zone]);
+        [$x1, $y1, $z1, $x2, $y2, $z2, $world] = explode(":", Cache::$config["pos"]["zone"][$zone]);
 
         $minX = min($x1, $x2);
         $minY = min($y1, $y2);
@@ -582,7 +582,7 @@ class Util
 
     public static function caracterToUnicode(string $input): string
     {
-        return Cache::$config["unicodes"][strtolower($input)] ?? " ";
+        return Cache::$config["unicode"][strtolower($input)] ?? " ";
     }
 
     public static function antiBlockGlitch(Player $player): void

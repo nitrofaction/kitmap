@@ -29,7 +29,7 @@ class Pack
         });
         $form->setTitle("Pack");
         $form->setContent(Util::PREFIX . "Quel genre de pack voulez vous ouvrir");
-        foreach (Cache::$config["packs"] as $key => $value) {
+        foreach (Cache::$config["pack"] as $key => $value) {
             $form->addButton("Pack " . $key, label: $key);
         }
         $player->sendForm($form);
@@ -62,7 +62,7 @@ class Pack
             }
         });
         $form->setTitle("Pack " . $category);
-        $form->setContent(Util::PREFIX . "Vous possedez actuellement §9" . $session->data["packs"][$category] . " §fpack(s) §9" . $category);
+        $form->setContent(Util::PREFIX . "Vous possedez actuellement §q" . $session->data["packs"][$category] . " §fpack(s) §q" . $category);
         $form->addButton("Ouvrir un pack " . $category);
         $form->addButton("Acheter un pack " . $category);
         $form->addButton("Visualiser les lots");
@@ -78,7 +78,7 @@ class Pack
             return;
         }
 
-        $items = self::getRandomItems(Cache::$config["packs"][$category]["items-count"], $category);
+        $items = self::getRandomItems(Cache::$config["pack"][$category]["items-count"], $category);
         $prize = "";
 
         foreach ($items as $item) {
@@ -89,9 +89,9 @@ class Pack
         }
 
         Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient d'ouvrir un pack " . $category . " (ses lots: " . $prize . ")");
-        Main::getInstance()->getServer()->broadcastTip(Util::PREFIX . "Le joueur §9" . $player->getName() . " §fvient d'ouvrir un pack §9" . $category . " §f!");
+        Main::getInstance()->getServer()->broadcastTip(Util::PREFIX . "Le joueur §q" . $player->getName() . " §fvient d'ouvrir un pack §q" . $category . " §f!");
 
-        $player->sendMessage(Util::PREFIX . "Vous venez d'ouvrir un pack §9" . $category . " §f! Vos lots ont été mis dans votre inventaire");
+        $player->sendMessage(Util::PREFIX . "Vous venez d'ouvrir un pack §q" . $category . " §f! Vos lots ont été mis dans votre inventaire");
         $session->addValue(["packs", $category], 1, true);
     }
 
@@ -132,16 +132,16 @@ class Pack
     {
         $items = [];
 
-        $config = Cache::$config["packs"][$category]["items"];
+        $config = Cache::$config["pack"][$category]["items"];
 
         if ($config[0] === "partneritems") {
-            foreach (array_keys(Cache::$config["partneritems"]) as $pp) {
+            foreach (array_keys(Cache::$config["partneritem"]) as $pp) {
                 if ($pp === "pumpkinaxe") {
-                    $items[] = PartnerItems::createItem($pp)->setCount(2);
+                    $items[] = PartnerItem::createItem($pp)->setCount(2);
                     continue;
                 }
 
-                $items[] = PartnerItems::createItem($pp)->setCount(4);
+                $items[] = PartnerItem::createItem($pp)->setCount(4);
             }
 
             array_shift($config);
@@ -188,7 +188,7 @@ class Pack
     private static function buyPack(Player $player, string $category): void
     {
         $session = Session::get($player);
-        $prices = Cache::$config["packs"][$category]["prices"];
+        $prices = Cache::$config["pack"][$category]["prices"];
 
         $form = new CustomForm(function (Player $player, mixed $data) use ($session, $category, $prices) {
             if (!is_array($data) || !isset($data[1]) || !isset($data[2]) || !is_bool($data[2]) || !$data[2]) {
@@ -198,23 +198,23 @@ class Pack
             switch ($data[1]) {
                 case 0:
                     if ($prices["gem"] > $session->data["gem"]) {
-                        $player->sendMessage(Util::PREFIX . "Vous ne possedez pas assez de gemmes pour acheter un pack §9" . $category);
+                        $player->sendMessage(Util::PREFIX . "Vous ne possedez pas assez de gemmes pour acheter un pack §q" . $category);
                         return;
                     }
 
                     $session->addValue("gem", 75, true);
-                    $player->sendMessage(Util::PREFIX . "Vous venez d'acheter un pack §9" . $category . "avec §9" . Util::formatNumberWithSuffix($prices["gem"]) . " §fgemmes");
+                    $player->sendMessage(Util::PREFIX . "Vous venez d'acheter un pack §q" . $category . "avec §q" . Util::formatNumberWithSuffix($prices["gem"]) . " §fgemmes");
 
                     Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient d'acheter un pack " . $category . " avec des gemmes");
                     break;
                 case 1:
                     if ($prices["money"] > $session->data["money"]) {
-                        $player->sendMessage(Util::PREFIX . "Vous ne possedez pas assez de pièces pour acheter un pack §9" . $category);
+                        $player->sendMessage(Util::PREFIX . "Vous ne possedez pas assez de pièces pour acheter un pack §q" . $category);
                         return;
                     }
 
                     $session->addValue("money", 100000, true);
-                    $player->sendMessage(Util::PREFIX . "Vous venez d'acheter un pack §9" . $category . " §favec §9" . Util::formatNumberWithSuffix($prices["money"]) . " §fpièces");
+                    $player->sendMessage(Util::PREFIX . "Vous venez d'acheter un pack §q" . $category . " §favec §q" . Util::formatNumberWithSuffix($prices["money"]) . " §fpièces");
 
                     Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient d'acheter un pack " . $category . " avec des pièces");
                     break;
@@ -226,7 +226,7 @@ class Pack
             self::openPackCategoryUI($player, $category);
         });
         $form->setTitle("Pack " . $category);
-        $form->addLabel(Util::PREFIX . "Êtes vous sur d'acheter un pack " . $category . "?\nPrix d'un pack: §9" . Util::formatNumberWithSuffix($prices["money"]) . " §fpièces ou §a" . Util::formatNumberWithSuffix($prices["gem"]) . " §fgemmes\n\nVous possedez §9" . $session->data["gem"] . " §fgemme(s)\nVous possedez §9" . $session->data["money"] . " §fpièces(s)\n");
+        $form->addLabel(Util::PREFIX . "Êtes vous sur d'acheter un pack " . $category . "?\nPrix d'un pack: §q" . Util::formatNumberWithSuffix($prices["money"]) . " §fpièces ou §a" . Util::formatNumberWithSuffix($prices["gem"]) . " §fgemmes\n\nVous possedez §q" . $session->data["gem"] . " §fgemme(s)\nVous possedez §q" . $session->data["money"] . " §fpièces(s)\n");
         $form->addDropdown("Méthode de payement", ["gemmes", "pièces"]);
         $form->addToggle("Acheter un pack?", true);
         $player->sendForm($form);
@@ -234,7 +234,7 @@ class Pack
 
     private static function previsualizePack(Player $player, string $category): void
     {
-        $length = count(Cache::$config["packs"][$category]["items"]);
+        $length = count(Cache::$config["pack"][$category]["items"]);
 
         if ($length > 27) {
             $menu = InvMenu::create(InvMenuTypeIds::TYPE_DOUBLE_CHEST);
@@ -271,7 +271,7 @@ class Pack
                 $session->addValue("money", $data);
 
                 Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient d'utiliser un billet de " . $data . " pièces");
-                $player->sendMessage(Util::PREFIX . "Vous venez d'utiliser un billet et recevoir §9" . $data . " §fpièces");
+                $player->sendMessage(Util::PREFIX . "Vous venez d'utiliser un billet et recevoir §q" . $data . " §fpièces");
                 break;
             case 1:
                 $name = match ($data) {
@@ -288,7 +288,7 @@ class Pack
                 $session->addValue("gem", $data);
 
                 Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient d'utiliser un billet de " . $data . " gemmes");
-                $player->sendMessage(Util::PREFIX . "Vous venez d'utiliser un billet et recevoir §9" . $data . " §fgemmes");
+                $player->sendMessage(Util::PREFIX . "Vous venez d'utiliser un billet et recevoir §q" . $data . " §fgemmes");
                 break;
         }
 

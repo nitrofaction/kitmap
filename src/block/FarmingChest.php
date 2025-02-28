@@ -2,7 +2,7 @@
 
 namespace Kitmap\block;
 
-use Kitmap\handler\Jobs;
+use Kitmap\handler\Job;
 use Kitmap\Util;
 use pocketmine\block\Beetroot;
 use pocketmine\block\Block as PmBlock;
@@ -66,10 +66,10 @@ class FarmingChest extends Block
                 $seed = $this->getSeedByBlock($crops);
 
                 if (!is_null($seed) && !$crops->ticksRandomly()) {
-                    $tile->getInventory()->addItem($seed[0]->setCount($seed[1]));
-                    $world->setBlock($crops->getPosition(), $block->asItem()->getBlock());
+                    $tile->getInventory()->addItem($seed[1]->setCount($seed[2]));
+                    $world->setBlock($crops->getPosition(), $seed[0]->getBlock());
 
-                    $results[$seed[2]] = ($results[$seed[2]] ?? 0) + $seed[1];
+                    $results[$seed[3]] = ($results[$seed[3]] ?? 0) + $seed[2];
                 }
             }
         }
@@ -79,23 +79,29 @@ class FarmingChest extends Block
             return;
         }
 
+        $results += [
+            0 => 0,
+            1 => 0,
+            2 => 0,
+            3 => 0
+        ];
 
-        Jobs::addXp($player, "Farmeur", min(1, intval(mt_rand(1, intval(array_sum($results)))) / 5));
-        $player->sendMessage(Util::PREFIX . "Vous venez de récolter : §9" . $results[0] ?? 0 . " blé(s), " . $results[1] ?? 0 . " patate(s), " . $results[2] ?? 0 . " carotte(s) et " . $results[3] ?? 0 . " betterave(s) §fgrâce à votre farming chest !");
+        Job::addXp($player, "Farmeur", min(1, intval(mt_rand(1, intval(array_sum($results)))) / 5));
+        $player->sendMessage(Util::PREFIX . "Vous venez de récolter : §q" . ($results[0] ?? 0) . " blé(s), " . ($results[1] ?? 0) . " patate(s), " . ($results[2] ?? 0) . " carotte(s) et " . ($results[3] ?? 0) . " betterave(s) §fgrâce à votre farming chest !");
     }
 
     private function getSeedByBlock(PmBlock $block): ?array
     {
         return match (true) {
-            $block instanceof Wheat => [VanillaItems::WHEAT_SEEDS(), 1, 0],
-            $block instanceof Potato => [VanillaItems::POTATO(), mt_rand(1, 2), 1],
-            $block instanceof Carrot => [VanillaItems::CARROT(), mt_rand(1, 2), 2],
-            $block instanceof Beetroot => [VanillaItems::BEETROOT_SEEDS(), 1, 3],
+            $block instanceof Wheat => [VanillaItems::WHEAT_SEEDS(), VanillaItems::WHEAT(), 1, 0],
+            $block instanceof Potato => [VanillaItems::POTATO(), VanillaItems::POTATO(), mt_rand(1, 2), 1],
+            $block instanceof Carrot => [VanillaItems::CARROT(), VanillaItems::CARROT(), mt_rand(1, 2), 2],
+            $block instanceof Beetroot => [VanillaItems::BEETROOT_SEEDS(), VanillaItems::BEETROOT(), 1, 3],
             default => null
         };
     }
 
-    public function getDrops(PmBlock $block, Item $item, Player $player = null): ?array
+    public function getDrops(PmBlock $block, ?Item $item = null, Player $player = null): ?array
     {
         return [
             VanillaItems::EMERALD()->setCount(mt_rand(1, 4)),

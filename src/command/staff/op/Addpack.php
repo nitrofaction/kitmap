@@ -37,7 +37,7 @@ class Addpack extends BaseCommand
             return;
         }
 
-        $sender->sendMessage(Util::PREFIX . "Vous venez d'ajouter §9" . $amount . " §fpacks §9" . $data . " §fau joueur §9" . $player);
+        $sender->sendMessage(Util::PREFIX . "Vous venez d'ajouter §q" . $amount . " §fpacks §q" . $data . " §fau joueur §q" . $player);
         Util::addValue($sender->getName(), $player, ["packs", $data], $amount);
     }
 

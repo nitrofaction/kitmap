@@ -42,7 +42,7 @@ class Bienvenue extends BaseCommand
 
             $target = Main::getInstance()->getServer()->getPlayerExact(Bienvenue::$lastJoin);
 
-            $message = str_replace("{player}", Bienvenue::$lastJoin, Cache::$config["welcome-messages"][array_rand(Cache::$config["welcome-messages"])]);
+            $message = str_replace("{player}", Bienvenue::$lastJoin, Cache::$config["welcome"][array_rand(Cache::$config["welcome"])]);
             $message = Rank::setReplace(Rank::getRankValue(Rank::getRank($sender->getName()), "chat"), $sender, $message);
 
             if ($target instanceof Player) {
@@ -53,7 +53,7 @@ class Bienvenue extends BaseCommand
             $sender->sendMessage($message);
 
             $session->addValue("money", 500);
-            $sender->sendMessage(Util::PREFIX . "Vous avez reçu §9500 §fpièces car vous avez souhaité la bienvenue de §9" . Bienvenue::$lastJoin);
+            $sender->sendMessage(Util::PREFIX . "Vous avez reçu §q500 §fpièces car vous avez souhaité la bienvenue de §q" . Bienvenue::$lastJoin);
         }
     }
 

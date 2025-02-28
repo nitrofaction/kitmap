@@ -1,21 +1,18 @@
-### Nitro KITMAP
+# Nitro Kitmap
 
-Le code peut être parfois nul à chier, il manque un gros fix sur la durabilité des items (si je la retrouve je la met)
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+[![Active Development](https://img.shields.io/badge/status-active-brightgreen)](https://github.com/nitrofaction/kitmap)
+[![GitHub stars](https://img.shields.io/github/stars/nitrofaction/kitmap?style=social)](https://github.com/nitrofaction/kitmap/stargazers)
 
-Le code respecte entierement pocketmine, il ne saura pas compliqué à update ou faire des fixs dans le futur
+Source code of [nitro kitmap](https://www.kitmap.com/), a French minecraft bedrock kitmap server with a totally revamped French-style game mode, all in pocketmine and optimized.   
 
-Je le met en publique car je pense que ça peut aider un grand nombre de développeur et on sait tous les développeurs de serveurs que les leaks peuvent parfois beaucoup nous aider
+Open-source for pocketmine dev: use for personal projects, but not commercially !
 
-### Nitro KITMAP (for EN)
 
-The code can sometimes suck, there is a big fix missing on the durability of items (if I find it I'll put it)
+## Contact
 
-The code fully respects pocketmine, it will not be complicated to update or fix in the future
+Send me a message on [discord](https://discordapp.com/users/1042541730823667814) (username: .roimee6)
 
-I'm releasing it to the public because I think it can help a lot of developers and we all know, server developers, that leaks can sometimes help us a lot.
+## Contributing
 
-### Contact
-
-You can contact me on discord I always have a maximum developers : 
-
-.roimee6
+Feel free to [open an issue](https://github.com/roimee6/gymenstats/issues/new).

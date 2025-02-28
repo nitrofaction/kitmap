@@ -7,20 +7,20 @@ use Kitmap\Util;
 use pocketmine\player\Player;
 use pocketmine\world\sound\BlazeShootSound;
 
-class Jobs
+class Job
 {
     public static function getProgressBar(Player $player, string $job, string $option = null): string
     {
         $level = self::getLevel($player, $job);
         $xp = self::getXp($player, $job);
 
-        $nextXp = Cache::$config["jobs"]["lvls"][$level];
+        $nextXp = Cache::$config["job"]["lvls"][$level];
 
         if ($option === "UI") {
             if ($level === 20) {
-                return "0§9/§8-1 §9- §8Level: §9" . $level;
+                return "0§q/§8-1 §q- §8Level: §q" . $level;
             } else {
-                return $xp . "§9/§8" . $nextXp . " §9- §8Level: §9" . $level;
+                return $xp . "§q/§8" . $nextXp . " §q- §8Level: §q" . $level;
             }
         }
 
@@ -56,11 +56,11 @@ class Jobs
         $level = self::getLevel($player, $job);
         $xp = ($level === 20) ? 0 : round($xp * (1 + (25 - $tax) / 100));
 
-        $nextTotal = Cache::$config["jobs"]["lvls"][$level];
+        $nextTotal = Cache::$config["job"]["lvls"][$level];
         $total = self::getXp($player, $job) + $xp;
 
         if ($tip) {
-            $player->sendTip(Util::PREFIX . "+ §9" . $xp . " §f" . $job);
+            $player->sendTip(Util::PREFIX . "+ §q" . $xp . " §f" . $job);
         }
 
         if ($total > $nextTotal) {
@@ -72,13 +72,13 @@ class Jobs
 
             $session->addValue("money", $nextLevel * 2000);
 
-            $player->sendMessage(Util::PREFIX . "Vous venez de passer niveau §9" . $nextLevel . " §fdu métier de §9" . $job . " §f!!");
-            $player->sendMessage(Util::PREFIX . "Vous venez de recevoir §9" . $nextLevel * 2000 . " §fpièces pour vos récompenses de métiers !");
+            $player->sendMessage(Util::PREFIX . "Vous venez de passer niveau §q" . $nextLevel . " §fdu métier de §q" . $job . " §f!!");
+            $player->sendMessage(Util::PREFIX . "Vous venez de recevoir §q" . $nextLevel * 2000 . " §fpièces pour vos récompenses de métiers !");
 
             $player->broadcastSound(new BlazeShootSound());
 
-            if (isset(Cache::$config["jobs"]["rewards"][strval($nextLevel)])) {
-                $data = Cache::$config["jobs"]["rewards"][strval($nextLevel)];
+            if (isset(Cache::$config["job"]["rewards"][strval($nextLevel)])) {
+                $data = Cache::$config["job"]["rewards"][strval($nextLevel)];
                 $data = explode(":", $data);
 
                 switch (intval($data[0])) {
@@ -89,7 +89,7 @@ class Jobs
                         $item = Util::getItemByName($name)->setCount($count);
                         Util::addItem($player, $item);
 
-                        $player->sendMessage(Util::PREFIX . "Vous venez de recevoir §9" . $data[3] . " §fpour vos récompenses de métier !");
+                        $player->sendMessage(Util::PREFIX . "Vous venez de recevoir §q" . $data[3] . " §fpour vos récompenses de métier !");
                         break;
                     case 1:
                         $name = $data[1];
@@ -101,22 +101,22 @@ class Jobs
                         $item = Pack::initializeItem($item, [$customName, $type, $_data]);
 
                         Util::addItem($player, $item);
-                        $player->sendMessage(Util::PREFIX . "Vous venez de recevoir §9" . $data[5] . " §fpour vos récompenses de métiers !");
+                        $player->sendMessage(Util::PREFIX . "Vous venez de recevoir §q" . $data[5] . " §fpour vos récompenses de métiers !");
                         break;
                     case 2:
-                        $partneritems = array_keys(Cache::$config["partneritems"]);
+                        $partneritems = array_keys(Cache::$config["partneritem"]);
                         $item = $partneritems[array_rand($partneritems)];
 
-                        list(, , , $customName) = explode(":", Cache::$config["partneritems"][$item]);
+                        list(, , , $customName) = explode(":", Cache::$config["partneritem"][$item]);
 
                         if ($item === "pumpkinaxe") {
-                            $item = PartnerItems::createItem($item)->setCount(3);
+                            $item = PartnerItem::createItem($item)->setCount(3);
                         } else {
-                            $item = PartnerItems::createItem($item)->setCount(12);
+                            $item = PartnerItem::createItem($item)->setCount(12);
                         }
 
                         Util::addItem($player, $item);
-                        $player->sendMessage(Util::PREFIX . "Vous venez de recevoir un(e) §9" . $customName . " §fpour vos récompenses de métiers !");
+                        $player->sendMessage(Util::PREFIX . "Vous venez de recevoir un(e) §q" . $customName . " §fpour vos récompenses de métiers !");
                         break;
                 }
             }

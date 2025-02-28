@@ -1,0 +1,199 @@
+{
+  "webhook": {
+    "sanction": "https://discord.com/api/webhooks/1098211190418702376/fA-qlgI798kBWKp8VNsojK-94dZMwxALWW_bc0q0evI4N5XynAw_BLg86ypOz2O0Qa2p",
+    "nick": "https://discord.com/api/webhooks/1098211248887316492/KhwbPe9vj4_Lcml8I9-zzWl2jtjODxyxEsPLb9K_ctkiU_Kw-xVphZqY4b9WC7mONspl"
+  },
+  "command": [
+    "about",
+    "ban-ip",
+    "banlist",
+    "ban",
+    "stop",
+    "clear",
+    "checkperm",
+    "defaultgamemode",
+    "extractplugin",
+    "gamemode",
+    "gamerule",
+    "genplugin",
+    "help",
+    "kick",
+    "kill",
+    "listperms",
+    "makeplugin",
+    "me",
+    "tell",
+    "msg",
+    "w",
+    "suicide",
+    "list",
+    "pardon",
+    "pardon-ip",
+    "particle",
+    "save-all",
+    "save-off",
+    "enchant",
+    "save-on",
+    "seed",
+    "spawnpoint",
+    "title",
+    "unban",
+    "unban-ip"
+  ],
+  "default-data": {
+    "faction": null,
+    "money": 10000,
+    "gem": 0,
+    "kill": 0,
+    "death": 0,
+    "killstreak": 0,
+    "bounty": 0,
+    "played_time": 0,
+    "faction_chat": false,
+    "scoreboard": true,
+    "night_vision": false,
+    "cobblestone": true,
+    "coordinates": false,
+    "border": false,
+    "fly": false,
+    "cooldown": [],
+    "ip": [],
+    "uuid": [],
+    "did": [],
+    "packs": {
+      "Vote": 0,
+      "Partner Items": 0,
+      "Classique": 0,
+      "MEGA": 0
+    },
+    "jobs": {
+      "Mineur": {
+        "lvl": 1,
+        "xp": 0
+      },
+      "Farmeur": {
+        "lvl": 1,
+        "xp": 0
+      },
+      "Hunter": {
+        "lvl": 1,
+        "xp": 0
+      }
+    },
+    "staff_mod": [
+      false,
+      null,
+      null
+    ],
+    "boost": [
+      -1,
+      false
+    ]
+  },
+  "save-data": [
+    "ip",
+    "uuid",
+    "did"
+  ],
+  "clean-save-data": [
+    "firstPlayed",
+    "lastPlayed",
+    "SpawnZ",
+    "SpawnY",
+    "SpawnX",
+    "SpawnLevel",
+    "Level",
+    "LastKnownXUID",
+    "Skin",
+    "Pos",
+    "Rotation",
+    "Motion",
+    "EnderChestInventory",
+    "CustomName",
+    "CustomNameVisible",
+    "OnGround",
+    "Fire",
+    "FallDistance",
+    "Air"
+  ],
+  "atout": {
+    "Vitesse": {
+      "id": 1,
+      "gem": 50,
+      "price": 3000000,
+      "texture": "speed_effect"
+    },
+    "Jump Boost": {
+      "id": 8,
+      "gem": 50,
+      "price": 3000000,
+      "texture": "jump_boost_effect"
+    },
+    "Force": {
+      "id": 5,
+      "gem": 75,
+      "price": 5000000,
+      "texture": "strength_effect"
+    },
+    "Resistance": {
+      "id": 11,
+      "gem": 75,
+      "price": 5000000,
+      "texture": "resistance_effect"
+    }
+  },
+  "forgeron": {
+    "golden_helmet": {
+      "type": "emerald",
+      "number": 405
+    },
+    "golden_chestplate": {
+      "type": "emerald",
+      "number": 648
+    },
+    "golden_leggings": {
+      "type": "emerald",
+      "number": 567
+    },
+    "golden_boots": {
+      "type": "emerald",
+      "number": 324
+    },
+    "netherite_helmet": {
+      "type": "iris",
+      "number": 45
+    },
+    "netherite_chestplate": {
+      "type": "iris",
+      "number": 72
+    },
+    "netherite_leggings": {
+      "type": "iris",
+      "number": 63
+    },
+    "netherite_boots": {
+      "type": "iris",
+      "number": 36
+    },
+    "golden_sword": {
+      "type": "emerald",
+      "number": 162
+    },
+    "netherite_sword": {
+      "type": "iris",
+      "number": 18
+    },
+    "turtle_helmet": {
+      "type": "emerald",
+      "number": 36
+    }
+  },
+  "bounties": [
+    5000,
+    6000,
+    7000,
+    8000,
+    9000,
+    10000
+  ]
+}

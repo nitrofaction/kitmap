@@ -3,10 +3,8 @@
 namespace Kitmap\item;
 
 use Kitmap\Util;
-use pocketmine\block\Water;
 use pocketmine\item\Item as PmItem;
 use pocketmine\item\StringToItemParser;
-use pocketmine\item\ToolTier;
 use pocketmine\item\VanillaItems;
 
 class ExtraVanillaItems

@@ -2,7 +2,7 @@
 
 namespace Kitmap\block;
 
-use Kitmap\handler\Jobs;
+use Kitmap\handler\Job;
 use pocketmine\block\Block as PmBlock;
 use pocketmine\block\utils\DyeColor;
 use pocketmine\block\VanillaBlocks;
@@ -42,7 +42,7 @@ class NetherGoldOre extends Block
         ];
 
         $player->broadcastSound(new AmethystBlockChimeSound());
-        Jobs::addXp($player, "Mineur", 5, false);
+        Job::addXp($player, "Mineur", 5, false);
 
         return [
             40,

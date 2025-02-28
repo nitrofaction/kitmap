@@ -5,7 +5,6 @@ namespace Kitmap\block;
 use jojoe77777\FormAPI\SimpleForm;
 use Kitmap\handler\Cache;
 use Kitmap\handler\Faction;
-use Kitmap\handler\trait\CooldownTrait;
 use Kitmap\Main;
 use Kitmap\Session;
 use Kitmap\Util;
@@ -22,12 +21,12 @@ use pocketmine\world\sound\AmethystBlockChimeSound;
 
 class ChunkBuster extends Block
 {
-    public function getDrops(PmBlock $block, Item $item, Player $player = null): ?array
+    public function getDrops(PmBlock $block, ?Item $item = null, Player $player = null): ?array
     {
-        return [];
+        return [VanillaBlocks::SMOKER()->asItem()];
     }
 
-    public function getXpDropAmount(): ?int
+    public function getXpDropAmount(PmBlock $block): ?int
     {
         return 0;
     }
@@ -81,9 +80,9 @@ class ChunkBuster extends Block
             $this->confirmationForm($player, $data, $faction, $position);
         });
         $form->setTitle("Chunk Buster");
-        $form->setContent(Util::PREFIX . "Cliquez sur le bouton de votre choix (§9vide = 0 bloc§f, §9entier = un claim de base neuf§f)");
+        $form->setContent(Util::PREFIX . "Cliquez sur le bouton de votre choix (§qvide = 0 bloc§f, §qentier = un claim de base neuf§f)");
 
-        foreach (Cache::$config["chunk-buster"] as $name => $chunk) {
+        foreach (Cache::$config["pos"]["chunk-buster"] as $name => $chunk) {
             $form->addButton(ucfirst($name), label: $name);
         }
 
@@ -92,7 +91,7 @@ class ChunkBuster extends Block
 
     public function confirmationForm(Player $player, string $data, string $faction, Position $position): void
     {
-        $chunk = Cache::$config["chunk-buster"][$data] ?? null;
+        $chunk = Cache::$config["pos"]["chunk-buster"][$data] ?? null;
 
         if (is_null($chunk)) {
             return;
@@ -132,11 +131,11 @@ class ChunkBuster extends Block
             $world->addParticle($position, new BubbleParticle());
             $world->addSound($position, new AmethystBlockChimeSound());
 
-            Cache::$factions[$faction]["logs"][time()] = "§9" . $player->getName() . " §fa changé le claim avec un chunkbuster";
-            Faction::broadcastMessage($faction, "§9[§fF§r§9] §9" . $player->getName() . " §fvient de remplacer le claim par un chunk §9" . ucfirst($data) . " §f!");
+            Cache::$factions[$faction]["logs"][time()] = "§q" . $player->getName() . " §fa changé le claim avec un chunkbuster";
+            Faction::broadcastMessage($faction, "§q[§fF§r§q] §q" . $player->getName() . " §fvient de remplacer le claim par un chunk §q" . ucfirst($data) . " §f!");
         });
         $form->setTitle("Chunk Buster");
-        $form->setContent(Util::PREFIX . "Êtes vous sûr de remplacer votre claim par un chunk §9" . ucfirst($data) . " §f?\n\nVotre chunk buster disparaitra en cliquant sur confirmer ainsi que tout les coffres, blocs de votre claim actuel\n\nAucun retour en arrière possible");
+        $form->setContent(Util::PREFIX . "Êtes vous sûr de remplacer votre claim par un chunk §q" . ucfirst($data) . " §f?\n\nVotre chunk buster disparaitra en cliquant sur confirmer ainsi que tout les coffres, blocs de votre claim actuel\n\nAucun retour en arrière possible");
         $form->addButton("Confirmer", label: "yes");
         $form->addButton("Annuler", label: "no");
         $player->sendForm($form);

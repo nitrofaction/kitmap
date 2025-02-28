@@ -20,7 +20,7 @@ class DefaultFloatingText extends FloatingText
 
     protected function getUpdate(): string
     {
-        $floatings = Cache::$config["floatings"];
+        $floatings = Cache::$config["pos"]["floating"];
 
         $position = $this->getLocation();
         $text = $position->getX() . ":" . $position->getY() . ":" . $position->getZ() . ":" . $position->getWorld()->getFolderName();
@@ -33,11 +33,11 @@ class DefaultFloatingText extends FloatingText
 
         switch ($name) {
             case "domination":
-                foreach (array_keys(Cache::$config["domination"]) as $zone) {
+                foreach (array_keys(Cache::$config["pos"]["domination"]) as $zone) {
                     if (DominationTask::insideZone($zone, $this->getPosition())) {
                         if (!DominationTask::$currentDomination) {
                             DominationTask::updateZoneBlocks($zone);
-                            return Util::PREFIX . "Domination §9§l«\n§fAucun event §9domination §fn'est en cours";
+                            return Util::PREFIX . "Domination §q§l«\n§fAucun event §qdomination §fn'est en cours";
                         }
 
                         $status = DominationTask::$zones[$zone][1][0] ?? "uncaptured";
@@ -58,10 +58,10 @@ class DefaultFloatingText extends FloatingText
 
                         $actual = match (true) {
                             is_bool($actual) => "§fAucune faction contrôle le point",
-                            default => "§fLa faction §9" . $actual . " §fcontrôle le point"
+                            default => "§fLa faction §q" . $actual . " §fcontrôle le point"
                         };
 
-                        return Util::PREFIX . "Point " . $zone . " §9§l«\n" . $actual . "\n§fStatus du point: " . $status;
+                        return Util::PREFIX . "Point " . $zone . " §q§l«\n" . $actual . "\n§fStatus du point: " . $status;
                     }
                 }
                 break;
@@ -71,32 +71,32 @@ class DefaultFloatingText extends FloatingText
                     $player = is_null($player) ? "Aucun joueur" : $player;
 
                     $remaining = Util::formatDurationFromSeconds(KothTask::$currentKoth);
-                    return Util::PREFIX . "Koth §9§l«\n§9" . $player . " §fcontrôle le koth actuellement\n§fTemps restant : §9" . $remaining;
+                    return Util::PREFIX . "Koth §q§l«\n§q" . $player . " §fcontrôle le koth actuellement\n§fTemps restant : §q" . $remaining;
                 } else {
-                    return Util::PREFIX . "Koth §9§l«\n§fAucun event §9koth §fn'est en cours";
+                    return Util::PREFIX . "Koth §q§l«\n§fAucun event §qkoth §fn'est en cours";
                 }
             case "outpost":
                 if (!is_null(Cache::$data["outpost"])) {
                     $remaining = Util::formatDurationFromSeconds(OutpostTask::$nextReward);
                     $faction = Faction::getFactionUpperName(Cache::$data["outpost"]);
 
-                    return Util::PREFIX . "Outpost §9§l«\n§fLa faction §9" . $faction . " §fcontrôle l'outpost\n§fRécompense dans §9" . $remaining . "\n§fPlus controlé dans §9" . OutpostTask::$currentOutpost . " §fsecondes";
+                    return Util::PREFIX . "Outpost §q§l«\n§fLa faction §q" . $faction . " §fcontrôle l'outpost\n§fRécompense dans §q" . $remaining . "\n§fPlus controlé dans §q" . OutpostTask::$currentOutpost . " §fsecondes";
                 } else {
                     $remaining = Util::formatDurationFromSeconds(OutpostTask::$currentOutpost);
-                    return Util::PREFIX . "Outpost §9§l«\n§9Aucune §ffaction ne contrôle l'outpost\n§fOutpost contrôlé dans §9" . $remaining;
+                    return Util::PREFIX . "Outpost §q§l«\n§qAucune §ffaction ne contrôle l'outpost\n§fOutpost contrôlé dans §q" . $remaining;
                 }
             case "gambling":
                 if (GamblingTask::$currently) {
-                    return Util::PREFIX . "Gambling §9§l«\nUn gambling est actuellement en cours depuis §9" . Util::formatDurationFromSeconds(GamblingTask::$since, 1) . "\nLe gambling actuel oppose §9" . GamblingTask::$players[0] . " §fet §9" . GamblingTask::$players[1] . "\n\n§9" . count(Gambling::$gamblings) . " §fautre(s) §9gambling(s) §fsont en attente d'adversaire";
+                    return Util::PREFIX . "Gambling §q§l«\nUn gambling est actuellement en cours depuis §q" . Util::formatDurationFromSeconds(GamblingTask::$since, 1) . "\nLe gambling actuel oppose §q" . GamblingTask::$players[0] . " §fet §q" . GamblingTask::$players[1] . "\n\n§q" . count(Gambling::$gamblings) . " §fautre(s) §qgambling(s) §fsont en attente d'adversaire";
                 } else {
-                    return Util::PREFIX . "Gambling §9§l«\nAucun gambling n'est actuellement en cours\n§9" . count(Gambling::$gamblings) . " gambling(s) §fsont en attente d'adversaire\nPour rejoindre un gambling utilisez la commande §9/gambling";
+                    return Util::PREFIX . "Gambling §q§l«\nAucun gambling n'est actuellement en cours\n§q" . count(Gambling::$gamblings) . " gambling(s) §fsont en attente d'adversaire\nPour rejoindre un gambling utilisez la commande §q/gambling";
                 }
             case "money-zone":
                 $this->period = null;
-                return Util::PREFIX . "Zone Money §9§l«\nReste ici et gagne §950 §fpièces toutes les §93 §fsecondes\n§fATTENTION ! Tu dois être §9seul §fsur la platforme";
+                return Util::PREFIX . "Zone Money §q§l«\nReste ici et gagne §q50 §fpièces toutes les §q3 §fsecondes\n§fATTENTION ! Tu dois être §qseul §fsur la platforme";
             case "blocks":
                 $this->period = null;
-                return Util::PREFIX . "Salle des blocs §9§l«\nBienvenue dans la salle des §9blocs §f!\n§fTous les blocs que vous §9cassez §fsont mis\n§fdans votre inventaire en échange de §915 §fpièces par bloc en illimité";
+                return Util::PREFIX . "Salle des blocs §q§l«\nBienvenue dans la salle des §qblocs §f!\n§fTous les blocs que vous §qcassez §fsont mis\n§fdans votre inventaire en échange de §q15 §fpièces par bloc en illimité";
         }
 
         if ($name[0] === "#") {

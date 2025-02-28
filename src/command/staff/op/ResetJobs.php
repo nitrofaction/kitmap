@@ -38,8 +38,8 @@ class ResetJobs extends BaseCommand
 
         Session::get($player)->data["jobs"] = Cache::$config["default-data"]["jobs"];
 
-        $sender->sendMessage(Util::PREFIX . "Vous venez de reset les métiers de §9" . $player->getName());
-        $player->sendMessage(Util::PREFIX . "Vos métiers ont été resets par le staff §9" . $sender->getName());
+        $sender->sendMessage(Util::PREFIX . "Vous venez de reset les métiers de §q" . $player->getName());
+        $player->sendMessage(Util::PREFIX . "Vos métiers ont été resets par le staff §q" . $sender->getName());
     }
 
     protected function prepare(): void

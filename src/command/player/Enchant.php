@@ -97,8 +97,8 @@ class Enchant extends BaseCommand
         while ($x <= $maxLevel) {
             $price = $x * 10;
             $content = $onlyLevels
-                ? $enchantName . " " . $x . "\n§9" . $price . " levels"
-                : $enchantName . " " . $x . "\n§9" . $price . " levels §8ou §9" . $price . " émeraudes";
+                ? $enchantName . " " . $x . "\n§q" . $price . " levels"
+                : $enchantName . " " . $x . "\n§q" . $price . " levels §8ou §q" . $price . " émeraudes";
             $form->addButton($content);
             $x++;
         }

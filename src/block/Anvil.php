@@ -17,8 +17,6 @@ class Anvil extends Block
         $player = $event->getPlayer();
 
         if (!$player->isSneaking() && $event->getAction() === $event::RIGHT_CLICK_BLOCK) {
-            var_dump("heeeeeeee");
-
             Util::removeCurrentWindow($player);
 
             $this->openAnvil($player);
@@ -48,8 +46,8 @@ class Anvil extends Block
         });
         $form->setTitle("Enclume");
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
-        $form->addButton("Réparer avec\n§915 levels");
-        $form->addButton("Réparer avec\n§910 émeraudes");
+        $form->addButton("Réparer avec\n§q15 levels");
+        $form->addButton("Réparer avec\n§q10 émeraudes");
         $player->sendForm($form);
     }
 

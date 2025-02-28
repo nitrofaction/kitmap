@@ -38,18 +38,18 @@ class CheckProxy extends BaseCommand
         $bar = "§l§8-----------------------";
 
         $sender->sendMessage($bar);
-        $sender->sendMessage(Util::PREFIX . "Résultats du test proxy de §9" . $target);
+        $sender->sendMessage(Util::PREFIX . "Résultats du test proxy de §q" . $target);
 
         $isSuspect = false;
 
         foreach ($allCidDid as $column => $count) {
-            $sender->sendMessage("§l§9| §r§f" . strtoupper($column) . " §8- §f" . $count);
+            $sender->sendMessage("§l§q| §r§f" . strtoupper($column) . " §8- §f" . $count);
             if ($count >= 10) {
                 $isSuspect = true;
             }
         }
 
-        $sender->sendMessage("§l§9| §r§fVerdict §8- " . ($isSuspect ? "§aSUSPECTÉ" : "§cNON SUSPECTÉ"));
+        $sender->sendMessage("§l§q| §r§fVerdict §8- " . ($isSuspect ? "§aSUSPECTÉ" : "§cNON SUSPECTÉ"));
         $sender->sendMessage($bar);
     }
 

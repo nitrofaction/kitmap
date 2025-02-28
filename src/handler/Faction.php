@@ -24,19 +24,19 @@ class Faction
 {
     public static function getNextRank(string $rank): string
     {
-        $ranks = array_keys(Cache::$config["faction-ranks"]);
+        $ranks = array_keys(Cache::$config["faction"]["rank"]);
         return $ranks[self::getRankPosition($rank) - 1] ?? $rank;
     }
 
     public static function getRankPosition(string $rank): int
     {
-        $ranks = array_keys(Cache::$config["faction-ranks"]);
+        $ranks = array_keys(Cache::$config["faction"]["rank"]);
         return array_search($rank, $ranks);
     }
 
     public static function getPreviousRank(string $rank): string
     {
-        $ranks = array_keys(Cache::$config["faction-ranks"]);
+        $ranks = array_keys(Cache::$config["faction"]["rank"]);
         return $ranks[self::getRankPosition($rank) + 1] ?? $rank;
     }
 
@@ -182,7 +182,7 @@ class Faction
         $position = $block instanceof Position ? $block : $block->getPosition();
 
         if ($session->inCooldown("_antibuild")) {
-            $player->sendTip(Util::PREFIX . "Veuillez attendre §9" . ($session->getCooldownData("_antibuild")[0] - time()) . " §fseconde(s) avant de construire");
+            $player->sendTip(Util::PREFIX . "Veuillez attendre §q" . ($session->getCooldownData("_antibuild")[0] - time()) . " §fseconde(s) avant de construire");
             return false;
         } else if ($player->getGamemode() === GameMode::CREATIVE() && $player->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
             return true;
@@ -254,7 +254,7 @@ class Faction
                 return true;
             }
 
-            foreach (array_keys(Cache::$config["faction-ranks"]) as $value) {
+            foreach (array_keys(Cache::$config["faction"]["rank"]) as $value) {
                 if (!$passed && $value === $require) {
                     return false;
                 } else if ($rank === $value) {

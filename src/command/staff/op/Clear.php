@@ -45,8 +45,8 @@ class Clear extends BaseCommand
         if ($target->getName() === $sender->getName()) {
             $sender->sendMessage(Util::PREFIX . "Vous venez de supprimé tous les items de votre inventaire");
         } else {
-            $sender->sendMessage(Util::PREFIX . "Vous venez de supprimé tous les items de l'inventaire de §9" . $target->getName());
-            $target->sendMessage(Util::PREFIX . "Tous les items de votre inventaire vient d'être supprimé par §9" . $sender->getName());
+            $sender->sendMessage(Util::PREFIX . "Vous venez de supprimé tous les items de l'inventaire de §q" . $target->getName());
+            $target->sendMessage(Util::PREFIX . "Tous les items de votre inventaire vient d'être supprimé par §q" . $sender->getName());
         }
     }
 

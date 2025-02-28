@@ -62,14 +62,14 @@ class Stats extends BaseCommand
             $faction = (is_null($faction)) ? "Aucune Faction" : Faction::getFactionUpperName($faction);
 
             $sender->sendMessage($bar);
-            $sender->sendMessage("§9[§f" . $faction . "§9] [§f" . ucfirst(strtolower($data["rank"])) . "§9] §f- §9" . $data["upper_name"]);
-            $sender->sendMessage("§9Pièces: §f" . $data["money"]);
-            $sender->sendMessage("§9Gemmes: §f" . $data["gem"]);
-            $sender->sendMessage("§9Kills: §f" . $data["kill"]);
-            $sender->sendMessage("§9Morts: §f" . $data["death"]);
-            $sender->sendMessage("§9Killstreak: §f" . $data["killstreak"]);
-            $sender->sendMessage("§9Prime: §f" . $data["bounty"]);
-            $sender->sendMessage("§9Temps de jeu: §f" . $playtime);
+            $sender->sendMessage("§q[§f" . $faction . "§q] [§f" . ucfirst(strtolower($data["rank"])) . "§q] §f- §q" . $data["upper_name"]);
+            $sender->sendMessage("§qPièces: §f" . $data["money"]);
+            $sender->sendMessage("§qGemmes: §f" . $data["gem"]);
+            $sender->sendMessage("§qKills: §f" . $data["kill"]);
+            $sender->sendMessage("§qMorts: §f" . $data["death"]);
+            $sender->sendMessage("§qKillstreak: §f" . $data["killstreak"]);
+            $sender->sendMessage("§qPrime: §f" . $data["bounty"]);
+            $sender->sendMessage("§qTemps de jeu: §f" . $playtime);
             $sender->sendMessage($bar);
         }
     }

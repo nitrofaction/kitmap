@@ -1,0 +1,12 @@
+{
+  "interval": {
+    "60": "unloadislands",
+    "300": "question",
+    "500": "save"
+  },
+  "date": {
+    "12:00": "changeforgeron",
+    "18:00": "domination start",
+    "21:00": "domination start"
+  }
+}

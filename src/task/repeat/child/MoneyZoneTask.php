@@ -40,7 +40,7 @@ class MoneyZoneTask
             $session = Session::get($player);
 
             $entity = new Message($player->getLocation());
-            $entity->initEntityB("§9+ 50$");
+            $entity->initEntityB("§q+ 50$");
             $entity->spawnToAll();
             $entity->setMotion(new Vector3(0, 0.15, 0));
 
@@ -53,7 +53,7 @@ class MoneyZoneTask
         $world = Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld();
         $block = $claimed ? VanillaBlocks::CONCRETE_POWDER()->setColor(DyeColor::GREEN()) : VanillaBlocks::CONCRETE_POWDER()->setColor(DyeColor::LIGHT_GRAY());
 
-        [$x1, $y, $z1, $x2, , $z2,] = explode(":", Cache::$config["zones"]["money-zone"]);
+        [$x1, $y, $z1, $x2, , $z2,] = explode(":", Cache::$config["pos"]["zone"]["money-zone"]);
 
         $minX = min($x1, $x2);
         $minZ = min($z1, $z2);

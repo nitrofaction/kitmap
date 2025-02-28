@@ -7,7 +7,6 @@ use jojoe77777\FormAPI\SimpleForm;
 use Kitmap\handler\Rank;
 use Kitmap\Session;
 use Kitmap\Util;
-use parallel\Events\Input;
 use pocketmine\command\CommandSender;
 use pocketmine\item\Armor;
 use pocketmine\item\enchantment\EnchantmentInstance;
@@ -54,7 +53,7 @@ class Kit extends BaseCommand
                     return;
                 } else if ($session->inCooldown("kit_" . $data) && !$player->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
                     $format = Util::formatDurationFromSeconds($session->getCooldownData("kit_" . $data)[0] - time(), 1);
-                    $player->sendMessage(Util::PREFIX . "Vous ne pourrez re-prendre le kit §9" . $data . " §fque dans: §9" . $format);
+                    $player->sendMessage(Util::PREFIX . "Vous ne pourrez re-prendre le kit §q" . $data . " §fque dans: §q" . $format);
                     return;
                 }
 

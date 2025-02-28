@@ -9,7 +9,7 @@ use pocketmine\player\Player;
 
 class Stone extends Block
 {
-    public function getDrops(PmBlock $block, Item $item, Player $player = null): ?array
+    public function getDrops(PmBlock $block, ?Item $item = null, Player $player = null): ?array
     {
         if (mt_rand(0, 30) === 0) {
             return [VanillaBlocks::NETHER_WART()->asItem()];

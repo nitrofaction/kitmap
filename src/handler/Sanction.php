@@ -46,7 +46,7 @@ class Sanction
             }
         });
 
-        foreach (array_keys(Cache::$config["sanctions"][$type]) as $key) {
+        foreach (array_keys(Cache::$config["sanction"][$type]) as $key) {
             $form->addButton($key, -1, "", $key);
         }
 
@@ -134,26 +134,26 @@ class Sanction
             $data = Session::get($targetPlayer)->data;
             $target = strtolower($targetPlayer->getName());
 
-            $targetPlayer->kick("§fVous êtes banni de nitrofaction.\n\n§fTemps restant: §9" . $format . "\n§fRaison: §9" . $sanction);
+            $targetPlayer->kick("§fVous êtes banni de nitrofaction.\n\n§fTemps restant: §q" . $format . "\n§fRaison: §q" . $sanction);
             Main::getInstance()->getServer()->getNetwork()->blockAddress($targetPlayer->getNetworkSession()->getIp(), min(300, $time));
         } else {
             $file = Util::getFile("data/players/" . $target);
             $data = $file->getAll();
         }
 
-        foreach (Cache::$config["saves"] as $column) {
+        foreach (Cache::$config["save-data"] as $column) {
             foreach ($data[$column] ?? [] as $datum) {
                 Cache::$bans[$datum] = [$player, time() + $time, $sanction];
             }
         }
 
         Cache::$bans[$target] = [($player), time() + $time, $sanction];
-        Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §9" . $target . " §fa été banni pendant §9" . $format . "§f par §9" . $player . "§f, raison: §9" . $sanction);
+        Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §q" . $target . " §fa été banni pendant §q" . $format . "§f par §q" . $player . "§f, raison: §q" . $sanction);
 
         $embed = new EmbedBuilder();
         $embed->setDescription("**Ban**\n\n**Joueur**\n" . $target . "\n**Temps**\n" . $format . "\n**Raison**\n" . $sanction . "\n\n*Banni par le staff: " . $player . "*");
         $embed->setColor(11141120);
-        Discord::send($embed, Cache::$config["sanction-webhook"]);
+        Discord::send($embed, Cache::$config["webhook"]["sanction"]);
     }
 
     private static function kickPlayer(Player $player, string $target, string $sanction): void
@@ -166,15 +166,15 @@ class Sanction
             return;
         }
 
-        $targetPlayer->kick("§fVous avez été expulsé de nitrofaction.\n\nPar: §9" . $player->getName() . "\n§fRaison: §9" . $sanction);
-        $player->sendMessage(Util::PREFIX . "Vous avez expulsé du serveur §9" . $targetPlayer->getName());
+        $targetPlayer->kick("§fVous avez été expulsé de nitrofaction.\n\nPar: §q" . $player->getName() . "\n§fRaison: §q" . $sanction);
+        $player->sendMessage(Util::PREFIX . "Vous avez expulsé du serveur §q" . $targetPlayer->getName());
 
-        Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §9" . $targetPlayer->getName() . " §fa été expulsé du serveur par §9" . $player->getName() . "§f, raison: §9" . $sanction);
+        Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §q" . $targetPlayer->getName() . " §fa été expulsé du serveur par §q" . $player->getName() . "§f, raison: §q" . $sanction);
 
         $embed = new EmbedBuilder();
         $embed->setDescription("**Kick**\n\n**Joueur**\n" . $targetPlayer->getName() . "\n**Raison**\n" . $sanction . "\n\n*Kick par le staff: " . $player->getName() . "*");
         $embed->setColor(16733525);
-        Discord::send($embed, Cache::$config["sanction-webhook"]);
+        Discord::send($embed, Cache::$config["webhook"]["sanction"]);
     }
 
     private static function mutePlayer(Player $player, string $target, string $sanction, int $time): void
@@ -196,14 +196,14 @@ class Sanction
         }
 
         $session->setCooldown("mute", $time);
-        $targetPlayer->sendMessage(Util::PREFIX . "Vous avez été mute pendant §9" . $format . "§f, par §9" . $player->getName() . "§f, raison: §9" . $sanction);
+        $targetPlayer->sendMessage(Util::PREFIX . "Vous avez été mute pendant §q" . $format . "§f, par §q" . $player->getName() . "§f, raison: §q" . $sanction);
 
-        Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §9" . $targetPlayer->getName() . " §fa été mute pendant §9" . $format . " §fpar §9" . $player->getName() . "§f, raison: §9" . $sanction);
+        Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §q" . $targetPlayer->getName() . " §fa été mute pendant §q" . $format . " §fpar §q" . $player->getName() . "§f, raison: §q" . $sanction);
 
         $embed = new EmbedBuilder();
         $embed->setDescription("**Mute**\n\n**Joueur**\n" . $targetPlayer->getName() . "\n**Temps**\n" . $format . "\n**Raison**\n" . $sanction . "\n\n*Mute par le staff: " . $player->getName() . "*");
         $embed->setColor(16755200);
-        Discord::send($embed, Cache::$config["sanction-webhook"]);
+        Discord::send($embed, Cache::$config["webhook"]["sanction"]);
     }
 
     private static function timeForm(Player $player, string $target, string $type, string $sanction): void
@@ -217,7 +217,7 @@ class Sanction
             self::sanctionPlayer($player, $target, $type, $sanction, $time);
         });
 
-        foreach (Cache::$config["sanctions"][$type][$sanction] as $key) {
+        foreach (Cache::$config["sanction"][$type][$sanction] as $key) {
             $form->addButton(Util::formatDurationFromSeconds($key), -1, "", $key);
         }
 

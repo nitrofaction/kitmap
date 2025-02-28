@@ -7,7 +7,7 @@ use CortexPE\Commando\BaseCommand;
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\SimpleForm;
 use Kitmap\handler\Faction as FactionAPI;
-use Kitmap\handler\PartnerItems;
+use Kitmap\handler\PartnerItem;
 use Kitmap\Main;
 use Kitmap\Session;
 use Kitmap\task\repeat\child\GamblingTask;
@@ -81,7 +81,7 @@ class Gambling extends BaseCommand
             $form->setTitle("Gambling");
             $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
             $form->addButton("Créer");
-            $form->addButton("Rejoindre §9(" . count(self::$gamblings) . ")");
+            $form->addButton("Rejoindre §q(" . count(self::$gamblings) . ")");
             $form->addButton("Visualiser les kits");
             $sender->sendForm($form);
         }
@@ -97,7 +97,7 @@ class Gambling extends BaseCommand
             $session = Session::get($player);
 
             if ($session->inCooldown("gambling")) {
-                $player->sendMessage(Util::PREFIX . "Vous devez encore attendre §9" . Util::formatDurationFromSeconds($session->getCooldownData("gambling")[0] - time()) . " §favant de pouvoir re-créer un gambling");
+                $player->sendMessage(Util::PREFIX . "Vous devez encore attendre §q" . Util::formatDurationFromSeconds($session->getCooldownData("gambling")[0] - time()) . " §favant de pouvoir re-créer un gambling");
                 return;
             }
 
@@ -126,7 +126,7 @@ class Gambling extends BaseCommand
             $session->setCooldown("gambling", 60 * 5);
             $session->addValue("money", $bet, true);
 
-            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §9" . $player->getName() . " §fvient de créer un gambling ! Affrontez le via la commande §9/gambling §f!");
+            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §q" . $player->getName() . " §fvient de créer un gambling ! Affrontez le via la commande §q/gambling §f!");
         });
         $form->setTitle("Gambling");
         $form->addInput(Util::PREFIX . "Combien misez vous sur votre victoire?", default: 0, label: "bet");
@@ -150,7 +150,7 @@ class Gambling extends BaseCommand
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
 
         foreach (self::$gamblings as $target => $value) {
-            $form->addButton($value["upper_name"] . "\nMise de §9" . Util::formatNumberWithSuffix($value["bet"]) . " pièces §8- Kit §9" . $value["kit"] + 1, -1, "", $target);
+            $form->addButton($value["upper_name"] . "\nMise de §q" . Util::formatNumberWithSuffix($value["bet"]) . " pièces §8- Kit §q" . $value["kit"] + 1, -1, "", $target);
         }
 
         $form->addButton("Rafraîchir", -1, "", "refresh");
@@ -330,9 +330,9 @@ class Gambling extends BaseCommand
                 VanillaItems::NETHERITE_SWORD()->addEnchantment($sharpness)->addEnchantment($unbreaking),
                 VanillaItems::ENDER_PEARL()->setCount(16),
                 VanillaItems::RAW_FISH()->setCount(16),
-                PartnerItems::createItem("focusmode")->setCount(4),
-                PartnerItems::createItem("pumpkinaxe"),
-                PartnerItems::createItem("strength")->setCount(4),
+                PartnerItem::createItem("focusmode")->setCount(4),
+                PartnerItem::createItem("pumpkinaxe"),
+                PartnerItem::createItem("strength")->setCount(4),
                 VanillaItems::SPLASH_POTION()->setType(PotionType::STRONG_HEALING())->setCount(15)
             ]
         ];
@@ -341,7 +341,7 @@ class Gambling extends BaseCommand
 
         foreach ($kits[$number] as $item) {
             if ($item instanceof Item) {
-                $item = $item->setLore(["§r§9Item provenant du gambling"]);
+                $item = $item->setLore(["§r§qItem provenant du gambling"]);
                 $item->getNamedTag()->setInt("menu_item", 0);
 
                 $items[] = $item;

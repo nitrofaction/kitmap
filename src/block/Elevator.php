@@ -50,6 +50,22 @@ class Elevator extends Block
         return false;
     }
 
+    private function getTwoBlocksAvaible(PmBlock $block): bool
+    {
+        $position = $block->getPosition();
+
+        $block1 = $position->getWorld()->getBlock($position->add(0, 1, 0));
+        $block2 = $position->getWorld()->getBlock($position->add(0, 2, 0));
+
+        return $block1->hasSameTypeId(VanillaBlocks::AIR()) && $block2->hasSameTypeId(VanillaBlocks::AIR());
+    }
+
+    public static function isElevatorBlock(int $x, int $y, int $z, World $world): ?PmBlock
+    {
+        $block = $world->getBlockAt($x, $y, $z);
+        return $block->hasSameTypeId(VanillaBlocks::LAPIS_LAZULI()) ? $block : null;
+    }
+
     public function onSneak(PlayerToggleSneakEvent $event): bool
     {
         $player = $event->getPlayer();
@@ -86,21 +102,5 @@ class Elevator extends Block
         }
 
         return false;
-    }
-
-    private function getTwoBlocksAvaible(PmBlock $block): bool
-    {
-        $position = $block->getPosition();
-
-        $block1 = $position->getWorld()->getBlock($position->add(0, 1, 0));
-        $block2 = $position->getWorld()->getBlock($position->add(0, 2, 0));
-
-        return $block1->hasSameTypeId(VanillaBlocks::AIR()) && $block2->hasSameTypeId(VanillaBlocks::AIR());
-    }
-
-    public static function isElevatorBlock(int $x, int $y, int $z, World $world): ?PmBlock
-    {
-        $block = $world->getBlockAt($x, $y, $z);
-        return $block->hasSameTypeId(VanillaBlocks::LAPIS_LAZULI()) ? $block : null;
     }
 }

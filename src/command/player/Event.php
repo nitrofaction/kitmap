@@ -50,7 +50,7 @@ class Event extends BaseCommand
             $menu = InvMenu::create(InvMenuTypeIds::TYPE_HOPPER);
             $inventory = $menu->getInventory();
 
-            $eventsData = Cache::$config["events"];
+            $eventsData = Cache::$config["event"];
 
             $menu->setName("Events");
 
@@ -69,7 +69,7 @@ class Event extends BaseCommand
 
             foreach ($eventsData as $name => $data) {
                 $item = Util::getItemByName($data["item"]);
-                $item->setCustomName("§r§9§l" . strtoupper($name) . "\n\n" . $data["description"] . "\n\n§o§9Cliquez sur l'item pour y être téléporté");
+                $item->setCustomName("§r§q§l" . strtoupper($name) . "\n\n" . $data["description"] . "\n\n§o§qCliquez sur l'item pour y être téléporté");
 
                 $inventory->setItem($data["slot"], $item);
             }
@@ -80,7 +80,7 @@ class Event extends BaseCommand
 
     private function tpToEvent(Player $player, string $event): void
     {
-        $data = Cache::$config["events"][strtolower($event)];
+        $data = Cache::$config["event"][strtolower($event)];
         [$x, $y, $z] = explode(":", $data["positions"][array_rand($data["positions"])]);
 
         $position = new Location(floatval($x), intval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), 0, 0);
@@ -89,6 +89,6 @@ class Event extends BaseCommand
 
     protected function prepare(): void
     {
-        $this->registerArgument(0, new OptionArgument("event", array_keys(Cache::$config["events"]), true));
+        $this->registerArgument(0, new OptionArgument("event", array_keys(Cache::$config["event"]), true));
     }
 }

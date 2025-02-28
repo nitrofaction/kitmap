@@ -124,7 +124,7 @@ class Island extends FactionCommand
                 Main::getInstance()->getServer()->getWorldManager()->generateWorld($name, WorldCreationOptions::create()
                     ->setSeed(0)
                     ->setGeneratorClass($generator->getGeneratorClass())
-                    ->setGeneratorOptions(json_encode(Cache::$config["generators"][$data], flags: JSON_THROW_ON_ERROR))
+                    ->setGeneratorOptions(json_encode(Cache::$config["island"][$data], flags: JSON_THROW_ON_ERROR))
                 );
 
                 Main::getInstance()->getServer()->getWorldManager()->loadWorld($name);
@@ -135,7 +135,7 @@ class Island extends FactionCommand
                     $world->setTime(13200);
                     $world->stopTime();
 
-                    list($x, $y, $z) = explode(":", Cache::$config["islands"][$data]["spawn"]);
+                    list($x, $y, $z) = explode(":", Cache::$config["pos"]["island"][$data]["spawn"]);
                     $world->setSpawnLocation(new Vector3(floatval($x), floatval($y), floatval($z)));
                 }
             }
@@ -315,20 +315,20 @@ class Island extends FactionCommand
             $amount = $this->getExpandPrice($faction);
 
             if ($amount > $session->data["money"]) {
-                $player->sendMessage(Util::PREFIX . "Votre nombre de pièces est inférieur à §9" . $amount);
+                $player->sendMessage(Util::PREFIX . "Votre nombre de pièces est inférieur à §q" . $amount);
                 return;
             }
 
             $session->addValue("money", $amount, true);
-            Cache::$factions[$faction]["logs"][time()] = "§9" . $player->getName() . " §faugmente la taille de l'ile";
+            Cache::$factions[$faction]["logs"][time()] = "§q" . $player->getName() . " §faugmente la taille de l'ile";
 
             Cache::$factions[$faction]["island"]["zone"]["min"] -= 1;
             Cache::$factions[$faction]["island"]["zone"]["max"] += 1;
 
-            Faction::broadcastMessage($faction, "§9[§fF§9] §9" . $player->getName() . " §fvient d'augmenter la taille de l'ile et a utiliser §9" . Util::formatNumberWithSuffix($amount) . " §fpièces de sa poche");
+            Faction::broadcastMessage($faction, "§q[§fF§q] §q" . $player->getName() . " §fvient d'augmenter la taille de l'ile et a utiliser §q" . Util::formatNumberWithSuffix($amount) . " §fpièces de sa poche");
         });
         $form->setTitle("Ile");
-        $form->setContent(Util::PREFIX . "Le diamètre de l'ile sera augmenté de 1 bloc pour §9" . Util::formatNumberWithSuffix($amount) . " pièces §f!\n\n§fL'argent sera déduit de votre poche, alors réunissez l'argent au bon endroit\n\n" . Util::PREFIX . "Êtes vous sur de faire cela?");
+        $form->setContent(Util::PREFIX . "Le diamètre de l'ile sera augmenté de 1 bloc pour §q" . Util::formatNumberWithSuffix($amount) . " pièces §f!\n\n§fL'argent sera déduit de votre poche, alors réunissez l'argent au bon endroit\n\n" . Util::PREFIX . "Êtes vous sur de faire cela?");
         $form->addButton("Oui", -1, "", "yes");
         $form->addButton("Non", -1, "", "no");
         $player->sendForm($form);
@@ -336,7 +336,7 @@ class Island extends FactionCommand
 
     private function getExpandPrice(string $faction): ?int
     {
-        $default = Cache::$config["islands"]["default-max"];
+        $default = Cache::$config["pos"]["island"]["default-max"];
         $max = Cache::$factions[$faction]["island"]["zone"]["max"] ?? $default;
 
         return is_null($max) ? $max : ($max - ($default - 1)) * 5000;

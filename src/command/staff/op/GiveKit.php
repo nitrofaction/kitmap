@@ -44,8 +44,8 @@ class GiveKit extends BaseCommand
 
         Util::addItems($target, $items);
 
-        $sender->sendMessage(Util::PREFIX . "Vous venez de donner un kit §9" . $args["kit"] . " §fau joueur §9" . $target->getName());
-        $target->sendMessage(Util::PREFIX . "Vous venez de recevoir le kit §9" . $args["kit"] . " §fde la part de §9" . $sender->getName());
+        $sender->sendMessage(Util::PREFIX . "Vous venez de donner un kit §q" . $args["kit"] . " §fau joueur §q" . $target->getName());
+        $target->sendMessage(Util::PREFIX . "Vous venez de recevoir le kit §q" . $args["kit"] . " §fde la part de §q" . $sender->getName());
     }
 
     protected function prepare(): void

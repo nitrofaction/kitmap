@@ -5,7 +5,7 @@ namespace Kitmap\command\player;
 use CortexPE\Commando\BaseCommand;
 use jojoe77777\FormAPI\SimpleForm;
 use Kitmap\handler\Cache;
-use Kitmap\handler\Jobs as Api;
+use Kitmap\handler\Job as Api;
 use Kitmap\Util;
 use pocketmine\command\CommandSender;
 use pocketmine\permission\DefaultPermissions;
@@ -36,9 +36,9 @@ class Jobs extends BaseCommand
                 $this->jobInformation($player, $data);
             });
             $form->setTitle("Métiers");
-            $form->addButton("§8Mineur§9: §8" . Api::getProgressBar($sender, "Mineur", "UI") . "\n" . Api::getProgressBar($sender, "Mineur"), -1, "", "mineur");
-            $form->addButton("§8Farmeur§9: §8" . Api::getProgressBar($sender, "Farmeur", "UI") . "\n" . Api::getProgressBar($sender, "Farmeur"), -1, "", "farmeur");
-            $form->addButton("§8Hunter§9: §8" . Api::getProgressBar($sender, "Hunter", "UI") . "\n" . Api::getProgressBar($sender, "Hunter"), -1, "", "hunter");
+            $form->addButton("§8Mineur§q: §8" . Api::getProgressBar($sender, "Mineur", "UI") . "\n" . Api::getProgressBar($sender, "Mineur"), -1, "", "mineur");
+            $form->addButton("§8Farmeur§q: §8" . Api::getProgressBar($sender, "Farmeur", "UI") . "\n" . Api::getProgressBar($sender, "Farmeur"), -1, "", "farmeur");
+            $form->addButton("§8Hunter§q: §8" . Api::getProgressBar($sender, "Hunter", "UI") . "\n" . Api::getProgressBar($sender, "Hunter"), -1, "", "hunter");
             $sender->sendForm($form);
         }
     }
@@ -48,24 +48,24 @@ class Jobs extends BaseCommand
         $form = new SimpleForm(null);
         $form->setTitle("Métiers");
 
-        $label = Util::PREFIX . "§9Métier de " . $job . "\n\n";
+        $label = Util::PREFIX . "§qMétier de " . $job . "\n\n";
 
         switch ($job) {
             case "mineur":
-                $label .= "§fPierre: §91xp\n§fPierre taillé: §91xp\n§fLuckyBlock: §95xp\n§fEmeraude: §915xp";
+                $label .= "§fPierre: §q1xp\n§fPierre taillé: §q1xp\n§fLuckyBlock: §q5xp\n§fEmeraude: §q15xp";
                 break;
             case "farmeur":
-                $label .= "§fBlé: §91-3xp\n§fCarrote: §91-3xp\n§fBetterave: §91-3xp\n§fPatate: §91-3xp\n§fMelon: §91-3xp\n§fBambou: §91xp\n\n§fGraines en Iris: §95xp";
+                $label .= "§fBlé: §q1-3xp\n§fCarrote: §q1-3xp\n§fBetterave: §q1-3xp\n§fPatate: §q1-3xp\n§fMelon: §q1-3xp\n§fBambou: §q1xp\n\n§fGraines en Iris: §q5xp";
                 break;
             case "hunter":
-                $label .= "§fKill: §950xp\n§fPlus votre killstreak (exemple: 50 + 10)";
+                $label .= "§fKill: §q50xp\n§fPlus votre killstreak (exemple: 50 + 10)";
                 break;
         }
 
-        $label .= "\n\n" . Util::PREFIX . "§9Récomponses:\n\n";
+        $label .= "\n\n" . Util::PREFIX . "§qRécomponses:\n\n";
 
         for ($i = 2; $i <= 20; $i++) {
-            $data = Cache::$config["jobs"]["rewards"][strval($i)];
+            $data = Cache::$config["job"]["rewards"][strval($i)];
             $data = explode(":", $data);
 
             $name = match (intval($data[0])) {
@@ -74,7 +74,7 @@ class Jobs extends BaseCommand
                 default => "un partneritem aléatoire",
             };
 
-            $label .= "§fNiveau " . $i . ": §9" . ucfirst(strtolower($name)) . "\n";
+            $label .= "§fNiveau " . $i . ": §q" . ucfirst(strtolower($name)) . "\n";
         }
 
         $form->setContent($label);

@@ -45,7 +45,7 @@ class AddClaims extends BaseCommand
         if ($sender instanceof Player) {
             $item = VanillaItems::STONE_AXE();
 
-            $item->setCustomName("§r§9Claims Axe");
+            $item->setCustomName("§r§qClaims Axe");
 
             $item->getNamedTag()->setInt("claims", 1);
             $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 10));

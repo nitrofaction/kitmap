@@ -3,8 +3,6 @@ main: Kitmap\Main
 
 src-namespace-prefix: Kitmap
 
-author: Nitro Team
+author: Maxence
 api: [ 5.0.0 ]
-version: 1.11.0
-
-# Bijou sah
+version: 1.12.0

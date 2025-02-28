@@ -80,8 +80,8 @@ class BlackSmith extends Villager
                     $arr["emerald"] = $arr["emerald"] - ($emeraldIngot * 9);
 
                     $items = [
-                        VanillaItems::RABBIT_HIDE()->setCount($irisIngot),
-                        VanillaItems::RABBIT_FOOT()->setCount($arr["iris"]),
+                        VanillaItems::NETHERITE_INGOT()->setCount($irisIngot),
+                        VanillaItems::RABBIT_HIDE()->setCount($arr["iris"]),
                         VanillaBlocks::EMERALD()->asItem()->setCount($emeraldBlock),
                         VanillaItems::EMERALD()->setCount($emeraldIngot),
                         VanillaItems::GOLD_NUGGET()->setCount($arr["emerald"]),
@@ -96,7 +96,7 @@ class BlackSmith extends Villager
                     ];
 
                     $sentences = array_filter($sentences, fn($val) => $val !== "");
-                    $sentence = implode(", §9", $sentences);
+                    $sentence = implode(", §q", $sentences);
 
                     $player->getInventory()->addItem(...$items);
 
@@ -104,7 +104,7 @@ class BlackSmith extends Villager
                         $sentence = substr_replace($sentence, " et", $lastCommaPosition, 1);
                     }
 
-                    $player->sendMessage(Util::PREFIX . "Le forgeron a travaillé dur sur vos items, au final il en a " . (strlen($sentence) > 1 ? "ressorti: §9" . $sentence . " !" : "rien ressorti, désolé"));
+                    $player->sendMessage(Util::PREFIX . "Le forgeron a travaillé dur sur vos items, au final il en a " . (strlen($sentence) > 1 ? "ressorti: §q" . $sentence . " !" : "rien ressorti, désolé"));
                 });
 
                 $menu->send($damager);

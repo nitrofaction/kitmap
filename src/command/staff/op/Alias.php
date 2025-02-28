@@ -37,15 +37,15 @@ class Alias extends BaseCommand
         $bar = "§l§8-----------------------";
 
         if (count($alias) === 0) {
-            $sender->sendMessage(Util::PREFIX . "Le joueur §9" . $target . " §fne possède aucun double compte lié à son ip, did etc...");
+            $sender->sendMessage(Util::PREFIX . "Le joueur §q" . $target . " §fne possède aucun double compte lié à son ip, did etc...");
             return;
         }
 
         $sender->sendMessage($bar);
-        $sender->sendMessage(Util::PREFIX . "Liste de compte lié au compte §9" . $target);
+        $sender->sendMessage(Util::PREFIX . "Liste de compte lié au compte §q" . $target);
 
         foreach ($alias as $username) {
-            $sender->sendMessage("§f- §9" . $username);
+            $sender->sendMessage("§f- §q" . $username);
         }
 
         $sender->sendMessage($bar);
@@ -56,14 +56,14 @@ class Alias extends BaseCommand
         $file = Util::getFile("data/players/" . $name);
         $result = [];
 
-        foreach (Cache::$config["saves"] as $column) {
+        foreach (Cache::$config["save-data"] as $column) {
             $ip = $file->get($column, []);
 
             foreach (Cache::$players[$column] as $key => $value) {
                 $similar = array_intersect_assoc($value, $ip);
 
                 if (count($similar) > 0 && $key !== $name) {
-                    $result[] = $key . " §f- Depuis son §9" . $column;
+                    $result[] = $key . " §f- Depuis son §q" . $column;
                 }
             }
         }

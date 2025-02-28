@@ -32,21 +32,21 @@ class Floating extends BaseCommand
     {
         switch ($args["opt"]) {
             case "spawn":
-                foreach (Cache::$config["floatings"] as $key => $value) {
+                foreach (Cache::$config["pos"]["floating"] as $key => $value) {
                     list ($x, $y, $z, $world) = explode(":", $key);
 
                     $entity = new DefaultFloatingText(new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getWorldByName($world), 0, 0));
                     $entity->spawnToAll();
                 }
 
-                foreach (Cache::$config["elevators"] as $elevator) {
+                foreach (Cache::$config["pos"]["elevator-npc"] as $elevator) {
                     list($x, $y, $z, $yaw) = explode(":", $elevator);
 
                     $entity = new ElevatorPhantom(new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getWorldByName("mine"), intval($yaw), 0));
                     $entity->spawnToAll();
                 }
 
-                list($x, $y, $z, $yaw) = explode(":", Cache::$data["forgeron-position"] ?? Cache::$config["forgeron-positions"][0]);
+                list($x, $y, $z, $yaw) = explode(":", Cache::$data["forgeron-position"] ?? Cache::$config["pos"]["forgeron"][0]);
 
                 $entity = new BlackSmith(new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), intval($yaw), 0));
                 $entity->spawnToAll();

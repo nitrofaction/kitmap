@@ -12,6 +12,8 @@ use pocketmine\event\player\PlayerToggleSneakEvent;
 use pocketmine\item\Item;
 use pocketmine\player\Player;
 
+// use pocketmine\event\block\BlockSupportBreakEvent;
+
 class Block
 {
     use CooldownTrait;
@@ -40,10 +42,21 @@ class Block
         return false;
     }
 
+    /*public function onSupportBreak(BlockSupportBreakEvent $event): bool
+    {
+        $drops = $this->getDrops($event->getBlock());
+        $xp = $this->getXpDropAmount($event->getBlock());
+
+        if (!is_null($drops)) $event->setDrops($drops);
+        if (!is_null($xp)) $event->setXpDropAmount($xp);
+
+        return false;
+    }*/
+
     public function onBreak(BlockBreakEvent $event): bool
     {
         $drops = $this->getDrops($event->getBlock(), $event->getItem(), $event->getPlayer());
-        $xp = $this->getXpDropAmount();
+        $xp = $this->getXpDropAmount($event->getBlock());
 
         if (!is_null($drops)) $event->setDrops($drops);
         if (!is_null($xp)) $event->setXpDropAmount($xp);
@@ -52,12 +65,12 @@ class Block
     }
 
     /** @noinspection PhpUnusedParameterInspection */
-    public function getDrops(PmBlock $block, Item $item, Player $player = null): ?array
+    public function getDrops(PmBlock $block, ?Item $item = null, Player $player = null): ?array
     {
         return null;
     }
 
-    public function getXpDropAmount(): ?int
+    public function getXpDropAmount(PmBlock $block): ?int
     {
         return null;
     }

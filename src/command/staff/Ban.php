@@ -38,7 +38,7 @@ class Ban extends BaseCommand
         $name = strtolower($player->getName());
         $value = null;
 
-        foreach (Cache::$config["saves"] as $column) {
+        foreach (Cache::$config["save-data"] as $column) {
             foreach ($session->data[$column] as $datum) {
                 if (isset(Cache::$bans[$datum])) {
                     $value = $datum;
@@ -64,7 +64,7 @@ class Ban extends BaseCommand
             $reason = $data[2];
 
             Main::getInstance()->getServer()->getNetwork()->blockAddress($player->getNetworkSession()->getIp(), 600);
-            $player->kick("§fVous êtes banni de nitrofaction.\n\n§fTemps restant: §9" . $time . "\n§fRaison: §9" . $reason . "\n§fStaff: §9" . $staff);
+            $player->kick("§fVous êtes banni de nitrofaction.\n\n§fTemps restant: §q" . $time . "\n§fRaison: §q" . $reason . "\n§fStaff: §q" . $staff);
 
             return true;
         } else {

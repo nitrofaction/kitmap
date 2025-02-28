@@ -29,7 +29,7 @@ class Permissions extends FactionCommand
     public function onNormalRun(Player $sender, Session $session, ?string $faction, array $args): void
     {
         $permissions = Cache::$factions[$faction]["permissions"];
-        $names = Cache::$config["permissions"];
+        $names = Cache::$config["faction"]["permission"];
 
         $form = new CustomForm(function (Player $player, mixed $data) use ($faction) {
             if (!is_array($data)) {
@@ -41,7 +41,7 @@ class Permissions extends FactionCommand
 
             foreach ($data as $key => $value) {
                 if (isset(Cache::$factions[$faction]["permissions"][$key])) {
-                    $rank = array_keys(Cache::$config["faction-ranks"])[$value] ?? "recruit";
+                    $rank = array_keys(Cache::$config["faction"]["rank"])[$value] ?? "recruit";
                     Cache::$factions[$faction]["permissions"][$key] = $rank;
                 }
             }
@@ -54,7 +54,7 @@ class Permissions extends FactionCommand
 
         foreach ($names as $permission => $description) {
             $actual = $permissions[$permission] ?? "Probleme merci de contacter le staff";
-            $form->addDropdown($description, array_values(Cache::$config["faction-ranks"]), Faction::getRankPosition($actual), $permission);
+            $form->addDropdown($description, array_values(Cache::$config["faction"]["rank"]), Faction::getRankPosition($actual), $permission);
         }
 
         $sender->sendForm($form);

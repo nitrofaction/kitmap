@@ -14,7 +14,7 @@ class Commands
     {
         $plugin = Main::getInstance();
 
-        foreach (Cache::$config["commands"] as $command) {
+        foreach (Cache::$config["command"] as $command) {
             $commandMap = $plugin->getServer()->getCommandMap();
             $cmd = $commandMap->getCommand($command);
 

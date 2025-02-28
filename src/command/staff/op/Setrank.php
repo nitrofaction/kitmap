@@ -41,13 +41,13 @@ class Setrank extends BaseCommand
         }
 
         Rank::setRank($player, $args["grade"]);
-        $sender->sendMessage(Util::PREFIX . "Vous venez d'ajouter le rang §9" . $args["grade"] . " §fà un joueur (§9" . $player . "§f)");
+        $sender->sendMessage(Util::PREFIX . "Vous venez d'ajouter le rang §q" . $args["grade"] . " §fà un joueur (§q" . $player . "§f)");
     }
 
     protected function prepare(): void
     {
         $this->registerArgument(0, new TargetPlayerArgument(false, "joueur"));
         $this->registerArgument(0, new RawStringArgument("joueur"));
-        $this->registerArgument(1, new OptionArgument("grade", array_keys(Cache::$config["ranks"])));
+        $this->registerArgument(1, new OptionArgument("grade", array_keys(Cache::$config["rank"])));
     }
 }

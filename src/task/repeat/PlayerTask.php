@@ -48,7 +48,7 @@ class PlayerTask extends Task
         }
 
         if ($tick % 250 == 0) {
-            $messages = Cache::$config["messages"];
+            $messages = Cache::$config["message"];
             Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . $messages[array_rand($messages)]);
         }
 
@@ -94,7 +94,7 @@ class PlayerTask extends Task
             }
         }
 
-        foreach (Cache::$config["interval"] as $ticks => $command) {
+        foreach (Cache::$config["planning"]["interval"] as $ticks => $command) {
             if ($tick % intval($ticks) == 0) {
                 Util::executeCommand($command);
             }
@@ -103,8 +103,12 @@ class PlayerTask extends Task
         if ($tick % 50 == 0) {
             $time = date("H:i");
 
-            if (isset(Cache::$config["planning"][$time])) {
-                Util::executeCommand(Cache::$config["planning"][$time]);
+            if (isset(Cache::$config["planning"]["date"][$time])) {
+                Util::executeCommand(Cache::$config["planning"]["date"][$time]);
+            }
+
+            if (3 >= count(Main::getInstance()->getServer()->getOnlinePlayers())) {
+                return;
             }
 
             if (($h = intval(explode(":", $time)[0])) >= 12 && $h <= 24) {

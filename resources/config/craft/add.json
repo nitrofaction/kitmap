@@ -1,0 +1,442 @@
+[
+  {
+    "shape": [
+      "A",
+      "A",
+      "B"
+    ],
+    "input": {
+      "A": "netherite_ingot",
+      "B": "stick"
+    },
+    "output": "netherite_sword"
+  },
+  {
+    "shape": [
+      "AAA",
+      "A A"
+    ],
+    "input": {
+      "A": "netherite_ingot"
+    },
+    "output": "netherite_helmet"
+  },
+  {
+    "shape": [
+      "A A",
+      "AAA",
+      "AAA"
+    ],
+    "input": {
+      "A": "netherite_ingot"
+    },
+    "output": "netherite_chestplate"
+  },
+  {
+    "shape": [
+      " BC",
+      " BB",
+      "A  "
+    ],
+    "input": {
+      "A": "stick",
+      "B": "diamond_hoe",
+      "C": "netherite_ingot"
+    },
+    "output": "stone_shovel"
+  },
+  {
+    "shape": [
+      "A  ",
+      " BB",
+      " BB"
+    ],
+    "input": {
+      "A": "water_bucket",
+      "B": "emerald_block"
+    },
+    "output": "stone_hoe"
+  },
+  {
+    "shape": [
+      "ABA",
+      "BCB",
+      "ABA"
+    ],
+    "input": {
+      "A": "emerald",
+      "B": "emerald_block",
+      "C": "dirt"
+    },
+    "output": "soul_sand"
+  },
+  {
+    "shape": [
+      "AAA",
+      "A A",
+      "A A"
+    ],
+    "input": {
+      "A": "netherite_ingot"
+    },
+    "output": "netherite_leggings"
+  },
+  {
+    "shape": [
+      "A A",
+      "A A"
+    ],
+    "input": {
+      "A": "netherite_ingot"
+    },
+    "output": "netherite_boots"
+  },
+  {
+    "shape": [
+      "A",
+      "A",
+      "B"
+    ],
+    "input": {
+      "A": "emerald_block",
+      "B": "stick"
+    },
+    "output": "golden_sword"
+  },
+  {
+    "shape": [
+      "AAA",
+      "A A"
+    ],
+    "input": {
+      "A": "emerald_block"
+    },
+    "output": "golden_helmet"
+  },
+  {
+    "shape": [
+      "A A",
+      "AAA",
+      "AAA"
+    ],
+    "input": {
+      "A": "emerald_block"
+    },
+    "output": "golden_chestplate"
+  },
+  {
+    "shape": [
+      "AAA",
+      "A A",
+      "A A"
+    ],
+    "input": {
+      "A": "emerald_block"
+    },
+    "output": "golden_leggings"
+  },
+  {
+    "shape": [
+      "A A",
+      "A A"
+    ],
+    "input": {
+      "A": "emerald_block"
+    },
+    "output": "golden_boots"
+  },
+  {
+    "shape": [
+      "AC",
+      "B "
+    ],
+    "input": {
+      "A": "cooked_cod",
+      "B": "cooked_salmon",
+      "C": "salmon"
+    },
+    "output": "cod"
+  },
+  {
+    "shape": [
+      "CA",
+      "B "
+    ],
+    "input": {
+      "A": "cooked_cod",
+      "B": "cooked_salmon",
+      "C": "salmon"
+    },
+    "output": "cod"
+  },
+  {
+    "shape": [
+      "BA",
+      "C "
+    ],
+    "input": {
+      "A": "cooked_cod",
+      "B": "cooked_salmon",
+      "C": "salmon"
+    },
+    "output": "cod"
+  },
+  {
+    "shape": [
+      "CB",
+      "A "
+    ],
+    "input": {
+      "A": "cooked_cod",
+      "B": "cooked_salmon",
+      "C": "salmon"
+    },
+    "output": "cod"
+  },
+  {
+    "shape": [
+      "BC",
+      "A "
+    ],
+    "input": {
+      "A": "cooked_cod",
+      "B": "cooked_salmon",
+      "C": "salmon"
+    },
+    "output": "cod"
+  },
+  {
+    "shape": [
+      "BC",
+      "A "
+    ],
+    "input": {
+      "A": "cooked_cod",
+      "B": "cooked_salmon",
+      "C": "salmon"
+    },
+    "output": "cod"
+  },
+  {
+    "shape": [
+      "AC",
+      "B "
+    ],
+    "input": {
+      "A": "cooked_cod",
+      "B": "cooked_salmon",
+      "C": "salmon"
+    },
+    "output": "cod"
+  },
+  {
+    "shape": [
+      "CA",
+      "B "
+    ],
+    "input": {
+      "A": "cooked_cod",
+      "B": "cooked_salmon",
+      "C": "salmon"
+    },
+    "output": "cod"
+  },
+  {
+    "shape": [
+      "ABC"
+    ],
+    "input": {
+      "A": "cooked_cod",
+      "B": "cooked_salmon",
+      "C": "salmon"
+    },
+    "output": "cod"
+  },
+  {
+    "shape": [
+      "ACB"
+    ],
+    "input": {
+      "A": "cooked_cod",
+      "B": "cooked_salmon",
+      "C": "salmon"
+    },
+    "output": "cod"
+  },
+  {
+    "shape": [
+      "BAC"
+    ],
+    "input": {
+      "A": "cooked_cod",
+      "B": "cooked_salmon",
+      "C": "salmon"
+    },
+    "output": "cod"
+  },
+  {
+    "shape": [
+      "BCA"
+    ],
+    "input": {
+      "A": "cooked_cod",
+      "B": "cooked_salmon",
+      "C": "salmon"
+    },
+    "output": "cod"
+  },
+  {
+    "shape": [
+      "CAB"
+    ],
+    "input": {
+      "A": "cooked_cod",
+      "B": "cooked_salmon",
+      "C": "salmon"
+    },
+    "output": "cod"
+  },
+  {
+    "shape": [
+      "CBA"
+    ],
+    "input": {
+      "A": "cooked_cod",
+      "B": "cooked_salmon",
+      "C": "salmon"
+    },
+    "output": "cod"
+  },
+  {
+    "shape": [
+      "AAA",
+      "AAA",
+      "AAA"
+    ],
+    "input": {
+      "A": "rabbit_hide"
+    },
+    "output": "netherite_ingot"
+  },
+  {
+    "shape": [
+      "AAA",
+      "AAA",
+      "AAA"
+    ],
+    "input": {
+      "A": "rabbit_foot"
+    },
+    "output": "rabbit_hide"
+  },
+  {
+    "shape": [
+      "A"
+    ],
+    "input": {
+      "A": "rabbit_hide"
+    },
+    "output": "rabbit_foot:9"
+  },
+  {
+    "shape": [
+      "A"
+    ],
+    "input": {
+      "A": "netherite_ingot"
+    },
+    "output": "rabbit_hide:9"
+  },
+  {
+    "shape": [
+      "AAA",
+      "ABA",
+      "AAA"
+    ],
+    "input": {
+      "A": "emerald_block",
+      "B": "chest"
+    },
+    "output": "trapped_chest"
+  },
+  {
+    "shape": [
+      "BA ",
+      "AA ",
+      " C"
+    ],
+    "input": {
+      "A": "emerald_block",
+      "B": "strong_healing_splash_potion",
+      "C": "rabbit_hide"
+    },
+    "output": "nautilus_shell"
+  },
+  {
+    "shape": [
+      "ABA",
+      "BBB",
+      "ABA"
+    ],
+    "input": {
+      "A": "stone",
+      "B": "emerald"
+    },
+    "output": "redstone_block"
+  },
+  {
+    "shape": [
+      "ABA",
+      "BBB",
+      "ABA"
+    ],
+    "input": {
+      "A": "cobblestone",
+      "B": "emerald"
+    },
+    "output": "redstone_block"
+  },
+  {
+    "shape": [
+      "AAA",
+      "ABA",
+      "AAA"
+    ],
+    "input": {
+      "A": "emerald",
+      "B": "glass"
+    },
+    "output": "brown_stained_glass"
+  },
+  {
+    "shape": [
+      "ABA",
+      "A A"
+    ],
+    "input": {
+      "A": "emerald",
+      "B": "stone"
+    },
+    "output": "turtle_helmet"
+  },
+  {
+    "shape": [
+      "AAA",
+      "AAA",
+      "AAA"
+    ],
+    "input": {
+      "A": "gold_nugget"
+    },
+    "output": "emerald"
+  },
+  {
+    "shape": [
+      "A"
+    ],
+    "input": {
+      "A": "emerald"
+    },
+    "output": "gold_nugget:9"
+  }
+]

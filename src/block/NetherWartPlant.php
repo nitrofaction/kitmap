@@ -11,25 +11,31 @@ use pocketmine\player\Player;
 
 class NetherWartPlant extends Block
 {
-    public function getDrops(PmBlock $block, Item $item, Player $player = null): ?array
+    public function getDrops(PmBlock $block, ?Item $item = null, Player $player = null): ?array
     {
         if (
             $block instanceof PmNetherWartPlant &&
-            $block->getAge() === $block::MAX_AGE &&
-            mt_rand(0, 30) === 0
+            $block->getAge() === $block::MAX_AGE
         ) {
-            return [VanillaItems::RABBIT_FOOT()];
-        } else {
-            if (mt_rand(0, 20) === 0) {
-                return [VanillaBlocks::NETHER_WART()->asItem()];
+            if (mt_rand(0, 30) === 0) {
+                return [VanillaItems::RABBIT_FOOT()];
             } else {
                 return [];
             }
+        } else {
+            return [VanillaBlocks::NETHER_WART()->asItem()];
         }
     }
 
-    public function getXpDropAmount(): ?int
+    public function getXpDropAmount(PmBlock $block): ?int
     {
-        return mt_rand(1, 3);
+        if (
+            $block instanceof PmNetherWartPlant &&
+            $block->getAge() === $block::MAX_AGE
+        ) {
+            return mt_rand(1, 3);
+        } else {
+            return 0;
+        }
     }
 }

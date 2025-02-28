@@ -8,7 +8,7 @@ use Kitmap\command\staff\{Ban, LastInventory, Question, Vanish};
 use Kitmap\command\util\Bienvenue;
 use Kitmap\entity\{AntiBackBall, LogoutNpc, SwitchBall};
 use Kitmap\entity\Player as CustomPlayer;
-use Kitmap\handler\{Cache, Faction, Jobs, Pack, PartnerItems, Rank, Sanction};
+use Kitmap\handler\{Cache, Faction, Job, Pack, PartnerItem, Rank, Sanction};
 use Kitmap\item\Armor;
 use Kitmap\item\ExtraVanillaItems;
 use Kitmap\Main;
@@ -31,19 +31,19 @@ use pocketmine\block\{Anvil,
     GlowLichen,
     Hopper,
     inventory\EnderChestInventory,
-    Lava,
     Liquid,
+    NetherWartPlant,
     SweetBerryBush,
     Trapdoor,
     VanillaBlocks};
 use pocketmine\block\tile\Chest as ChestTile;
+use pocketmine\data\bedrock\BiomeIds;
 use pocketmine\entity\animation\ArmSwingAnimation;
 use pocketmine\entity\effect\{EffectInstance, VanillaEffects};
 use pocketmine\entity\Living;
 use pocketmine\entity\object\ItemEntity;
 use pocketmine\event\block\{BlockBreakEvent,
     BlockGrowEvent,
-    BlockMeltEvent,
     BlockPlaceEvent,
     BlockSpreadEvent,
     BlockUpdateEvent,
@@ -82,17 +82,7 @@ use pocketmine\inventory\ArmorInventory;
 use pocketmine\inventory\CallbackInventoryListener;
 use pocketmine\inventory\Inventory;
 use pocketmine\inventory\transaction\action\SlotChangeAction;
-use pocketmine\item\{Axe,
-    Bucket,
-    Durable,
-    Hoe,
-    Item,
-    PaintingItem,
-    PotionType,
-    Shovel,
-    Stick,
-    TieredTool,
-    VanillaItems};
+use pocketmine\item\{Axe, Bucket, Durable, Hoe, Item, PaintingItem, PotionType, Shovel, Stick, VanillaItems};
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\mcpe\protocol\ProtocolInfo;
@@ -106,7 +96,7 @@ use pocketmine\world\sound\BlockBreakSound;
 use pocketmine\world\sound\EndermanTeleportSound;
 use Symfony\Component\Filesystem\Path;
 
-class EventsListener implements Listener
+class EventListener implements Listener
 {
     public function onCreation(PlayerCreationEvent $event): void
     {
@@ -126,7 +116,7 @@ class EventsListener implements Listener
             return;
         }
 
-        list($x, $y, $z) = explode(":", Cache::$config["islands"][$event->getWorld()->getProvider()->getWorldData()->getGenerator()]["chest"]);
+        list($x, $y, $z) = explode(":", Cache::$config["pos"]["island"][$event->getWorld()->getProvider()->getWorldData()->getGenerator()]["chest"]);
 
         $vector = new Vector3(intval($x), intval($y), intval($z));
         $tile = $event->getWorld()->getTile($vector);
@@ -136,8 +126,8 @@ class EventsListener implements Listener
         } else {
             $chest = new ChestTile($event->getWorld(), $vector);
 
-            $chest->getInventory()->addItem(VanillaItems::WATER_BUCKET()->setCount(3));
-            $chest->getInventory()->addItem(VanillaItems::LAVA_BUCKET()->setCount(2));
+            $chest->getInventory()->addItem(VanillaItems::WATER_BUCKET()->setCount(1));
+            $chest->getInventory()->addItem(VanillaItems::LAVA_BUCKET()->setCount(1));
             $chest->getInventory()->addItem(VanillaBlocks::ICE()->asItem()->setCount(4));
             $chest->getInventory()->addItem(VanillaItems::BEETROOT_SEEDS()->setCount(7));
             $chest->getInventory()->addItem(VanillaItems::WHEAT_SEEDS()->setCount(9));
@@ -161,7 +151,7 @@ class EventsListener implements Listener
             $event->getAction() === $event::RIGHT_CLICK_BLOCK &&
             (($block instanceof Door || $block instanceof Trapdoor || $block instanceof FenceGate || $block instanceof Furnace || $block instanceof SweetBerryBush || $block instanceof GlowLichen || $block instanceof CraftingTable || $block instanceof CartographyTable || $block instanceof Chest || $block instanceof Barrel || $block instanceof Hopper) || ($item instanceof Bucket || $item instanceof Hoe || $item instanceof Axe || $item instanceof Shovel || $item instanceof PaintingItem || $item instanceof Stick)) &&
             !Faction::canBuild($player, $block, "interact") &&
-            !(Util::insideZone($player->getPosition(), "spawn") && ($block instanceof Anvil || $block instanceof EnchantingTable))
+            !(Util::insideZone($player->getPosition(), "spawn") && ($block instanceof CraftingTable || $block instanceof Anvil || $block instanceof EnchantingTable))
         ) {
             $event->cancel();
 
@@ -186,7 +176,7 @@ class EventsListener implements Listener
 
         if (str_contains($message, "@here") && !$player->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
             $event->cancel();
-            $player->sendMessage(Util::PREFIX . "Vous ne pouvez pas utiliser §9@here §fdans votre message");
+            $player->sendMessage(Util::PREFIX . "Vous ne pouvez pas utiliser §q@here §fdans votre message");
             return;
         }
 
@@ -196,19 +186,19 @@ class EventsListener implements Listener
             switch (Question::$currentEvent) {
                 case 1:
                     if ($event->getMessage() === Question::$currentReply) {
-                        Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§9" . $player->getDisplayName() . " §fa gagné §95k$ §fen ayant réécrit le code §9" . Question::$currentReply . " §fen premier !");
+                        Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $player->getDisplayName() . " §fa gagné §q5k$ §fen ayant réécrit le code §q" . Question::$currentReply . " §fen premier !");
                         $valid = true;
                     }
                     break;
                 case 2:
                     if (strtolower($event->getMessage()) === Question::$currentReply) {
-                        Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§9" . $player->getDisplayName() . " §fa gagné §95k$ §fen ayant trouver le mot §9" . Question::$currentReply . " §fen premier !");
+                        Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $player->getDisplayName() . " §fa gagné §q5k$ §fen ayant trouver le mot §q" . Question::$currentReply . " §fen premier !");
                         $valid = true;
                     }
                     break;
                 case 3:
                     if ($event->getMessage() === strval(Question::$currentReply)) {
-                        Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§9" . $player->getDisplayName() . " §fa gagné §95k$ §fen ayant répondu au calcul §9" . Question::$currentReply . " §fen premier !");
+                        Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $player->getDisplayName() . " §fa gagné §q5k$ §fen ayant répondu au calcul §q" . Question::$currentReply . " §fen premier !");
                         $valid = true;
                     }
                     break;
@@ -240,12 +230,12 @@ class EventsListener implements Listener
             $event->cancel();
 
             Main::getInstance()->getLogger()->info("[F] [" . $faction . "] " . $player->getName() . " » " . $message);
-            Faction::broadcastMessage($faction, "§9[§fF§9] §f" . $player->getName() . " " . Util::PREFIX . $message);
+            Faction::broadcastMessage($faction, "§q[§fF§q] §f" . $player->getName() . " " . Util::PREFIX . $message);
 
             return;
         } else if ($session->inCooldown("mute")) {
             $format = Util::formatDurationFromSeconds($session->getCooldownData("mute")[0] - time());
-            $player->sendMessage(Util::PREFIX . "Vous êtes mute, temps restant: §9" . $format);
+            $player->sendMessage(Util::PREFIX . "Vous êtes mute, temps restant: §q" . $format);
 
             $event->cancel();
             return;
@@ -272,7 +262,7 @@ class EventsListener implements Listener
 
         if (Faction::hasFaction($player)) {
             Cache::$factions[$session->data["faction"]]["activity"][date("m-d")] = $player->getName();
-            Faction::broadcastMessage($session->data["faction"], "§9[§fF§9] §fLe joueur de votre faction §9" . $player->getName() . " §fvient de se connecter");
+            Faction::broadcastMessage($session->data["faction"], "§q[§fF§q] §fLe joueur de votre faction §q" . $player->getName() . " §fvient de se connecter");
         }
 
         foreach (Vanish::$vanish as $target) {
@@ -290,7 +280,7 @@ class EventsListener implements Listener
             $path = Path::join(Main::getInstance()->getServer()->getDataPath(), "players");
             $count = count(glob($path . "/*")) + 1;
 
-            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§9" . $player->getName() . " §fa rejoint le serveur pour la §9première §ffois ! Souhaitez lui la §9bienvenue §favec la commande §9/bvn §f(#§9" . $count . "§f)!");
+            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $player->getName() . " §fa rejoint le serveur pour la §qpremière §ffois ! Souhaitez lui la §qbienvenue §favec la commande §q/bvn §f(#§q" . $count . "§f)!");
 
             Bienvenue::$alreadyWished = [];
             Bienvenue::$lastJoin = $player->getName();
@@ -340,12 +330,12 @@ class EventsListener implements Listener
         }
     }
 
-    public function onMeltEvent(BlockMeltEvent $event): void
+    /*public function onMeltEvent(BlockMeltEvent $event): void
     {
         if ($event->getBlock()->getPosition()->getWorld() === Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()) {
             $event->cancel();
         }
-    }
+    }*/
 
     public function onRespawn(PlayerRespawnEvent $event): void
     {
@@ -404,7 +394,7 @@ class EventsListener implements Listener
             return;
         }
 
-        $session->addValue("death", 1);
+        $session->addValue("death");
         $playerBounty = $session->data["bounty"];
 
         if ($playerBounty > 0) {
@@ -427,12 +417,12 @@ class EventsListener implements Listener
                 $pot2 = Util::getItemCount($damager, VanillaItems::SPLASH_POTION()->setType(PotionType::STRONG_HEALING()));
 
                 Main::getInstance()->getLogger()->info($player->getDisplayName() . " (" . $player->getName() . ") a été tué par " . $damager->getDisplayName() . " (" . $damager->getName() . ")");
-                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§9" . $player->getDisplayName() . "[§7" . $pot1 . "§9] §fa été tué par le joueur §9" . $damager->getDisplayName() . "[§7" . $pot2 . "§9]");
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $player->getDisplayName() . "[§7" . $pot1 . "§q] §fa été tué par le joueur §q" . $damager->getDisplayName() . "[§7" . $pot2 . "§q]");
 
                 $damagerSession = Session::get($damager);
 
-                $damagerSession->addValue("kill", 1);
-                $damagerSession->addValue("killstreak", 1);
+                $damagerSession->addValue("kill");
+                $damagerSession->addValue("killstreak");
 
                 if (Faction::hasFaction($damager)) Faction::addPower($damagerSession->data["faction"], 6);
                 if (Faction::hasFaction($player)) Faction::addPower($session->data["faction"], -4);
@@ -441,17 +431,17 @@ class EventsListener implements Listener
 
                 if ($playerBounty > 0) {
                     $damagerSession->addValue("money", $playerBounty);
-                    Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§9" . $damager->getName() . " §fvient de remporter un prime de §9" . $playerBounty . " pièce(s) §fen tuant §9" . $player->getName() . " §f!");
+                    Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $damager->getName() . " §fvient de remporter un prime de §q" . $playerBounty . " pièce(s) §fen tuant §q" . $player->getName() . " §f!");
                 }
 
                 if ($damagerKillstreak % 5 == 0) {
                     $amount = Cache::$config["bounties"][array_rand(Cache::$config["bounties"])];
                     $damagerSession->addValue("bounty", $amount);
 
-                    Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§9" . $damager->getName() . " §fa fait §9" . $damagerSession->data["killstreak"] . " §fkills sans mourrir ! Sa mort est désormais mise à prix à §9" . Session::get($damager)->data["bounty"] . " pièce(s) §8(§7+" . $amount . "§8) §f!");
+                    Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $damager->getName() . " §fa fait §q" . $damagerSession->data["killstreak"] . " §fkills sans mourrir ! Sa mort est désormais mise à prix à §q" . Session::get($damager)->data["bounty"] . " pièce(s) §8(§7+" . $amount . "§8) §f!");
                 }
 
-                Jobs::addXp($damager, "Hunter", 50 + $damagerSession->data["killstreak"]);
+                Job::addXp($damager, "Hunter", 50 + $damagerSession->data["killstreak"]);
                 return;
             }
         } else {
@@ -466,10 +456,10 @@ class EventsListener implements Listener
         $event->cancel();
     }
 
-    public function onItemDamage(ItemDamageEvent $event): void
+    /*public function onItemDamage(ItemDamageEvent $event): void
     {
         ExtraVanillaItems::getItem($event->getItem())->onDamage($event);
-    }
+    }*/
 
     public function onJump(PlayerJumpEvent $event): void
     {
@@ -560,11 +550,11 @@ class EventsListener implements Listener
 
                 if ($damagerSession->data["staff_mod"][0]) {
                     $message = match ($damager->getInventory()->getItemInHand()->getCustomName()) {
-                        "§r" . Util::PREFIX . "Sanction §9§l«" => "custom",
-                        "§r" . Util::PREFIX . "Alias §9§l«" => "/alias \"" . $entity->getName() . "\"",
-                        "§r" . Util::PREFIX . "Freeze §9§l«" => "/freeze \"" . $entity->getName() . "\"",
-                        "§r" . Util::PREFIX . "Invsee §9§l«" => "/invsee \"" . $entity->getName() . "\"",
-                        "§r" . Util::PREFIX . "Ecsee §9§l«" => "/ecsee \"" . $entity->getName() . "\"",
+                        "§r" . Util::PREFIX . "Sanction §q§l«" => "custom",
+                        "§r" . Util::PREFIX . "Alias §q§l«" => "/alias \"" . $entity->getName() . "\"",
+                        "§r" . Util::PREFIX . "Freeze §q§l«" => "/freeze \"" . $entity->getName() . "\"",
+                        "§r" . Util::PREFIX . "Invsee §q§l«" => "/invsee \"" . $entity->getName() . "\"",
+                        "§r" . Util::PREFIX . "Ecsee §q§l«" => "/ecsee \"" . $entity->getName() . "\"",
                         default => null
                     };
 
@@ -578,7 +568,7 @@ class EventsListener implements Listener
                         if (!is_null($message)) {
                             $damager->chat($message);
                         } else {
-                            $damager->sendMessage("Vous venez de taper le joueur §9" . $entity->getName());
+                            $damager->sendMessage("Vous venez de taper le joueur §q" . $entity->getName());
                         }
                     }
 
@@ -595,7 +585,7 @@ class EventsListener implements Listener
                     goto skip;
                 }
 
-                PartnerItems::executeHitPartnerItem($damager, $entity);
+                PartnerItem::executeHitPartnerItem($damager, $entity);
 
                 $damagerSession->setCooldown("combat", 20, [$entity->getName()]);
                 $entitySession->setCooldown("combat", 20, [$damager->getName()]);
@@ -642,9 +632,9 @@ class EventsListener implements Listener
 
         if ($session->data["staff_mod"][0]) {
             $command = match ($item->getCustomName()) {
-                "§r" . Util::PREFIX . "Vanish §9§l«" => "/vanish",
-                "§r" . Util::PREFIX . "Random Tp §9§l«" => "/randomtp",
-                "§r" . Util::PREFIX . "Spectateur §9§l«" => "/spec",
+                "§r" . Util::PREFIX . "Vanish §q§l«" => "/vanish",
+                "§r" . Util::PREFIX . "Random Tp §q§l«" => "/randomtp",
+                "§r" . Util::PREFIX . "Spectateur §q§l«" => "/spec",
                 default => null
             };
 
@@ -657,7 +647,7 @@ class EventsListener implements Listener
             return;
         }
 
-        $executePp = PartnerItems::executeInteractPartnerItem($player, $event);
+        $executePp = PartnerItem::executeInteractPartnerItem($player, $event);
         $executePack = Pack::executeInteractPackItem($player, $event);
 
         if ($executePack || $executePp) {
@@ -744,6 +734,13 @@ class EventsListener implements Listener
 
         if ($block instanceof Block) {
             ExtraVanillaBlocks::getBlock($block)->onPlace($event);
+
+            $block->getPosition()->getWorld()->setBiomeId(
+                $block->getPosition()->getX(),
+                $block->getPosition()->getY(),
+                $block->getPosition()->getZ(),
+                BiomeIds::BAMBOO_JUNGLE
+            );
         }
     }
 
@@ -759,9 +756,12 @@ class EventsListener implements Listener
             return;
         }
 
-        if ($source instanceof Lava && $sourcePos->getY() !== $blockPos->getY()) {
+
+        /*if ($source instanceof Lava && $sourcePos->getY() !== $blockPos->getY()) {
             $event->cancel();
-        } else if ($source instanceof Liquid && $blockPos->getWorld() === Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()) {
+        }*/
+
+        if ($source instanceof Liquid && $blockPos->getWorld() === Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()) {
             if (Faction::inClaim($sourcePos->getX(), $sourcePos->getZ()) !== Faction::inClaim($blockPos->getX(), $blockPos->getZ())) {
                 $event->cancel();
             }
@@ -831,6 +831,11 @@ class EventsListener implements Listener
         }
     }
 
+    /*public function onSupportBreak(BlockSupportBreakEvent $event): void
+    {
+        ExtraVanillaBlocks::getBlock($event->getBlock())->onSupportBreak($event);
+    }*/
+
     public function onBreak(BlockBreakEvent $event): void
     {
         $player = $event->getPlayer();
@@ -846,12 +851,12 @@ class EventsListener implements Listener
 
             if ($session->data["money"] >= 15) {
                 $session->addValue("money", 15, true);
-                $player->sendTip("§9- 15 pièces");
+                $player->sendTip("§q- 15 pièces");
 
                 $event->setDrops([$block->asItem()->setCount(1)]);
                 $event->setXpDropAmount(0);
             } else {
-                $player->sendTip("§9Vous n'avez pas assez d'argent pour acheter les blocs (15 pièces/u)");
+                $player->sendTip("§qVous n'avez pas assez d'argent pour acheter les blocs (15 pièces/u)");
             }
 
             $event->cancel();
@@ -900,10 +905,8 @@ class EventsListener implements Listener
         }
 
         if (ExtraVanillaItems::getItem($event->getItem())->onBreak($event)) {
-            var_dump("return1111");
             return;
         } else if (ExtraVanillaBlocks::getBlock($event->getBlock())->onBreak($event)) {
-            var_dump("return");
             return;
         }
 
@@ -912,9 +915,9 @@ class EventsListener implements Listener
         }
 
         if ($block->hasSameTypeId(VanillaBlocks::COBBLESTONE()) || $block->hasSameTypeId(VanillaBlocks::STONE())) {
-            Jobs::addXp($player, "Mineur", 1);
-        } else if ($block->hasSameTypeId(VanillaBlocks::MELON()) || ($block instanceof Crops && !$block->ticksRandomly())) {
-            Jobs::addXp($player, "Farmeur", mt_rand(1, 3));
+            Job::addXp($player, "Mineur", 1);
+        } else if ($block->hasSameTypeId(VanillaBlocks::MELON()) || (($block instanceof Crops || $block instanceof NetherWartPlant) && !$block->ticksRandomly())) {
+            Job::addXp($player, "Farmeur", mt_rand(1, 3));
         }
 
         Util::addItems($player, $event->getDrops());
@@ -961,13 +964,13 @@ class EventsListener implements Listener
                 $player->broadcastSound(new EndermanTeleportSound());
                 $player->broadcastSound(new EndermanTeleportSound());
 
-                $damager->sendMessage(Util::PREFIX . "Vous avez été switch avec le joueur §9" . $player->getDisplayName());
-                $player->sendMessage(Util::PREFIX . "Vous avez été switch avec le joueur §9" . $damager->getDisplayName());
+                $damager->sendMessage(Util::PREFIX . "Vous avez été switch avec le joueur §q" . $player->getDisplayName());
+                $player->sendMessage(Util::PREFIX . "Vous avez été switch avec le joueur §q" . $damager->getDisplayName());
             } else if ($entity instanceof AntiBackBall) {
                 $player->setNoClientPredictions();
 
-                $damager->sendMessage(Util::PREFIX . "Vous avez touché §9" . $player->getDisplayName() . " §favec votre antiback ball, il est donc freeze pendant §92 §fsecondes");
-                $player->sendMessage(Util::PREFIX . "Vous avez été touché par une antiback ball par §9" . $damager->getDisplayName() . " §fvous êtes donc freeze pendant §92 §fsecondes");
+                $damager->sendMessage(Util::PREFIX . "Vous avez touché §q" . $player->getDisplayName() . " §favec votre antiback ball, il est donc freeze pendant §q2 §fsecondes");
+                $player->sendMessage(Util::PREFIX . "Vous avez été touché par une antiback ball par §q" . $damager->getDisplayName() . " §fvous êtes donc freeze pendant §q2 §fsecondes");
 
                 Session::get($damager)->setCooldown("combat", 30, [$player->getName()]);
                 Session::get($player)->setCooldown("combat", 30, [$damager->getName()]);
@@ -1063,11 +1066,11 @@ class EventsListener implements Listener
         $packetId = $event->getPacketId();
         $packetBuffer = $event->getPacketBuffer();
 
-        if (strlen($packetBuffer) > 8096 && $packetId !== ProtocolInfo::LOGIN_PACKET) {
+        if (strlen($packetBuffer) > 8096 && ($packetId !== ProtocolInfo::LOGIN_PACKET && $packetId !== ProtocolInfo::PLAYER_SKIN_PACKET)) {
             $origin = $event->getOrigin();
             $event->cancel();
 
-            Main::getInstance()->getLogger()->warning("ID de paquet non décodé: $packetId (" . strlen($packetBuffer) . ") venant de : " . $origin->getPlayer() instanceof Player ? $origin->getPlayer()->getName() : $origin->getIp());
+            Main::getInstance()->getLogger()->info("ID de paquet non décodé: $packetId (" . strlen($packetBuffer) . ") venant de : " . $origin->getPlayer() instanceof Player ? $origin->getPlayer()->getName() : $origin->getIp());
             Main::getInstance()->getServer()->getNetwork()->blockAddress($origin->getIp(), 250);
         }
     }

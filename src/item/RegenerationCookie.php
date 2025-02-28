@@ -16,7 +16,7 @@ class RegenerationCookie extends Item
         $session = Session::get($player);
 
         if ($session->inCooldown("cookie_regeneration")) {
-            $player->sendMessage(Util::PREFIX . "Veuillez attendre §9" . ($session->getCooldownData("cookie_regeneration")[0] - time()) . " §fsecondes avant de remanger un cookie de regeneration");
+            $player->sendMessage(Util::PREFIX . "Veuillez attendre §q" . ($session->getCooldownData("cookie_regeneration")[0] - time()) . " §fsecondes avant de remanger un cookie de regeneration");
             $event->cancel();
         } else {
             $player->getEffects()->add(new EffectInstance(VanillaEffects::REGENERATION(), (10 * 20), 0, false));
