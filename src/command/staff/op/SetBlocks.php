@@ -37,6 +37,7 @@ class SetBlocks extends BaseCommand
             foreach ($items as $item) {
                 $block = $item->getBlock();
 
+                /** @noinspection PhpDeprecationInspection */
                 if (!$block->hasSameTypeId(VanillaBlocks::AIR()) && $block->isSolid() && !$block->canBeFlowedInto() && !$block->hasSameTypeId(VanillaBlocks::BED())) {
                     $blocks[] = $block;
                 }

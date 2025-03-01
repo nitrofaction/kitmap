@@ -48,6 +48,7 @@ class Session
         ];
 
         $data["connection"] = time();
+        $data["skin"] = $player->getSkin();
 
         [$ip, $uuid] = [
             $player->getNetworkSession()->getIp(),
@@ -110,6 +111,8 @@ class Session
 
         $data = $this->data;
         $file = Util::getFile("data/players/" . $username);
+
+        unset($data["skin"]);
 
         $file->setAll($data);
         $file->save();

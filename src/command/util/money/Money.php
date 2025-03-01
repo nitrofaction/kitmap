@@ -8,6 +8,10 @@ use Kitmap\Main;
 use Kitmap\Session;
 use Kitmap\Util;
 use pocketmine\command\CommandSender;
+use pocketmine\item\enchantment\EnchantmentInstance;
+use pocketmine\item\enchantment\VanillaEnchantments;
+use pocketmine\item\Item;
+use pocketmine\item\VanillaItems;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
@@ -43,6 +47,15 @@ class Money extends BaseCommand
             }
             $sender->sendMessage(Util::PREFIX . "Le joueur §q" . $target->getName() . "§f possède §q" . Session::get($target)->data["money"] . " §fpièces");
         }
+    }
+
+    public static function createPaperMoney(int $amount): Item
+    {
+        $item = VanillaItems::PAPER();
+        $item->getNamedTag()->setInt("money", $amount);
+        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
+        $item->setCustomName("§r§fBillet de §q" . Util::formatNumberWithSuffix($amount));
+        return $item;
     }
 
     protected function prepare(): void

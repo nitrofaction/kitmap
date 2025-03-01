@@ -3,7 +3,6 @@
 namespace Kitmap\command\staff\op;
 
 use CortexPE\Commando\args\IntegerArgument;
-use CortexPE\Commando\args\OptionArgument;
 use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\args\TargetPlayerArgument;
 use CortexPE\Commando\BaseCommand;
@@ -26,21 +25,6 @@ class Addpack extends BaseCommand
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);
     }
 
-    public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
-    {
-        $data = self::getUpperPackName($args["valeur"]);
-        $amount = intval($args["montant"]);
-
-        $player = Addvalue::addValue($sender, $this->getName(), $args);
-
-        if (is_null($player)) {
-            return;
-        }
-
-        $sender->sendMessage(Util::PREFIX . "Vous venez d'ajouter §q" . $amount . " §fpacks §q" . $data . " §fau joueur §q" . $player);
-        Util::addValue($sender->getName(), $player, ["packs", $data], $amount);
-    }
-
     public static function getUpperPackName(string $data): string
     {
         $names = array_keys(Cache::$config["default-data"]["packs"]);
@@ -53,11 +37,24 @@ class Addpack extends BaseCommand
         return $names[0];
     }
 
+    public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
+    {
+        $amount = intval($args["montant"]);
+
+        $player = Addvalue::addValue($sender, $this->getName(), $args);
+
+        if (is_null($player)) {
+            return;
+        }
+
+        $sender->sendMessage(Util::PREFIX . "Vous venez d'ajouter §q" . $amount . " §fpacks au joueur §q" . $player);
+        Util::addValue($sender->getName(), $player, ["packs"], $amount);
+    }
+
     protected function prepare(): void
     {
         $this->registerArgument(0, new TargetPlayerArgument(false, "joueur"));
         $this->registerArgument(0, new RawStringArgument("joueur"));
         $this->registerArgument(1, new IntegerArgument("montant"));
-        $this->registerArgument(2, new OptionArgument("valeur", array_keys(array_change_key_case(Cache::$config["default-data"]["packs"]))));
     }
 }

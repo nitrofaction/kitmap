@@ -5,6 +5,7 @@ namespace Kitmap\item;
 use pocketmine\block\Crops;
 use pocketmine\block\NetherWartPlant;
 use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\world\particle\HappyVillagerParticle;
 
 class WateringCan extends Durable
 {
@@ -37,6 +38,7 @@ class WateringCan extends Durable
             }
 
             $this->applyDamage($player);
+            $block->getPosition()->getWorld()->addParticle($block->getPosition()->add(0.5, 1, 0.5), new HappyVillagerParticle());
         }
 
         return false;

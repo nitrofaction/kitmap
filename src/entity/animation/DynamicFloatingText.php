@@ -1,6 +1,6 @@
 <?php
 
-namespace Kitmap\entity;
+namespace Kitmap\entity\animation;
 
 use Kitmap\command\player\Gambling;
 use Kitmap\handler\Cache;
@@ -11,7 +11,7 @@ use Kitmap\task\repeat\child\KothTask;
 use Kitmap\task\repeat\child\OutpostTask;
 use Kitmap\Util;
 
-class DefaultFloatingText extends FloatingText
+class DynamicFloatingText extends FloatingText
 {
     protected function getPeriod(): ?int
     {
@@ -37,7 +37,7 @@ class DefaultFloatingText extends FloatingText
                     if (DominationTask::insideZone($zone, $this->getPosition())) {
                         if (!DominationTask::$currentDomination) {
                             DominationTask::updateZoneBlocks($zone);
-                            return Util::PREFIX . "Domination §q§l«\n§fAucun event §qdomination §fn'est en cours";
+                            return Util::PREFIX . "Domination" . Util::IARROW . "\n§fAucun event §qdomination §fn'est en cours";
                         }
 
                         $status = DominationTask::$zones[$zone][1][0] ?? "uncaptured";
@@ -61,7 +61,7 @@ class DefaultFloatingText extends FloatingText
                             default => "§fLa faction §q" . $actual . " §fcontrôle le point"
                         };
 
-                        return Util::PREFIX . "Point " . $zone . " §q§l«\n" . $actual . "\n§fStatus du point: " . $status;
+                        return Util::PREFIX . "Point " . $zone . "" . Util::IARROW . "\n" . $actual . "\n§fStatus du point: " . $status;
                     }
                 }
                 break;
@@ -71,32 +71,32 @@ class DefaultFloatingText extends FloatingText
                     $player = is_null($player) ? "Aucun joueur" : $player;
 
                     $remaining = Util::formatDurationFromSeconds(KothTask::$currentKoth);
-                    return Util::PREFIX . "Koth §q§l«\n§q" . $player . " §fcontrôle le koth actuellement\n§fTemps restant : §q" . $remaining;
+                    return Util::PREFIX . "Koth" . Util::IARROW . "\n§q" . $player . " §fcontrôle le koth actuellement\n§fTemps restant : §q" . $remaining;
                 } else {
-                    return Util::PREFIX . "Koth §q§l«\n§fAucun event §qkoth §fn'est en cours";
+                    return Util::PREFIX . "Koth" . Util::IARROW . "\n§fAucun event §qkoth §fn'est en cours";
                 }
             case "outpost":
                 if (!is_null(Cache::$data["outpost"])) {
                     $remaining = Util::formatDurationFromSeconds(OutpostTask::$nextReward);
                     $faction = Faction::getFactionUpperName(Cache::$data["outpost"]);
 
-                    return Util::PREFIX . "Outpost §q§l«\n§fLa faction §q" . $faction . " §fcontrôle l'outpost\n§fRécompense dans §q" . $remaining . "\n§fPlus controlé dans §q" . OutpostTask::$currentOutpost . " §fsecondes";
+                    return Util::PREFIX . "Outpost" . Util::IARROW . "\n§fLa faction §q" . $faction . " §fcontrôle l'outpost\n§fRécompense dans §q" . $remaining . "\n§fPlus controlé dans §q" . OutpostTask::$currentOutpost . " §fsecondes";
                 } else {
                     $remaining = Util::formatDurationFromSeconds(OutpostTask::$currentOutpost);
-                    return Util::PREFIX . "Outpost §q§l«\n§qAucune §ffaction ne contrôle l'outpost\n§fOutpost contrôlé dans §q" . $remaining;
+                    return Util::PREFIX . "Outpost" . Util::IARROW . "\n§qAucune §ffaction ne contrôle l'outpost\n§fOutpost contrôlé dans §q" . $remaining;
                 }
             case "gambling":
                 if (GamblingTask::$currently) {
-                    return Util::PREFIX . "Gambling §q§l«\nUn gambling est actuellement en cours depuis §q" . Util::formatDurationFromSeconds(GamblingTask::$since, 1) . "\nLe gambling actuel oppose §q" . GamblingTask::$players[0] . " §fet §q" . GamblingTask::$players[1] . "\n\n§q" . count(Gambling::$gamblings) . " §fautre(s) §qgambling(s) §fsont en attente d'adversaire";
+                    return Util::PREFIX . "Gambling" . Util::IARROW . "\nUn gambling est actuellement en cours depuis §q" . Util::formatDurationFromSeconds(GamblingTask::$since, 1) . "\nLe gambling actuel oppose §q" . GamblingTask::$players[0] . " §fet §q" . GamblingTask::$players[1] . "\n\n§q" . count(Gambling::$gamblings) . " §fautre(s) §qgambling(s) §fsont en attente d'adversaire";
                 } else {
-                    return Util::PREFIX . "Gambling §q§l«\nAucun gambling n'est actuellement en cours\n§q" . count(Gambling::$gamblings) . " gambling(s) §fsont en attente d'adversaire\nPour rejoindre un gambling utilisez la commande §q/gambling";
+                    return Util::PREFIX . "Gambling" . Util::IARROW . "\nAucun gambling n'est actuellement en cours\n§q" . count(Gambling::$gamblings) . " gambling(s) §fsont en attente d'adversaire\nPour rejoindre un gambling utilisez la commande §q/gambling";
                 }
             case "money-zone":
                 $this->period = null;
-                return Util::PREFIX . "Zone Money §q§l«\nReste ici et gagne §q50 §fpièces toutes les §q3 §fsecondes\n§fATTENTION ! Tu dois être §qseul §fsur la platforme";
+                return Util::PREFIX . "Zone Money" . Util::IARROW . "\nReste ici et gagne §q50 §fpièces toutes les §q3 §fsecondes\n§fATTENTION ! Tu dois être §qseul §fsur la platforme";
             case "blocks":
                 $this->period = null;
-                return Util::PREFIX . "Salle des blocs §q§l«\nBienvenue dans la salle des §qblocs §f!\n§fTous les blocs que vous §qcassez §fsont mis\n§fdans votre inventaire en échange de §q15 §fpièces par bloc en illimité";
+                return Util::PREFIX . "Salle des blocs" . Util::IARROW . "\nBienvenue dans la salle des §qblocs §f!\n§fTous les blocs que vous §qcassez §fsont mis\n§fdans votre inventaire en échange de §q15 §fpièces par bloc en illimité";
         }
 
         if ($name[0] === "#") {

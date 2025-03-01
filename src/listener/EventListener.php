@@ -8,7 +8,7 @@ use Kitmap\command\staff\{Ban, LastInventory, Question, Vanish};
 use Kitmap\command\util\Bienvenue;
 use Kitmap\entity\{AntiBackBall, LogoutNpc, SwitchBall};
 use Kitmap\entity\Player as CustomPlayer;
-use Kitmap\handler\{Cache, Faction, Job, Pack, PartnerItem, Rank, Sanction};
+use Kitmap\handler\{Cache, Cosmetic, Faction, Job, Pack, PartnerItem, Rank, Sanction};
 use Kitmap\item\Armor;
 use Kitmap\item\ExtraVanillaItems;
 use Kitmap\Main;
@@ -59,6 +59,7 @@ use pocketmine\event\entity\{EntityDamageByEntityEvent,
 use pocketmine\event\inventory\{CraftItemEvent, InventoryOpenEvent, InventoryTransactionEvent, ItemDamageEvent};
 use pocketmine\event\Listener;
 use pocketmine\event\player\{PlayerBucketEvent,
+    PlayerChangeSkinEvent,
     PlayerChatEvent,
     PlayerCreationEvent,
     PlayerDataSaveEvent,
@@ -306,6 +307,14 @@ class EventListener implements Listener
 
         Rank::updateNameTag($player);
         Rank::addPermissions($player);
+
+        Cosmetic::checkSkin($player);
+    }
+
+    public function onChangeSkin(PlayerChangeSkinEvent $event): void
+    {
+        $skin = Cosmetic::checkSkin($event->getPlayer(), $event->getNewSkin());
+        $event->setNewSkin($skin);
     }
 
     public function onEntityTeleport(EntityTeleportEvent $event): void
@@ -550,16 +559,16 @@ class EventListener implements Listener
 
                 if ($damagerSession->data["staff_mod"][0]) {
                     $message = match ($damager->getInventory()->getItemInHand()->getCustomName()) {
-                        "§r" . Util::PREFIX . "Sanction §q§l«" => "custom",
-                        "§r" . Util::PREFIX . "Alias §q§l«" => "/alias \"" . $entity->getName() . "\"",
-                        "§r" . Util::PREFIX . "Freeze §q§l«" => "/freeze \"" . $entity->getName() . "\"",
-                        "§r" . Util::PREFIX . "Invsee §q§l«" => "/invsee \"" . $entity->getName() . "\"",
-                        "§r" . Util::PREFIX . "Ecsee §q§l«" => "/ecsee \"" . $entity->getName() . "\"",
+                        "§r" . Util::PREFIX . "Sanction" . Util::IARROW=> "custom",
+                        "§r" . Util::PREFIX . "Alias" . Util::IARROW=> "/alias \"" . $entity->getName() . "\"",
+                        "§r" . Util::PREFIX . "Freeze" . Util::IARROW=> "/freeze \"" . $entity->getName() . "\"",
+                        "§r" . Util::PREFIX . "Invsee" . Util::IARROW=> "/invsee \"" . $entity->getName() . "\"",
+                        "§r" . Util::PREFIX . "Ecsee" . Util::IARROW=> "/ecsee \"" . $entity->getName() . "\"",
                         default => null
                     };
 
                     if ($message === "custom") {
-                        if ($damager->getInventory()->getItemInHand()->getCustomName() === "§r" . Util::PREFIX . "Knockback 2 §e§l«") {
+                        if ($damager->getInventory()->getItemInHand()->getCustomName() === "§r" . Util::PREFIX . "Knockback 2" . Util::IARROW) {
                             return;
                         }
 
@@ -632,9 +641,9 @@ class EventListener implements Listener
 
         if ($session->data["staff_mod"][0]) {
             $command = match ($item->getCustomName()) {
-                "§r" . Util::PREFIX . "Vanish §q§l«" => "/vanish",
-                "§r" . Util::PREFIX . "Random Tp §q§l«" => "/randomtp",
-                "§r" . Util::PREFIX . "Spectateur §q§l«" => "/spec",
+                "§r" . Util::PREFIX . "Vanish" . Util::IARROW=> "/vanish",
+                "§r" . Util::PREFIX . "Random Tp" . Util::IARROW=> "/randomtp",
+                "§r" . Util::PREFIX . "Spectateur" . Util::IARROW=> "/spec",
                 default => null
             };
 

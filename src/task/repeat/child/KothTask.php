@@ -73,13 +73,13 @@ class KothTask
                     $session = Session::get($player);
 
                     $session->addValue("money", 25000);
-                    $session->addValue(["packs", "Classique"], 2);
+                    $session->addValue("packs", 2);
 
                     if (Faction::hasFaction($player)) {
                         Faction::addPower($session->data["faction"], mt_rand(15, 25));
                     }
 
-                    $player->sendMessage(Util::PREFIX . "Vous venez de recevoir §q2 pack classique §fet §q25k §fpièces car vous avez gagné l'event koth");
+                    $player->sendMessage(Util::PREFIX . "Vous venez de recevoir §q2 packs  §fet §q25k §fpièces car vous avez gagné l'event koth");
                 }
             }
 

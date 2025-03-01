@@ -42,6 +42,7 @@
   ],
   "default-data": {
     "faction": null,
+    "cosmetic": null,
     "money": 10000,
     "gem": 0,
     "kill": 0,
@@ -60,12 +61,8 @@
     "ip": [],
     "uuid": [],
     "did": [],
-    "packs": {
-      "Vote": 0,
-      "Partner Items": 0,
-      "Classique": 0,
-      "MEGA": 0
-    },
+    "cosmetics": [],
+    "packs": 0,
     "jobs": {
       "Mineur": {
         "lvl": 1,

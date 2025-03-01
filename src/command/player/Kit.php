@@ -11,6 +11,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\item\Armor;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\item\enchantment\VanillaEnchantments;
+use pocketmine\item\Item;
 use pocketmine\item\PotionType;
 use pocketmine\item\VanillaItems;
 use pocketmine\network\mcpe\protocol\types\InputMode;
@@ -196,6 +197,15 @@ class Kit extends BaseCommand
                 "rank" => "roi"
             ]
         ];
+    }
+
+    public static function createPaperKit(string $kit): Item
+    {
+        $item = VanillaItems::PAPER();
+        $item->getNamedTag()->setInt("kit", $kit);
+        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
+        $item->setCustomName("§r§qKit " . ucfirst($kit));
+        return $item;
     }
 
     protected function prepare(): void

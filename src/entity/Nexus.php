@@ -89,7 +89,7 @@ class Nexus extends Living
 
                 $centerVector = new Vector3($position->getX(), $position->getY(), $position->getZ());
 
-                foreach (Pack::getRandomItems(30, "Vote") as $item) {
+                foreach (Pack::getRandomItems(15) as $item) {
                     if ($item instanceof Item) {
                         $world->dropItem($centerVector, $item, (new Vector3(mt_rand(-5, 5), 10, mt_rand(-5, 5)))->normalize());
                     }

@@ -15,7 +15,7 @@ class ExtraVanillaBlocks
         self::addBlock(VanillaBlocks::COCOA_POD(), new CocoaPod());
         self::addBlock(VanillaBlocks::DEEPSLATE_EMERALD_ORE(), new DeepslateEmeraldOre());
         self::addBlock(VanillaBlocks::ENCHANTING_TABLE(), new EnchantingTable());
-        self::addBlock(VanillaBlocks::ENDER_CHEST(), new Enderchest());
+        // self::addBlock(VanillaBlocks::ENDER_CHEST(), new Enderchest());
         self::addBlock(VanillaBlocks::TRAPPED_CHEST(), new FarmingChest());
         self::addBlock(VanillaBlocks::NETHER_GOLD_ORE(), new NetherGoldOre());
         self::addBlock(VanillaBlocks::NETHER_WART(), new NetherWartPlant());

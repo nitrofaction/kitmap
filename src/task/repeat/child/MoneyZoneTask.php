@@ -2,7 +2,7 @@
 
 namespace Kitmap\task\repeat\child;
 
-use Kitmap\entity\Message;
+use Kitmap\entity\animation\Message;
 use Kitmap\handler\Cache;
 use Kitmap\Main;
 use Kitmap\Session;

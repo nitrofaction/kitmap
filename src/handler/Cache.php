@@ -14,7 +14,6 @@ class Cache
 {
     use SingletonTrait;
 
-    public static array $oldconfig;
     public static array $players;
     public static array $data;
     public static array $config;
@@ -44,22 +43,32 @@ class Cache
         @mkdir(Main::getInstance()->getDataFolder() . "data/");
         @mkdir(Main::getInstance()->getDataFolder() . "data/players");
         @mkdir(Main::getInstance()->getDataFolder() . "data/inventories/");
+        @mkdir(Main::getInstance()->getDataFolder() . "data/skins/");
 
         self::$config = $this->makeConfig();
-
         self::$data = Util::getFile("data/data")->getAll();
         self::$market = Util::getFile("data/market")->getAll();
         self::$bans = Util::getFile("data/bans")->getAll();
         self::$claims = Util::getFile("data/claims")->getAll();
         self::$factions = Util::getFile("data/factions")->getAll();
 
-        Cache::$config["enderchest"] = [];
+        foreach (Util::listAllFiles(Path::join(Main::getInstance()->getFile(), "resources", "cosmetic")) as $file) {
+            $data = pathinfo($file);
 
-        foreach (Cache::$config["pack"] as $name => $arr) {
-            [$x, $y, $z] = explode(":", $arr["enderchest"]);
+            $dirs = explode(DIRECTORY_SEPARATOR, $data["dirname"]);
+            $elements = array_slice($dirs, -2);
 
-            Cache::$config["enderchest"][$arr["enderchest"]] = $name;
-            Cache::$config["pos"]["floating"][(intval($x) + 0.5) . ":" . (intval($y) + 1) . ":" . (intval($z) + 0.5) . ":map"] = "#" . Util::PREFIX . "Pack " . $name . " §q§l«";
+            $name = $elements[1];
+            $type = $elements[0];
+
+            switch ($data["extension"]) {
+                case "json":
+                    Cosmetic::$skins[$type][$name]["geometry"] = file_get_contents($file);
+                    break;
+                case "png":
+                    Cosmetic::$skins[$type][$name]["texture"] = Cosmetic::getBytesFromImage($file);
+                    break;
+            }
         }
 
         foreach (Util::listAllFiles(Main::getInstance()->getDataFolder() . "data/players") as $file) {

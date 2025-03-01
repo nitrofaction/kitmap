@@ -81,8 +81,8 @@ class LogoutNpc extends Human
             Main::getInstance()->getLogger()->info($this->player . " (PNJ) a été tué par " . $damager->getDisplayName() . " (" . $damager->getName() . ")");
             Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $this->player . "[§7" . $pot1 . "§q] §fa été tué par le joueur §q" . $damager->getDisplayName() . "[§7" . $pot2 . "§q]");
 
-            $session->addValue("kill", 1);
-            $session->addValue("killstreak", 1);
+            $session->addValue("kill");
+            $session->addValue("killstreak");
 
             if (Faction::hasFaction($damager)) Faction::addPower($session->data["faction"], 6);
             if (!is_null($this->faction)) Faction::addPower($this->faction, -4);

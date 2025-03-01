@@ -2,6 +2,9 @@
 
 namespace Kitmap;
 
+use Kitmap\command\player\Kit;
+use Kitmap\command\player\XpBottle;
+use Kitmap\command\util\money\Money;
 use Kitmap\handler\Cache;
 use Kitmap\handler\ScoreFactory;
 use pocketmine\block\Block;
@@ -12,11 +15,13 @@ use pocketmine\color\Color;
 use pocketmine\command\CommandSender;
 use pocketmine\console\ConsoleCommandSender;
 use pocketmine\data\bedrock\EffectIdMap;
+use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\data\java\GameModeIdMap;
 use pocketmine\entity\effect\EffectInstance;
 use pocketmine\entity\effect\VanillaEffects;
 use pocketmine\inventory\Inventory;
 use pocketmine\item\Armor;
+use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\item\Item;
 use pocketmine\item\StringToItemParser;
 use pocketmine\item\VanillaItems;
@@ -43,6 +48,7 @@ use Symfony\Component\Filesystem\Path;
 class Util
 {
     const PREFIX = "§q§l» §r§f";
+    const IARROW = " §l§q«";
 
     public static function arrayToPage(array $array, ?int $page, int $separator): array
     {
@@ -602,5 +608,44 @@ class Util
                 $player->teleport($position, 180, -90);
             }
         }), $delay);
+    }
+
+    // item:itemName:count:customName:enchantId1,enchantLevel1;enchantId2,enchantLevel2
+    public static function parseItem(string $data): Item
+    {
+        $data = explode(":", $data);
+        $type = $data[0];
+
+        switch ($type) {
+            case "xp":
+                return XpBottle::createXpBottle(intval($data[1]) ?? 1);
+            case "money":
+                return Money::createPaperMoney(intval($data[1]) ?? 1);
+            case "kit":
+                return Kit::createPaperKit($data[1]);
+            default:
+                $item = StringToItemParser::getInstance()->parse($data[1]) ?? VanillaItems::AIR();
+                $item = $item->setCount(intval($data[2] ?? 1));
+
+                if (($data[3] ?? "") !== "") {
+                    $item = $item->setCustomName($data[3]);
+                }
+
+                $enchants = $data[4] ?? "";
+
+                if ($enchants !== "") {
+                    foreach (explode(";", $enchants) as $enchant) {
+                        $enchant = explode(",", $enchant);
+
+                        $enchant = new EnchantmentInstance(
+                            EnchantmentIdMap::getInstance()->fromId(intval($enchant[0] ?? 0)),
+                            intval($enchant[1] ?? 1)
+                        );
+
+                        $item = $item->addEnchantment($enchant);
+                    }
+                }
+                return $item;
+        }
     }
 }

@@ -98,7 +98,7 @@ class Job
                         $_data = intval($data[4]);
 
                         $item = Util::getItemByName($name);
-                        $item = Pack::initializeItem($item, [$customName, $type, $_data]);
+                        // $item = Pack::initializeItem($item, [$customName, $type, $_data]);
 
                         Util::addItem($player, $item);
                         $player->sendMessage(Util::PREFIX . "Vous venez de recevoir §q" . $data[5] . " §fpour vos récompenses de métiers !");

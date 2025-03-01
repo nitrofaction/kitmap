@@ -8,6 +8,10 @@ use Kitmap\Main;
 use Kitmap\Session;
 use Kitmap\Util;
 use pocketmine\command\CommandSender;
+use pocketmine\item\enchantment\EnchantmentInstance;
+use pocketmine\item\enchantment\VanillaEnchantments;
+use pocketmine\item\ExperienceBottle;
+use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\Player;
@@ -40,20 +44,26 @@ class XpBottle extends BaseCommand
                 $sender->sendMessage(Util::PREFIX . "Vous n'avez pas assez de niveaux");
                 return;
             } else if ($session->inCooldown("xp_bottle")) {
-                $sender->sendMessage(Util::PREFIX . "Vous devez encore attendre §q" . Util::formatDurationFromSeconds($session->getCooldownData("xp_bottle")[0] - time()) . " §favant de pouvoir re-créer un coinflip");
+                $format = Util::formatDurationFromSeconds($session->getCooldownData("xp_bottle")[0] - time());
+                $sender->sendMessage(Util::PREFIX . "Vous ne pourrez ré-utiliser la commande §c/xpbottle §fque dans: §c" . $format);
                 return;
             }
 
-            $item = VanillaItems::EXPERIENCE_BOTTLE();
-            $item->getNamedTag()->setInt("xp_bottle", $amount);
-            $item->setCustomName("§r§fBouteille d'expérience §q(" . $amount . ")");
-
-            Util::addItem($sender, $item);
-            $session->setCooldown("xp_bottle", 5 * 60);
+            Util::addItem($sender, self::createXpBottle($amount));
 
             $sender->getXpManager()->setXpLevel($sender->getXpManager()->getXpLevel() - $amount);
-            $sender->sendMessage(Util::PREFIX . "Vous avez crée une bouteille d'expérience avec §q" . $amount . " niveaux §fà l'intérieur");
+            $sender->sendMessage(Util::PREFIX . "Vous avez crée une bouteille d'expérience avec §c" . $amount . " niveaux §fà l'intérieur");
+
+            $session->setCooldown("xp_bottle", 60 * 5);
         }
+    }
+
+    public static function createXpBottle(int $level): ExperienceBottle
+    {
+        $item = VanillaItems::EXPERIENCE_BOTTLE();
+        $item->getNamedTag()->setInt("xp_bottle", $level);
+        $item->setCustomName("§r§fBouteille d'expérience §a(" . $level . ")");
+        return $item;
     }
 
     protected function prepare(): void

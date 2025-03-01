@@ -6,11 +6,11 @@ use CortexPE\Commando\args\IntegerArgument;
 use CortexPE\Commando\args\OptionArgument;
 use CortexPE\Commando\BaseCommand;
 use Kitmap\handler\Cache;
+use Kitmap\handler\PartnerItem as Api;
 use Kitmap\Util;
 use pocketmine\command\CommandSender;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\Player;
-use Kitmap\handler\PartnerItem as Api;
 use pocketmine\plugin\PluginBase;
 
 class PartnerItem extends BaseCommand
