@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Kitmap\entity\animation;
+namespace Kitmap\entity\floating;
 
 use pocketmine\entity\EntitySizeInfo;
 use pocketmine\entity\Living;

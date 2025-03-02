@@ -61,6 +61,19 @@ class Pack
         $player->sendForm($form);
     }
 
+    private static function getPrimeTime(): array
+    {
+        $now = new DateTime("now", new DateTimeZone("Europe/Paris"));
+        $primeTime = new DateTime("today 20:00:00", new DateTimeZone("Europe/Paris"));
+
+        if ($now > $primeTime) {
+            $primeTime = new DateTime("today 21:00:00", new DateTimeZone("Europe/Paris"));
+            return [true, $primeTime->getTimestamp() - $now->getTimestamp()];
+        }
+
+        return [false, $primeTime->getTimestamp() - $now->getTimestamp()];
+    }
+
     public static function openPack(Player $player, ?Block $animationBlock): void
     {
         $session = Session::get($player);
@@ -105,15 +118,53 @@ class Pack
         }
     }
 
-    public static function getItems(): array
+    public static function chooseRandomItems(int $amount): array
     {
-        $items = [];
+        $rewards = Cache::$config["pack"]["rewards"];
 
-        foreach (Cache::$config["pack"]["rewards"] as $data) {
-            $items[$data[1]] = Util::parseItem($data[2]);
+        $weightedRewards = [];
+
+        foreach ($rewards as $reward) {
+            $weight = intval($reward[0]);
+            $name = $reward[1];
+
+            $item = Util::parseItem($reward[2]);
+
+            $weightedRewards[] = [
+                "weight" => $weight,
+                "name" => $name,
+                "item" => $item
+            ];
         }
 
-        return $items;
+        $selectedItems = [];
+        $availableRewards = $weightedRewards;
+
+        for ($i = 0; $i < $amount; $i++) {
+            if (empty($availableRewards)) {
+                $availableRewards = $weightedRewards;
+            }
+
+            $totalWeight = array_sum(array_column($availableRewards, "weight"));
+            $randomWeight = mt_rand(0, $totalWeight - 1);
+            $currentWeight = 0;
+
+            foreach ($availableRewards as $key => $reward) {
+                $currentWeight += $reward["weight"];
+
+                if ($randomWeight < $currentWeight) {
+                    $selectedItems[] = [
+                        "name" => $reward["name"],
+                        "item" => $reward["item"]
+                    ];
+
+                    unset($availableRewards[$key]);
+                    break;
+                }
+            }
+        }
+
+        return $selectedItems;
     }
 
     private static function buyPack(Player $player): void
@@ -185,6 +236,17 @@ class Pack
         $menu->send($player);
     }
 
+    public static function getItems(): array
+    {
+        $items = [];
+
+        foreach (Cache::$config["pack"]["rewards"] as $data) {
+            $items[$data[1]] = Util::parseItem($data[2]);
+        }
+
+        return $items;
+    }
+
     public static function executeInteractPackItem(Player $player, PlayerItemUseEvent $event): bool
     {
         $item = $player->getInventory()->getItemInHand();
@@ -228,67 +290,5 @@ class Pack
 
         $event->cancel();
         return true;
-    }
-
-    public static function chooseRandomItems(int $amount): array
-    {
-        $rewards = Cache::$config["pack"]["rewards"];
-
-        $weightedRewards = [];
-
-        foreach ($rewards as $reward) {
-            $weight = intval($reward[0]);
-            $name = $reward[1];
-
-            $item = Util::parseItem($reward[2]);
-
-            $weightedRewards[] = [
-                "weight" => $weight,
-                "name" => $name,
-                "item" => $item
-            ];
-        }
-
-        $selectedItems = [];
-        $availableRewards = $weightedRewards;
-
-        for ($i = 0; $i < $amount; $i++) {
-            if (empty($availableRewards)) {
-                $availableRewards = $weightedRewards;
-            }
-
-            $totalWeight = array_sum(array_column($availableRewards, "weight"));
-            $randomWeight = mt_rand(0, $totalWeight - 1);
-            $currentWeight = 0;
-
-            foreach ($availableRewards as $key => $reward) {
-                $currentWeight += $reward["weight"];
-
-                if ($randomWeight < $currentWeight) {
-                    $selectedItems[] = [
-                        "name" => $reward["name"],
-                        "item" => $reward["item"]
-                    ];
-
-                    unset($availableRewards[$key]);
-                    break;
-                }
-            }
-        }
-
-        return $selectedItems;
-    }
-
-    private static function getPrimeTime(): array
-    {
-        $now = new DateTime("now", new DateTimeZone("Europe/Paris"));
-        $primeTime = new DateTime("today 20:00:00", new DateTimeZone("Europe/Paris"));
-
-        if ($now > $primeTime) {
-            $primeTime = new DateTime("today 21:00:00", new DateTimeZone("Europe/Paris"));
-            return [true, $primeTime->getTimestamp() - $now->getTimestamp()];
-        }
-
-        return [false, $primeTime->getTimestamp() - $now->getTimestamp()];
     }
 }

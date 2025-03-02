@@ -3,6 +3,15 @@
     "sanction": "https://discord.com/api/webhooks/1098211190418702376/fA-qlgI798kBWKp8VNsojK-94dZMwxALWW_bc0q0evI4N5XynAw_BLg86ypOz2O0Qa2p",
     "nick": "https://discord.com/api/webhooks/1098211248887316492/KhwbPe9vj4_Lcml8I9-zzWl2jtjODxyxEsPLb9K_ctkiU_Kw-xVphZqY4b9WC7mONspl"
   },
+  "top": [
+    "bounty",
+    "killstreak",
+    "kill",
+    "money",
+    "death",
+    "faction",
+    "nerd"
+  ],
   "command": [
     "about",
     "ban-ip",

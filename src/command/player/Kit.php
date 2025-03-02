@@ -32,6 +32,15 @@ class Kit extends BaseCommand
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
     }
 
+    public static function createPaperKit(string $kit): Item
+    {
+        $item = VanillaItems::PAPER();
+        $item->getNamedTag()->setInt("kit", $kit);
+        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
+        $item->setCustomName("§r§qKit " . ucfirst($kit));
+        return $item;
+    }
+
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
         if ($sender instanceof Player) {
@@ -197,15 +206,6 @@ class Kit extends BaseCommand
                 "rank" => "roi"
             ]
         ];
-    }
-
-    public static function createPaperKit(string $kit): Item
-    {
-        $item = VanillaItems::PAPER();
-        $item->getNamedTag()->setInt("kit", $kit);
-        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
-        $item->setCustomName("§r§qKit " . ucfirst($kit));
-        return $item;
     }
 
     protected function prepare(): void

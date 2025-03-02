@@ -72,6 +72,17 @@ class Pack extends Living
         return "Pack";
     }
 
+    public function onUpdate(int $currentTick): bool
+    {
+        static $animationTime = 0.0;
+        $animationTime += 0.02;
+
+        $floatSpeed = sin($animationTime) * 0.05;
+        $this->setMotion(new Vector3(0, $floatSpeed, 0));
+
+        return parent::onUpdate($currentTick);
+    }
+
     protected function initEntity(CompoundTag $nbt): void
     {
         parent::initEntity($nbt);
@@ -104,16 +115,5 @@ class Pack extends Living
     protected function getInitialSizeInfo(): EntitySizeInfo
     {
         return new EntitySizeInfo(0.7, 0.7);
-    }
-
-    public function onUpdate(int $currentTick): bool
-    {
-        static $animationTime = 0.0;
-        $animationTime += 0.02;
-
-        $floatSpeed = sin($animationTime) * 0.05;
-        $this->setMotion(new Vector3(0, $floatSpeed, 0));
-
-        return parent::onUpdate($currentTick);
     }
 }

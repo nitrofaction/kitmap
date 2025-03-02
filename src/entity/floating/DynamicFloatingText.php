@@ -1,6 +1,6 @@
 <?php
 
-namespace Kitmap\entity\animation;
+namespace Kitmap\entity\floating;
 
 use Kitmap\command\player\Gambling;
 use Kitmap\handler\Cache;

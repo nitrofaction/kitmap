@@ -2,7 +2,6 @@
 
 namespace Kitmap\entity\npc;
 
-use Kitmap\command\staff\op\Elevator;
 use Kitmap\handler\Cache;
 use Kitmap\Util;
 use pocketmine\entity\Human;
@@ -13,7 +12,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
 
-class NPC extends Human
+class CommandNpc extends Human
 {
     private string $npcIdentifier;
 

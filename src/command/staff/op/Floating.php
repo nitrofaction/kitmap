@@ -4,12 +4,14 @@ namespace Kitmap\command\staff\op;
 
 use CortexPE\Commando\args\OptionArgument;
 use CortexPE\Commando\BaseCommand;
-use Kitmap\entity\animation\DefaultFloatingText;
-use Kitmap\entity\animation\DynamicFloatingText;
 use Kitmap\entity\animation\Pack;
+use Kitmap\entity\floating\DefaultFloatingText;
+use Kitmap\entity\floating\DynamicFloatingText;
+use Kitmap\entity\floating\LeaderboardFloatingText;
 use Kitmap\entity\npc\BlackSmith;
 use Kitmap\entity\npc\ElevatorPhantom;
-use Kitmap\entity\npc\NPC;
+use Kitmap\entity\npc\CommandNpc;
+use Kitmap\entity\npc\TopNpc;
 use Kitmap\handler\Cache;
 use Kitmap\handler\Cosmetic;
 use Kitmap\Main;
@@ -41,7 +43,36 @@ class Floating extends BaseCommand
                 foreach (Cache::$config["pos"]["floating"] as $key => $value) {
                     [$x, $y, $z, $world] = explode(":", $key);
 
-                    $entity = new DynamicFloatingText(new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getWorldByName($world), 0, 0));
+                    if ($value === "leaderboard") {
+                        $entity = LeaderboardFloatingText::class;
+                    } else {
+                        $entity = DynamicFloatingText::class;
+                    }
+
+                    $entity = new $entity(new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getWorldByName($world), 0, 0));
+                    $entity->spawnToAll();
+                }
+
+                foreach (Cache::$config["pos"]["top"] as $data => $_) {
+                    [$x, $y, $z, $yaw] = explode(":", $data);
+
+                    $entity = new TopNpc(
+                        new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), intval($yaw), 0),
+                        Cosmetic::getSkinFromName("", "steve"),
+                    );
+
+                    $entity->spawnToAll();
+                }
+
+                foreach (Cache::$config["npc"] as $identifier => $data) {
+                    [$x, $y, $z, $yaw, , , $skin] = explode(":", $data);
+
+                    $entity = new CommandNpc(
+                        new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), intval($yaw), 0),
+                        Cosmetic::getSkinFromName("skins", $skin),
+                        CompoundTag::create()->setString("npc", $identifier)
+                    );
+
                     $entity->spawnToAll();
                 }
 
@@ -49,18 +80,6 @@ class Floating extends BaseCommand
                     [$x, $y, $z, $yaw] = explode(":", $elevator);
 
                     $entity = new ElevatorPhantom(new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getWorldByName("mine"), intval($yaw), 0));
-                    $entity->spawnToAll();
-                }
-
-                foreach (Cache::$config["npc"] as $identifier => $data) {
-                    [$x, $y, $z, $yaw, , , $skin] = explode(":", $data);
-
-                    $entity = new NPC(
-                        new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), intval($yaw), 0),
-                        Cosmetic::getSkinFromName("skins", $skin),
-                        CompoundTag::create()->setString("npc", $identifier)
-                    );
-
                     $entity->spawnToAll();
                 }
 
@@ -91,7 +110,7 @@ class Floating extends BaseCommand
                             $entity instanceof ElevatorPhantom ||
                             $entity instanceof BlackSmith ||
                             $entity instanceof Pack ||
-                            $entity instanceof NPC
+                            $entity instanceof CommandNpc
                         ) {
                             $entity->flagForDespawn();
                         }

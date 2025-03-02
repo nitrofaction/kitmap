@@ -3,14 +3,16 @@
 namespace Kitmap\entity;
 
 use Closure;
-use Kitmap\entity\animation\DynamicFloatingText;
 use Kitmap\entity\animation\Message;
 use Kitmap\entity\animation\Pack;
 use Kitmap\entity\animation\PackItem;
+use Kitmap\entity\floating\DynamicFloatingText;
+use Kitmap\entity\floating\LeaderboardFloatingText;
 use Kitmap\entity\npc\BlackSmith;
 use Kitmap\entity\npc\ElevatorPhantom;
 use Kitmap\entity\npc\LogoutNpc;
-use Kitmap\entity\npc\NPC;
+use Kitmap\entity\npc\CommandNpc;
+use Kitmap\entity\npc\TopNpc;
 use pocketmine\block\RuntimeBlockStateRegistry;
 use pocketmine\data\bedrock\PotionTypeIdMap;
 use pocketmine\data\bedrock\PotionTypeIds;
@@ -48,9 +50,13 @@ class Entities
             return new ElevatorPhantom(EntityDataHelper::parseLocation($nbt, $world), $nbt);
         }, ["ElevatorPhantom"]);
 
-        EntityFactory::getInstance()->register(NPC::class, function (World $world, CompoundTag $nbt): NPC {
-            return new NPC(EntityDataHelper::parseLocation($nbt, $world), NPC::parseSkinNBT($nbt), $nbt);
-        }, ["NPC"]);
+        EntityFactory::getInstance()->register(CommandNpc::class, function (World $world, CompoundTag $nbt): CommandNpc {
+            return new CommandNpc(EntityDataHelper::parseLocation($nbt, $world), CommandNpc::parseSkinNBT($nbt), $nbt);
+        }, ["CommandNpc"]);
+
+        EntityFactory::getInstance()->register(TopNpc::class, function (World $world, CompoundTag $nbt): TopNpc {
+            return new TopNpc(EntityDataHelper::parseLocation($nbt, $world), TopNpc::parseSkinNBT($nbt), $nbt);
+        }, ["TopNpc"]);
 
         EntityFactory::getInstance()->register(SwitchBall::class, function (World $world, CompoundTag $nbt): SwitchBall {
             return new SwitchBall(EntityDataHelper::parseLocation($nbt, $world), null, $nbt);
@@ -58,7 +64,11 @@ class Entities
 
         EntityFactory::getInstance()->register(DynamicFloatingText::class, function (World $world, CompoundTag $nbt): DynamicFloatingText {
             return new DynamicFloatingText(EntityDataHelper::parseLocation($nbt, $world), $nbt);
-        }, ["FloatingText"]);
+        }, ["DynamicFloatingText"]);
+
+        EntityFactory::getInstance()->register(LeaderboardFloatingText::class, function (World $world, CompoundTag $nbt): LeaderboardFloatingText {
+            return new LeaderboardFloatingText(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ["LeaderboardFloatingText"]);
 
         EntityFactory::getInstance()->register(BlackSmith::class, function (World $world, CompoundTag $nbt): BlackSmith {
             return new BlackSmith(EntityDataHelper::parseLocation($nbt, $world), $nbt);

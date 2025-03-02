@@ -2,10 +2,13 @@
 
 namespace Kitmap\command\faction\subcommands;
 
+use CortexPE\Commando\args\OptionArgument;
 use jojoe77777\FormAPI\CustomForm;
 use Kitmap\command\faction\FactionCommand;
+use Kitmap\command\player\Sell;
 use Kitmap\handler\Cache;
 use Kitmap\handler\Faction;
+use Kitmap\handler\Rank;
 use Kitmap\Main;
 use Kitmap\Session;
 use Kitmap\Util;
@@ -20,7 +23,7 @@ class Cactus extends FactionCommand
         parent::__construct(
             Main::getInstance(),
             "cactus",
-            "Récupère l'entierté des cactus qui ont poussé"
+            "Permet de récupérer les cactus qui ont poussé dans votre inventaire"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
@@ -29,13 +32,32 @@ class Cactus extends FactionCommand
     public function onNormalRun(Player $sender, Session $session, ?string $faction, array $args): void
     {
         $cactus = Faction::getCactus($faction);
+        $sell = ($args["opt"] ?? null) === "sell";
 
-        if ($cactus <= 0) {
-            $sender->sendMessage(Util::PREFIX . "Votre faction n'a aucun cactus à récupérer !");
+        if (!$sell) {
+            if ($cactus <= 0) {
+                $sender->sendMessage(Util::PREFIX . "Votre faction n'a aucun cactus à récupérer !");
+                return;
+            }
+
+            $this->sendCactusForm($sender, $faction, $cactus);
+            return;
+        } else if ($cactus <= 0) {
+            $sender->sendMessage(Util::PREFIX . "Votre faction n'a aucun cactus à vendre !");
+            return;
+        } else if (!Rank::hasRank($sender, "champion")) {
+            $sender->sendMessage(Util::PREFIX . "Le §q/f cactus sell §fest destiné aux joueurs au minimum §qchampion §f!");
             return;
         }
 
-        $this->sendCactusForm($sender, $faction, $cactus);
+        $sell = Sell::sellItem(VanillaBlocks::CACTUS()->asItem()->setCount($cactus), false);
+        $total = ($cactus * $sell[2]);
+
+        Faction::removeCactus($faction, $cactus);
+        $session->addValue("money", $total);
+
+        Cache::$factions[$faction]["logs"][time()] = "§q" . $sender->getName() . " §fa vendu §q" . $cactus . " §fcactus pour §q" . $total . "$";
+        Faction::broadcastMessage($faction, "§q[§fF§q] §fLe joueur §q" . $sender->getName() . " §fvient de vendre §q" . $cactus . " §fcactus de la faction pour §q" . $total . "$");
     }
 
     private function sendCactusForm(Player $player, ?string $faction, int $maxCactus): void
@@ -66,5 +88,6 @@ class Cactus extends FactionCommand
 
     protected function prepare(): void
     {
+        $this->registerArgument(0, new OptionArgument("opt", ["sell"], true));
     }
 }

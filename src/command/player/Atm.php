@@ -3,11 +3,11 @@
 namespace Kitmap\command\player;
 
 use CortexPE\Commando\BaseCommand;
+use jojoe77777\FormAPI\SimpleForm;
 use Kitmap\handler\Cache;
 use Kitmap\Main;
 use Kitmap\Session;
 use Kitmap\Util;
-use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\command\CommandSender;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\Player;

@@ -84,7 +84,7 @@ class Top extends BaseCommand
 
     protected function prepare(): void
     {
-        $this->registerArgument(0, new OptionArgument("categorie", ["bounty", "killstreak", "kill", "money", "death", "faction", "nerd"]));
+        $this->registerArgument(0, new OptionArgument("categorie", Cache::$config["top"]));
         $this->registerArgument(1, new IntegerArgument("page", true));
     }
 }

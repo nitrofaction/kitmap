@@ -2,8 +2,8 @@
 
 namespace Kitmap\task;
 
-use Kitmap\entity\animation\DefaultFloatingText;
 use Kitmap\entity\animation\PackItem as Entity;
+use Kitmap\entity\floating\DefaultFloatingText;
 use Kitmap\handler\Pack as Api;
 use Kitmap\Main;
 use Kitmap\Session;
@@ -104,7 +104,7 @@ class PackAnimationTask extends Task
         if ($this->ticks === 0) {
             $this->spawnCircleParticles($position, $i);
 
-           $this->updateFloating(false);
+            $this->updateFloating(false);
             $this->waitCancelTicks = 90;
 
             $position->getWorld()->addSound($position->add(0.5, 0.5, 0.5), new BlazeShootSound(), [$this->player]);
@@ -145,32 +145,6 @@ class PackAnimationTask extends Task
         }
     }
 
-    private function spawnCircleParticles(Position $position, int $tick): void
-    {
-        $world = $position->getWorld();
-
-        $radius = 2.5;
-        $height = 0.5;
-        $particleCount = 15;
-
-        $angleOffset = $tick * 0.1;
-
-        for ($i = 0; $i < $particleCount; $i++) {
-            $angle = (2 * M_PI * $i / $particleCount) + $angleOffset;
-            $x = $position->x + 0.5 + $radius * cos($angle);
-            $z = $position->z + 0.5 + $radius * sin($angle);
-            $y = $position->y + $height;
-
-            if ($i % 2 === 0) {
-                $particle = new DustParticle(new Color(0, 0, 0));
-            } else {
-                $particle = new DustParticle(new Color(34, 139, 34));
-            }
-
-            $world->addParticle(new Vector3($x, $y, $z), $particle, [$this->player]);
-        }
-    }
-
     public function updateFloating(bool $spawn): void
     {
         $pos = $this->block->getPosition();
@@ -201,5 +175,31 @@ class PackAnimationTask extends Task
             "name" => Util::PREFIX . ucfirst($key) . Util::IARROW,
             "item" => $items[$key]
         ], (array)$randomKeys);
+    }
+
+    private function spawnCircleParticles(Position $position, int $tick): void
+    {
+        $world = $position->getWorld();
+
+        $radius = 2.5;
+        $height = 0.5;
+        $particleCount = 15;
+
+        $angleOffset = $tick * 0.1;
+
+        for ($i = 0; $i < $particleCount; $i++) {
+            $angle = (2 * M_PI * $i / $particleCount) + $angleOffset;
+            $x = $position->x + 0.5 + $radius * cos($angle);
+            $z = $position->z + 0.5 + $radius * sin($angle);
+            $y = $position->y + $height;
+
+            if ($i % 2 === 0) {
+                $particle = new DustParticle(new Color(0, 0, 0));
+            } else {
+                $particle = new DustParticle(new Color(34, 139, 34));
+            }
+
+            $world->addParticle(new Vector3($x, $y, $z), $particle, [$this->player]);
+        }
     }
 }

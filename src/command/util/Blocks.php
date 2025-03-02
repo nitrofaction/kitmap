@@ -8,7 +8,11 @@ use Kitmap\Util;
 use muqsit\invmenu\InvMenu;
 use muqsit\invmenu\transaction\DeterministicInvMenuTransaction;
 use muqsit\invmenu\type\InvMenuTypeIds;
+use pocketmine\block\Air;
 use pocketmine\block\BlockTypeIds;
+use pocketmine\block\Crops;
+use pocketmine\block\MobHead;
+use pocketmine\block\ShulkerBox;
 use pocketmine\command\CommandSender;
 use pocketmine\inventory\CreativeInventory;
 use pocketmine\item\Item;
@@ -33,7 +37,50 @@ class Blocks extends BaseCommand
         BlockTypeIds::ITEM_FRAME,
         BlockTypeIds::GLOWING_ITEM_FRAME,
         BlockTypeIds::HAY_BALE,
+        BlockTypeIds::NETHER_QUARTZ_ORE,
+        BlockTypeIds::IRON_ORE,
+        BlockTypeIds::LAPIS_LAZULI_ORE,
+        BlockTypeIds::GOLD_ORE,
+        BlockTypeIds::COAL_ORE,
+        BlockTypeIds::DIAMOND_ORE,
         BlockTypeIds::EMERALD_ORE,
+        BlockTypeIds::DEEPSLATE_COAL_ORE,
+        BlockTypeIds::DEEPSLATE_DIAMOND_ORE,
+        BlockTypeIds::DEEPSLATE_EMERALD_ORE,
+        BlockTypeIds::DEEPSLATE_LAPIS_LAZULI_ORE,
+        BlockTypeIds::DEEPSLATE_REDSTONE_ORE,
+        BlockTypeIds::DEEPSLATE_IRON_ORE,
+        BlockTypeIds::DEEPSLATE_GOLD_ORE,
+        BlockTypeIds::DEEPSLATE_COPPER_ORE,
+        BlockTypeIds::COPPER_ORE,
+        BlockTypeIds::NETHER_GOLD_ORE,
+        BlockTypeIds::SMOKER,
+        BlockTypeIds::CHISELED_NETHER_BRICKS,
+        BlockTypeIds::TRAPPED_CHEST,
+        BlockTypeIds::WHEAT,
+        BlockTypeIds::CACTUS,
+        BlockTypeIds::MELON,
+        BlockTypeIds::MONSTER_SPAWNER,
+        BlockTypeIds::SUGARCANE,
+        BlockTypeIds::LAPIS_LAZULI,
+        BlockTypeIds::EMERALD,
+        BlockTypeIds::DIAMOND,
+        BlockTypeIds::COAL,
+        BlockTypeIds::TNT,
+        BlockTypeIds::HOPPER,
+        BlockTypeIds::BAMBOO,
+        BlockTypeIds::GOLD,
+        BlockTypeIds::RAW_GOLD,
+        BlockTypeIds::RAW_IRON,
+        BlockTypeIds::RAW_GOLD,
+        BlockTypeIds::BAMBOO_SAPLING,
+        BlockTypeIds::NETHER_WART,
+        BlockTypeIds::NETHER_WART_BLOCK,
+        BlockTypeIds::REDSTONE,
+        BlockTypeIds::REDSTONE_ORE,
+        BlockTypeIds::BEDROCK,
+        BlockTypeIds::AIR,
+        BlockTypeIds::GILDED_BLACKSTONE
     ];
 
     public function __construct(PluginBase $plugin)
@@ -107,12 +154,16 @@ class Blocks extends BaseCommand
 
         /* @var ItemBlock[] $items */
         $items = array_filter(CreativeInventory::getInstance()->getAll(), function (Item $item): bool {
-            return $item instanceof ItemBlock && !in_array($item->getTypeId(), $this->removedBlocks);
+            return $item instanceof ItemBlock && !in_array($item->getTypeId(), $this->removedBlocks) && !in_array($item->getBlock()->getTypeId(), $this->removedBlocks);
         });
 
         foreach (Util::arrayToPage($items, $page, 45)[1] as $item) {
             if ($item instanceof ItemBlock) {
-                // $block = $item->getBlock();
+                $block = $item->getBlock();
+
+                if ($block instanceof MobHead || $block instanceof ShulkerBox || $block instanceof Crops || $block instanceof Air) {
+                    continue;
+                }
 
                 $item->getNamedTag()->setInt("block", 0);
 

@@ -29,6 +29,15 @@ class Money extends BaseCommand
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
     }
 
+    public static function createPaperMoney(int $amount): Item
+    {
+        $item = VanillaItems::PAPER();
+        $item->getNamedTag()->setInt("money", $amount);
+        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
+        $item->setCustomName("§r§fBillet de §q" . Util::formatNumberWithSuffix($amount));
+        return $item;
+    }
+
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
         if (!isset($args["joueur"])) {
@@ -47,15 +56,6 @@ class Money extends BaseCommand
             }
             $sender->sendMessage(Util::PREFIX . "Le joueur §q" . $target->getName() . "§f possède §q" . Session::get($target)->data["money"] . " §fpièces");
         }
-    }
-
-    public static function createPaperMoney(int $amount): Item
-    {
-        $item = VanillaItems::PAPER();
-        $item->getNamedTag()->setInt("money", $amount);
-        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
-        $item->setCustomName("§r§fBillet de §q" . Util::formatNumberWithSuffix($amount));
-        return $item;
     }
 
     protected function prepare(): void

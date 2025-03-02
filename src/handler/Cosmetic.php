@@ -79,6 +79,8 @@ class Cosmetic
             return self::getSkinFromName("skins", "steve");
         }
 
+        self::saveSkin($player, $skin);
+
         if (!is_null($cosmetic)) {
             $cosmetic = explode(":", $cosmetic);
             $skin = self::getCosmetic($skin, $cosmetic[0], $cosmetic[1]);
@@ -155,7 +157,7 @@ class Cosmetic
         $player->sendSkin();
     }
 
-    public static function saveSkin(Player $player, Skin $skin): void
+    public static function saveSkin(Player $player, Skin $skin, bool $saveGeometry = false): void
     {
         $session = Session::get($player);
         $session->data["skin"] = $skin;
@@ -166,11 +168,13 @@ class Cosmetic
         imagepng($img, $path);
         imagedestroy($img);
 
-        $geometryData = $skin->getGeometryData();
+        if ($saveGeometry) {
+            $geometryData = $skin->getGeometryData();
 
-        if (!empty($geometryData)) {
-            $pathGeometry = Main::getInstance()->getDataFolder() . "data/skins/" . strtolower($player->getName()) . "_geometry.json";
-            file_put_contents($pathGeometry, $geometryData);
+            if (!empty($geometryData)) {
+                $pathGeometry = Main::getInstance()->getDataFolder() . "data/skins/" . strtolower($player->getName()) . "_geometry.json";
+                file_put_contents($pathGeometry, $geometryData);
+            }
         }
     }
 

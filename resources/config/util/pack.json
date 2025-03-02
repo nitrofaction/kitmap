@@ -1,8 +1,20 @@
 {
   "rewards": [
-    ["1", "Sable des âmes (128)", "item:soul_sand:128"],
-    ["1", "Verrue du Nether (64)", "item:nether_wart:64"],
-    ["1", "Epee en iris", "item:netherite_sword:1"]
+    [
+      "1",
+      "Sable des âmes (128)",
+      "item:soul_sand:128"
+    ],
+    [
+      "1",
+      "Verrue du Nether (64)",
+      "item:nether_wart:64"
+    ],
+    [
+      "1",
+      "Epee en iris",
+      "item:netherite_sword:1"
+    ]
   ],
   "gem": 150,
   "money": 150000,

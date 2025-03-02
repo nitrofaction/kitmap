@@ -69,7 +69,7 @@ class Sell extends BaseCommand
         }
     }
 
-    private function sellItem(Item $item, mixed $category): array
+    public static function sellItem(Item $item, mixed $category): array
     {
         $sellPrice = 0;
         $itemName = "";
@@ -111,6 +111,6 @@ class Sell extends BaseCommand
     protected function prepare(): void
     {
         $this->registerArgument(0, new OptionArgument("opt", ["all"], true));
-        $this->registerArgument(1, new OptionArgument("categorie", ["agriculture", "blocs", "bois", "minerais", "colorant", "autre"], true));
+        // $this->registerArgument(1, new OptionArgument("categorie", ["agriculture", "blocs", "bois", "minerais", "colorant", "autre"], true));
     }
 }

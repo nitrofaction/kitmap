@@ -1,6 +1,6 @@
 <?php
 
-namespace Kitmap\entity\animation;
+namespace Kitmap\entity\floating;
 
 use pocketmine\entity\Location;
 use pocketmine\nbt\tag\CompoundTag;

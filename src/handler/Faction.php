@@ -165,6 +165,16 @@ class Faction
         }
     }
 
+    private static function setPower(string $faction, int $amount): void
+    {
+        Cache::$factions[$faction]["power"] = $amount;
+    }
+
+    public static function getPower(string $faction): int
+    {
+        return Cache::$factions[$faction]["power"];
+    }
+
     public static function addCactus(BlockGrowEvent $event): void
     {
         $pos = $event->getBlock()->getPosition();
@@ -195,14 +205,14 @@ class Faction
         }
     }
 
-    public static function getCactus(string $faction): int
-    {
-        return Cache::$factions[$faction]["cactus"];
-    }
-
     private static function setCactus(string $faction, int $amount): void
     {
         Cache::$factions[$faction]["cactus"] = $amount;
+    }
+
+    public static function getCactus(string $faction): int
+    {
+        return Cache::$factions[$faction]["cactus"];
     }
 
     public static function removeCactus(string $faction, int $amount): void
@@ -212,16 +222,6 @@ class Faction
         if (self::getPower($faction) < 0) {
             self::setPower($faction, 0);
         }
-    }
-
-    private static function setPower(string $faction, int $amount): void
-    {
-        Cache::$factions[$faction]["power"] = $amount;
-    }
-
-    public static function getPower(string $faction): int
-    {
-        return Cache::$factions[$faction]["power"];
     }
 
     public static function canBuild(Player $player, Block|Position $block, string $type): bool
