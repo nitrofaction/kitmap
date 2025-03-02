@@ -7,6 +7,10 @@ use Kitmap\entity\animation\DynamicFloatingText;
 use Kitmap\entity\animation\Message;
 use Kitmap\entity\animation\Pack;
 use Kitmap\entity\animation\PackItem;
+use Kitmap\entity\npc\BlackSmith;
+use Kitmap\entity\npc\ElevatorPhantom;
+use Kitmap\entity\npc\LogoutNpc;
+use Kitmap\entity\npc\NPC;
 use pocketmine\block\RuntimeBlockStateRegistry;
 use pocketmine\data\bedrock\PotionTypeIdMap;
 use pocketmine\data\bedrock\PotionTypeIds;
@@ -43,6 +47,10 @@ class Entities
         EntityFactory::getInstance()->register(ElevatorPhantom::class, function (World $world, CompoundTag $nbt): ElevatorPhantom {
             return new ElevatorPhantom(EntityDataHelper::parseLocation($nbt, $world), $nbt);
         }, ["ElevatorPhantom"]);
+
+        EntityFactory::getInstance()->register(NPC::class, function (World $world, CompoundTag $nbt): NPC {
+            return new NPC(EntityDataHelper::parseLocation($nbt, $world), NPC::parseSkinNBT($nbt), $nbt);
+        }, ["NPC"]);
 
         EntityFactory::getInstance()->register(SwitchBall::class, function (World $world, CompoundTag $nbt): SwitchBall {
             return new SwitchBall(EntityDataHelper::parseLocation($nbt, $world), null, $nbt);

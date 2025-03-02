@@ -3,7 +3,6 @@
 namespace Kitmap\entity\animation;
 
 use Kitmap\handler\Pack as Api;
-use Kitmap\Main;
 use pocketmine\block\Block;
 use pocketmine\entity\Attribute;
 use pocketmine\entity\EntitySizeInfo;
@@ -11,31 +10,21 @@ use pocketmine\entity\Living;
 use pocketmine\entity\Location;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\mcpe\protocol\AddActorPacket;
 use pocketmine\network\mcpe\protocol\types\entity\Attribute as NetworkAttribute;
 use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 use pocketmine\network\mcpe\protocol\types\entity\PropertySyncData;
 use pocketmine\player\Player;
-use pocketmine\world\Position;
-use pocketmine\world\particle\DustParticle;
 
 class Pack extends Living
 {
     private string $networkTypeId;
-    private Position $pos;
 
     public function __construct(Location $location, ?CompoundTag $nbt = null)
     {
-        $data = explode(":", $nbt->getString("pos", "0:100:0"));
-
-        if (2 > count($data)) {
-            $data = [0, 0, 0];
-        }
-
         $this->networkTypeId = $nbt->getString("id", EntityIds::AGENT);
-        $this->pos = new Position(intval($data[0]), intval($data[1]), intval($data[2]), Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld());
-
         parent::__construct($location, $nbt);
     }
 
@@ -48,7 +37,6 @@ class Pack extends Living
     {
         $nbt = parent::saveNBT();
         $nbt->setString("id", $this->networkTypeId);
-        $nbt->setString("pos", $this->pos->getFloorX() . ":" . $this->getPosition()->getFloorY() . ":" . $this->getPosition()->getFloorZ());
         return $nbt;
     }
 
@@ -71,7 +59,12 @@ class Pack extends Living
 
     private function getBlock(): Block
     {
-        return $this->getPosition()->getWorld()->getBlock($this->pos);
+        return $this->getPosition()->getWorld()->getBlock($this->getFloorVector());
+    }
+
+    public function getFloorVector(): Vector3
+    {
+        return new Vector3($this->getPosition()->getFloorX(), round($this->getPosition()->getY()), $this->getPosition()->getFloorZ());
     }
 
     public function getName(): string
@@ -110,6 +103,17 @@ class Pack extends Living
 
     protected function getInitialSizeInfo(): EntitySizeInfo
     {
-        return new EntitySizeInfo(0.6, 0.6);
+        return new EntitySizeInfo(0.7, 0.7);
+    }
+
+    public function onUpdate(int $currentTick): bool
+    {
+        static $animationTime = 0.0;
+        $animationTime += 0.02;
+
+        $floatSpeed = sin($animationTime) * 0.05;
+        $this->setMotion(new Vector3(0, $floatSpeed, 0));
+
+        return parent::onUpdate($currentTick);
     }
 }

@@ -3,6 +3,7 @@
 namespace Kitmap\task\repeat;
 
 use Kitmap\handler\Cache;
+use Kitmap\handler\Pack;
 use Kitmap\handler\ScoreFactory;
 use Kitmap\Main;
 use Kitmap\Session;
@@ -101,6 +102,10 @@ class PlayerTask extends Task
         }
 
         if ($tick % 50 == 0) {
+            if (Pack::$itemsAmount > 3) {
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le §qPRIME TIME §fest en cours ! Les packs donnent donc §q5 PACKS §fpar ouverture jusqu'à §q21H §f!");
+            }
+
             $time = date("H:i");
 
             if (isset(Cache::$config["planning"]["date"][$time])) {

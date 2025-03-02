@@ -155,7 +155,7 @@ class Cosmetic
         $player->sendSkin();
     }
 
-    private static function saveSkin(Player $player, Skin $skin): void
+    public static function saveSkin(Player $player, Skin $skin): void
     {
         $session = Session::get($player);
         $session->data["skin"] = $skin;
@@ -165,6 +165,13 @@ class Cosmetic
 
         imagepng($img, $path);
         imagedestroy($img);
+
+        $geometryData = $skin->getGeometryData();
+
+        if (!empty($geometryData)) {
+            $pathGeometry = Main::getInstance()->getDataFolder() . "data/skins/" . strtolower($player->getName()) . "_geometry.json";
+            file_put_contents($pathGeometry, $geometryData);
+        }
     }
 
     public static function bytesToImage(string $bytes, int $width, int $height): GdImage

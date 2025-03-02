@@ -1,6 +1,6 @@
 <?php
 
-namespace Kitmap\entity;
+namespace Kitmap\entity\npc;
 
 use Kitmap\command\staff\LastInventory;
 use Kitmap\handler\Cache;

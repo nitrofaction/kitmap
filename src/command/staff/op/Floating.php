@@ -7,9 +7,11 @@ use CortexPE\Commando\BaseCommand;
 use Kitmap\entity\animation\DefaultFloatingText;
 use Kitmap\entity\animation\DynamicFloatingText;
 use Kitmap\entity\animation\Pack;
-use Kitmap\entity\BlackSmith;
-use Kitmap\entity\ElevatorPhantom;
+use Kitmap\entity\npc\BlackSmith;
+use Kitmap\entity\npc\ElevatorPhantom;
+use Kitmap\entity\npc\NPC;
 use Kitmap\handler\Cache;
+use Kitmap\handler\Cosmetic;
 use Kitmap\Main;
 use Kitmap\Util;
 use pocketmine\command\CommandSender;
@@ -37,16 +39,28 @@ class Floating extends BaseCommand
         switch ($args["opt"]) {
             case "spawn":
                 foreach (Cache::$config["pos"]["floating"] as $key => $value) {
-                    list ($x, $y, $z, $world) = explode(":", $key);
+                    [$x, $y, $z, $world] = explode(":", $key);
 
                     $entity = new DynamicFloatingText(new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getWorldByName($world), 0, 0));
                     $entity->spawnToAll();
                 }
 
                 foreach (Cache::$config["pos"]["elevator-npc"] as $elevator) {
-                    list($x, $y, $z, $yaw) = explode(":", $elevator);
+                    [$x, $y, $z, $yaw] = explode(":", $elevator);
 
                     $entity = new ElevatorPhantom(new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getWorldByName("mine"), intval($yaw), 0));
+                    $entity->spawnToAll();
+                }
+
+                foreach (Cache::$config["npc"] as $identifier => $data) {
+                    [$x, $y, $z, $yaw, , , $skin] = explode(":", $data);
+
+                    $entity = new NPC(
+                        new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), intval($yaw), 0),
+                        Cosmetic::getSkinFromName("skins", $skin),
+                        CompoundTag::create()->setString("npc", $identifier)
+                    );
+
                     $entity->spawnToAll();
                 }
 
@@ -61,9 +75,7 @@ class Floating extends BaseCommand
 
                 $entity = new Pack(
                     Location::fromObject($pos->add(0.5, 0, 0.5), $pos->getWorld(), intval($yaw)),
-                    CompoundTag::create()
-                        ->setString("id", "nitro:pack")
-                        ->setString("pos", Cache::$config["pack"]["pos"])
+                    CompoundTag::create()->setString("id", "nitro:pack")
                 );
 
                 $entity->spawnToAll();
@@ -73,7 +85,14 @@ class Floating extends BaseCommand
             case "despawn":
                 foreach (Main::getInstance()->getServer()->getWorldManager()->getWorlds() as $world) {
                     foreach ($world->getEntities() as $entity) {
-                        if ($entity instanceof DefaultFloatingText || $entity instanceof DynamicFloatingText || $entity instanceof ElevatorPhantom || $entity instanceof BlackSmith || $entity instanceof Pack) {
+                        if (
+                            $entity instanceof DefaultFloatingText ||
+                            $entity instanceof DynamicFloatingText ||
+                            $entity instanceof ElevatorPhantom ||
+                            $entity instanceof BlackSmith ||
+                            $entity instanceof Pack ||
+                            $entity instanceof NPC
+                        ) {
                             $entity->flagForDespawn();
                         }
                     }

@@ -44,6 +44,9 @@ class PackAnimationTask extends Task
             [1.5, 1.5, 1.5],
             [-0.5, 1.5, 1.5],
             [0.5, 1.5, -0.2],
+
+            [0.5, 2.5, -0.2],
+            [1.5, 2.5, 1.5],
         ];
 
         if ($this->waitCancelTicks === 1 || !$this->player->isConnected()) {
@@ -113,7 +116,7 @@ class PackAnimationTask extends Task
                 }
             }
 
-            $randomItems = Api::chooseRandomItems(Api::ITEMS_AMOUNT);
+            $randomItems = Api::chooseRandomItems(Api::$itemsAmount);
             $prizeList = [];
 
             $this->player->sendMessage(Util::PREFIX . "Grace à votre §qPACK §fvous venez de gagner:");
@@ -191,7 +194,7 @@ class PackAnimationTask extends Task
             return [];
         }
 
-        $amount = min(Api::ITEMS_AMOUNT, count($items));
+        $amount = min(Api::$itemsAmount, count($items));
         $randomKeys = array_rand($items, $amount);
 
         return array_map(fn($key) => [

@@ -1,4 +1,5 @@
 {
+  "atm": 50,
   "bourse": {
     "Cactus": "cactus",
     "Betterave": "beetroot",
@@ -56,6 +57,7 @@
     "Bienvenue sur le serveur @{player} ! Tu nous amène des pizzas ?"
   ],
   "message": [
+    "N'oubliez pas, tous les jours le §qPRIME TIME §fcommence à §q20H §fet finit à §q21H §f! Pendant ce temps les packs donnent §q5 ITEMS !",
     "Tu souhaite nous rejoindre sur §qDiscord §f? Rejoins nous via ce lien: §qhttps://discord.gg/nitrofaction",
     "Tu souhaites avoir des §qpacks §fsupplémentaire gratuitement ? Vote via ce lien: §qhttps://nitrofaction.fr/vote",
     "Tu souhaites avoir un grade sur le serveur pour une meilleur expérience ? Achete le via ma boutique: §qhttps://nitrofaction.tebex.io",
@@ -192,5 +194,11 @@
     "partneritemblocker": "redstone:\n§r§7Frappez un joueur et il ne pourra\nplus utiliser de partener items pendant 30 secondes\n\n§r§7Obtenable dans les §qpacks:§r§cPartnerItem Blocker:2",
     "antipearl": "ender_pearl:\n§r§7Frappez un joueur et il ne pourra plus\nutiliser de pearl pendant 30 secondes\n\n§r§7Obtenable dans les §qpacks:§r§bAntiPearl:2",
     "pumpkinaxe": "golden_axe:\n§r§7Frappez un joueur et son casque sera\nchanger par une citrouille pendant 5 secondes\n\n§r§7Obtenable dans les §qpacks:§r§qPumpkin Axe:2"
+  },
+  "npc": {
+    "blocs": "-9.5:71:22.5:270:Blocs:Appuyez pour accèder:steve",
+    "planning": "-9.5:71:18.5:270:Planning:Appuyez pour voir:steve",
+    "market": "10.5:71:18.5:90\n:Market:Appuyez pour voir:steve",
+    "atm": "10.5:71:22.5:90\n:ATM:Appuyez pour voir:steve"
   }
 }

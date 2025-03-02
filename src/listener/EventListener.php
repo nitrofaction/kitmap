@@ -6,7 +6,7 @@ use Kitmap\block\ExtraVanillaBlocks;
 use Kitmap\command\player\rank\Enderchest;
 use Kitmap\command\staff\{Ban, LastInventory, Question, Vanish};
 use Kitmap\command\util\Bienvenue;
-use Kitmap\entity\{AntiBackBall, LogoutNpc, SwitchBall};
+use Kitmap\entity\{AntiBackBall, npc\LogoutNpc, SwitchBall};
 use Kitmap\entity\Player as CustomPlayer;
 use Kitmap\handler\{Cache, Cosmetic, Faction, Job, Pack, PartnerItem, Rank, Sanction};
 use Kitmap\item\Armor;
@@ -19,6 +19,8 @@ use Kitmap\Util;
 use pocketmine\block\{Anvil,
     Barrel,
     Block,
+    BlockTypeTags,
+    Cactus,
     CartographyTable,
     Chest,
     CraftingTable,
@@ -84,6 +86,7 @@ use pocketmine\inventory\CallbackInventoryListener;
 use pocketmine\inventory\Inventory;
 use pocketmine\inventory\transaction\action\SlotChangeAction;
 use pocketmine\item\{Axe, Bucket, Durable, Hoe, Item, PaintingItem, PotionType, Shovel, Stick, VanillaItems};
+use pocketmine\math\Facing;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\mcpe\protocol\ProtocolInfo;
@@ -559,11 +562,11 @@ class EventListener implements Listener
 
                 if ($damagerSession->data["staff_mod"][0]) {
                     $message = match ($damager->getInventory()->getItemInHand()->getCustomName()) {
-                        "§r" . Util::PREFIX . "Sanction" . Util::IARROW=> "custom",
-                        "§r" . Util::PREFIX . "Alias" . Util::IARROW=> "/alias \"" . $entity->getName() . "\"",
-                        "§r" . Util::PREFIX . "Freeze" . Util::IARROW=> "/freeze \"" . $entity->getName() . "\"",
-                        "§r" . Util::PREFIX . "Invsee" . Util::IARROW=> "/invsee \"" . $entity->getName() . "\"",
-                        "§r" . Util::PREFIX . "Ecsee" . Util::IARROW=> "/ecsee \"" . $entity->getName() . "\"",
+                        "§r" . Util::PREFIX . "Sanction" . Util::IARROW => "custom",
+                        "§r" . Util::PREFIX . "Alias" . Util::IARROW => "/alias \"" . $entity->getName() . "\"",
+                        "§r" . Util::PREFIX . "Freeze" . Util::IARROW => "/freeze \"" . $entity->getName() . "\"",
+                        "§r" . Util::PREFIX . "Invsee" . Util::IARROW => "/invsee \"" . $entity->getName() . "\"",
+                        "§r" . Util::PREFIX . "Ecsee" . Util::IARROW => "/ecsee \"" . $entity->getName() . "\"",
                         default => null
                     };
 
@@ -641,9 +644,9 @@ class EventListener implements Listener
 
         if ($session->data["staff_mod"][0]) {
             $command = match ($item->getCustomName()) {
-                "§r" . Util::PREFIX . "Vanish" . Util::IARROW=> "/vanish",
-                "§r" . Util::PREFIX . "Random Tp" . Util::IARROW=> "/randomtp",
-                "§r" . Util::PREFIX . "Spectateur" . Util::IARROW=> "/spec",
+                "§r" . Util::PREFIX . "Vanish" . Util::IARROW => "/vanish",
+                "§r" . Util::PREFIX . "Random Tp" . Util::IARROW => "/randomtp",
+                "§r" . Util::PREFIX . "Spectateur" . Util::IARROW => "/spec",
                 default => null
             };
 
@@ -801,8 +804,34 @@ class EventListener implements Listener
 
     public function onGrow(BlockGrowEvent $event): void
     {
-        if ($event->getBlock()->getPosition()->getWorld()->getFolderName() === "mine") {
+        $oldState = $event->getBlock();
+
+        if ($oldState->getPosition()->getWorld()->getFolderName() === "mine") {
             $event->cancel();
+            return;
+        }
+
+        $newState = $event->getNewState();
+
+        if (!$newState instanceof Cactus) {
+            return;
+        }
+
+        $position = $oldState->getPosition();
+        $world = $position->getWorld();
+
+        $supportBlock = $world->getBlockAt($position->x, $position->y - 1, $position->z);
+
+        if (!$supportBlock->hasSameTypeId($newState) && !$supportBlock->hasTypeTag(BlockTypeTags::SAND)) {
+            Faction::addCactus($event);
+            return;
+        }
+
+        foreach (Facing::HORIZONTAL as $side) {
+            /** @noinspection PhpDeprecationInspection */
+            if ($oldState->getSide($side)->isSolid()) {
+                Faction::addCactus($event);
+            }
         }
     }
 
@@ -844,6 +873,7 @@ class EventListener implements Listener
     {
         ExtraVanillaBlocks::getBlock($event->getBlock())->onSupportBreak($event);
     }*/
+
 
     public function onBreak(BlockBreakEvent $event): void
     {

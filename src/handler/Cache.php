@@ -2,7 +2,7 @@
 
 namespace Kitmap\handler;
 
-use Kitmap\entity\LogoutNpc;
+use Kitmap\entity\npc\LogoutNpc;
 use Kitmap\Main;
 use Kitmap\Util;
 use pocketmine\player\Player;

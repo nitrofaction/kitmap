@@ -1,6 +1,6 @@
 <?php
 
-namespace Kitmap\entity;
+namespace Kitmap\entity\npc;
 
 use Kitmap\handler\Cache;
 use Kitmap\Util;

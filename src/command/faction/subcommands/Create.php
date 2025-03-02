@@ -72,6 +72,7 @@ class Create extends FactionCommand
                 "rename" => "officier",
                 "demote" => "officier",
                 "promote" => "officier",
+                "cactus" => "officier",
 
                 "place" => "member",
                 "break" => "member",
@@ -85,6 +86,7 @@ class Create extends FactionCommand
             ],
             "activity" => [],
             "power" => 0,
+            "cactus" => 0,
             "island" => [
                 "lock" => false,
                 "zone" => [

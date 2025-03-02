@@ -25,7 +25,8 @@
     "set-spawn": "Changer le point de spawn de l'ile",
     "delete-island": "Supprimer l'ile",
     "lock": "Gérer les visiteurs de l'ile",
-    "time": "Gérer la météo de l'ile"
+    "time": "Gérer la météo de l'ile",
+    "cactus": "Récupère les cactus qui ont poussé"
   },
   "rank": {
     "leader": "Chef",

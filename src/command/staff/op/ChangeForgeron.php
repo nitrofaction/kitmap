@@ -3,7 +3,7 @@
 namespace Kitmap\command\staff\op;
 
 use CortexPE\Commando\BaseCommand;
-use Kitmap\entity\BlackSmith;
+use Kitmap\entity\npc\BlackSmith;
 use Kitmap\handler\Cache;
 use Kitmap\Main;
 use Kitmap\Util;

@@ -2,6 +2,8 @@
 
 namespace Kitmap\handler;
 
+use DateTime;
+use DateTimeZone;
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\SimpleForm;
 use Kitmap\Main;
@@ -18,11 +20,12 @@ use pocketmine\world\sound\ChestOpenSound;
 
 class Pack
 {
-    const ITEMS_AMOUNT = 3;
+    public static int $itemsAmount = 3;
 
     public static function openPackUI(Player $player, ?Block $animationBlock = null): void
     {
         $session = Session::get($player);
+        $primeTime = self::getPrimeTime();
 
         $form = new SimpleForm(function (Player $player, mixed $data) use ($session, $animationBlock) {
             if (!is_int($data)) {
@@ -48,7 +51,11 @@ class Pack
         });
         $form->setTitle("Pack ");
         $form->setContent(Util::PREFIX . "Vous possedez actuellement §q" . $session->data["packs"] . " §fpack(s)");
-        $form->addButton("Ouvrir un pack");
+        if ($primeTime[0]) {
+            $form->addButton("Ouvrir un pack\n§8(§aPrime time pendant encore: " . Util::formatDurationFromSeconds($primeTime[1], 1) . "§8)");
+        } else {
+            $form->addButton("Ouvrir un pack\n(§8§cPrime time dans: " . Util::formatDurationFromSeconds($primeTime[1], 1) . "§8)");
+        }
         $form->addButton("Acheter un pack");
         $form->addButton("Visualiser les lots");
         $player->sendForm($form);
@@ -79,7 +86,7 @@ class Pack
         } else {
             $player->getWorld()->addSound($player->getPosition()->add(0.5, 0.5, 0.5), new ChestOpenSound());
 
-            $randomItems = self::chooseRandomItems(self::ITEMS_AMOUNT);
+            $randomItems = self::chooseRandomItems(self::$itemsAmount);
             $player->sendMessage(Util::PREFIX . "Grâce à votre §qPACK §fvous venez de gagner:");
 
             $prizeList = [];
@@ -270,5 +277,18 @@ class Pack
         }
 
         return $selectedItems;
+    }
+
+    private static function getPrimeTime(): array
+    {
+        $now = new DateTime("now", new DateTimeZone("Europe/Paris"));
+        $primeTime = new DateTime("today 20:00:00", new DateTimeZone("Europe/Paris"));
+
+        if ($now > $primeTime) {
+            $primeTime = new DateTime("today 21:00:00", new DateTimeZone("Europe/Paris"));
+            return [true, $primeTime->getTimestamp() - $now->getTimestamp()];
+        }
+
+        return [false, $primeTime->getTimestamp() - $now->getTimestamp()];
     }
 }

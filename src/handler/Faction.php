@@ -11,6 +11,7 @@ use pocketmine\block\Chest;
 use pocketmine\block\Door;
 use pocketmine\block\FenceGate;
 use pocketmine\block\Trapdoor;
+use pocketmine\event\block\BlockGrowEvent;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
@@ -158,6 +159,55 @@ class Faction
     public static function addPower(string $faction, int $amount): void
     {
         self::setPower($faction, $amount + self::getPower($faction));
+
+        if (self::getPower($faction) < 0) {
+            self::setPower($faction, 0);
+        }
+    }
+
+    public static function addCactus(BlockGrowEvent $event): void
+    {
+        $pos = $event->getBlock()->getPosition();
+        $worldName = $pos->getWorld()->getFolderName();
+
+        if (!str_starts_with($worldName, "island-")) {
+            return;
+        }
+
+        $faction = explode("-", $worldName)[1];
+
+        if (!self::exists($faction)) {
+            return;
+        }
+
+        $event->cancel();
+
+        self::setCactus($faction, 1 + self::getCactus($faction));
+
+        if (self::getPower($faction) < 0) {
+            self::setPower($faction, 0);
+        }
+
+        foreach (self::getFactionMembers($faction, true) as $player) {
+            if ($player instanceof Player && Session::get($player)->data["cactus"]) {
+                $player->sendTip(Util::PREFIX . "+1 §qcactus" . Util::IARROW);
+            }
+        }
+    }
+
+    public static function getCactus(string $faction): int
+    {
+        return Cache::$factions[$faction]["cactus"];
+    }
+
+    private static function setCactus(string $faction, int $amount): void
+    {
+        Cache::$factions[$faction]["cactus"] = $amount;
+    }
+
+    public static function removeCactus(string $faction, int $amount): void
+    {
+        self::setCactus($faction, self::getCactus($faction) - $amount);
 
         if (self::getPower($faction) < 0) {
             self::setPower($faction, 0);

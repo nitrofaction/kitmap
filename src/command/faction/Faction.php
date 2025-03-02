@@ -5,6 +5,7 @@ namespace Kitmap\command\faction;
 use CortexPE\Commando\BaseCommand;
 use Kitmap\command\faction\subcommands\Accept;
 use Kitmap\command\faction\subcommands\Admin;
+use Kitmap\command\faction\subcommands\Cactus;
 use Kitmap\command\faction\subcommands\Chat;
 use Kitmap\command\faction\subcommands\Claim;
 use Kitmap\command\faction\subcommands\Create;
@@ -43,6 +44,7 @@ class Faction extends BaseCommand
 
     protected function prepare(): void
     {
+        $this->registerSubCommand(new Cactus());
         $this->registerSubCommand(new Chat());
         $this->registerSubCommand(new Claim());
         $this->registerSubCommand(new Island());

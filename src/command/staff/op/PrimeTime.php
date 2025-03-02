@@ -1,0 +1,47 @@
+<?php /** @noinspection PhpUnused */
+
+namespace Kitmap\command\staff\op;
+
+use CortexPE\Commando\args\OptionArgument;
+use CortexPE\Commando\BaseCommand;
+use Kitmap\handler\Pack;
+use Kitmap\Main;
+use Kitmap\Util;
+use pocketmine\command\CommandSender;
+use pocketmine\permission\DefaultPermissions;
+use pocketmine\plugin\PluginBase;
+
+class PrimeTime extends BaseCommand
+{
+    public function __construct(PluginBase $plugin)
+    {
+        parent::__construct(
+            $plugin,
+            "primetime",
+            "Commande pour gérer le primetime"
+        );
+
+        $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);
+    }
+
+    public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
+    {
+        $opt = $args["opt"];
+
+        switch ($opt) {
+            case "start";
+                Pack::$itemsAmount = 5;
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le §qPRIME TIME §fcommence maintenant ! Jusqu'à §q21h§f, les packs donnent §q5 items §f!");
+                break;
+            case "end":
+                Pack::$itemsAmount = 3;
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le §qPRIME TIME §fest terminé ! Les packs donnent maintenant plus §q3 items §f! À demain !");
+                break;
+        }
+    }
+
+    protected function prepare(): void
+    {
+        $this->registerArgument(0, new OptionArgument("opt", ["start", "end"]));
+    }
+}
