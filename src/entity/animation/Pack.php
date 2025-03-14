@@ -2,44 +2,26 @@
 
 namespace Kitmap\entity\animation;
 
+use Kitmap\entity\FireworksRocket;
 use Kitmap\handler\Pack as Api;
+use Kitmap\item\Fireworks;
 use Kitmap\Util;
 use pocketmine\block\Block;
-use pocketmine\entity\Attribute;
-use pocketmine\entity\EntitySizeInfo;
-use pocketmine\entity\Living;
+use pocketmine\entity\Human;
 use pocketmine\entity\Location;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\item\ItemIdentifier;
+use pocketmine\item\ItemTypeIds;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\network\mcpe\protocol\AddActorPacket;
-use pocketmine\network\mcpe\protocol\types\entity\Attribute as NetworkAttribute;
-use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
-use pocketmine\network\mcpe\protocol\types\entity\PropertySyncData;
 use pocketmine\player\Player;
 
-class Pack extends Living
+class Pack extends Human
 {
-    private string $networkTypeId;
+    private Fireworks $item;
 
-    public function __construct(Location $location, ?CompoundTag $nbt = null)
-    {
-        $this->networkTypeId = $nbt->getString("id", EntityIds::AGENT);
-        parent::__construct($location, $nbt);
-    }
-
-    public static function getNetworkTypeId(): string
-    {
-        return EntityIds::AGENT;
-    }
-
-    public function saveNBT(): CompoundTag
-    {
-        $nbt = parent::saveNBT();
-        $nbt->setString("id", $this->networkTypeId);
-        return $nbt;
-    }
+    private int $ticks = 0;
 
     public function attack(EntityDamageEvent $source): void
     {
@@ -75,13 +57,44 @@ class Pack extends Living
 
     public function onUpdate(int $currentTick): bool
     {
-        static $animationTime = 0.0;
-        $animationTime += 0.02;
+        $this->ticks++;
+        $this->location->yaw += 3;
 
-        $floatSpeed = sin($animationTime) * 0.05;
-        $this->setMotion(new Vector3(0, $floatSpeed, 0));
+        $this->move($this->motion->x, $this->motion->y, $this->motion->z);
+        $this->updateMovement();
+
+        $fireworkData = [
+            5 => Fireworks::COLOR_BLUE,
+            13 => Fireworks::COLOR_WHITE,
+            21 => Fireworks::COLOR_GREEN
+        ];
+
+        if (isset($fireworkData[$this->ticks])) {
+            $color = $fireworkData[$this->ticks];
+            $this->spawnFirework($color);
+        }
+
+        if ($this->ticks >= 1000) {
+            $this->ticks = 0;
+        }
 
         return parent::onUpdate($currentTick);
+    }
+
+    private function spawnFirework(string $color): void
+    {
+        $this->item->addExplosion(mt_rand(2, 4), $color, "", true, true);
+
+        $positions = [
+            5 => [1.5, 0, 1.5],
+            13 => [0, 0, 0],
+            21 => [-1.5, 0, -1.5]
+        ];
+
+        $pos = $positions[$this->ticks] ?? [0, 0, 0];
+        $entity = new FireworksRocket(Location::fromObject($this->location->add(...$pos), $this->location->world), $this->item);
+        $entity->setLifeTime(mt_rand(17, 20));
+        $entity->spawnToAll();
     }
 
     protected function initEntity(CompoundTag $nbt): void
@@ -89,32 +102,9 @@ class Pack extends Living
         parent::initEntity($nbt);
 
         $this->setNameTagAlwaysVisible(false);
-        $this->setScale(1.5);
-    }
+        $this->setScale(4);
+        $this->setNoClientPredictions();
 
-    protected function sendSpawnPacket(Player $player): void
-    {
-        $player->getNetworkSession()->sendDataPacket(AddActorPacket::create(
-            $this->getId(),
-            $this->getId(),
-            $this->networkTypeId,
-            $this->location->asVector3(),
-            $this->getMotion(),
-            $this->location->pitch,
-            $this->location->yaw,
-            $this->location->yaw,
-            $this->location->yaw,
-            array_map(function (Attribute $attr): NetworkAttribute {
-                return new NetworkAttribute($attr->getId(), $attr->getMinValue(), $attr->getMaxValue(), $attr->getValue(), $attr->getDefaultValue(), []);
-            }, $this->attributeMap->getAll()),
-            $this->getAllNetworkData(),
-            new PropertySyncData([], []),
-            []
-        ));
-    }
-
-    protected function getInitialSizeInfo(): EntitySizeInfo
-    {
-        return new EntitySizeInfo(0.7, 0.7);
+        $this->item = new Fireworks(new ItemIdentifier(ItemTypeIds::newId()), "Fireworks");
     }
 }

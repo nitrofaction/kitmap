@@ -14,6 +14,15 @@ Open-source for pocketmine dev: use for personal projects, but not commercially 
 
 Send me a message on [discord](https://discordapp.com/users/1042541730823667814) (username: .roimee6)
 
+## Virions Used
+
+[bossbarpi](https://github.com/nitrofaction/virions)  
+[commando](https://github.com/nitrofaction/virions)  
+[formapi](https://github.com/nitrofaction/virions)  
+[invmenu](https://github.com/nitrofaction/virions)  
+[npcdialogue](https://github.com/nitrofaction/virions)  
+[simplepackethandler](https://github.com/nitrofaction/virions)
+
 ## Contributing
 
 Feel free to [open an issue](https://github.com/nitrofaction/kitmap/issues/new).

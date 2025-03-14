@@ -39,7 +39,7 @@ class Jobs extends BaseCommand
             $form->setTitle("Métiers");
             $form->setContent(Util::PREFIX . "Cliquez sur un métier pour avoir plus d'informations sur son propos");
             foreach (Cache::$config["job"] as $name => $data) {
-                $form->addButton("§8" . $name . "§q: §8" . Api::getProgressBar($sender, $name, "UI") . "\n" . Api::getProgressBar($sender, $name), -1, "", $name);
+                $form->addButton("§8" . $name . "§q: §8" . Api::getProgressBar($sender, $name, 1) . "\n" . Api::getProgressBar($sender, $name), -1, "", $name);
             }
             $sender->sendForm($form);
         }

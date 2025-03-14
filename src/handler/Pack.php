@@ -237,7 +237,7 @@ class Pack
 
         foreach (Cache::$config["pack"]["rewards"] as $data) {
             $item = Util::parseItem($data[2]);
-            $item->setCustomName("§r§q" . $data[0] . "% §f- " . ucfirst($data[1]));
+            $item->setCustomName("§r" . Util::PREFIX . ucfirst($data[1]) . Util::IARROW);
             $item->getNamedTag()->setInt("menu_item", 0);
             $menu->getInventory()->setItem($i, $item);
             $i++;

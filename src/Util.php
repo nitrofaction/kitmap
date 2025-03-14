@@ -7,6 +7,7 @@ use Kitmap\command\player\XpBottle;
 use Kitmap\command\util\money\Money;
 use Kitmap\handler\Cache;
 use Kitmap\handler\Job;
+use Kitmap\handler\PartnerItem;
 use Kitmap\handler\ScoreFactory;
 use pocketmine\block\Block;
 use pocketmine\block\FenceGate;
@@ -624,8 +625,10 @@ class Util
                 return Money::createPaperMoney(intval($data[1]) ?? 1);
             case "kit":
                 return Kit::createPaperKit($data[1]);
+            case "partneritem":
+                return PartnerItem::createPartnerItemPaper(intval($data[1] ?? 1));
             case "boost":
-                return Job::createBoostPaper(intval($data[1]) ?? 1, intval($data[1]) ?? 1);
+                return Job::createBoostPaper(intval($data[1] ?? 1), intval($data[2] ?? 1));
             default:
                 $item = StringToItemParser::getInstance()->parse($data[1]) ?? VanillaItems::AIR();
                 $item = $item->setCount(intval($data[2] ?? 1));

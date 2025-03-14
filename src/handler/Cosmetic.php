@@ -39,7 +39,6 @@ class Cosmetic
         return new Skin($skin->getSkinId(), $skinData, "", "geometry." . $name, $geometryData);
     }
 
-
     public static function combineSkin(string $skinBytes, string $cosmeticBytes): string
     {
         $newSkinBytesArr1 = [];

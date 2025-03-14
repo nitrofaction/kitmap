@@ -39,8 +39,8 @@ class MonsterSpawner extends Block
             ExtraVanillaItems::registerItem(
                 "monster_spawner_" . str_replace("", "_", strtolower($entity["name"])),
                 $item,
-                $name,
-                $i === 0
+                $i === 0,
+                $name
             );
 
             $i++;

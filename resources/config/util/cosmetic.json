@@ -1,82 +1,13 @@
 {
   "capes": {
+    "name": "Capes",
     "texture": "",
-    "calvitiedayx": {
-      "gem": 100,
-      "money": 2000000,
-      "texture": "",
-      "button": "Cape calvitie Dayx",
-      "description": "Une cape ou on voit la grosse calvitie de notre cher staff et gendarme dayx"
-    },
-    "maxelya": {
-      "gem": 100,
-      "money": 2000000,
-      "texture": "",
-      "button": "Cape Maxence X Malya",
-      "description": "La cape du face app de maxence melangé avec la tête de neuille malya"
-    },
-    "azzurijona": {
-      "gem": 100,
-      "money": 2000000,
-      "texture": "",
-      "button": "Cape Azzuri X Jona",
-      "description": "La cape du face app de azzuri melangé avec la tête du porciné jona"
-    },
-    "batoricave": {
-      "gem": 100,
-      "money": 2000000,
-      "texture": "",
-      "button": "Cape Batori Cave",
-      "description": "La cape de batori dans sa cave de président"
-    },
-    "batorigrooos": {
-      "gem": 100,
-      "money": 2000000,
-      "texture": "",
-      "button": "Cape Batori Grooos",
-      "description": "La cape de batori gros dans son haul"
-    },
-    "batorigros": {
-      "gem": 100,
-      "money": 2000000,
-      "texture": "",
-      "button": "Cape Batori Gros",
-      "description": "La cape de batori gros en selfie"
-    },
     "bienbien": {
       "gem": 100,
       "money": 2000000,
       "texture": "",
       "button": "Cape Bien Bien",
       "description": "La cape des envieux"
-    },
-    "eddintler": {
-      "gem": 100,
-      "money": 2000000,
-      "texture": "",
-      "button": "Cape Eddintler",
-      "description": "La cape d'eddin melangé à eddin"
-    },
-    "mehdineuille": {
-      "gem": 100,
-      "money": 2000000,
-      "texture": "",
-      "button": "Cape Mehdineuille",
-      "description": "La cape de mehdi avec une tête de neuille"
-    },
-    "napszzuri": {
-      "gem": 100,
-      "money": 2000000,
-      "texture": "",
-      "button": "Cape Napszzuri",
-      "description": "La cape de azzuri melangé avec NAPS"
-    },
-    "setupcoran": {
-      "gem": 100,
-      "money": 2000000,
-      "texture": "",
-      "button": "Cape setup coran",
-      "description": "La cape du setup avec un coran épinglé au mur comme si c'était un trophé"
     },
     "singe": {
       "gem": 100,
@@ -85,12 +16,23 @@
       "button": "Cape singe",
       "description": "C'est comme ça les mra te voit quand t'as pas d'argent"
     },
-    "trollymbappe": {
+    "harr": {
       "gem": 100,
       "money": 2000000,
       "texture": "",
-      "button": "Cape TrollyMbappe",
-      "description": "Cape de trolly mélangé à mbappé"
+      "button": "C'est harr",
+      "description": "Tellement c'était harr j'ai laché une larme"
+    }
+  },
+  "hats": {
+    "name": "Chapeaux",
+    "texture": "",
+    "mushroom": {
+      "gem": 100,
+      "money": 2000000,
+      "texture": "",
+      "button": "Champignon",
+      "description": "Un gros champignon sur votre §qtête §f!"
     }
   }
 }

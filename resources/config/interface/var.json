@@ -230,7 +230,8 @@
     "antibuild": "bone:\n§r§7Frappez un joueur pour quil ne puisse\nplus placer de blocs pendant 15 secondes\n\n§r§7Obtenable dans les §qpacks:§r§4AntiBuild:2",
     "partneritemblocker": "redstone:\n§r§7Frappez un joueur et il ne pourra\nplus utiliser de partener items pendant 30 secondes\n\n§r§7Obtenable dans les §qpacks:§r§cPartnerItem Blocker:2",
     "antipearl": "ender_pearl:\n§r§7Frappez un joueur et il ne pourra plus\nutiliser de pearl pendant 30 secondes\n\n§r§7Obtenable dans les §qpacks:§r§bAntiPearl:2",
-    "pumpkinaxe": "golden_axe:\n§r§7Frappez un joueur et son casque sera\nchanger par une citrouille pendant 5 secondes\n\n§r§7Obtenable dans les §qpacks:§r§qPumpkin Axe:2"
+    "pumpkinaxe": "golden_axe:\n§r§7Frappez un joueur et son casque sera\nchanger par une citrouille pendant 5 secondes\n\n§r§7Obtenable dans les §qpacks:§r§qPumpkin Axe:2",
+    "shuffle": "stone_axe:\n§r§7Frappez un joueur et épée sera changé \nde place dans son inventaire\n\n§r§7Obtenable dans les §qpacks:§r§bShuffle:2"
   },
   "npc": {
     "mine": [

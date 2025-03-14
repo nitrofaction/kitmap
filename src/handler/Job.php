@@ -14,7 +14,7 @@ use pocketmine\world\sound\XpCollectSound;
 
 class Job
 {
-    public static function getProgressBar(Player $player, string $job, string $option = null): string
+    public static function getProgressBar(Player $player, string $job, int $option = 100): string
     {
         $levelIndex = self::getLevelIndex($player, $job);
         $levelData = self::getLevelDataByIndex($job, $levelIndex);
@@ -24,7 +24,7 @@ class Job
         $nextXp = $levelData["xp"];
         $lastLevelIndex = self::getLastLevelIndex($job);
 
-        if ($option === "UI") {
+        if ($option === 1) {
             if ($levelIndex >= $lastLevelIndex) {
                 return "0§q/§8-1 §q- §8Level: §q" . $levelIndex + 1;
             } else {
@@ -35,8 +35,8 @@ class Job
         if ($levelIndex >= $lastLevelIndex) {
             return "§qNiveau maximum atteint";
         } else {
-            $progress = intval(max(1, round((($xp / $nextXp) * 100) / 2, 2)));
-            return "§a" . str_repeat("|", $progress) . "§q" . str_repeat("|", 50 - $progress);
+            $progress = intval(max(1, round((($xp / $nextXp) * $option) / 2, 2)));
+            return "§q" . str_repeat("|", $progress) . "§8" . str_repeat("|", ($option/2) - $progress);
         }
     }
 
@@ -77,7 +77,7 @@ class Job
         $totalXp = self::getXp($player, $job) + $xp;
 
         if ($tip) {
-            $player->sendTip(Util::PREFIX . "+ §q" . $xp . " §f" . $job . Util::IARROW);
+            $player->sendTip(Util::PREFIX . "+ §q" . $xp . " §f" . $job . " §8(" . self::getProgressBar($player, $job, 50) . "§8)" . Util::IARROW);
         }
 
         if ($totalXp > $nextXp) {

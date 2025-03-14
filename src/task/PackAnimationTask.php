@@ -41,12 +41,12 @@ class PackAnimationTask extends Task
         $this->waitCancelTicks--;
 
         $spawnOffsets = [
-            [1.5, 1.5, 1.5],
-            [-0.5, 1.5, 1.5],
-            [0.5, 1.5, -0.2],
+            [1.8, 1.5, 1.8],
+            [-0.8, 1.5, 1.8],
+            [0.8, 1.5, -0.7],
 
-            [0.5, 2.5, -0.2],
-            [1.5, 2.5, 1.5],
+            [0.8, 2.5, -0.7],
+            [1.8, 2.5, 1.8],
         ];
 
         if ($this->waitCancelTicks === 1 || !$this->player->isConnected()) {
@@ -183,7 +183,7 @@ class PackAnimationTask extends Task
 
         $radius = 2.5;
         $height = 0.5;
-        $particleCount = 15;
+        $particleCount = 10;
 
         $angleOffset = $tick * 0.1;
 
@@ -194,7 +194,7 @@ class PackAnimationTask extends Task
             $y = $position->y + $height;
 
             if ($i % 2 === 0) {
-                $particle = new DustParticle(new Color(0, 0, 0));
+                $particle = new DustParticle(new Color(255, 255, 255));
             } else {
                 $particle = new DustParticle(new Color(34, 139, 34));
             }

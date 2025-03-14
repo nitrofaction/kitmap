@@ -318,6 +318,27 @@ class PartnerItem
                     }), 5 * 20);
                 }
                 break;
+            case "shuffle":
+                if ($playerSession->inCooldown($name)) {
+                    $player->sendMessage(Util::PREFIX . "Veuillez attendre §q" . ($playerSession->getCooldownData($name)[0] - time()) . " §fseconde(s) avant de réutiliser une shuffle axe");
+                    return;
+                }
+
+                $playerSession->setCooldown($name, 60);
+
+                $player->sendMessage(Util::PREFIX . "Vous venez d'utiliser une shuffle axe sur §q" . $target->getDisplayName());
+                $target->sendMessage(Util::PREFIX . "Le joueur §q" . $player->getDisplayName() . " §fvient d'utiliser une shuffle axe sur vous");
+
+                $inventory = $target->getInventory();
+
+                $slot = mt_rand(1, 6);
+
+                $firstItem = $inventory->getItem(0);
+                $secondItem = $inventory->getItem($slot);
+
+                $inventory->setItem(0, $secondItem);
+                $inventory->setItem($slot, $firstItem);
+                break;
             case "partneritemblocker":
                 if ($playerSession->inCooldown($name)) {
                     $player->sendMessage(Util::PREFIX . "Veuillez attendre §q" . ($playerSession->getCooldownData($name)[0] - time()) . " §fseconde(s) avant de réutiliser un partneritem blocker");
@@ -346,5 +367,14 @@ class PartnerItem
 
         $item->pop();
         $player->getInventory()->setItemInHand($item->isNull() ? VanillaItems::AIR() : $item);
+    }
+
+    public static function createPartnerItemPaper(int $amount): Item
+    {
+        $item = VanillaItems::PAPER();
+        $item->getNamedTag()->setInt("partneritem", $amount);
+        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
+        $item->setCustomName("§r§q" . $amount . " PartnerItems");
+        return $item;
     }
 }

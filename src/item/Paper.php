@@ -2,6 +2,8 @@
 
 namespace Kitmap\item;
 
+use Kitmap\handler\Cache;
+use Kitmap\handler\PartnerItem;
 use Kitmap\Session;
 use Kitmap\Util;
 use pocketmine\event\player\PlayerItemUseEvent;
@@ -17,7 +19,28 @@ class Paper extends Item
             $money = $item->getNamedTag()->getInt("money");
 
             Session::get($player)->addValue("money", $money);
-            $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir §q" . $money . "$ !");
+            $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir §q" . $money . "$ §f!");
+
+            $this->projectileSucces($player, $item);
+            $event->cancel();
+
+            return true;
+        } else if (!is_null($item->getNamedTag()->getTag("partneritem"))) {
+            $amount = $item->getNamedTag()->getInt("partneritem");
+            $keys = array_keys(Cache::$config["partneritem"]);
+
+            $selectedKeys = [];
+
+            for ($i = 0; $i < $amount; $i++) {
+                $selectedKeys[] = $keys[array_rand($keys)];
+            }
+
+            foreach ($selectedKeys as $key) {
+                $partneritem = PartnerItem::createItem($key);
+                Util::addItem($player, $partneritem);
+            }
+
+            $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir §q" . $amount . " partneritems §fdivers !");
 
             $this->projectileSucces($player, $item);
             $event->cancel();

@@ -51,7 +51,7 @@ class Cosmetic extends BaseCommand
             $form->setContent(Util::PREFIX . "Veuillez choisir la catégorie de votre choix");
 
             foreach (Cache::$config["cosmetic"] as $name => $cosmetic) {
-                $form->addButton(ucfirst($name), 0, $cosmetic["texture"], $name);
+                $form->addButton($cosmetic["name"], 0, $cosmetic["texture"], $name);
             }
 
             $form->addButton("Supprimer son cosmetique", -1, "", "remove");

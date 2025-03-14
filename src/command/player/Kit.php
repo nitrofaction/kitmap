@@ -113,7 +113,7 @@ class Kit extends BaseCommand
     {
         $unbreaking = new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 3);
         $protection = new EnchantmentInstance(VanillaEnchantments::PROTECTION(), 2);
-        $efficiency = new EnchantmentInstance(VanillaEnchantments::EFFICIENCY(), 3);
+        $efficiency = new EnchantmentInstance(VanillaEnchantments::EFFICIENCY(), 2);
         $sharpness = new EnchantmentInstance(VanillaEnchantments::SHARPNESS(), 2);
 
         return [

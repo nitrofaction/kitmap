@@ -61,7 +61,7 @@ class ExtraVanillaItems
         self::$items[Util::reprocess($item->getVanillaName())] = $replace;
     }
 
-    public static function registerItem(string $id, PmItem $item, string $customName, bool $first): void
+    public static function registerItem(string $id, PmItem $item, bool $first, ?string $customName = null): void
     {
         if ($first) {
             GlobalItemDataHandlers::getDeserializer()->map($id, fn() => clone $item->clearCustomName());
@@ -69,7 +69,12 @@ class ExtraVanillaItems
         }
 
         StringToItemParser::getInstance()->override($id, fn() => clone $item);
-        CreativeInventory::getInstance()->add($item->setCustomName($customName));
+
+        if (is_null($customName)) {
+            CreativeInventory::getInstance()->add($item);
+        } else {
+            CreativeInventory::getInstance()->add($item->setCustomName($customName));
+        }
     }
 
     public static function getVanillaItemByItem(Item $item): PmItem

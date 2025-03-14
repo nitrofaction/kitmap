@@ -108,7 +108,7 @@ class Floating extends BaseCommand
 
                 $entity = new Pack(
                     Location::fromObject($pos->add(0.5, 0, 0.5), $pos->getWorld(), intval($yaw)),
-                    CompoundTag::create()->setString("id", "nitro:pack")
+                    Cosmetic::getSkinFromName("skins", "pack")
                 );
 
                 $entity->spawnToAll();
