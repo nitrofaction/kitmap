@@ -31,7 +31,7 @@ class Annonce extends BaseCommand
         if ($sender instanceof Player) {
             $session = Session::get($sender);
 
-            if (!Rank::hasRank($sender, "elite")) {
+            if (!Rank::hasRank($sender, "ultra")) {
                 $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
                 return;
             } else if ($session->inCooldown("mute")) {

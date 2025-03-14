@@ -2,6 +2,8 @@
 
 namespace Kitmap\command\staff\op;
 
+use CortexPE\Commando\args\IntegerArgument;
+use CortexPE\Commando\args\OptionArgument;
 use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\args\TargetPlayerArgument;
 use CortexPE\Commando\BaseCommand;
@@ -27,42 +29,42 @@ class Buy extends BaseCommand
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
-        $value = $args["valeur"];
         $player = $args["joueur"];
 
-        if (is_numeric($value)) {
-            Util::executeCommand("addvalue \"" . $player . "\" " . $value . " gem");
-            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §q" . $player . " §fvient d'acheter §q" . $value . " §fgemmes sur la boutique ! §qhttps://nitrofaction.tebex.io");
-        } else if (isset(Cache::$config["rank"][$value])) {
-            Util::executeCommand("setrank \"" . $player . "\" " . $value);
-            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §q" . $player . " §fvient d'acheter le grade §q" . $value . " §fsur la boutique ! §qhttps://nitrofaction.tebex.io");
-        } else {
-            if (str_contains($value, "unban")) {
-                if (!isset(Cache::$bans[$player])) {
-                    return;
-                }
+        $gem = $args["gemme"] ?? null;
+        $rank = $args["grade"] ?? null;
 
-                $maxDays = explode("-", $value)[1];
-                $maxDays = intval($maxDays);
+        $message = "§f§l=-= §r§qACHAT SUR LA BOUTIQUE §f§l=-=\n";
+        $message .= "§r§fLe joueur §q" . $player . " §fvient\n";
 
-                $data = Cache::$bans[$player];
+        if (!is_null($gem)) {
+            $gem = intval($gem);
 
-                $seconds = $data[1] - time();
-                $days = $seconds / 86400;
+            Util::executeCommand("addvalue \"" . $player . "\" " . $gem . " gem");
 
-                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §q" . $player . " §fvient d'acheter un §qunban §fsur la boutique ! §qhttps://nitrofaction.tebex.io");
-
-                if ($maxDays > $days) {
-                    Util::executeCommand("unban \"" . $player . "\"");
-                }
-            }
+            $message .= "§r§fd'acheter §q" . $gem . " GEMMES §f!\n";
         }
+
+        if (!is_null($rank)) {
+            Util::executeCommand("setrank \"" . $player . "\" " . $rank);
+            $message .= "§r§fd'acheter le grade §q" . ucfirst($rank) . " §f!\n";
+        }
+
+        $message .= "§f§q \n";
+        $message .= "§r§fUn grand merci pour ton §qsoutien §f!\n";
+        $message .= "§f§r \n";
+        $message .= "§r§qhttps://store.nitrofaction.fr\n";
+        $message .= "§f§l=§q-§f=§q-§f=§q-§f=§q-§f=§q-§f=§q-§f=§q-§f=§q-§f=§q-§f=§q-§f=§q-§f=";
+
+        Main::getInstance()->getServer()->broadcastMessage($message);
     }
 
     protected function prepare(): void
     {
         $this->registerArgument(0, new TargetPlayerArgument(false, "joueur"));
         $this->registerArgument(0, new RawStringArgument("joueur"));
-        $this->registerArgument(1, new RawStringArgument("valeur"));
+
+        $this->registerArgument(1, new OptionArgument("grade", array_keys(Cache::$config["rank"])));
+        $this->registerArgument(1, new IntegerArgument("gemme"));
     }
 }

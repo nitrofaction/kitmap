@@ -18,6 +18,7 @@ use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 use pocketmine\world\Position;
+use pocketmine\world\sound\FizzSound;
 use WeakMap;
 
 class PlayerTask extends Task
@@ -135,6 +136,8 @@ class PlayerTask extends Task
 
             if ($force || time() >= $time) {
                 $position->getWorld()->setBlock($position, $block, false);
+                $position->getWorld()->addSound($position, new FizzSound());
+
                 unset(self::$blocks[$index]);
             }
         }

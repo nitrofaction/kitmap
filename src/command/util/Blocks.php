@@ -132,7 +132,7 @@ class Blocks extends BaseCommand
                 $session = Session::get($player);
 
                 if (3000 > $session->data["money"]) {
-                    $player->removeCurrentWindow();
+                    Util::removeCurrentWindow($player);
                     $player->sendMessage(Util::PREFIX . "Un stack coute §q3k$ §fet vous n'avez plus assez d'argent pour ça !");
                     return;
                 }

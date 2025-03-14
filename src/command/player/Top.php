@@ -75,6 +75,7 @@ class Top extends BaseCommand
             "killstreak" => "Joueurs avec les plus gros §qkillstreak",
             "faction" => "Faction avec le plus de §qpowers",
             "death" => "Joueurs ayant le plus de §qmorts",
+            "elo" => "Joueurs ayant le plus d'§qelo",
             "money" => "Joueurs ayant le plus de §qpièces",
             "nerd" => "Joueurs ayant le plus de §qjoué",
             "bounty" => "Joueurs ayant la plus grosse §qprime",

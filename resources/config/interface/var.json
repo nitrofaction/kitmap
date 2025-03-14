@@ -47,7 +47,44 @@
     "w": "",
     "x": "",
     "y": "",
-    "z": ""
+    "z": "",
+    "-": "\uE200",
+    "a2": "",
+    "b2": "",
+    "c2": "",
+    "d2": "",
+    "e2": "",
+    "f2": "",
+    "g2": "",
+    "h2": "",
+    "i2": "",
+    "j2": "",
+    "k2": "",
+    "l2": "",
+    "m2": "",
+    "n2": "",
+    "o2": "",
+    "p2": "",
+    "q2": "",
+    "r2": "",
+    "s2": "",
+    "t2": "",
+    "u2": "",
+    "v2": "",
+    "w2": "",
+    "x2": "",
+    "y2": "",
+    "z2": "",
+    "12": "",
+    "22": "",
+    "32": "",
+    "42": "",
+    "52": "",
+    "62": "",
+    "72": "",
+    "82": "",
+    "92": "",
+    "02": ""
   },
   "welcome": [
     "Bienvenue à toi @{player} ! Passe du bon temps sur le serveur !",
@@ -60,7 +97,7 @@
     "N'oubliez pas, tous les jours le §qPRIME TIME §fcommence à §q20H §fet finit à §q21H §f! Pendant ce temps les packs donnent §q5 ITEMS !",
     "Tu souhaite nous rejoindre sur §qDiscord §f? Rejoins nous via ce lien: §qhttps://discord.gg/nitrofaction",
     "Tu souhaites avoir des §qpacks §fsupplémentaire gratuitement ? Vote via ce lien: §qhttps://nitrofaction.fr/vote",
-    "Tu souhaites avoir un grade sur le serveur pour une meilleur expérience ? Achete le via ma boutique: §qhttps://nitrofaction.tebex.io",
+    "Tu souhaites avoir un grade sur le serveur pour une meilleur expérience ? Achete le via ma boutique: §qhttps://store.nitrofaction.fr",
     "Tu souhaites avoir une information à propos du serveur ? Un salon §q#wiki §fest disponible sur notre discord: §qhttps://discord.gg/nitrofaction"
   ],
   "word-list": [
@@ -196,9 +233,84 @@
     "pumpkinaxe": "golden_axe:\n§r§7Frappez un joueur et son casque sera\nchanger par une citrouille pendant 5 secondes\n\n§r§7Obtenable dans les §qpacks:§r§qPumpkin Axe:2"
   },
   "npc": {
-    "blocs": "-9.5:71:22.5:270:Blocs:Appuyez pour accèder:steve",
-    "planning": "-9.5:71:18.5:270:Planning:Appuyez pour voir:steve",
-    "market": "10.5:71:18.5:90\n:Market:Appuyez pour voir:steve",
-    "atm": "10.5:71:22.5:90\n:ATM:Appuyez pour voir:steve"
+    "mine": [
+      "-9.5:71:17.5:270:Mine:§8(§7Tape moi§8):mine"
+    ],
+    "wiki": [
+      "-9.5:71:20.5:270:Wiki:§8(§7Tape moi§8):wiki"
+    ],
+    "blocs": [
+      "-9.5:71:23.5:270:Blocs:§8(§7Tape moi§8):block"
+    ],
+    "atm": [
+      "10.5:71:17.5:90:ATM:§8(§7Tape moi§8):atm"
+    ],
+    "market": [
+      "10.5:71:20.5:90:Market:§8(§7Tape moi§8):market"
+    ],
+    "planning": [
+      "10.5:71:23.5:90:Planning:§8(§7Tape moi§8):planning"
+    ],
+    "casino": [
+      "20.5:70:47.5:180:Croupier:§8(Tape moi):casino",
+      "26.5:70:40.5:90:Croupier:§8(Tape moi):casino"
+    ]
+  },
+  "char-width": {
+    " ": 4,
+    "!": 2,
+    "'": 5,
+    "\\'": 3,
+    "(": 5,
+    ")": 5,
+    "*": 5,
+    ",": 2,
+    ".": 2,
+    ":": 2,
+    ";": 2,
+    "<": 5,
+    ">": 5,
+    "@": 7,
+    "I": 4,
+    "[": 4,
+    "]": 4,
+    "f": 5,
+    "i": 2,
+    "k": 5,
+    "l": 3,
+    "t": 4,
+    "": 5,
+    "|": 2,
+    "~": 7,
+    "█": 9,
+    "░": 8,
+    "▒": 9,
+    "▓": 9,
+    "▌": 5,
+    "─": 9
+  },
+  "entities": {
+    "minecraft:zombie": {
+      "height": 1.9,
+      "width": 0.6,
+      "name": "Zombie",
+      "french": "Zombie",
+      "drops": [
+        "1,2:rotten_flesh:1,3",
+        "1,500:zombie_head:1"
+      ],
+      "xp": 1
+    },
+    "minecraft:piglin": {
+      "height": 2,
+      "width": 0.6,
+      "name": "Piglin",
+      "french": "Piglin",
+      "drops": [
+        "1,2:gold_ingot:1,3",
+        "1,500:piglin_head:1"
+      ],
+      "xp": 4
+    }
   }
 }

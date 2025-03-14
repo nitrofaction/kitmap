@@ -31,19 +31,21 @@ class ResetStats extends BaseCommand
         if ($sender instanceof Player) {
             $session = Session::get($sender);
 
-            if (!Rank::hasRank($sender, "champion")) {
+            if (!Rank::hasRank($sender, "vip-plus")) {
                 $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
                 return;
             }
 
             $session->data["kill"] = 0;
             $session->data["death"] = 0;
+            $session->data["elo"] = 0;
             $session->data["killstreak"] = 0;
 
             $username = strtolower($sender->getName());
 
             Cache::$players["kill"][$username] = 0;
             Cache::$players["death"][$username] = 0;
+            Cache::$players["elo"][$username] = 0;
             Cache::$players["killstreak"][$username] = 0;
 
             $sender->sendMessage(Util::PREFIX . "Vous venez de réinitialiser vos statistiques");

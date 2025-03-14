@@ -15,7 +15,7 @@ use pocketmine\plugin\PluginBase;
 
 class Vote extends BaseCommand
 {
-    private static string $key = "jo4yngTLLYUykNvdlbScwsxOp7ouOVVu5c";
+    private static string $key = "X5oTRtGxtg9o6GQ6tPGpNyCEmwKYykxEhu4";
 
     public function __construct(PluginBase $plugin)
     {

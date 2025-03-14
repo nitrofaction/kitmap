@@ -3,51 +3,61 @@
     "gamertag": "§7[{fac}] {name}",
     "chat": "§7[{fac}] §7{name}:§7 {msg}",
     "outpost": 5000,
-    "tax": 5,
+    "tax": 10,
     "pack": 0,
     "enderchest": 10,
     "hdv": 10,
-    "pv": 2
+    "pv": 1,
+    "xp": 0,
+    "boost": 0
   },
-  "champion": {
-    "gamertag": "§e[§7{fac}§e] §7{name}",
-    "chat": "§e[§7{fac}§e][Champion] §7{name}§e:§7 {msg}",
+  "vip": {
+    "gamertag": "§t[§7{fac}§t] §7{name}",
+    "chat": "§t[§7{fac}§t][VIP] §7{name}§t:§7 {msg}",
     "outpost": 5000,
-    "tax": 4,
+    "tax": 8,
     "pack": 1,
     "enderchest": 13,
     "hdv": 15,
-    "pv": 4
+    "pv": 2,
+    "xp": 20,
+    "boost": 5
   },
-  "prince": {
-    "gamertag": "§c[§7{fac}§c] §7{name}",
-    "chat": "§c[§7{fac}§c][Prince] §7{name}§c:§7 {msg}",
-    "outpost": 5500,
-    "tax": 3,
+  "vip-plus": {
+    "gamertag": "§v[§7{fac}§v] §7{name}",
+    "chat": "§v[§7{fac}§v][VIP+] §7{name}§v:§7 {msg}",
+    "outpost": 6000,
+    "tax": 5,
     "pack": 2,
     "enderchest": 17,
     "hdv": 20,
-    "pv": 6
+    "pv": 4,
+    "xp": 40,
+    "boost": 5
   },
-  "elite": {
+  "ultra": {
     "gamertag": "§c[{fac}] {name}",
-    "chat": "§c[§7{fac}§c][Elite] §c{name}:§7 {msg}",
-    "outpost": 6000,
+    "chat": "§c[§7{fac}§c][Ultra] §c{name}:§7 {msg}",
+    "outpost": 8000,
     "tax": 2,
     "pack": 4,
     "enderchest": 22,
     "hdv": 25,
-    "pv": 8
+    "pv": 6,
+    "xp": 60,
+    "boost": 10
   },
-  "roi": {
-    "gamertag": "§6[{fac}] {name}",
-    "chat": "§6[§7{fac}§6][Roi] §6{name}:§7 {msg}",
-    "outpost": 6500,
-    "tax": 1,
+  "legende": {
+    "gamertag": "§u[{fac}] {name}",
+    "chat": "§u[§7{fac}§u][Légende] §u{name}:§7 {msg}",
+    "outpost": 10000,
+    "tax": 0,
     "pack": 5,
     "enderchest": 27,
     "hdv": 30,
-    "pv": 10
+    "pv": 10,
+    "xp": 80,
+    "boost": 15
   },
   "createur": {
     "gamertag": "§f[§b{fac}§f] §b{name}",

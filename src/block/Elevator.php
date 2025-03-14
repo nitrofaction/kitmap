@@ -23,7 +23,7 @@ class Elevator extends Block
         $block = $player->getPosition()->getWorld()->getBlockAt($x, $y, $z);
 
         if (!$this->getTwoBlocksAvaible($block)) {
-            $player->sendMessage(Util::PREFIX . "L'elevateur ou vous êtes est inutilisable");
+            $player->sendMessage(Util::PREFIX . "L'élévateur ou vous êtes est inutilisable");
             return false;
         }
 
@@ -38,13 +38,13 @@ class Elevator extends Block
 
         if ($found instanceof PmBlock) {
             if (!$this->getTwoBlocksAvaible($found)) {
-                $player->sendMessage(Util::PREFIX . "L'elevateur au dessus est inutilisable");
+                $player->sendMessage(Util::PREFIX . "L'élévateur au dessus est inutilisable");
                 return false;
             }
 
             $player->teleport(new Vector3($x + 0.5, $y + 1, $z + 0.5));
         } else {
-            $player->sendMessage(Util::PREFIX . "Aucun elevateur au dessus");
+            $player->sendMessage(Util::PREFIX . "Aucun élévateur au dessus");
         }
 
         return false;
@@ -77,7 +77,7 @@ class Elevator extends Block
         $block = $player->getPosition()->getWorld()->getBlockAt($x, $y, $z);
 
         if (!$this->getTwoBlocksAvaible($block)) {
-            $player->sendMessage(Util::PREFIX . "L'elevateur ou vous êtes est inutilisable");
+            $player->sendMessage(Util::PREFIX . "L'élévateur ou vous êtes est inutilisable");
             return false;
         }
 
@@ -92,13 +92,13 @@ class Elevator extends Block
 
         if ($found instanceof PmBlock) {
             if (!$this->getTwoBlocksAvaible($found)) {
-                $player->sendMessage(Util::PREFIX . "L'elevateur au dessus est inutilisable");
+                $player->sendMessage(Util::PREFIX . "L'élévateur au dessus est inutilisable");
                 return false;
             }
 
             $player->teleport(new Vector3($x + 0.5, $y + 1, $z + 0.5));
         } else {
-            $player->sendMessage(Util::PREFIX . "Aucun elevateur en dessous");
+            $player->sendMessage(Util::PREFIX . "Aucun élévateur en dessous");
         }
 
         return false;

@@ -93,10 +93,10 @@ class DynamicFloatingText extends FloatingText
                 }
             case "money-zone":
                 $this->period = null;
-                return Util::PREFIX . "Zone Money" . Util::IARROW . "\nReste ici et gagne §q50 §fpièces toutes les §q3 §fsecondes\n§fATTENTION ! Tu dois être §qseul §fsur la platforme";
-            case "blocks":
+                return Util::PREFIX . "Zone Money" . Util::IARROW . "\nReste ici et gagne §q50 §fpièces toutes les §q3 §fsecondes\n§fATTENTION ! Tu dois être §qseul §fsur la plateforme";
+            case "jump":
                 $this->period = null;
-                return Util::PREFIX . "Salle des blocs" . Util::IARROW . "\nBienvenue dans la salle des §qblocs §f!\n§fTous les blocs que vous §qcassez §fsont mis\n§fdans votre inventaire en échange de §q15 §fpièces par bloc en illimité";
+                return Util::PREFIX . "Jump" . Util::IARROW . "\nLe niveau §qROUGE §fcontient une récompense §q!!";
         }
 
         if ($name[0] === "#") {

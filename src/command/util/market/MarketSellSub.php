@@ -31,7 +31,7 @@ class MarketSellSub extends BaseSubCommand
     {
         if ($sender instanceof Player) {
             $session = Session::get($sender);
-            $rank = Rank::getEqualRank($sender->getName());
+            $rank = Rank::getEqualRankBySession($session);
 
             if (count(Market::getAuctionHousePlayerItems($sender)) === Rank::getRankValue($rank, "hdv")) {
                 $sender->sendMessage(Util::PREFIX . "Vous avez vendu trop d'item dans l'hôtel des ventes");

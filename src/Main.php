@@ -3,6 +3,7 @@
 namespace Kitmap;
 
 use CortexPE\Commando\PacketHooker;
+use cosmicpe\npcdialogue\NpcDialogueManager;
 use Kitmap\block\ExtraVanillaBlocks;
 use Kitmap\command\Commands;
 use Kitmap\entity\Entities;
@@ -13,6 +14,7 @@ use Kitmap\listener\EventListener;
 use Kitmap\task\repeat\child\GamblingTask;
 use Kitmap\task\repeat\PlayerTask;
 use muqsit\invmenu\InvMenuHandler;
+use NpcDialog\NpcDialog;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\SingletonTrait;
 
@@ -41,6 +43,9 @@ class Main extends PluginBase
         if (!PacketHooker::isRegistered()) {
             PacketHooker::register($this);
         }
+        if (!NpcDialogueManager::isRegistered()) {
+            NpcDialogueManager::register($this);
+        }
 
         new Rank();
         new Commands();
@@ -52,7 +57,7 @@ class Main extends PluginBase
         $this->getScheduler()->scheduleRepeatingTask(new PlayerTask(), 20);
         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
 
-        $this->getServer()->getWorldManager()->getDefaultWorld()->setTime(13200);
+        $this->getServer()->getWorldManager()->getDefaultWorld()->setTime(1000);
         $this->getServer()->getWorldManager()->getDefaultWorld()->stopTime();
 
         $this->getServer()->getWorldManager()->loadWorld("mine");

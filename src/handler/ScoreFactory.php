@@ -33,26 +33,27 @@ class ScoreFactory
                 self::setScore($player, "§qDomination (§7" . date("H:i") . " #8§q)");
                 $lines = DominationTask::getScoreboardLines();
             } else {
-                self::setScore($player, "§qNitro (§7" . date("H:i") . "§q)");
+                self::setScore($player, "§8§l» §r§qNitro §l§8«");
 
-                $rank = ($player->getName() === $player->getDisplayName()) ? ucfirst(strtolower($session->data["rank"])) : "Joueur";
                 $faction = Faction::hasFaction($player) ? Faction::getFactionUpperName($session->data["faction"]) : "Aucune";
 
                 $money = Util::formatNumberWithSuffix($session->data["money"]);
+                $gem = Util::formatNumberWithSuffix($session->data["gem"]);
+
                 $voteparty = Cache::$data["voteparty"] ?? 0;
 
                 $lines = [
-                    "§f ",
+                    "§r",
                     "§l§q" . $player->getDisplayName(),
-                    "§fGrade: §q" . $rank,
-                    "§fFaction: §q" . $faction,
-                    "§fPieces: §q" . $money,
+                    "  §7| §fFaction: §q" . $faction,
+                    "  §7| §fPieces: §q" . $money,
+                    "  §7| §fGemmes: §q" . $gem,
                     "§r ",
-                    "§l§qServeur",
-                    "§fConnectés: §q" . count(Main::getInstance()->getServer()->getOnlinePlayers()),
-                    "§fVoteParty: §q" . $voteparty . "§f/§q100",
-                    "§7 ",
-                    "   §7nitrofaction.fr  "
+                    "§l§qINFOS §r§8(§7" . date("H:i") . "§8)",
+                    "  §7| §fJoueurs: §q" . count(Main::getInstance()->getServer()->getOnlinePlayers()),
+                    "  §7| §fVote: §q" . $voteparty . "§f/§q100",
+                    "§f",
+                    "    §7nitrofaction.fr    "
                 ];
             }
 
@@ -60,7 +61,7 @@ class ScoreFactory
                 self::setScoreLine($player, $key + 1, $value);
             }
         } else {
-            self::setScore($player, "§qNitro (§7" . date("H:i") . "§q)");
+            self::setScore($player, "§8§l» §r§qNitro §l§8«");
             self::updateScoreboard($player);
         }
     }

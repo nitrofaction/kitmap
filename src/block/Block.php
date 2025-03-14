@@ -4,6 +4,7 @@ namespace Kitmap\block;
 
 use Kitmap\handler\trait\CooldownTrait;
 use pocketmine\block\Block as PmBlock;
+use pocketmine\block\VanillaBlocks;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -55,11 +56,13 @@ class Block
 
     public function onBreak(BlockBreakEvent $event): bool
     {
-        $drops = $this->getDrops($event->getBlock(), $event->getItem(), $event->getPlayer());
+        $player = $event->getPlayer();
+
+        $drops = $this->getDrops($event->getBlock(), $event->getItem(), $player);
         $xp = $this->getXpDropAmount($event->getBlock());
 
-        if (!is_null($drops)) $event->setDrops($drops);
-        if (!is_null($xp)) $event->setXpDropAmount($xp);
+        if (!is_null($drops) && !$player->isCreative()) $event->setDrops($drops);
+        if (!is_null($xp) && !$player->isCreative()) $event->setXpDropAmount($xp);
 
         return false;
     }
@@ -75,8 +78,8 @@ class Block
         return null;
     }
 
-    public function getDropsMine(Player $player, PmBlock $block): ?array
+    public function breakableOnMine(): array
     {
-        return null;
+        return [false, 0, VanillaBlocks::AIR()];
     }
 }

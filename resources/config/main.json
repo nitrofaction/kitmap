@@ -9,6 +9,7 @@
     "kill",
     "money",
     "death",
+    "elo",
     "faction",
     "nerd"
   ],
@@ -24,6 +25,7 @@
     "extractplugin",
     "gamemode",
     "gamerule",
+    "xp",
     "genplugin",
     "help",
     "kick",
@@ -57,6 +59,8 @@
     "kill": 0,
     "death": 0,
     "killstreak": 0,
+    "point": 0,
+    "elo": 0,
     "bounty": 0,
     "played_time": 0,
     "atm": 0,
@@ -68,6 +72,7 @@
     "border": false,
     "fly": false,
     "cactus": false,
+    "jump": false,
     "cooldown": [],
     "ip": [],
     "uuid": [],
@@ -76,15 +81,15 @@
     "packs": 0,
     "jobs": {
       "Mineur": {
-        "lvl": 1,
+        "lvl": 0,
         "xp": 0
       },
       "Farmeur": {
-        "lvl": 1,
+        "lvl": 0,
         "xp": 0
       },
       "Hunter": {
-        "lvl": 1,
+        "lvl": 0,
         "xp": 0
       }
     },
@@ -127,26 +132,26 @@
   "atout": {
     "Vitesse": {
       "id": 1,
-      "gem": 50,
-      "price": 3000000,
+      "gem": 100,
+      "price": 1500000,
       "texture": "speed_effect"
     },
     "Jump Boost": {
       "id": 8,
-      "gem": 50,
-      "price": 3000000,
+      "gem": 100,
+      "price": 1500000,
       "texture": "jump_boost_effect"
     },
     "Force": {
       "id": 5,
-      "gem": 75,
-      "price": 5000000,
+      "gem": 200,
+      "price": 3000000,
       "texture": "strength_effect"
     },
     "Resistance": {
       "id": 11,
-      "gem": 75,
-      "price": 5000000,
+      "gem": 200,
+      "price": 3000000,
       "texture": "resistance_effect"
     }
   },

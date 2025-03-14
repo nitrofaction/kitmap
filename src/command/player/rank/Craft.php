@@ -36,7 +36,7 @@ class Craft extends BaseCommand
             if ($session->data["staff_mod"][0] || $sender->getGamemode() === GameMode::SPECTATOR()) {
                 $sender->sendMessage(Util::PREFIX . "Vous ne pouvez pas accèder à votre enderchest en étant en staff mod");
                 return;
-            } else if (!Rank::hasRank($sender, "prince")) {
+            } else if (!Rank::hasRank($sender, "vip-plus")) {
                 $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
                 return;
             }

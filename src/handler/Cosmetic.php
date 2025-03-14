@@ -142,21 +142,6 @@ class Cosmetic
         return $bytes;
     }
 
-    public static function setCosmetic(Player $player, string $type, string $name): void
-    {
-        $session = Session::get($player);
-        $skin = $session->data["skin"];
-
-        if (!$skin instanceof Skin) {
-            return;
-        }
-
-        $skin = self::getCosmetic($skin, $type, $name);
-
-        $player->setSkin($skin);
-        $player->sendSkin();
-    }
-
     public static function saveSkin(Player $player, Skin $skin, bool $saveGeometry = false): void
     {
         $session = Session::get($player);
@@ -204,5 +189,20 @@ class Cosmetic
         }
 
         return $img;
+    }
+
+    public static function setCosmetic(Player $player, string $type, string $name): void
+    {
+        $session = Session::get($player);
+        $skin = $session->data["skin"];
+
+        if (!$skin instanceof Skin) {
+            return;
+        }
+
+        $skin = self::getCosmetic($skin, $type, $name);
+
+        $player->setSkin($skin);
+        $player->sendSkin();
     }
 }

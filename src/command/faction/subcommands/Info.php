@@ -73,8 +73,8 @@ class Info extends FactionCommand
         $recruits = self::getMembersFormat($faction, "recruits");
 
         $officiers = $officiers === "" ? "Aucun officier" : $officiers;
-        $members = $members === "" ? "Aucun membres" : $members;
-        $recruits = $recruits === "" ? "Aucune recrues" : $recruits;
+        $members = $members === "" ? "Aucun membre" : $members;
+        $recruits = $recruits === "" ? "Aucune recrue" : $recruits;
 
         $_leader = Main::getInstance()->getServer()->getPlayerExact($leader);
 

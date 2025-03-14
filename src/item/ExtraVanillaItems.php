@@ -3,9 +3,12 @@
 namespace Kitmap\item;
 
 use Kitmap\Util;
+use pocketmine\data\bedrock\item\SavedItemData;
+use pocketmine\inventory\CreativeInventory;
 use pocketmine\item\Item as PmItem;
 use pocketmine\item\StringToItemParser;
 use pocketmine\item\VanillaItems;
+use pocketmine\world\format\io\GlobalItemDataHandlers;
 
 class ExtraVanillaItems
 {
@@ -14,6 +17,7 @@ class ExtraVanillaItems
     public function __construct()
     {
         self::addItem(VanillaItems::EXPERIENCE_BOTTLE(), new XpBottle());
+        self::addItem(VanillaItems::PAPER(), new Paper());
         self::addItem(VanillaItems::FLINT_AND_STEEL(), new FlintAndSteal());
         self::addItem(VanillaItems::RAW_FISH(), new CombinedCookie());
         self::addItem(VanillaItems::COOKED_FISH(), new RegenerationCookie());
@@ -33,13 +37,20 @@ class ExtraVanillaItems
         self::addItem(VanillaItems::GOLDEN_LEGGINGS(), new Armor(1434, 6));
         self::addItem(VanillaItems::GOLDEN_BOOTS(), new Armor(1243, 4));
 
+        self::addItem(VanillaItems::CHAINMAIL_HELMET(), new Armor(1051, 3));
+        self::addItem(VanillaItems::CHAINMAIL_CHESTPLATE(), new Armor(1531, 8));
+        self::addItem(VanillaItems::CHAINMAIL_LEGGINGS(), new Armor(1434, 6));
+        self::addItem(VanillaItems::CHAINMAIL_BOOTS(), new Armor(1243, 4));
+
         self::addItem(VanillaItems::NETHERITE_HELMET(), new Armor(1402, 4));
         self::addItem(VanillaItems::NETHERITE_CHESTPLATE(), new Armor(2042, 9));
         self::addItem(VanillaItems::NETHERITE_LEGGINGS(), new Armor(1912, 7));
         self::addItem(VanillaItems::NETHERITE_BOOTS(), new Armor(1658, 4));
 
         self::addItem(VanillaItems::DIAMOND_SWORD(), new Sword(VanillaItems::DIAMOND_SWORD()->getMaxDurability(), 7));
+
         self::addItem(VanillaItems::GOLDEN_SWORD(), new Sword(2286, 9));
+        self::addItem(VanillaItems::STONE_SWORD(), new Sword(3048, 10));
         self::addItem(VanillaItems::NETHERITE_SWORD(), new Sword(3048, 10));
 
         new Craft();
@@ -48,6 +59,17 @@ class ExtraVanillaItems
     public static function addItem(PmItem $item, Item $replace): void
     {
         self::$items[Util::reprocess($item->getVanillaName())] = $replace;
+    }
+
+    public static function registerItem(string $id, PmItem $item, string $customName, bool $first): void
+    {
+        if ($first) {
+            GlobalItemDataHandlers::getDeserializer()->map($id, fn() => clone $item->clearCustomName());
+            GlobalItemDataHandlers::getSerializer()->map($item->clearCustomName(), fn() => new SavedItemData($id));
+        }
+
+        StringToItemParser::getInstance()->override($id, fn() => clone $item);
+        CreativeInventory::getInstance()->add($item->setCustomName($customName));
     }
 
     public static function getVanillaItemByItem(Item $item): PmItem

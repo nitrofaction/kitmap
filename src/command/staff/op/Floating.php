@@ -5,19 +5,22 @@ namespace Kitmap\command\staff\op;
 use CortexPE\Commando\args\OptionArgument;
 use CortexPE\Commando\BaseCommand;
 use Kitmap\entity\animation\Pack;
-use Kitmap\entity\floating\DefaultFloatingText;
+use Kitmap\entity\Entities;
 use Kitmap\entity\floating\DynamicFloatingText;
+use Kitmap\entity\floating\FloatingText;
 use Kitmap\entity\floating\LeaderboardFloatingText;
 use Kitmap\entity\npc\BlackSmith;
-use Kitmap\entity\npc\ElevatorPhantom;
-use Kitmap\entity\npc\CommandNpc;
-use Kitmap\entity\npc\TopNpc;
+use Kitmap\entity\npc\CmdEntity;
+use Kitmap\entity\npc\Merchant;
+use Kitmap\entity\npc\Quest;
+use Kitmap\entity\npc\TopEntity;
 use Kitmap\handler\Cache;
 use Kitmap\handler\Cosmetic;
 use Kitmap\Main;
 use Kitmap\Util;
 use pocketmine\command\CommandSender;
 use pocketmine\entity\Location;
+use pocketmine\entity\Villager;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\plugin\PluginBase;
@@ -53,10 +56,26 @@ class Floating extends BaseCommand
                     $entity->spawnToAll();
                 }
 
+                foreach (Cache::$config["pos"]["quest"] as $value) {
+                    [$x, $y, $z, $yaw, $world] = explode(":", $value);
+
+                    $entity = new Quest(new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getWorldByName($world), intval($yaw), 0));
+                    $entity->setProfession(Villager::PROFESSION_BLACKSMITH);
+                    $entity->spawnToAll();
+                }
+
+                foreach (Cache::$config["pos"]["merchant"] as $value) {
+                    [$x, $y, $z, $yaw, $world] = explode(":", $value);
+
+                    $entity = new Merchant(new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getWorldByName($world), intval($yaw), 0));
+                    $entity->setProfession(Villager::PROFESSION_BUTCHER);
+                    $entity->spawnToAll();
+                }
+
                 foreach (Cache::$config["pos"]["top"] as $data => $_) {
                     [$x, $y, $z, $yaw] = explode(":", $data);
 
-                    $entity = new TopNpc(
+                    $entity = new TopEntity(
                         new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), intval($yaw), 0),
                         Cosmetic::getSkinFromName("", "steve"),
                     );
@@ -64,23 +83,18 @@ class Floating extends BaseCommand
                     $entity->spawnToAll();
                 }
 
-                foreach (Cache::$config["npc"] as $identifier => $data) {
-                    [$x, $y, $z, $yaw, , , $skin] = explode(":", $data);
+                foreach (Cache::$config["npc"] as $identifier => $values) {
+                    foreach ($values as $data) {
+                        [$x, $y, $z, $yaw, , , $skin] = explode(":", $data);
 
-                    $entity = new CommandNpc(
-                        new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), intval($yaw), 0),
-                        Cosmetic::getSkinFromName("skins", $skin),
-                        CompoundTag::create()->setString("npc", $identifier)
-                    );
+                        $entity = new CmdEntity(
+                            new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), intval($yaw), 0),
+                            Cosmetic::getSkinFromName("skins", $skin),
+                            CompoundTag::create()->setString(Entities::NPC_TAG, $identifier)
+                        );
 
-                    $entity->spawnToAll();
-                }
-
-                foreach (Cache::$config["pos"]["elevator-npc"] as $elevator) {
-                    [$x, $y, $z, $yaw] = explode(":", $elevator);
-
-                    $entity = new ElevatorPhantom(new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getWorldByName("mine"), intval($yaw), 0));
-                    $entity->spawnToAll();
+                        $entity->spawnToAll();
+                    }
                 }
 
                 [$x, $y, $z, $yaw] = explode(":", Cache::$data["forgeron-position"] ?? Cache::$config["pos"]["forgeron"][0]);
@@ -105,12 +119,13 @@ class Floating extends BaseCommand
                 foreach (Main::getInstance()->getServer()->getWorldManager()->getWorlds() as $world) {
                     foreach ($world->getEntities() as $entity) {
                         if (
-                            $entity instanceof DefaultFloatingText ||
-                            $entity instanceof DynamicFloatingText ||
-                            $entity instanceof ElevatorPhantom ||
-                            $entity instanceof BlackSmith ||
                             $entity instanceof Pack ||
-                            $entity instanceof CommandNpc
+                            $entity instanceof FloatingText ||
+                            $entity instanceof BlackSmith ||
+                            $entity instanceof CmdEntity ||
+                            $entity instanceof TopEntity ||
+                            $entity instanceof Quest ||
+                            $entity instanceof Merchant
                         ) {
                             $entity->flagForDespawn();
                         }

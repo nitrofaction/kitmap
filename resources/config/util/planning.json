@@ -1,6 +1,6 @@
 {
   "interval": {
-    "60": "unloadislands",
+    "120": "unloadislands",
     "300": "question",
     "500": "save"
   },

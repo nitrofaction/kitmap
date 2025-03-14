@@ -26,7 +26,7 @@ class SaveSkin extends BaseCommand
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
         if ($sender instanceof Player) {
-            Cosmetic::saveSkin($sender, $sender->getSkin(), true );
+            Cosmetic::saveSkin($sender, $sender->getSkin(), true);
             $sender->sendMessage(Util::PREFIX . "Skin saved");
         }
     }

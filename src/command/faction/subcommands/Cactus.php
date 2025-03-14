@@ -45,8 +45,8 @@ class Cactus extends FactionCommand
         } else if ($cactus <= 0) {
             $sender->sendMessage(Util::PREFIX . "Votre faction n'a aucun cactus à vendre !");
             return;
-        } else if (!Rank::hasRank($sender, "champion")) {
-            $sender->sendMessage(Util::PREFIX . "Le §q/f cactus sell §fest destiné aux joueurs au minimum §qchampion §f!");
+        } else if (!Rank::hasRank($sender, "vip-plus")) {
+            $sender->sendMessage(Util::PREFIX . "Le §q/f cactus sell §fest destiné aux joueurs au minimum §qvip+ §f!");
             return;
         }
 

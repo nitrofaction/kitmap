@@ -56,16 +56,14 @@ class Player extends PmPlayer
                 $this->bedrockTicks = 0;
             }
 
-            if ($block->getName() === "End Portal") {
+            if ($block->getName() === "Nether Portal") {
                 $world = Main::getInstance()->getServer()->getWorldManager()->getWorldByName("mine");
 
                 if (!$world instanceof World) {
                     break;
                 }
 
-                if (Util::insideZone($block->getPosition(), "blocks-tp")) {
-                    $this->teleport(new Position(50013.5, 12.5, 89, $world));
-                } else if (Util::insideZone($block->getPosition(), "mine-tp")) {
+                if (Util::insideZone($block->getPosition(), "mine-tp")) {
                     $this->teleport($world->getSpawnLocation());
                 }
 

@@ -11,10 +11,10 @@ class Stone extends Block
 {
     public function getDrops(PmBlock $block, ?Item $item = null, Player $player = null): ?array
     {
-        if (mt_rand(0, 30) === 0) {
+        if (mt_rand(0, 100) === 0) {
             return [VanillaBlocks::NETHER_WART()->asItem()];
         } else {
-            return [];
+            return null;
         }
     }
 }

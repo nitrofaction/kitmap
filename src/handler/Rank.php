@@ -29,18 +29,33 @@ class Rank
         return isset(Cache::$config["rank"][$rank]);
     }
 
-    public static function getEqualRank(string $name): string
+    public static function getEqualRankBySession(Session $session): string
     {
-        $rank = self::getRank($name);
+        $rank = $session->data["rank"];
+        return self::getEqualRankByString($rank);
+    }
 
+    public static function getEqualRankByString(string $rank): string
+    {
         if (self::isStaff($rank)) {
-            return "roi";
+            return "legende";
         } else {
             if ($rank === "createur") {
-                return "elite";
+                return "ultra";
             }
             return $rank;
         }
+    }
+
+    public static function isStaff(?string $rank): bool
+    {
+        return in_array($rank, ["guide", "moderateur", "sm", "administrateur", "fondateur"]);
+    }
+
+    public static function getEqualRankByName(string $name): string
+    {
+        $rank = self::getRank($name);
+        return self::getEqualRankByString($rank);
     }
 
     public static function getRank(string $name): ?string
@@ -58,11 +73,6 @@ class Rank
             $rank = $file->get("rank", "joueur");
         }
         return $rank;
-    }
-
-    public static function isStaff(?string $rank): bool
-    {
-        return in_array($rank, ["guide", "moderateur", "sm", "administrateur", "fondateur"]);
     }
 
     public static function hasRank(Player $player, string $rank): bool

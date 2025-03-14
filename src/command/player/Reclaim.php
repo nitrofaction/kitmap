@@ -46,7 +46,7 @@ class Reclaim extends BaseCommand
                 return;
             }
 
-            $rank = Rank::getEqualRank($sender->getName());
+            $rank = Rank::getEqualRankBySession($session);
             $pack = Rank::getRankValue($rank, "pack");
 
             if ($pack === 0) {

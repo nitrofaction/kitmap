@@ -229,7 +229,7 @@ class Market extends BaseCommand
             $target = Main::getInstance()->getServer()->getPlayerExact($seller);
 
             if ($target instanceof Player) {
-                $rank = Rank::getEqualRank($target->getName());
+                $rank = Rank::getEqualRankByName($target->getName());
                 $tax = Rank::getRankValue($rank, "tax");
 
                 $_price = $price * (1 - $tax / 100);
@@ -239,7 +239,7 @@ class Market extends BaseCommand
             } else {
                 $file = Util::getFile("data/players/" . $seller);
 
-                $rank = Rank::getEqualRank($seller);
+                $rank = Rank::getEqualRankByName($seller);
                 $tax = Rank::getRankValue($rank, "tax");
 
                 $_price = $price * (1 - $tax / 100);

@@ -31,7 +31,7 @@ class StealSkin extends BaseCommand
             /** @noinspection PhpDeprecationInspection */
             $player = Main::getInstance()->getServer()->getPlayerByPrefix($args["joueur"]);
 
-            if (!Rank::hasRank($sender, "roi")) {
+            if (!Rank::hasRank($sender, "legende")) {
                 $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
                 return;
             } else if (!$player instanceof Player) {

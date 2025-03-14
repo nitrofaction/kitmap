@@ -2,9 +2,13 @@
 
 namespace Kitmap\handler;
 
-use Kitmap\entity\npc\LogoutNpc;
+use Kitmap\entity\npc\LogoutEntity;
+use Kitmap\entity\npc\SubQuest;
 use Kitmap\Main;
 use Kitmap\Util;
+use pocketmine\crafting\ExactRecipeIngredient;
+use pocketmine\crafting\MetaWildcardRecipeIngredient;
+use pocketmine\item\StringToItemParser;
 use pocketmine\player\Player;
 use pocketmine\utils\SingletonTrait;
 use Symfony\Component\Filesystem\Path;
@@ -22,7 +26,10 @@ class Cache
     public static array $claims;
     public static array $factions;
 
-    /* @var array<string, LogoutNpc> */
+    public static array $deathXp = [];
+    public static array $condenseShapes = [];
+
+    /* @var array<string, LogoutEntity> */
     public static array $logouts;
 
     /* @var WeakMap<Player, boolean> */
@@ -45,7 +52,9 @@ class Cache
         @mkdir(Main::getInstance()->getDataFolder() . "data/inventories/");
         @mkdir(Main::getInstance()->getDataFolder() . "data/skins/");
 
-        self::$config = $this->makeConfig();
+        $this->condenseShapes();
+        $this->makeConfig();
+
         self::$data = Util::getFile("data/data")->getAll();
         self::$market = Util::getFile("data/market")->getAll();
         self::$bans = Util::getFile("data/bans")->getAll();
@@ -80,6 +89,7 @@ class Cache
             self::$players["money"][$username] = $file->get("money", 0);
             self::$players["kill"][$username] = $file->get("kill", 0);
             self::$players["death"][$username] = $file->get("death", 0);
+            self::$players["elo"][$username] = $file->get("elo", 0);
             self::$players["bounty"][$username] = $file->get("bounty", 0);
             self::$players["killstreak"][$username] = $file->get("killstreak", 0);
             self::$players["played_time"][$username] = $file->get("played_time", 0);
@@ -91,7 +101,47 @@ class Cache
         }
     }
 
-    private function makeConfig(): array
+    private function condenseShapes(): void
+    {
+        $craftMgr = Main::getInstance()->getServer()->getCraftingManager();
+
+        $array1 = array_fill(0, 3, "AAA");
+        $array2 = array_fill(0, 2, "AA");
+
+        foreach ($craftMgr->getShapedRecipes() as $recipes) {
+            foreach ($recipes as $recipe) {
+                if ($recipe->getShape() === $array1 || $recipe->getShape() === $array2) {
+                    $output = $recipe->getResults()[0];
+                    $input = null;
+
+                    $ingredients = $recipe->getIngredientList();
+                    $ingredient = $ingredients[0];
+
+                    if ($ingredient instanceof MetaWildcardRecipeIngredient) {
+                        $input = StringToItemParser::getInstance()->parse($ingredient->getItemId());
+
+                        if (is_null($input)) {
+                            continue;
+                        }
+                    } else if ($ingredient instanceof ExactRecipeIngredient) {
+                        $input = $ingredient->getItem();
+                    }
+
+                    if (is_null($input)) {
+                        continue;
+                    }
+
+                    self::$condenseShapes[] = [
+                        "input" => $input,
+                        "output" => $output,
+                        "count" => count($ingredients)
+                    ];
+                }
+            }
+        }
+    }
+
+    private function makeConfig(): void
     {
         $config = [];
 
@@ -122,7 +172,7 @@ class Cache
             }
         }
 
-        return $config;
+        self::$config = $config;
     }
 
     public function saveAll(): void

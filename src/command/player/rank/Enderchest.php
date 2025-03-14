@@ -44,7 +44,7 @@ class Enderchest extends BaseCommand
             if ($session->data["staff_mod"][0] || $sender->getGamemode() === GameMode::SPECTATOR()) {
                 $sender->sendMessage(Util::PREFIX . "Vous ne pouvez pas accèder à votre enderchest en étant en staff mod");
                 return;
-            } else if (!Rank::hasRank($sender, "champion")) {
+            } else if (!Rank::hasRank($sender, "vip")) {
                 $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
                 return;
             } else if ($session->inCooldown("combat")) {
@@ -77,7 +77,7 @@ class Enderchest extends BaseCommand
 
     public static function setEnderchestGlass(Player $player, Inventory $inventory): void
     {
-        $rank = Rank::getEqualRank($player->getName());
+        $rank = Rank::getEqualRankByName($player->getName());
         $slots = Rank::getRankValue($rank, "enderchest");
 
         $enderchest = $player->getEnderInventory();

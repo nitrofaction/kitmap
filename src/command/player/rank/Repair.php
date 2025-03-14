@@ -33,7 +33,7 @@ class Repair extends BaseCommand
         if ($sender instanceof Player) {
             $session = Session::get($sender);
 
-            if (!Rank::hasRank($sender, "champion")) {
+            if (!Rank::hasRank($sender, "ultra")) {
                 $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
                 return;
             } else if ($session->inCooldown("repair")) {
@@ -46,7 +46,7 @@ class Repair extends BaseCommand
             }
 
             if (isset($args["opt"]) && strtolower($args["opt"]) === "all") {
-                if (!Rank::hasRank($sender, "elite")) {
+                if (!Rank::hasRank($sender, "legende")) {
                     $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
                     return;
                 }

@@ -2,6 +2,7 @@
 
 namespace Kitmap\entity\npc;
 
+use Kitmap\entity\Entities;
 use Kitmap\handler\Cache;
 use Kitmap\Util;
 use pocketmine\entity\Human;
@@ -12,14 +13,14 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
 
-class CommandNpc extends Human
+class CmdEntity extends Human
 {
     private string $npcIdentifier;
 
     public function __construct(Location $location, Skin $skin, ?CompoundTag $nbt = null)
     {
         parent::__construct($location, $skin, $nbt);
-        $this->npcIdentifier = $nbt->getString("npc", "");
+        $this->npcIdentifier = $nbt->getString(Entities::NPC_TAG, "");
     }
 
     public function attack(EntityDamageEvent $source): void
@@ -43,7 +44,7 @@ class CommandNpc extends Human
     public function saveNBT(): CompoundTag
     {
         $nbt = parent::saveNBT();
-        $nbt->setString("npc", $this->npcIdentifier);
+        $nbt->setString(Entities::NPC_TAG, $this->npcIdentifier);
         return $nbt;
     }
 
@@ -53,14 +54,14 @@ class CommandNpc extends Human
 
         $this->setNameTagAlwaysVisible();
 
-        $this->npcIdentifier = $nbt->getString("npc", "");
+        $this->npcIdentifier = $nbt->getString(Entities::NPC_TAG, "");
 
         if (!isset($this->npcIdentifier) || $this->npcIdentifier === "") {
             $this->flagForDespawn();
             return;
         }
 
-        $data = Cache::$config["npc"][$this->npcIdentifier] ?? null;
+        $data = Cache::$config["npc"][$this->npcIdentifier][0] ?? null;
 
         if (is_null($data)) {
             $this->flagForDespawn();

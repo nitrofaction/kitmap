@@ -18,7 +18,7 @@ use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\player\Player;
 
-class LogoutNpc extends Human
+class LogoutEntity extends Human
 {
     public bool $killed = false;
 

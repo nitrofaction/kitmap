@@ -9,7 +9,7 @@ use pocketmine\entity\Human;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\nbt\tag\CompoundTag;
 
-class TopNpc extends Human
+class TopEntity extends Human
 {
     private int $tickToUpdate;
 
@@ -39,11 +39,9 @@ class TopNpc extends Human
         $top = Cache::$config["pos"]["top"];
 
         $position = $this->getLocation();
-        $text = $position->getX() . ":" . $position->getY() . ":" . $position->getZ() . ":" . floor($position->getYaw());
+        $text = $position->getX() . ":" . $position->getY(). ":" . $position->getZ() . ":" . intval($position->getYaw());
 
         $category = $top[$text] ?? null;
-
-        var_dump($category);
 
         if (is_null($category)) {
             return "";
@@ -57,8 +55,11 @@ class TopNpc extends Human
         $this->setSkin($skin);
         $this->sendSkin();
 
+        $this->tickToUpdate = 600;
+
         return match ($category) {
             "death" => "§q" . $name . "\nTop #1 Mort",
+            "elo" => "§q" . $name . "\nTop #1 Elo",
             "money" => "§q" . $name . "\nTop #1 Money",
             "played_time" => "§q" . $name . "\nTop #1 Nerd",
             default => "§q" . $name . "\nTop #1 Kill",

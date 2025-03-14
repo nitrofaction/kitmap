@@ -15,10 +15,16 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\inventory\Inventory;
 use pocketmine\item\VanillaItems;
 use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 use pocketmine\player\Player;
 
 class BlackSmith extends Villager
 {
+    public static function getNetworkTypeId(): string
+    {
+        return EntityIds::VILLAGER_V2;
+    }
+
     public function attack(EntityDamageEvent $source): void
     {
         if ($source instanceof EntityDamageByEntityEvent) {

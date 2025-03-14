@@ -48,7 +48,7 @@ class Item
         $location = $player->getLocation();
 
         $projectile = new SplashPotionEntity(Location::fromObject($player->getEyePos(), $player->getWorld(), $location->yaw, $location->pitch), $player, $type);
-        $projectile->setMotion($directionVector->multiply(0.5));
+        $projectile->setMotion($directionVector->multiply(1.05));
 
         $projectileEv = new ProjectileLaunchEvent($projectile);
         $projectileEv->call();

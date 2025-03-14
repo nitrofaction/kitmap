@@ -6,9 +6,9 @@ use Kitmap\block\ExtraVanillaBlocks;
 use Kitmap\command\player\rank\Enderchest;
 use Kitmap\command\staff\{Ban, LastInventory, Question, Vanish};
 use Kitmap\command\util\Bienvenue;
-use Kitmap\entity\{AntiBackBall, npc\LogoutNpc, SwitchBall};
+use Kitmap\entity\{AntiBackBall, npc\LogoutEntity, SwitchBall};
 use Kitmap\entity\Player as CustomPlayer;
-use Kitmap\handler\{Cache, Cosmetic, Faction, Job, Pack, PartnerItem, Rank, Sanction};
+use Kitmap\handler\{Cache, Cosmetic, Faction, Job, PartnerItem, Rank, Sanction};
 use Kitmap\item\Armor;
 use Kitmap\item\ExtraVanillaItems;
 use Kitmap\Main;
@@ -22,6 +22,7 @@ use pocketmine\block\{Anvil,
     BlockTypeTags,
     Cactus,
     CartographyTable,
+    CaveVines,
     Chest,
     CraftingTable,
     Crops,
@@ -34,15 +35,12 @@ use pocketmine\block\{Anvil,
     Hopper,
     inventory\EnderChestInventory,
     Liquid,
-    NetherWartPlant,
     SweetBerryBush,
     Trapdoor,
-    VanillaBlocks};
+    VanillaBlocks,
+    Water};
 use pocketmine\block\tile\Chest as ChestTile;
-use pocketmine\data\bedrock\BiomeIds;
-use pocketmine\entity\animation\ArmSwingAnimation;
 use pocketmine\entity\effect\{EffectInstance, VanillaEffects};
-use pocketmine\entity\Living;
 use pocketmine\entity\object\ItemEntity;
 use pocketmine\event\block\{BlockBreakEvent,
     BlockGrowEvent,
@@ -73,30 +71,29 @@ use pocketmine\event\player\{PlayerBucketEvent,
     PlayerItemUseEvent,
     PlayerJoinEvent,
     PlayerJumpEvent,
-    PlayerMissSwingEvent,
     PlayerPreLoginEvent,
     PlayerQuitEvent,
     PlayerRespawnEvent,
     PlayerToggleSneakEvent};
 use pocketmine\event\server\CommandEvent;
 use pocketmine\event\server\DataPacketDecodeEvent;
+use pocketmine\event\server\DataPacketSendEvent;
 use pocketmine\event\world\ChunkLoadEvent;
 use pocketmine\inventory\ArmorInventory;
 use pocketmine\inventory\CallbackInventoryListener;
 use pocketmine\inventory\Inventory;
 use pocketmine\inventory\transaction\action\SlotChangeAction;
-use pocketmine\item\{Axe, Bucket, Durable, Hoe, Item, PaintingItem, PotionType, Shovel, Stick, VanillaItems};
+use pocketmine\item\{Axe, Bucket, Hoe, Item, PaintingItem, PotionType, Shovel, Stick, VanillaItems};
 use pocketmine\math\Facing;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\mcpe\protocol\ProtocolInfo;
+use pocketmine\network\mcpe\protocol\StartGamePacket;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\{GameMode, Player};
 use pocketmine\player\chat\LegacyRawChatFormatter;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\TextFormat;
-use pocketmine\world\particle\BlockBreakParticle;
-use pocketmine\world\sound\BlockBreakSound;
 use pocketmine\world\sound\EndermanTeleportSound;
 use Symfony\Component\Filesystem\Path;
 
@@ -153,7 +150,7 @@ class EventListener implements Listener
 
         if (
             $event->getAction() === $event::RIGHT_CLICK_BLOCK &&
-            (($block instanceof Door || $block instanceof Trapdoor || $block instanceof FenceGate || $block instanceof Furnace || $block instanceof SweetBerryBush || $block instanceof GlowLichen || $block instanceof CraftingTable || $block instanceof CartographyTable || $block instanceof Chest || $block instanceof Barrel || $block instanceof Hopper) || ($item instanceof Bucket || $item instanceof Hoe || $item instanceof Axe || $item instanceof Shovel || $item instanceof PaintingItem || $item instanceof Stick)) &&
+            (($block instanceof CaveVines || $block instanceof Door || $block instanceof Trapdoor || $block instanceof FenceGate || $block instanceof Furnace || $block instanceof SweetBerryBush || $block instanceof GlowLichen || $block instanceof CraftingTable || $block instanceof CartographyTable || $block instanceof Chest || $block instanceof Barrel || $block instanceof Hopper) || ($item instanceof Bucket || $item instanceof Hoe || $item instanceof Axe || $item instanceof Shovel || $item instanceof PaintingItem || $item instanceof Stick)) &&
             !Faction::canBuild($player, $block, "interact") &&
             !(Util::insideZone($player->getPosition(), "spawn") && ($block instanceof CraftingTable || $block instanceof Anvil || $block instanceof EnchantingTable))
         ) {
@@ -242,6 +239,9 @@ class EventListener implements Listener
             $player->sendMessage(Util::PREFIX . "Vous êtes mute, temps restant: §q" . $format);
 
             $event->cancel();
+            return;
+        } else if (!(Cache::$data["chat"] ?? true) && !$player->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
+            $player->sendMessage(Util::PREFIX . "Le chat est actuellement désactivé !");
             return;
         }
 
@@ -351,6 +351,13 @@ class EventListener implements Listener
 
     public function onRespawn(PlayerRespawnEvent $event): void
     {
+        $player = $event->getPlayer();
+
+        if (isset(Cache::$deathXp[$player->getName()])) {
+            $player->getXpManager()->setCurrentTotalXp(intval(Cache::$deathXp[$player->getName()]));
+            unset(Cache::$deathXp[$player->getName()]);
+        }
+
         Util::givePlayerPreferences($event->getPlayer());
     }
 
@@ -366,7 +373,7 @@ class EventListener implements Listener
             $ev = new PlayerDeathEvent($player, [], 0, "");
             $ev->call();
         } else if (Util::getTpTime($player) > 0) {
-            $entity = new LogoutNpc($player->getLocation(), $player->getSkin());
+            $entity = new LogoutEntity($player->getLocation(), $player->getSkin());
             $entity->initEntityB($player);
             $entity->spawnToAll();
         }
@@ -414,8 +421,14 @@ class EventListener implements Listener
             Util::updateBounty($player);
         }
 
+        $rank = Rank::getEqualRankBySession($session);
+        $keepXp = Rank::getRankValue($rank, "xp");
+
         $killstreak = $session->data["killstreak"];
         $session->data["killstreak"] = 0;
+
+        Cache::$deathXp[$player->getName()] = intval($player->getXpManager()->getCurrentTotalXp() * ($keepXp / 100));
+        $event->setXpDropAmount(intval($event->getXpDropAmount() * ((100 - $keepXp) / 100)));
 
         $cause = $player->getLastDamageCause();
 
@@ -453,6 +466,15 @@ class EventListener implements Listener
                     Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $damager->getName() . " §fa fait §q" . $damagerSession->data["killstreak"] . " §fkills sans mourrir ! Sa mort est désormais mise à prix à §q" . Session::get($damager)->data["bounty"] . " pièce(s) §8(§7+" . $amount . "§8) §f!");
                 }
 
+                $lossElo = mt_rand(1, 5);
+                $winElo = mt_rand(3, 8);
+
+                $session->addValue("elo", $lossElo, true);
+                $damagerSession->addValue("elo", $winElo);
+
+                $player->sendMessage(Util::PREFIX . "Vous venez de perdre §c" . $lossElo . " §felo !");
+                $damager->sendMessage(Util::PREFIX . "Vous venez de gagner §q" . $winElo . " §felo !");
+
                 Job::addXp($damager, "Hunter", 50 + $damagerSession->data["killstreak"]);
                 return;
             }
@@ -468,33 +490,9 @@ class EventListener implements Listener
         $event->cancel();
     }
 
-    /*public function onItemDamage(ItemDamageEvent $event): void
+    public function onItemDamage(ItemDamageEvent $event): void
     {
         ExtraVanillaItems::getItem($event->getItem())->onDamage($event);
-    }*/
-
-    public function onJump(PlayerJumpEvent $event): void
-    {
-        $player = $event->getPlayer();
-
-        $x = $player->getPosition()->getFloorX();
-        $y = $player->getPosition()->getFloorY() - 1;
-        $z = $player->getPosition()->getFloorZ();
-
-        $block = $player->getPosition()->getWorld()->getBlockAt($x, $y, $z);
-        ExtraVanillaBlocks::getBlock($block)->onJump($event);
-    }
-
-    public function onSneak(PlayerToggleSneakEvent $event): void
-    {
-        $player = $event->getPlayer();
-
-        $x = $player->getPosition()->getFloorX();
-        $y = $player->getPosition()->getFloorY() - 1;
-        $z = $player->getPosition()->getFloorZ();
-
-        $block = $player->getPosition()->getWorld()->getBlockAt($x, $y, $z);
-        ExtraVanillaBlocks::getBlock($block)->onSneak($event);
     }
 
     public function onDamage(EntityDamageEvent $event): void
@@ -524,13 +522,11 @@ class EventListener implements Listener
             }
         }
 
-        if ($entity instanceof Living) {
-            Armor::applyDamageModifiers($event, $entity);
-        }
-
         if (!$entity instanceof Player) {
             return;
         }
+
+        Armor::applyDamageModifiers($event, $entity);
 
         $entitySession = Session::get($entity);
 
@@ -626,6 +622,30 @@ class EventListener implements Listener
         }
     }
 
+    public function onJump(PlayerJumpEvent $event): void
+    {
+        $player = $event->getPlayer();
+
+        $x = $player->getPosition()->getFloorX();
+        $y = $player->getPosition()->getFloorY() - 1;
+        $z = $player->getPosition()->getFloorZ();
+
+        $block = $player->getPosition()->getWorld()->getBlockAt($x, $y, $z);
+        ExtraVanillaBlocks::getBlock($block)->onJump($event);
+    }
+
+    public function onSneak(PlayerToggleSneakEvent $event): void
+    {
+        $player = $event->getPlayer();
+
+        $x = $player->getPosition()->getFloorX();
+        $y = $player->getPosition()->getFloorY() - 1;
+        $z = $player->getPosition()->getFloorZ();
+
+        $block = $player->getPosition()->getWorld()->getBlockAt($x, $y, $z);
+        ExtraVanillaBlocks::getBlock($block)->onSneak($event);
+    }
+
     public function onExhaust(PlayerExhaustEvent $event): void
     {
         $event->getPlayer()->getHungerManager()->setExhaustion(2.5);
@@ -660,9 +680,8 @@ class EventListener implements Listener
         }
 
         $executePp = PartnerItem::executeInteractPartnerItem($player, $event);
-        $executePack = Pack::executeInteractPackItem($player, $event);
 
-        if ($executePack || $executePp) {
+        if ($executePp) {
             return;
         } else if ($item->equals(VanillaItems::SNOWBALL())) {
             $event->cancel();
@@ -746,13 +765,6 @@ class EventListener implements Listener
 
         if ($block instanceof Block) {
             ExtraVanillaBlocks::getBlock($block)->onPlace($event);
-
-            $block->getPosition()->getWorld()->setBiomeId(
-                $block->getPosition()->getX(),
-                $block->getPosition()->getY(),
-                $block->getPosition()->getZ(),
-                BiomeIds::BAMBOO_JUNGLE
-            );
         }
     }
 
@@ -768,12 +780,14 @@ class EventListener implements Listener
             return;
         }
 
-
         /*if ($source instanceof Lava && $sourcePos->getY() !== $blockPos->getY()) {
             $event->cancel();
         }*/
 
-        if ($source instanceof Liquid && $blockPos->getWorld() === Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()) {
+        if (
+            $source instanceof Liquid &&
+            $blockPos->getWorld() === Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()
+        ) {
             if (Faction::inClaim($sourcePos->getX(), $sourcePos->getZ()) !== Faction::inClaim($blockPos->getX(), $blockPos->getZ())) {
                 $event->cancel();
             }
@@ -789,12 +803,6 @@ class EventListener implements Listener
         } else if (Session::get($player)->data["staff_mod"][0]) {
             $event->cancel();
         }
-    }
-
-    public function onMissSwing(PlayerMissSwingEvent $event): void
-    {
-        $event->getPlayer()->broadcastAnimation(new ArmSwingAnimation($event->getPlayer()), $event->getPlayer()->getViewers());
-        $event->cancel();
     }
 
     public function onTrampleFarmland(EntityTrampleFarmlandEvent $event): void
@@ -837,7 +845,7 @@ class EventListener implements Listener
 
     public function onUpdate(BlockUpdateEvent $event): void
     {
-        if ($event->getBlock()->getPosition()->getWorld()->getFolderName() === "mine") {
+        if ($event->getBlock()->getPosition()->getWorld()->getFolderName() === "mine" && !$event->getBlock() instanceof Water) {
             $event->cancel();
         }
     }
@@ -885,21 +893,6 @@ class EventListener implements Listener
         if ($session->data["staff_mod"][0]) {
             $event->cancel();
             return;
-        } else if (!$player->isCreative() && $player->getPosition()->getWorld()->getFolderName() === "mine" && $player->getPosition()->getFloorX() > 4500) {
-            Util::addItems($player, $event->getDrops(), false);
-
-            if ($session->data["money"] >= 15) {
-                $session->addValue("money", 15, true);
-                $player->sendTip("§q- 15 pièces");
-
-                $event->setDrops([$block->asItem()->setCount(1)]);
-                $event->setXpDropAmount(0);
-            } else {
-                $player->sendTip("§qVous n'avez pas assez d'argent pour acheter les blocs (15 pièces/u)");
-            }
-
-            $event->cancel();
-            return;
         } else if ($player->getPosition()->getWorld()->getFolderName() !== "mine" && !Faction::canBuild($player, $block, "break")) {
             if ($block->isFullCube()) {
                 Util::antiBlockGlitch($player);
@@ -909,38 +902,11 @@ class EventListener implements Listener
             return;
         }
 
-        if ($session->data["cobblestone"] === false && ($block->hasSameTypeId(VanillaBlocks::COBBLESTONE()) || $block->hasSameTypeId(VanillaBlocks::STONE()))) {
+        if (
+            $session->data["cobblestone"] === false &&
+            ($block->hasSameTypeId(VanillaBlocks::COBBLESTONE()) || $block->hasSameTypeId(VanillaBlocks::STONE()))
+        ) {
             $event->setDrops([]);
-        }
-
-        if (!$player->isCreative() && $block->getPosition()->getWorld()->getFolderName() === "mine" && $player->getPosition()->getFloorX() < 4500) {
-            $data = ExtraVanillaBlocks::getBlock($block)->getDropsMine($player, $block);
-
-            if (is_array($data) && $data[0] > 0) {
-                $item = $event->getItem();
-                $position = $block->getPosition();
-
-                if ($item instanceof Durable) {
-                    $item->applyDamage(1);
-                }
-
-                $player->getInventory()->setItemInHand($item);
-                $position->getWorld()->setBlock($position, $data[1], false);
-
-                PlayerTask::$blocks[] = [time() + $data[0], $position, $data[2]];
-
-                $position->getWorld()->addSound($position, new BlockBreakSound($block));
-                $position->getWorld()->addParticle($position->add(0.5, 0.5, 0.5), new BlockBreakParticle($block));
-
-                Util::addItems($player, $data[3]);
-
-                if ($event->getXpDropAmount() > 0) {
-                    $player->getXpManager()->addXp($event->getXpDropAmount());
-                }
-            }
-
-            $event->cancel();
-            return;
         }
 
         if (ExtraVanillaItems::getItem($event->getItem())->onBreak($event)) {
@@ -955,8 +921,44 @@ class EventListener implements Listener
 
         if ($block->hasSameTypeId(VanillaBlocks::COBBLESTONE()) || $block->hasSameTypeId(VanillaBlocks::STONE())) {
             Job::addXp($player, "Mineur", 1);
-        } else if ($block->hasSameTypeId(VanillaBlocks::MELON()) || (($block instanceof Crops || $block instanceof NetherWartPlant) && !$block->ticksRandomly())) {
+        } else if ($block->hasSameTypeId(VanillaBlocks::MELON()) || ($block instanceof Crops && !$block->ticksRandomly())) {
             Job::addXp($player, "Farmeur", mt_rand(1, 3));
+        }
+
+        $xp = match ($block->getTypeId()) {
+            VanillaBlocks::COAL_ORE()->getTypeId() => 2,
+            VanillaBlocks::IRON_ORE()->getTypeId() => 4,
+            VanillaBlocks::GOLD_ORE()->getTypeId() => 10,
+            VanillaBlocks::DIAMOND_ORE()->getTypeId() => 20,
+            VanillaBlocks::EMERALD_ORE()->getTypeId() => 40,
+            VanillaBlocks::DEEPSLATE_EMERALD_ORE()->getTypeId() => 40,
+            VanillaBlocks::ANCIENT_DEBRIS()->getTypeId() => 80,
+            VanillaBlocks::REDSTONE_ORE()->getTypeId() => 5,
+            VanillaBlocks::LAPIS_LAZULI()->getTypeId() => 5,
+            default => null
+        };
+
+        if (
+            !$player->isCreative() &&
+            $block->getPosition()->getWorld()->getFolderName() === "mine"
+        ) {
+            [$breakable, $time, $replace] = ExtraVanillaBlocks::getBlock($block)->breakableOnMine();
+
+            if (!$breakable) {
+                $event->cancel();
+                return;
+            }
+
+            Main::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(
+                function () use ($block, $time, $replace): void {
+                    $block->getPosition()->getWorld()->setBlock($block->getPosition(), $replace, false);
+                    PlayerTask::$blocks[] = [time() + $time, $block->getPosition(), $block];
+                }
+            ), 1);
+        }
+
+        if (is_int($xp)) {
+            Job::addXp($player, "Mineur", $xp);
         }
 
         Util::addItems($player, $event->getDrops());
@@ -1070,7 +1072,7 @@ class EventListener implements Listener
         $username = $event->getPlayerInfo()->getUsername();
 
         foreach (Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getEntities() as $entity) {
-            if ($entity instanceof LogoutNpc) {
+            if ($entity instanceof LogoutEntity) {
                 $name = $entity->player;
                 $name = is_null($name) ? "" : $name;
 
@@ -1098,6 +1100,17 @@ class EventListener implements Listener
     {
         $entity = $event->getEntity();
         $entity->setDespawnDelay(intval(15 * Main::getInstance()->getServer()->getTicksPerSecondAverage()));
+    }
+
+    public function onDataPacketSendMaxoooz(DataPacketSendEvent $event): void
+    {
+        $packets = $event->getPackets();
+
+        foreach ($packets as $packet) {
+            if ($packet instanceof StartGamePacket) {
+                $packet->levelSettings->muteEmoteAnnouncements = true;
+            }
+        }
     }
 
     public function onDataPacketDecode(DataPacketDecodeEvent $event): void

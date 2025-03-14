@@ -6,6 +6,7 @@ use Kitmap\command\player\Kit;
 use Kitmap\command\player\XpBottle;
 use Kitmap\command\util\money\Money;
 use Kitmap\handler\Cache;
+use Kitmap\handler\Job;
 use Kitmap\handler\ScoreFactory;
 use pocketmine\block\Block;
 use pocketmine\block\FenceGate;
@@ -576,12 +577,12 @@ class Util
         }
     }
 
-    public static function stringToUnicode(string $title): string
+    public static function stringToUnicode(string $title, bool $mini = false): string
     {
         $result = "";
 
         foreach (str_split(TextFormat::clean($title)) as $caracter) {
-            $result .= self::caracterToUnicode($caracter) . " ";
+            $result .= self::caracterToUnicode($caracter . ($mini ? "2" : "")) . " ";
         }
         return trim($result);
     }
@@ -623,6 +624,8 @@ class Util
                 return Money::createPaperMoney(intval($data[1]) ?? 1);
             case "kit":
                 return Kit::createPaperKit($data[1]);
+            case "boost":
+                return Job::createBoostPaper(intval($data[1]) ?? 1, intval($data[1]) ?? 1);
             default:
                 $item = StringToItemParser::getInstance()->parse($data[1]) ?? VanillaItems::AIR();
                 $item = $item->setCount(intval($data[2] ?? 1));

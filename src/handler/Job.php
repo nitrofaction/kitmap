@@ -4,42 +4,61 @@ namespace Kitmap\handler;
 
 use Kitmap\Session;
 use Kitmap\Util;
+use pocketmine\item\enchantment\EnchantmentInstance;
+use pocketmine\item\enchantment\VanillaEnchantments;
+use pocketmine\item\Item;
+use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 use pocketmine\world\sound\BlazeShootSound;
+use pocketmine\world\sound\XpCollectSound;
 
 class Job
 {
     public static function getProgressBar(Player $player, string $job, string $option = null): string
     {
-        $level = self::getLevel($player, $job);
+        $levelIndex = self::getLevelIndex($player, $job);
+        $levelData = self::getLevelDataByIndex($job, $levelIndex);
+
         $xp = self::getXp($player, $job);
 
-        $nextXp = Cache::$config["job"]["lvls"][$level];
+        $nextXp = $levelData["xp"];
+        $lastLevelIndex = self::getLastLevelIndex($job);
 
         if ($option === "UI") {
-            if ($level === 20) {
-                return "0§q/§8-1 §q- §8Level: §q" . $level;
+            if ($levelIndex >= $lastLevelIndex) {
+                return "0§q/§8-1 §q- §8Level: §q" . $levelIndex + 1;
             } else {
-                return $xp . "§q/§8" . $nextXp . " §q- §8Level: §q" . $level;
+                return $xp . "§q/§8" . $nextXp . " §q- §8Level: §q" . $levelIndex + 1;
             }
         }
 
-        if ($level === 20) {
-            return "§cNiveau maximum atteint";
+        if ($levelIndex >= $lastLevelIndex) {
+            return "§qNiveau maximum atteint";
         } else {
             $progress = intval(max(1, round((($xp / $nextXp) * 100) / 2, 2)));
-            return "§a" . str_repeat("|", $progress) . "§c" . str_repeat("|", 50 - $progress);
+            return "§a" . str_repeat("|", $progress) . "§q" . str_repeat("|", 50 - $progress);
         }
     }
 
-    public static function getLevel(Player $player, string $job): int|float
+    public static function getLevelIndex(Player $player, string $job): int
     {
-        return Session::get($player)->data["jobs"][$job]["lvl"];
+        return Session::get($player)->data["jobs"][$job]["lvl"] ?? 0;
+    }
+
+    public static function getLevelDataByIndex(string $job, int $index): array
+    {
+        $key = array_keys(Cache::$config["job"][$job])[$index];
+        return Cache::$config["job"][$job][$key];
     }
 
     public static function getXp(Player $player, string $job): int|float
     {
-        return Session::get($player)->data["jobs"][$job]["xp"];
+        return Session::get($player)->data["jobs"][$job]["xp"] ?? 0;
+    }
+
+    public static function getLastLevelIndex(string $job): int
+    {
+        return count(array_keys(Cache::$config["job"][$job])) - 1;
     }
 
     public static function addXp(Player $player, string $job, int|float $xp, bool $tip = true): void
@@ -49,80 +68,55 @@ class Job
         }
 
         $session = Session::get($player);
+        $xp = round($xp * (1 + (self::getBoost($session) / 100)));
 
-        $rank = Rank::getEqualRank($player->getName());
-        $tax = Rank::getRankValue($rank, "tax");
+        $levelIndex = self::getLevelIndex($player, $job);
+        $levelData = self::getLevelDataByIndex($job, $levelIndex);
 
-        $level = self::getLevel($player, $job);
-        $xp = ($level === 20) ? 0 : round($xp * (1 + (25 - $tax) / 100));
-
-        $nextTotal = Cache::$config["job"]["lvls"][$level];
-        $total = self::getXp($player, $job) + $xp;
+        $nextXp = $levelData["xp"];
+        $totalXp = self::getXp($player, $job) + $xp;
 
         if ($tip) {
-            $player->sendTip(Util::PREFIX . "+ §q" . $xp . " §f" . $job);
+            $player->sendTip(Util::PREFIX . "+ §q" . $xp . " §f" . $job . Util::IARROW);
         }
 
-        if ($total > $nextTotal) {
-            $newXp = $total - $nextTotal;
-            $nextLevel = $level + 1;
+        if ($totalXp > $nextXp) {
+            $session->data["jobs"][$job]["lvl"]++;
+            $session->data["jobs"][$job]["xp"] = 0;
 
-            $session->data["jobs"][$job]["lvl"] = $nextLevel;
-            $session->data["jobs"][$job]["xp"] = $newXp;
+            $rewards = $levelData["reward"];
 
-            $session->addValue("money", $nextLevel * 2000);
+            foreach ($rewards["items"] as $reward) {
+                Util::addItem($player, Util::parseItem($reward));
+            }
 
-            $player->sendMessage(Util::PREFIX . "Vous venez de passer niveau §q" . $nextLevel . " §fdu métier de §q" . $job . " §f!!");
-            $player->sendMessage(Util::PREFIX . "Vous venez de recevoir §q" . $nextLevel * 2000 . " §fpièces pour vos récompenses de métiers !");
+            $player->sendMessage(Util::PREFIX . "Vous venez de passer niveau §q" . $levelIndex + 2 . " §fdu métier de §q" . $job . " §f!");
+            $player->sendMessage(Util::PREFIX . "Vous venez de recevoir " . $rewards["name"] . " §fen récompense de métier !");
 
             $player->broadcastSound(new BlazeShootSound());
-
-            if (isset(Cache::$config["job"]["rewards"][strval($nextLevel)])) {
-                $data = Cache::$config["job"]["rewards"][strval($nextLevel)];
-                $data = explode(":", $data);
-
-                switch (intval($data[0])) {
-                    case 0:
-                        $name = $data[1];
-                        $count = intval($data[2]);
-
-                        $item = Util::getItemByName($name)->setCount($count);
-                        Util::addItem($player, $item);
-
-                        $player->sendMessage(Util::PREFIX . "Vous venez de recevoir §q" . $data[3] . " §fpour vos récompenses de métier !");
-                        break;
-                    case 1:
-                        $name = $data[1];
-                        $customName = $data[2];
-                        $type = intval($data[3]);
-                        $_data = intval($data[4]);
-
-                        $item = Util::getItemByName($name);
-                        // $item = Pack::initializeItem($item, [$customName, $type, $_data]);
-
-                        Util::addItem($player, $item);
-                        $player->sendMessage(Util::PREFIX . "Vous venez de recevoir §q" . $data[5] . " §fpour vos récompenses de métiers !");
-                        break;
-                    case 2:
-                        $partneritems = array_keys(Cache::$config["partneritem"]);
-                        $item = $partneritems[array_rand($partneritems)];
-
-                        list(, , , $customName) = explode(":", Cache::$config["partneritem"][$item]);
-
-                        if ($item === "pumpkinaxe") {
-                            $item = PartnerItem::createItem($item)->setCount(3);
-                        } else {
-                            $item = PartnerItem::createItem($item)->setCount(12);
-                        }
-
-                        Util::addItem($player, $item);
-                        $player->sendMessage(Util::PREFIX . "Vous venez de recevoir un(e) §q" . $customName . " §fpour vos récompenses de métiers !");
-                        break;
-                }
-            }
         } else {
-            $actualXp = self::getXp($player, $job);
-            $session->data["jobs"][$job]["xp"] = $actualXp + $xp;
+            $session->data["jobs"][$job]["xp"] += $xp;
+            $player->broadcastSound(new XpCollectSound());
         }
+    }
+
+    public static function getBoost(Session $session): int
+    {
+        $init = Rank::getRankValue(Rank::getEqualRankBySession($session), "boost");
+
+        if ($session->inCooldown("xp_boost")) {
+            $init += $session->getCooldownData("xp_boost")[1];
+        }
+        return $init;
+    }
+
+    public static function createBoostPaper(int $boost, int $duration): Item
+    {
+        $item = VanillaItems::PAPER();
+        $item->getNamedTag()->setInt("xp_boost", $boost);
+        $item->getNamedTag()->setInt("duration", $duration);
+        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
+        $item->setCustomName("§r§fBoost d'xp de §q" . $boost . "% §7(" . Util::formatDurationFromSeconds($duration, 1) . ")");
+        return $item;
     }
 }

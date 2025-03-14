@@ -32,7 +32,7 @@ class Rename extends BaseCommand
         if ($sender instanceof Player) {
             $session = Session::get($sender);
 
-            if (!Rank::hasRank($sender, "prince")) {
+            if (!Rank::hasRank($sender, "vip-plus")) {
                 $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
                 return;
             }

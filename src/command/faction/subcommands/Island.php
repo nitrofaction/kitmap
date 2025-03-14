@@ -386,7 +386,7 @@ class Island extends FactionCommand
                 $player->sendMessage(Util::PREFIX . "Cette faction n'existe pas (verifiez les majuscules)");
                 return;
             } else if (Faction::isIslandLocked($faction)) {
-                $player->sendMessage(Util::PREFIX . "La faction dont vous vouliez vous téléportez à bloqué les visites");
+                $player->sendMessage(Util::PREFIX . "La faction à laquelle vous vouliez vous téléportez à bloqué les visites");
                 return;
             }
 

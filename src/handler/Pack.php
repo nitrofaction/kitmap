@@ -13,8 +13,6 @@ use Kitmap\Util;
 use muqsit\invmenu\InvMenu;
 use muqsit\invmenu\type\InvMenuTypeIds;
 use pocketmine\block\Block;
-use pocketmine\event\player\PlayerItemUseEvent;
-use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 use pocketmine\world\sound\ChestOpenSound;
 
@@ -63,12 +61,21 @@ class Pack
 
     private static function getPrimeTime(): array
     {
-        $now = new DateTime("now", new DateTimeZone("Europe/Paris"));
-        $primeTime = new DateTime("today 20:00:00", new DateTimeZone("Europe/Paris"));
+        $tz = new DateTimeZone("Europe/Paris");
+
+        $now = new DateTime("now", $tz);
+        $primeTime = new DateTime("today 20:00:00", $tz);
 
         if ($now > $primeTime) {
-            $primeTime = new DateTime("today 21:00:00", new DateTimeZone("Europe/Paris"));
-            return [true, $primeTime->getTimestamp() - $now->getTimestamp()];
+            $latePrimeTime = new DateTime("today 21:00:00", $tz);
+
+            if ($now > $latePrimeTime) {
+                $primeTime = new DateTime("tomorrow 20:00:00", $tz);
+                return [false, $primeTime->getTimestamp() - $now->getTimestamp()];
+            } else {
+                $primeTime = $latePrimeTime;
+                return [true, $primeTime->getTimestamp() - $now->getTimestamp()];
+            }
         }
 
         return [false, $primeTime->getTimestamp() - $now->getTimestamp()];
@@ -226,11 +233,14 @@ class Pack
         $menu->setName("Lots possible d'un pack");
         $menu->setListener(InvMenu::readonly());
 
+        $i = 0;
+
         foreach (Cache::$config["pack"]["rewards"] as $data) {
             $item = Util::parseItem($data[2]);
             $item->setCustomName("§r§q" . $data[0] . "% §f- " . ucfirst($data[1]));
             $item->getNamedTag()->setInt("menu_item", 0);
-            $menu->getInventory()->addItem($item);
+            $menu->getInventory()->setItem($i, $item);
+            $i++;
         }
 
         $menu->send($player);
@@ -245,50 +255,5 @@ class Pack
         }
 
         return $items;
-    }
-
-    public static function executeInteractPackItem(Player $player, PlayerItemUseEvent $event): bool
-    {
-        $item = $player->getInventory()->getItemInHand();
-        if (is_null($item->getNamedTag()->getTag("type")) || is_null($item->getNamedTag()->getTag("data"))) {
-            return false;
-        }
-
-        $type = $item->getNamedTag()->getInt("type");
-        $data = $item->getNamedTag()->getInt("data");
-
-        $session = Session::get($player);
-
-        switch ($type) {
-            case 0:
-                $session->addValue("money", $data);
-
-                Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient d'utiliser un billet de " . $data . " pièces");
-                $player->sendMessage(Util::PREFIX . "Vous venez d'utiliser un billet et recevoir §q" . $data . " §fpièces");
-                break;
-            case 1:
-                $name = match ($data) {
-                    1 => "champion",
-                    2 => "prince",
-                    3 => "elite",
-                    4 => "roi",
-                    default => "joueur"
-                };
-
-                Util::executeCommand("givekit \"" . $player->getName() . "\" " . $name);
-                break;
-            case 3:
-                $session->addValue("gem", $data);
-
-                Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient d'utiliser un billet de " . $data . " gemmes");
-                $player->sendMessage(Util::PREFIX . "Vous venez d'utiliser un billet et recevoir §q" . $data . " §fgemmes");
-                break;
-        }
-
-        $item->pop();
-        $player->getInventory()->setItemInHand($item->isNull() ? VanillaItems::AIR() : $item);
-
-        $event->cancel();
-        return true;
     }
 }

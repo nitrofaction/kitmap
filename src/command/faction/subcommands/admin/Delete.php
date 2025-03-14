@@ -37,7 +37,7 @@ class Delete extends BaseSubCommand
         }
 
         $sender->sendMessage(Util::PREFIX . "Vous venez de supprimer la faction §q" . $faction);
-        Faction::broadcastMessage($faction, "§q[§fF§r§q] §fLa faction dont vous êtiez n'existe désormais plus");
+        Faction::broadcastMessage($faction, "§q[§fF§r§q] §fLa faction dans laquelle vous étiez n'existe plus");
 
         foreach (Faction::getFactionMembers($faction, true) as $player) {
             $session = Session::get($player);

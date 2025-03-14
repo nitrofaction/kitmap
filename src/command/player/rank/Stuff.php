@@ -36,7 +36,7 @@ class Stuff extends BaseCommand
             /** @noinspection PhpDeprecationInspection */
             $player = Main::getInstance()->getServer()->getPlayerByPrefix($args["joueur"]);
 
-            if (!Rank::hasRank($sender, "elite")) {
+            if (!Rank::hasRank($sender, "ultra")) {
                 $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
                 return;
             } else if ($session->inCooldown("stuff")) {

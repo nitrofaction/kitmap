@@ -23,7 +23,9 @@ class ChunkBuster extends Block
 {
     public function getDrops(PmBlock $block, ?Item $item = null, Player $player = null): ?array
     {
-        return [VanillaBlocks::SMOKER()->asItem()];
+        return [
+            VanillaBlocks::SMOKER()->asItem()
+        ];
     }
 
     public function getXpDropAmount(PmBlock $block): ?int

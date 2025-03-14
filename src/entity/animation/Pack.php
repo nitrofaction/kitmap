@@ -3,6 +3,7 @@
 namespace Kitmap\entity\animation;
 
 use Kitmap\handler\Pack as Api;
+use Kitmap\Util;
 use pocketmine\block\Block;
 use pocketmine\entity\Attribute;
 use pocketmine\entity\EntitySizeInfo;
@@ -52,7 +53,7 @@ class Pack extends Living
                 return;
             }
 
-            $player->removeCurrentWindow();
+            Util::removeCurrentWindow($player);
             Api::openPackUI($player, $block);
         }
     }

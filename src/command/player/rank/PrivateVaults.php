@@ -41,7 +41,7 @@ class PrivateVaults extends BaseCommand
             $session = Session::get($sender);
             $chest = $args["coffre"] ?? false;
 
-            $rank = Rank::getEqualRank($sender->getName());
+            $rank = Rank::getEqualRankBySession($session);
             $vaults = Rank::getRankValue($rank, "pv");
 
             if ($session->data["staff_mod"][0] || $sender->getGamemode() === GameMode::SPECTATOR()) {

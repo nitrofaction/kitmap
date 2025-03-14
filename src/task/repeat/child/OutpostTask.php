@@ -74,7 +74,7 @@ class OutpostTask
                 foreach ($members as $player) {
                     $session = Session::get($player);
 
-                    $rank = Rank::getEqualRank($player->getName());
+                    $rank = Rank::getEqualRankBySession($session);
                     $price = Rank::getRankValue($rank, "outpost");
 
                     $session->addValue("money", $price);

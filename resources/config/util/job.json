@@ -1,47 +1,545 @@
 {
-  "lvls": [
-    0,
-    100,
-    500,
-    1500,
-    3000,
-    4500,
-    7000,
-    10000,
-    14000,
-    20000,
-    26000,
-    32000,
-    40000,
-    46000,
-    53000,
-    60000,
-    68000,
-    78000,
-    88000,
-    100000,
-    1000000000000000000
-  ],
-  "rewards": {
-    "2": "0:rabbit_hide:1:un fragment d'iris",
-    "3": "0:smoker:1:un Chunk Buster",
-    "4": "0:netherite_sword:1:une Epee en Iris",
-    "5": "1:paper:§r§bKit Roi:1:4:un Kit Roi",
-    "6": "1:paper:§r§eBillet de 75k:0:75000:un Billet de 75k pièces",
-    "7": "0:stone_shovel:1:une fourche en iris",
-    "8": "0:rabbit_hide:3:3 fragments d'iris",
-    "9": 2,
-    "10": "0:netherite_ingot:1:un lingot d'iris",
-    "11": "0:netherite_sword:1:une Epee en Iris",
-    "12": 2,
-    "13": "1:paper:§r§eBillet de 75k:0:75000:un Billet de 75k pièces",
-    "14": "1:paper:§r§bKit Roi:1:4:un Kit Roi",
-    "15": "0:netherite_sword:1:une Epee en iris",
-    "16": "0:rabbit_hide:1:un fragment d'iris",
-    "17": 2,
-    "18": "0:rabbit_hide:3:3 fragments d'Iris",
-    "19": "1:paper:§r§eBillet de 100k:0:100000:un Billet de 100k pièces",
-    "20": "0:netherite_ingot:1:un lingot d'iris",
-    "21": 2
+  "Mineur": {
+    "1": {
+      "reward": {
+        "name": "une bouteille d'§qxp §fde §q50 §fniveaux",
+        "items": [
+          "xp:50"
+        ]
+      },
+      "xp": 100
+    },
+    "2": {
+      "reward": {
+        "name": "une pioche en netherite §qbien §fenchanté",
+        "items": [
+          "item:netherite_pickaxe:1::15,5;17,3"
+        ]
+      },
+      "xp": 300
+    },
+    "3": {
+      "reward": {
+        "name": "§q4 §fémeraudes",
+        "items": [
+          "item:emerald:4"
+        ]
+      },
+      "xp": 500
+    },
+    "4": {
+      "reward": {
+        "name": "§q8 §fluckyblocks",
+        "items": [
+          "item:nether_quartz_ore:8"
+        ]
+      },
+      "xp": 700
+    },
+    "5": {
+      "reward": {
+        "name": "une bouteille d'§qxp §fde §q75 §fniveaux",
+        "items": [
+          "xp:75"
+        ]
+      },
+      "xp": 1000
+    },
+    "6": {
+      "reward": {
+        "name": "§q16 §fémeraudes",
+        "items": [
+          "item:emerald:16"
+        ]
+      },
+      "xp": 1500
+    },
+    "7": {
+      "reward": {
+        "name": "une tête de §qZombie",
+        "items": [
+          "item:zombie_head"
+        ]
+      },
+      "xp": 2000
+    },
+    "8": {
+      "reward": {
+        "name": "§q32 §fémeraudes",
+        "items": [
+          "item:emerald:32"
+        ]
+      },
+      "xp": 3000
+    },
+    "9": {
+      "reward": {
+        "name": "une bouteille d'§qxp §fde §q100 §fniveaux",
+        "items": [
+          "xp:100"
+        ]
+      },
+      "xp": 4000
+    },
+    "10": {
+      "reward": {
+        "name": "§q8 §fblocs d'obsidienne en émeraude",
+        "items": [
+          "item:crying_obsidian:8"
+        ]
+      },
+      "xp": 5000
+    },
+    "11": {
+      "reward": {
+        "name": "§q4 §fblocs d'émeraude",
+        "items": [
+          "item:emerald_block:4"
+        ]
+      },
+      "xp": 7500
+    },
+    "12": {
+      "reward": {
+        "name": "un §qHangGlider",
+        "items": [
+          "item:nautilus_shell"
+        ]
+      },
+      "xp": 10000
+    },
+    "13": {
+      "reward": {
+        "name": "§q16 §fluckyblocks",
+        "items": [
+          "item:nether_quartz_ore:16"
+        ]
+      },
+      "xp": 12500
+    },
+    "14": {
+      "reward": {
+        "name": "une §qFarmAxe §fen émeraude",
+        "items": [
+          "item:golden_axe"
+        ]
+      },
+      "xp": 15000
+    },
+    "15": {
+      "reward": {
+        "name": "§q25,000$",
+        "items": [
+          "money:25000"
+        ]
+      },
+      "xp": 20000
+    },
+    "16": {
+      "reward": {
+        "name": "§q16 §fblocs d'obsidienne en émeraude",
+        "items": [
+          "item:crying_obsidian:16"
+        ]
+      },
+      "xp": 30000
+    },
+    "17": {
+      "reward": {
+        "name": "une bouteille d'§qxp §fde §q200 §fniveaux",
+        "items": [
+          "xp:200"
+        ]
+      },
+      "xp": 40000
+    },
+    "18": {
+      "reward": {
+        "name": "§q16 §fblocs d'émeraude",
+        "items": [
+          "item:emerald_block:16"
+        ]
+      },
+      "xp": 50000
+    },
+    "19": {
+      "reward": {
+        "name": "§q50,000$",
+        "items": [
+          "money:50000"
+        ]
+      },
+      "xp": 60000
+    },
+    "20": {
+      "reward": {
+        "name": "une §qFarmAxe §fen rubis",
+        "items": [
+          "item:golden_pickaxe"
+        ]
+      },
+      "xp": 70000
+    }
+  },
+  "Farmeur": {
+    "1": {
+      "reward": {
+        "name": "une bouteille d'§qxp §fde §q25 §fniveaux",
+        "items": [
+          "xp:25"
+        ]
+      },
+      "xp": 100
+    },
+    "2": {
+      "reward": {
+        "name": "§q16 §fsuper engrais",
+        "items": [
+          "item:rapid_fertilizer:16"
+        ]
+      },
+      "xp": 300
+    },
+    "3": {
+      "reward": {
+        "name": "une §qfourche",
+        "items": [
+          "item:golden_shovel"
+        ]
+      },
+      "xp": 500
+    },
+    "4": {
+      "reward": {
+        "name": "§q15,000$",
+        "items": [
+          "money:15000"
+        ]
+      },
+      "xp": 700
+    },
+    "5": {
+      "reward": {
+        "name": "§q32 §fsuper engrais",
+        "items": [
+          "item:rapid_fertilizer:32"
+        ]
+      },
+      "xp": 1000
+    },
+    "6": {
+      "reward": {
+        "name": "une bouteille d'§qxp §fde §q50 §fniveaux",
+        "items": [
+          "xp:50"
+        ]
+      },
+      "xp": 1500
+    },
+    "7": {
+      "reward": {
+        "name": "§q25,000$",
+        "items": [
+          "money:25000"
+        ]
+      },
+      "xp": 2000
+    },
+    "8": {
+      "reward": {
+        "name": "un §qarrosoir",
+        "items": [
+          "item:golden_hoe"
+        ]
+      },
+      "xp": 3000
+    },
+    "9": {
+      "reward": {
+        "name": "§q64 §fsuper engrais",
+        "items": [
+          "item:rapid_fertilizer:64"
+        ]
+      },
+      "xp": 4000
+    },
+    "10": {
+      "reward": {
+        "name": "§q50,000$",
+        "items": [
+          "money:50000"
+        ]
+      },
+      "xp": 5000
+    },
+    "11": {
+      "reward": {
+        "name": "une bouteille d'§qxp §fde §q150 §fniveaux",
+        "items": [
+          "xp:150"
+        ]
+      },
+      "xp": 7500
+    },
+    "12": {
+      "reward": {
+        "name": "§q75,000$",
+        "items": [
+          "money:75000"
+        ]
+      },
+      "xp": 10000
+    },
+    "13": {
+      "reward": {
+        "name": "une §qpelle boostée",
+        "items": [
+          "item:iron_shovel"
+        ]
+      },
+      "xp": 12500
+    },
+    "14": {
+      "reward": {
+        "name": "§q8 §fblocs d'émeraude",
+        "items": [
+          "item:emerald_block:8"
+        ]
+      },
+      "xp": 15000
+    },
+    "15": {
+      "reward": {
+        "name": "un §qlingot de rubis",
+        "items": [
+          "item:rabbit_hide"
+        ]
+      },
+      "xp": 20000
+    },
+    "16": {
+      "reward": {
+        "name": "§q100,000$",
+        "items": [
+          "money:100000"
+        ]
+      },
+      "xp": 30000
+    },
+    "17": {
+      "reward": {
+        "name": "§q16 §fblocs d'émeraude",
+        "items": [
+          "item:emerald_block:16"
+        ]
+      },
+      "xp": 40000
+    },
+    "18": {
+      "reward": {
+        "name": "2 §qlingots de rubis",
+        "items": [
+          "item:rabbit_hide:2"
+        ]
+      },
+      "xp": 50000
+    },
+    "19": {
+      "reward": {
+        "name": "§q32 §fblocs d'émeraude",
+        "items": [
+          "item:emerald_block:32"
+        ]
+      },
+      "xp": 60000
+    },
+    "20": {
+      "reward": {
+        "name": "une §qFarmAxe en rubis",
+        "items": [
+          "item:golden_pickaxe"
+        ]
+      },
+      "xp": 70000
+    }
+  },
+  "Hunter": {
+    "1": {
+      "reward": {
+        "name": "§q4 §qpommes ze3ef",
+        "items": []
+      },
+      "xp": 100
+    },
+    "2": {
+      "reward": {
+        "name": "§q4 §fblocs d'émeraude",
+        "items": [
+          "item:emerald_block:4"
+        ]
+      },
+      "xp": 300
+    },
+    "3": {
+      "reward": {
+        "name": "une épée en §qémeraude",
+        "items": [
+          "item:golden_sword"
+        ]
+      },
+      "xp": 500
+    },
+    "4": {
+      "reward": {
+        "name": "§q8 §fblocs d'obsidienne en émeraude",
+        "items": [
+          "item:crying_obsidian:8"
+        ]
+      },
+      "xp": 700
+    },
+    "5": {
+      "reward": {
+        "name": "§q8 §qpommes ze3ef",
+        "items": []
+      },
+      "xp": 1000
+    },
+    "6": {
+      "reward": {
+        "name": "§q8 §fblocs d'émeraude",
+        "items": [
+          "item:emerald_block:8"
+        ]
+      },
+      "xp": 1500
+    },
+    "7": {
+      "reward": {
+        "name": "une bouteille d'§qxp §fde §q50 §fniveaux",
+        "items": [
+          "xp:50"
+        ]
+      },
+      "xp": 2000
+    },
+    "8": {
+      "reward": {
+        "name": "§q25,000$",
+        "items": [
+          "money:25000"
+        ]
+      },
+      "xp": 3000
+    },
+    "9": {
+      "reward": {
+        "name": "§q16 §fluckyblocks",
+        "items": [
+          "item:nether_quartz_ore:16"
+        ]
+      },
+      "xp": 4000
+    },
+    "10": {
+      "reward": {
+        "name": "une épée en §qémeraude",
+        "items": [
+          "item:golden_sword"
+        ]
+      },
+      "xp": 5000
+    },
+    "11": {
+      "reward": {
+        "name": "§q32 §fblocs d'obsidienne en émeraude",
+        "items": [
+          "item:crying_obsidian:32"
+        ]
+      },
+      "xp": 7500
+    },
+    "12": {
+      "reward": {
+        "name": "§q16 §qpommes ze3ef",
+        "items": []
+      },
+      "xp": 10000
+    },
+    "13": {
+      "reward": {
+        "name": "§q50,000$",
+        "items": [
+          "money:50000"
+        ]
+      },
+      "xp": 12500
+    },
+    "14": {
+      "reward": {
+        "name": "une bouteille d'§qxp §fde §q100 §fniveaux",
+        "items": [
+          "xp:100"
+        ]
+      },
+      "xp": 15000
+    },
+    "15": {
+      "reward": {
+        "name": "un §qfull émeraude",
+        "items": [
+          "item:golden_helmet",
+          "item:golden_chestplate",
+          "item:golden_leggings",
+          "item:golden_boots"
+        ]
+      },
+      "xp": 20000
+    },
+    "16": {
+      "reward": {
+        "name": "§q16 §fblocs d'émeraude",
+        "items": [
+          "item:emerald_block:16"
+        ]
+      },
+      "xp": 30000
+    },
+    "17": {
+      "reward": {
+        "name": "§q32 §fluckyblocks",
+        "items": [
+          "item:nether_quartz_ore:32"
+        ]
+      },
+      "xp": 40000
+    },
+    "18": {
+      "reward": {
+        "name": "une §qpomme enchantée",
+        "items": [
+          "item:enchanted_golden_apple"
+        ]
+      },
+      "xp": 50000
+    },
+    "19": {
+      "reward": {
+        "name": "un §qgénérateur de Zombie",
+        "items": [
+          "item:monster_spawner_zombie"
+        ]
+      },
+      "xp": 60000
+    },
+    "20": {
+      "reward": {
+        "name": "un §qlingot de rubis",
+        "items": [
+          "item:rabbit_hide"
+        ]
+      },
+      "xp": 70000
+    }
   }
 }

@@ -62,7 +62,7 @@ class GamblingTask
 
                 Util::removeCurrentWindow($p);
 
-                $p->sendTitle("§eDébut dans " . 5 - (self::$since + 5));
+                $p->sendTitle("§qDébut dans " . 5 - (self::$since + 5));
                 $p->setNoClientPredictions();
                 $p->setGamemode(GameMode::SURVIVAL());
 

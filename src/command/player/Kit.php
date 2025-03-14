@@ -35,7 +35,7 @@ class Kit extends BaseCommand
     public static function createPaperKit(string $kit): Item
     {
         $item = VanillaItems::PAPER();
-        $item->getNamedTag()->setInt("kit", $kit);
+        $item->getNamedTag()->setString("kit", $kit);
         $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
         $item->setCustomName("§r§qKit " . ucfirst($kit));
         return $item;
@@ -113,7 +113,7 @@ class Kit extends BaseCommand
     {
         $unbreaking = new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 3);
         $protection = new EnchantmentInstance(VanillaEnchantments::PROTECTION(), 2);
-        $efficiency = new EnchantmentInstance(VanillaEnchantments::EFFICIENCY(), 5);
+        $efficiency = new EnchantmentInstance(VanillaEnchantments::EFFICIENCY(), 3);
         $sharpness = new EnchantmentInstance(VanillaEnchantments::SHARPNESS(), 2);
 
         return [
@@ -128,13 +128,10 @@ class Kit extends BaseCommand
             ],
             "mineur" => [
                 "items" => [
-                    VanillaItems::DIAMOND_PICKAXE()->addEnchantment($unbreaking)->addEnchantment($efficiency),
-                    VanillaItems::DIAMOND_AXE()->addEnchantment($unbreaking)->addEnchantment($efficiency),
-                    VanillaItems::DIAMOND_SHOVEL()->addEnchantment($unbreaking)->addEnchantment($efficiency),
-                    VanillaItems::DIAMOND_HOE()->addEnchantment($unbreaking),
-                    VanillaItems::COOKED_SALMON()->setCount(2),
-                    VanillaItems::COOKED_FISH()->setCount(2),
-                    VanillaItems::RAW_SALMON()->setCount(2)
+                    VanillaItems::IRON_PICKAXE()->addEnchantment($unbreaking)->addEnchantment($efficiency),
+                    VanillaItems::IRON_AXE()->addEnchantment($unbreaking)->addEnchantment($efficiency),
+                    VanillaItems::IRON_SHOVEL()->addEnchantment($unbreaking)->addEnchantment($efficiency),
+                    VanillaItems::IRON_HOE()->addEnchantment($unbreaking),
                 ],
                 "cooldown" => 60,
                 "rank" => "joueur"
@@ -146,6 +143,7 @@ class Kit extends BaseCommand
                     VanillaItems::DIAMOND_LEGGINGS()->addEnchantment($unbreaking)->addEnchantment($protection),
                     VanillaItems::DIAMOND_BOOTS()->addEnchantment($unbreaking)->addEnchantment($protection),
                     VanillaItems::DIAMOND_SWORD()->addEnchantment($sharpness)->addEnchantment($unbreaking),
+
                     VanillaItems::COOKED_SALMON()->setCount(4),
                     VanillaItems::COOKED_FISH()->setCount(4),
                     VanillaItems::RAW_SALMON()->setCount(4)
@@ -153,57 +151,70 @@ class Kit extends BaseCommand
                 "cooldown" => 60,
                 "rank" => "joueur"
             ],
-            "champion" => [
+            "vip" => [
                 "items" => [
                     VanillaItems::GOLDEN_HELMET()->addEnchantment($unbreaking)->addEnchantment($protection),
+
                     VanillaItems::DIAMOND_CHESTPLATE()->addEnchantment($unbreaking)->addEnchantment($protection),
                     VanillaItems::DIAMOND_LEGGINGS()->addEnchantment($unbreaking)->addEnchantment($protection),
                     VanillaItems::DIAMOND_BOOTS()->addEnchantment($unbreaking)->addEnchantment($protection),
                     VanillaItems::DIAMOND_SWORD()->addEnchantment($sharpness)->addEnchantment($unbreaking),
+
                     VanillaItems::COOKED_SALMON()->setCount(8),
                     VanillaItems::COOKED_FISH()->setCount(8),
                     VanillaItems::RAW_SALMON()->setCount(8)
                 ],
-                "cooldown" => 60 * 60,
-                "rank" => "champion"
+                "cooldown" => 60 * 60 * 3,
+                "rank" => "vip"
             ],
-            "prince" => [
+            "vip-plus" => [
                 "items" => [
                     VanillaItems::GOLDEN_HELMET()->addEnchantment($unbreaking)->addEnchantment($protection),
+
                     VanillaItems::DIAMOND_CHESTPLATE()->addEnchantment($unbreaking)->addEnchantment($protection),
                     VanillaItems::DIAMOND_LEGGINGS()->addEnchantment($unbreaking)->addEnchantment($protection),
+
                     VanillaItems::GOLDEN_BOOTS()->addEnchantment($unbreaking)->addEnchantment($protection),
+
                     VanillaItems::DIAMOND_SWORD()->addEnchantment($sharpness)->addEnchantment($unbreaking),
+
                     VanillaItems::COOKED_SALMON()->setCount(16),
                     VanillaItems::COOKED_FISH()->setCount(16),
                     VanillaItems::RAW_SALMON()->setCount(16)
                 ],
-                "cooldown" => 60 * 60 * 2,
-                "rank" => "prince"
-            ],
-            "elite" => [
-                "items" => [
-                    VanillaItems::GOLDEN_HELMET()->addEnchantment($unbreaking)->addEnchantment($protection),
-                    VanillaItems::GOLDEN_CHESTPLATE()->addEnchantment($unbreaking)->addEnchantment($protection),
-                    VanillaItems::GOLDEN_LEGGINGS()->addEnchantment($unbreaking)->addEnchantment($protection),
-                    VanillaItems::GOLDEN_BOOTS()->addEnchantment($unbreaking)->addEnchantment($protection),
-                    VanillaItems::DIAMOND_SWORD()->addEnchantment($sharpness)->addEnchantment($unbreaking),
-                    VanillaItems::RAW_FISH()->setCount(16)
-                ],
-                "cooldown" => 60 * 60 * 3,
-                "rank" => "elite"
-            ],
-            "roi" => [
-                "items" => [
-                    VanillaItems::GOLDEN_HELMET()->addEnchantment($unbreaking)->addEnchantment($protection),
-                    VanillaItems::GOLDEN_CHESTPLATE()->addEnchantment($unbreaking)->addEnchantment($protection),
-                    VanillaItems::GOLDEN_LEGGINGS()->addEnchantment($unbreaking)->addEnchantment($protection),
-                    VanillaItems::GOLDEN_BOOTS()->addEnchantment($unbreaking)->addEnchantment($protection),
-                    VanillaItems::GOLDEN_SWORD()->addEnchantment($sharpness)->addEnchantment($unbreaking),
-                    VanillaItems::RAW_FISH()->setCount(16)
-                ],
                 "cooldown" => 60 * 60 * 4,
-                "rank" => "roi"
+                "rank" => "vip-plus"
+            ],
+            "ultra" => [
+                "items" => [
+                    VanillaItems::GOLDEN_HELMET()->addEnchantment($unbreaking)->addEnchantment($protection),
+
+                    VanillaItems::DIAMOND_CHESTPLATE()->addEnchantment($unbreaking)->addEnchantment($protection),
+
+                    VanillaItems::GOLDEN_LEGGINGS()->addEnchantment($unbreaking)->addEnchantment($protection),
+                    VanillaItems::GOLDEN_BOOTS()->addEnchantment($unbreaking)->addEnchantment($protection),
+
+                    VanillaItems::DIAMOND_SWORD()->addEnchantment($sharpness)->addEnchantment($unbreaking),
+
+                    VanillaItems::RAW_FISH()->setCount(16)
+                ],
+                "cooldown" => 60 * 60 * 6,
+                "rank" => "ultra"
+            ],
+            "legende" => [
+                "items" => [
+                    VanillaItems::IRON_HELMET()->addEnchantment($unbreaking)->addEnchantment($protection),
+
+                    VanillaItems::GOLDEN_CHESTPLATE()->addEnchantment($unbreaking)->addEnchantment($protection),
+                    VanillaItems::GOLDEN_LEGGINGS()->addEnchantment($unbreaking)->addEnchantment($protection),
+                    VanillaItems::GOLDEN_BOOTS()->addEnchantment($unbreaking)->addEnchantment($protection),
+
+                    VanillaItems::GOLDEN_SWORD()->addEnchantment($sharpness)->addEnchantment($unbreaking),
+
+                    VanillaItems::RAW_FISH()->setCount(16)
+                ],
+                "cooldown" => 60 * 60 * 8,
+                "rank" => "legende"
             ]
         ];
     }

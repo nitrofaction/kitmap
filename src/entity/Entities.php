@@ -9,16 +9,17 @@ use Kitmap\entity\animation\PackItem;
 use Kitmap\entity\floating\DynamicFloatingText;
 use Kitmap\entity\floating\LeaderboardFloatingText;
 use Kitmap\entity\npc\BlackSmith;
-use Kitmap\entity\npc\ElevatorPhantom;
-use Kitmap\entity\npc\LogoutNpc;
-use Kitmap\entity\npc\CommandNpc;
-use Kitmap\entity\npc\TopNpc;
+use Kitmap\entity\npc\CmdEntity;
+use Kitmap\entity\npc\LogoutEntity;
+use Kitmap\entity\npc\Merchant;
+use Kitmap\entity\npc\Quest;
+use Kitmap\entity\npc\TopEntity;
 use pocketmine\block\RuntimeBlockStateRegistry;
 use pocketmine\data\bedrock\PotionTypeIdMap;
 use pocketmine\data\bedrock\PotionTypeIds;
 use pocketmine\data\SavedDataLoadingException;
 use pocketmine\entity\Entity;
-use pocketmine\entity\EntityDataHelper;
+use pocketmine\entity\EntityDataHelper as Helper;
 use pocketmine\entity\EntityFactory;
 use pocketmine\entity\object\ItemEntity;
 use pocketmine\item\Item;
@@ -32,64 +33,50 @@ use ReflectionClass;
 
 class Entities
 {
+    const NPC_TAG = "nitro_npc";
+
     public function __construct()
     {
         EntityFactory::getInstance()->register(AntiBackBall::class, function (World $world, CompoundTag $nbt): AntiBackBall {
-            return new AntiBackBall(EntityDataHelper::parseLocation($nbt, $world), null, $nbt);
+            return new AntiBackBall(Helper::parseLocation($nbt, $world), null, $nbt);
         }, ["AntiBackBallEntity"]);
 
-        EntityFactory::getInstance()->register(LogoutNpc::class, function (World $world, CompoundTag $nbt): LogoutNpc {
-            return new LogoutNpc(EntityDataHelper::parseLocation($nbt, $world), LogoutNpc::parseSkinNBT($nbt), $nbt);
+        EntityFactory::getInstance()->register(SwitchBall::class, function (World $world, CompoundTag $nbt): SwitchBall {
+            return new SwitchBall(Helper::parseLocation($nbt, $world), null, $nbt);
+        }, ["SwitcherEntity"]);
+
+        EntityFactory::getInstance()->register(LogoutEntity::class, function (World $world, CompoundTag $nbt): LogoutEntity {
+            return new LogoutEntity(Helper::parseLocation($nbt, $world), LogoutEntity::parseSkinNBT($nbt), $nbt);
         }, ["LogoutEntity"]);
 
         EntityFactory::getInstance()->register(Nexus::class, function (World $world, CompoundTag $nbt): Nexus {
-            return new Nexus(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+            return new Nexus(Helper::parseLocation($nbt, $world), $nbt);
         }, ["NexusEntity"]);
 
-        EntityFactory::getInstance()->register(ElevatorPhantom::class, function (World $world, CompoundTag $nbt): ElevatorPhantom {
-            return new ElevatorPhantom(EntityDataHelper::parseLocation($nbt, $world), $nbt);
-        }, ["ElevatorPhantom"]);
-
-        EntityFactory::getInstance()->register(CommandNpc::class, function (World $world, CompoundTag $nbt): CommandNpc {
-            return new CommandNpc(EntityDataHelper::parseLocation($nbt, $world), CommandNpc::parseSkinNBT($nbt), $nbt);
-        }, ["CommandNpc"]);
-
-        EntityFactory::getInstance()->register(TopNpc::class, function (World $world, CompoundTag $nbt): TopNpc {
-            return new TopNpc(EntityDataHelper::parseLocation($nbt, $world), TopNpc::parseSkinNBT($nbt), $nbt);
-        }, ["TopNpc"]);
-
-        EntityFactory::getInstance()->register(SwitchBall::class, function (World $world, CompoundTag $nbt): SwitchBall {
-            return new SwitchBall(EntityDataHelper::parseLocation($nbt, $world), null, $nbt);
-        }, ["SwitcherEntity"]);
-
         EntityFactory::getInstance()->register(DynamicFloatingText::class, function (World $world, CompoundTag $nbt): DynamicFloatingText {
-            return new DynamicFloatingText(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+            return new DynamicFloatingText(Helper::parseLocation($nbt, $world), $nbt);
         }, ["DynamicFloatingText"]);
 
         EntityFactory::getInstance()->register(LeaderboardFloatingText::class, function (World $world, CompoundTag $nbt): LeaderboardFloatingText {
-            return new LeaderboardFloatingText(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+            return new LeaderboardFloatingText(Helper::parseLocation($nbt, $world), $nbt);
         }, ["LeaderboardFloatingText"]);
 
-        EntityFactory::getInstance()->register(BlackSmith::class, function (World $world, CompoundTag $nbt): BlackSmith {
-            return new BlackSmith(EntityDataHelper::parseLocation($nbt, $world), $nbt);
-        }, ["Forgeron"]);
-
-        EntityFactory::getInstance()->register(EnderPearl::class, function (World $world, CompoundTag $nbt): EnderPearl {
-            return new EnderPearl(EntityDataHelper::parseLocation($nbt, $world), null, $nbt);
-        }, ["ThrownEnderpearl", "minecraft:ender_pearl"]);
-
         EntityFactory::getInstance()->register(GhostBlock::class, function (World $world, CompoundTag $nbt): GhostBlock {
-            return new GhostBlock(EntityDataHelper::parseLocation($nbt, $world), GhostBlock::parseBlockNBT(RuntimeBlockStateRegistry::getInstance(), $nbt), $nbt);
+            return new GhostBlock(Helper::parseLocation($nbt, $world), GhostBlock::parseBlockNBT(RuntimeBlockStateRegistry::getInstance(), $nbt), $nbt);
         }, ["GhostBlock"]);
 
         EntityFactory::getInstance()->register(Message::class, function (World $world, CompoundTag $nbt): Message {
-            return new Message(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+            return new Message(Helper::parseLocation($nbt, $world), $nbt);
         }, ["MessageEntity"]);
+
+        EntityFactory::getInstance()->register(EnderPearl::class, function (World $world, CompoundTag $nbt): EnderPearl {
+            return new EnderPearl(Helper::parseLocation($nbt, $world), null, $nbt);
+        }, ["ThrownEnderpearl", "minecraft:ender_pearl"]);
 
         EntityFactory::getInstance()->register(SplashPotion::class, function (World $world, CompoundTag $nbt): SplashPotion {
             $potionType = PotionTypeIdMap::getInstance()->fromId($nbt->getShort(SplashPotion::TAG_POTION_ID, PotionTypeIds::WATER));
             if ($potionType === null) throw new SavedDataLoadingException("No such potion type");
-            return new SplashPotion(EntityDataHelper::parseLocation($nbt, $world), null, $potionType, $nbt);
+            return new SplashPotion(Helper::parseLocation($nbt, $world), null, $potionType, $nbt);
         }, ["ThrownPotion", "minecraft:potion", "thrownpotion"]);
 
         EntityFactory::getInstance()->register(PackItem::class, function (World $world, CompoundTag $nbt): PackItem {
@@ -99,8 +86,32 @@ class Entities
             if ($itemTag === null) throw new SavedDataLoadingException("Expected \"" . ItemEntity::TAG_ITEM . "\" NBT tag not found");
             if ($item->isNull()) throw new SavedDataLoadingException("Item is invalid");
 
-            return new PackItem(EntityDataHelper::parseLocation($nbt, $world), $item, $nbt);
+            return new PackItem(Helper::parseLocation($nbt, $world), $item, $nbt);
         }, ["Pack"]);
+
+        EntityFactory::getInstance()->register(CmdEntity::class, function (World $world, CompoundTag $nbt): CmdEntity {
+            return new CmdEntity(Helper::parseLocation($nbt, $world), CmdEntity::parseSkinNBT($nbt), $nbt);
+        }, ["Cmd"]);
+
+        EntityFactory::getInstance()->register(TopEntity::class, function (World $world, CompoundTag $nbt): TopEntity {
+            return new TopEntity(Helper::parseLocation($nbt, $world), TopEntity::parseSkinNBT($nbt), $nbt);
+        }, ["Top"]);
+
+        EntityFactory::getInstance()->register(BlackSmith::class, function (World $world, CompoundTag $nbt): BlackSmith {
+            return new BlackSmith(Helper::parseLocation($nbt, $world), $nbt);
+        }, ["BlackSmith"]);
+
+        EntityFactory::getInstance()->register(Quest::class, function (World $world, CompoundTag $nbt): Quest {
+            return new Quest(Helper::parseLocation($nbt, $world), $nbt);
+        }, ["Quest"]);
+
+        EntityFactory::getInstance()->register(Merchant::class, function (World $world, CompoundTag $nbt): Merchant {
+            return new Merchant(Helper::parseLocation($nbt, $world), $nbt);
+        }, ["Merchant"]);
+
+        EntityFactory::getInstance()->register(SpawnerEntity::class, function (World $world, CompoundTag $nbt): SpawnerEntity {
+            return new SpawnerEntity(Helper::parseLocation($nbt, $world), $nbt);
+        }, ["SpawnerEntity"]);
 
         $this->registerEntity(Pack::class, "nitro:pack");
     }
@@ -108,7 +119,7 @@ class Entities
     public function registerEntity(string $className, string $identifier, ?Closure $creationFunc = null, string $behaviourId = ""): void
     {
         EntityFactory::getInstance()->register($className, $creationFunc ?? static function (World $world, CompoundTag $nbt) use ($className): Entity {
-            return new $className(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+            return new $className(Helper::parseLocation($nbt, $world), $nbt);
         }, [$identifier]);
 
         $this->updateStaticPacketCache($identifier, $behaviourId);

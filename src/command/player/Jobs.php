@@ -22,6 +22,7 @@ class Jobs extends BaseCommand
             "Ouvre le menu des jobs"
         );
 
+        $this->setAliases(["job", "metier", "metiers"]);
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
     }
 
@@ -29,16 +30,17 @@ class Jobs extends BaseCommand
     {
         if ($sender instanceof Player) {
             $form = new SimpleForm(function (Player $player, mixed $data) {
-                if (!is_string($data) || !in_array($data, ["mineur", "farmeur", "hunter"])) {
+                if (!is_string($data) || !isset(Cache::$config["job"][$data])) {
                     return;
                 }
 
                 $this->jobInformation($player, $data);
             });
             $form->setTitle("Métiers");
-            $form->addButton("§8Mineur§q: §8" . Api::getProgressBar($sender, "Mineur", "UI") . "\n" . Api::getProgressBar($sender, "Mineur"), -1, "", "mineur");
-            $form->addButton("§8Farmeur§q: §8" . Api::getProgressBar($sender, "Farmeur", "UI") . "\n" . Api::getProgressBar($sender, "Farmeur"), -1, "", "farmeur");
-            $form->addButton("§8Hunter§q: §8" . Api::getProgressBar($sender, "Hunter", "UI") . "\n" . Api::getProgressBar($sender, "Hunter"), -1, "", "hunter");
+            $form->setContent(Util::PREFIX . "Cliquez sur un métier pour avoir plus d'informations sur son propos");
+            foreach (Cache::$config["job"] as $name => $data) {
+                $form->addButton("§8" . $name . "§q: §8" . Api::getProgressBar($sender, $name, "UI") . "\n" . Api::getProgressBar($sender, $name), -1, "", $name);
+            }
             $sender->sendForm($form);
         }
     }
@@ -48,37 +50,27 @@ class Jobs extends BaseCommand
         $form = new SimpleForm(null);
         $form->setTitle("Métiers");
 
-        $label = Util::PREFIX . "§qMétier de " . $job . "\n\n";
+        $label = Util::PREFIX . "§qMétier de " . ucfirst($job) . "\n\n";
 
         switch ($job) {
-            case "mineur":
-                $label .= "§fPierre: §q1xp\n§fPierre taillé: §q1xp\n§fLuckyBlock: §q5xp\n§fEmeraude: §q15xp";
+            case "Mineur":
+                $label .= "§fPierre: §q1xp\n§fPierre taillée: §q1xp\n§fMinerai de charbon: §q2xp\n§fMinerai de fer: §q4xp\n§fMinerai d'or: §q10xp\n§fMinerai de diamant: §q20xp\n§fMinerai d'émeraude: §q40xp\n§fMinerai de rubis: §q80xp\n§fMinerai de lapis: §q5xp\n§fMinerai de redstone: §q2xp";
                 break;
-            case "farmeur":
-                $label .= "§fBlé: §q1-3xp\n§fCarrote: §q1-3xp\n§fBetterave: §q1-3xp\n§fPatate: §q1-3xp\n§fMelon: §q1-3xp\n§fBambou: §q1xp\n\n§fGraines en Iris: §q5xp";
+            case "Farmeur":
+                $label .= "§fBlé: §q1-3xp\n§fCarrote: §q1-3xp\n§fBetterave: §q1-3xp\n§fPatate: §q1-3xp\n§fMelon: §q1-3xp\n§fBambou: §q1xp";
                 break;
-            case "hunter":
-                $label .= "§fKill: §q50xp\n§fPlus votre killstreak (exemple: 50 + 10)";
+            case "Hunteur":
+                $label .= "§fKill: §q50xp\n§fZombie: §q1-6xp\n§fWither Squelette: §q1-6xp\n§fEnderman: §q1-6xp\n§fCreeper: §q1-6xp\n§fPiglin: §q1-6xp";
                 break;
         }
 
         $label .= "\n\n" . Util::PREFIX . "§qRécomponses:\n\n";
 
-        for ($i = 2; $i <= 20; $i++) {
-            $data = Cache::$config["job"]["rewards"][strval($i)];
-            $data = explode(":", $data);
-
-            $name = match (intval($data[0])) {
-                0 => $data[3],
-                1 => $data[5],
-                default => "un partneritem aléatoire",
-            };
-
-            $label .= "§fNiveau " . $i . ": §q" . ucfirst(strtolower($name)) . "\n";
+        foreach (Cache::$config["job"][$job] as $level => $data) {
+            $label .= "\n§qNiveau " . $level . " §f: " . ucfirst($data["reward"]["name"]);
         }
 
         $form->setContent($label);
-        $form->addButton("Quitter");
         $player->sendForm($form);
     }
 

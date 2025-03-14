@@ -27,7 +27,7 @@ class Delete extends FactionCommand
 
     public function onNormalRun(Player $sender, Session $session, ?string $faction, array $args): void
     {
-        Faction::broadcastMessage($faction, "§q[§fF§r§q] §fLa faction dont vous êtiez n'existe désormais plus");
+        Faction::broadcastMessage($faction, "§q[§fF§r§q] §fLa faction dans laquelle vous étiez n'existe plus");
 
         foreach (Faction::getFactionMembers($faction, true) as $player) {
             $session->data["faction"] = null;

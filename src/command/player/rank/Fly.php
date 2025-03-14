@@ -31,7 +31,7 @@ class Fly extends BaseCommand
         if ($sender instanceof Player) {
             $session = Session::get($sender);
 
-            if (!Rank::hasRank($sender, "champion") && !$session->data["fly"]) {
+            if (!Rank::hasRank($sender, "vip") && !$session->data["fly"]) {
                 $this->openBuyForm($sender);
                 return;
             }
