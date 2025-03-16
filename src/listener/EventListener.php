@@ -1116,11 +1116,11 @@ class EventListener implements Listener
 
         $origin = $event->getOrigin();
 
-        if (in_array($packetId, Cache::$disabledPackets)) {
+        /*if (in_array($packetId, Cache::$disabledPackets)) {
             Main::getInstance()->getLogger()->info("ID de paquet non décodé: $packetId (" . strlen($packetBuffer) . ") venant de : " . $origin->getPlayer() instanceof Player ? $origin->getPlayer()->getName() : $origin->getIp());
             $event->cancel();
             return;
-        }
+        }*/
 
         if (strlen($packetBuffer) > 8096 && ($packetId !== ProtocolInfo::LOGIN_PACKET && $packetId !== ProtocolInfo::PLAYER_SKIN_PACKET)) {
             $event->cancel();

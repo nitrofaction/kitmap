@@ -23,7 +23,7 @@ class Permissions extends FactionCommand
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
-        $this->setAliases(["perms"]);
+        $this->setAliases(["perms", "perm", "permission"]);
     }
 
     public function onNormalRun(Player $sender, Session $session, ?string $faction, array $args): void
