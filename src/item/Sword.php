@@ -29,4 +29,9 @@ class Sword extends Durable
     {
         return $this->maxDurability;
     }
+
+    public function isRare(): bool
+    {
+        return true;
+    }
 }

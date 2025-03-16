@@ -37,7 +37,7 @@ class Merchant extends Villager
 
         $dialogue = NpcDialogueBuilder::create()
             ->setName("Marchant")
-            ->setText("Salut, je suis le marchant ! C'est moi qui transforme ton §qémeraude §ren §qémeraude renforcé §r!\n\nPour cela il me faudra:\n" . Util::PREFIX . "§r1 lingot d'émeraude\n" . Util::PREFIX . "§r80 chairs putrifiées\n" . Util::PREFIX . "§r25 lingots d'or")
+            ->setText("Salut, je suis le marchant ! C'est moi qui transforme ton §qémeraude §ren §qémeraude renforcé §r!\n\nPour cela il me faudra:\n" . Util::PREFIX . "§r1 lingot d'émeraude\n" . Util::PREFIX . "§r32 chairs putrifiées\n" . Util::PREFIX . "§r25 lingots d'or")
             ->setDefaultNpcTexture(DefaultNpcDialogueTexture::TEXTURE_AGRICULTURE_8);
 
         $dialogue = $dialogue->addSimpleButton("Je reviens", function (Player $player) use ($prefix) {
@@ -50,7 +50,7 @@ class Merchant extends Villager
 
             $requirements = [
                 "emerald:1",
-                "rotten_flesh:80",
+                "rotten_flesh:32",
                 "gold_ingot:25"
             ];
 

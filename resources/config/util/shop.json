@@ -9,37 +9,22 @@
       "Fragment en iris:rabbit_hide:50000:5000"
     ]
   },
-  "Colorants": {
+  "Générateurs": {
     "type": "basic",
     "items": [
-      "Colorant noir:black_dye:25:0",
-      "Colorant rouge:red_dye:25:0",
-      "Colorant vert:green_dye:25:0",
-      "Colorant marron:brown_dye:25:0",
-      "Colorant bleu:blue_dye:25:0",
-      "Colorant violet:purple_dye:25:0",
-      "Colorant cyan:cyan_dye:25:0",
-      "Colorant gris clair:light_gray_dye:25:0",
-      "Colorant gris:gray_dye:25:0",
-      "Colorant rose:pink_dye:25:0",
-      "Colorant vert clair:lime_dye:25:0",
-      "Colorant jaune:yellow_dye:25:0",
-      "Colorant bleu ciel:light_blue_dye:25:0",
-      "Colorant magenta:magenta_dye:25:0",
-      "Colorant orange:orange_dye:25:0",
-      "Colorant blanc:white_dye:25:0"
+      "Générateur de Zombie:monster_spawner_zombie:1000000:0",
+      "Générateur de Piglin:monster_spawner_piglin:1000000:0"
     ]
   },
   "Utile": {
     "type": "basic",
     "items": [
-      "Terre fertilisé:soul_sand:100:25",
+      "Terre fertilisé:soul_sand:50:15",
       "Graines de blé:wheat_seeds:30:0",
       "Graines de betteraves:beetroot_seeds:30:0",
       "Sceau de lave:lava_bucket:50:0",
       "Sceau deau:water_bucket:50:0",
-      "Elevateur:lapis_block:10000:0",
-      "GhostBlock:chiseled_nether_bricks:25000:0"
+      "Elevateur:lapis_block:10000:0"
     ]
   }
 }

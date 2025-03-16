@@ -13,6 +13,10 @@ use Kitmap\Util;
 use muqsit\invmenu\InvMenu;
 use muqsit\invmenu\type\InvMenuTypeIds;
 use pocketmine\block\Block;
+use pocketmine\item\enchantment\EnchantmentInstance;
+use pocketmine\item\enchantment\VanillaEnchantments;
+use pocketmine\item\Item;
+use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 use pocketmine\world\sound\ChestOpenSound;
 
@@ -94,6 +98,7 @@ class Pack
 
         if ($animationBlock instanceof Block) {
             if ($session->inCooldown("pack")) {
+                $session->addValue("packs");
                 $player->sendMessage(Util::PREFIX . "Veuillez attendre un peu avant de ré-ouvrir un §qpack §f(commande /pack pour éviter l'animation)..");
                 return;
             }
@@ -255,5 +260,15 @@ class Pack
         }
 
         return $items;
+    }
+
+
+    public static function createPackPaper(int $amount): Item
+    {
+        $item = VanillaItems::PAPER();
+        $item->getNamedTag()->setInt("pack", $amount);
+        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
+        $item->setCustomName("§r§q" . $amount . " §fpack(s)");
+        return $item;
     }
 }

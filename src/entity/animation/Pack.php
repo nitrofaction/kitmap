@@ -74,7 +74,7 @@ class Pack extends Human
             $this->spawnFirework($color);
         }
 
-        if ($this->ticks >= 1000) {
+        if ($this->ticks >= 2500) {
             $this->ticks = 0;
         }
 
@@ -83,7 +83,7 @@ class Pack extends Human
 
     private function spawnFirework(string $color): void
     {
-        $this->item->addExplosion(mt_rand(2, 4), $color, "", true, true);
+        $this->item->addExplosion(mt_rand(0, 4), $color, "", true, true);
 
         $positions = [
             5 => [1.5, 0, 1.5],

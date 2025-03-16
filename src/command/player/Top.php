@@ -77,7 +77,7 @@ class Top extends BaseCommand
             "death" => "Joueurs ayant le plus de §qmorts",
             "elo" => "Joueurs ayant le plus d'§qelo",
             "money" => "Joueurs ayant le plus de §qpièces",
-            "nerd" => "Joueurs ayant le plus de §qjoué",
+            "nerd" => "Joueurs ayant le plus d'§qheures de jeu",
             "bounty" => "Joueurs ayant la plus grosse §qprime",
             default => "Joueurs ayant le plus de §qkills"
         };

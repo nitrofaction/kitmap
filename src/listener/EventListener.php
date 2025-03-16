@@ -40,7 +40,6 @@ use pocketmine\block\{Anvil,
     VanillaBlocks,
     Water};
 use pocketmine\block\tile\Chest as ChestTile;
-use pocketmine\entity\effect\{EffectInstance, VanillaEffects};
 use pocketmine\entity\object\ItemEntity;
 use pocketmine\event\block\{BlockBreakEvent,
     BlockGrowEvent,
@@ -79,11 +78,8 @@ use pocketmine\event\server\CommandEvent;
 use pocketmine\event\server\DataPacketDecodeEvent;
 use pocketmine\event\server\DataPacketSendEvent;
 use pocketmine\event\world\ChunkLoadEvent;
-use pocketmine\inventory\ArmorInventory;
-use pocketmine\inventory\CallbackInventoryListener;
-use pocketmine\inventory\Inventory;
 use pocketmine\inventory\transaction\action\SlotChangeAction;
-use pocketmine\item\{Axe, Bucket, Hoe, Item, PaintingItem, PotionType, Shovel, Stick, VanillaItems};
+use pocketmine\item\{Axe, Bucket, Hoe, PaintingItem, PotionType, Shovel, Stick, VanillaItems};
 use pocketmine\math\Facing;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
@@ -290,21 +286,14 @@ class EventListener implements Listener
             Bienvenue::$lastJoin = $player->getName();
         }
 
-        $player->getArmorInventory()->getListeners()->add(new CallbackInventoryListener(function (Inventory $inventory, int $slot, Item $oldItem): void {
+        /*$player->getArmorInventory()->getListeners()->add(new CallbackInventoryListener(function (Inventory $inventory, int $slot, Item $oldItem): void {
             if ($inventory instanceof ArmorInventory) {
                 $targetItem = $inventory->getItem($slot);
 
-                if ($targetItem->getTypeId() === VanillaItems::TURTLE_HELMET()->getTypeId()) {
-                    $inventory->getHolder()->getEffects()->add(new EffectInstance(VanillaEffects::FIRE_RESISTANCE(), 20 * 60 * 60 * 24, 0, false));
-                    $inventory->getHolder()->getEffects()->add(new EffectInstance(VanillaEffects::HASTE(), 20 * 60 * 60 * 24, 1, false));
-                    $inventory->getHolder()->getEffects()->add(new EffectInstance(VanillaEffects::JUMP_BOOST(), 20 * 60 * 60 * 24, 2, false));
-                } else if ($oldItem->getTypeId() === VanillaItems::TURTLE_HELMET()->getTypeId()) {
-                    $inventory->getHolder()->getEffects()->remove(VanillaEffects::FIRE_RESISTANCE());
-                    $inventory->getHolder()->getEffects()->remove(VanillaEffects::HASTE());
-                    $inventory->getHolder()->getEffects()->remove(VanillaEffects::JUMP_BOOST());
-                }
+                ExtraVanillaItems::getItem($oldItem)->removeEffects($inventory, $oldItem);
+                ExtraVanillaItems::getItem($targetItem)->addEffects($inventory, $targetItem);
             }
-        }, null));
+        }, null));*/
 
         Util::givePlayerPreferences($player);
 
@@ -456,7 +445,7 @@ class EventListener implements Listener
 
                 if ($playerBounty > 0) {
                     $damagerSession->addValue("money", $playerBounty);
-                    Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $damager->getName() . " §fvient de remporter un prime de §q" . $playerBounty . " pièce(s) §fen tuant §q" . $player->getName() . " §f!");
+                    Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $damager->getName() . " §fvient de remporter une prime de §q" . $playerBounty . " pièce(s) §fen tuant §q" . $player->getName() . " §f!");
                 }
 
                 if ($damagerKillstreak % 5 == 0) {
@@ -475,7 +464,7 @@ class EventListener implements Listener
                 $player->sendMessage(Util::PREFIX . "Vous venez de perdre §c" . $lossElo . " §felo !");
                 $damager->sendMessage(Util::PREFIX . "Vous venez de gagner §q" . $winElo . " §felo !");
 
-                Job::addXp($damager, "Hunter", 50 + $damagerSession->data["killstreak"]);
+                Job::addXp($damager, "Assassin", 50 + $damagerSession->data["killstreak"]);
                 return;
             }
         } else {
@@ -784,12 +773,16 @@ class EventListener implements Listener
             $event->cancel();
         }*/
 
-        if (
-            $source instanceof Liquid &&
-            $blockPos->getWorld() === Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()
-        ) {
-            if (Faction::inClaim($sourcePos->getX(), $sourcePos->getZ()) !== Faction::inClaim($blockPos->getX(), $blockPos->getZ())) {
+        if ($source instanceof Liquid) {
+            if ($event->getBlock()->hasSameTypeId(VanillaBlocks::NETHER_WART())) {
                 $event->cancel();
+                return;
+            }
+
+            if ($blockPos->getWorld() === Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()) {
+                if (Faction::inClaim($sourcePos->getX(), $sourcePos->getZ()) !== Faction::inClaim($blockPos->getX(), $blockPos->getZ())) {
+                    $event->cancel();
+                }
             }
         }
     }
@@ -919,22 +912,9 @@ class EventListener implements Listener
             return;
         }
 
-        if ($block->hasSameTypeId(VanillaBlocks::COBBLESTONE()) || $block->hasSameTypeId(VanillaBlocks::STONE())) {
-            Job::addXp($player, "Mineur", 1);
-        } else if ($block->hasSameTypeId(VanillaBlocks::MELON()) || ($block instanceof Crops && !$block->ticksRandomly())) {
-            Job::addXp($player, "Farmeur", mt_rand(1, 3));
-        }
-
         $xp = match ($block->getTypeId()) {
-            VanillaBlocks::COAL_ORE()->getTypeId() => 2,
-            VanillaBlocks::IRON_ORE()->getTypeId() => 4,
-            VanillaBlocks::GOLD_ORE()->getTypeId() => 10,
-            VanillaBlocks::DIAMOND_ORE()->getTypeId() => 20,
-            VanillaBlocks::EMERALD_ORE()->getTypeId() => 40,
-            VanillaBlocks::DEEPSLATE_EMERALD_ORE()->getTypeId() => 40,
-            VanillaBlocks::ANCIENT_DEBRIS()->getTypeId() => 80,
-            VanillaBlocks::REDSTONE_ORE()->getTypeId() => 5,
-            VanillaBlocks::LAPIS_LAZULI()->getTypeId() => 5,
+            VanillaBlocks::EMERALD_ORE()->getTypeId() => 5,
+            VanillaBlocks::DEEPSLATE_EMERALD_ORE()->getTypeId() => 5,
             default => null
         };
 
@@ -959,6 +939,12 @@ class EventListener implements Listener
 
         if (is_int($xp)) {
             Job::addXp($player, "Mineur", $xp);
+        }
+
+        if ($block->hasSameTypeId(VanillaBlocks::COBBLESTONE()) || $block->hasSameTypeId(VanillaBlocks::DEEPSLATE()) || $block->hasSameTypeId(VanillaBlocks::STONE())) {
+            Job::addXp($player, "Mineur", 1);
+        } else if ($block->hasSameTypeId(VanillaBlocks::MELON()) || ($block instanceof Crops && !$block->ticksRandomly())) {
+            Job::addXp($player, "Farmeur", mt_rand(1, 3));
         }
 
         Util::addItems($player, $event->getDrops());
@@ -1088,7 +1074,12 @@ class EventListener implements Listener
     {
         $item = $event->getItem();
 
-        if ($item->getTypeId() === VanillaItems::GOLDEN_APPLE()->getTypeId() || $item->getTypeId() === VanillaItems::GOLDEN_CARROT()->getTypeId()) {
+        if (
+            $item->getTypeId() === VanillaItems::CHORUS_FRUIT()->getTypeId() ||
+            $item->getTypeId() === VanillaItems::POPPED_CHORUS_FRUIT()->getTypeId() ||
+            $item->getTypeId() === VanillaItems::GOLDEN_APPLE()->getTypeId() ||
+            $item->getTypeId() === VanillaItems::GOLDEN_CARROT()->getTypeId()
+        ) {
             $event->cancel();
             return;
         }
@@ -1099,7 +1090,12 @@ class EventListener implements Listener
     public function onItemSpawn(ItemSpawnEvent $event): void
     {
         $entity = $event->getEntity();
-        $entity->setDespawnDelay(intval(15 * Main::getInstance()->getServer()->getTicksPerSecondAverage()));
+
+        if (ExtraVanillaItems::getItem($event->getEntity()->getItem())->isRare()) {
+            $entity->setDespawnDelay(intval(45 * Main::getInstance()->getServer()->getTicksPerSecondAverage()));
+        } else {
+            $entity->setDespawnDelay(intval(15 * Main::getInstance()->getServer()->getTicksPerSecondAverage()));
+        }
     }
 
     public function onDataPacketSendMaxoooz(DataPacketSendEvent $event): void
@@ -1118,8 +1114,15 @@ class EventListener implements Listener
         $packetId = $event->getPacketId();
         $packetBuffer = $event->getPacketBuffer();
 
+        $origin = $event->getOrigin();
+
+        if (in_array($packetId, Cache::$disabledPackets)) {
+            Main::getInstance()->getLogger()->info("ID de paquet non décodé: $packetId (" . strlen($packetBuffer) . ") venant de : " . $origin->getPlayer() instanceof Player ? $origin->getPlayer()->getName() : $origin->getIp());
+            $event->cancel();
+            return;
+        }
+
         if (strlen($packetBuffer) > 8096 && ($packetId !== ProtocolInfo::LOGIN_PACKET && $packetId !== ProtocolInfo::PLAYER_SKIN_PACKET)) {
-            $origin = $event->getOrigin();
             $event->cancel();
 
             Main::getInstance()->getLogger()->info("ID de paquet non décodé: $packetId (" . strlen($packetBuffer) . ") venant de : " . $origin->getPlayer() instanceof Player ? $origin->getPlayer()->getName() : $origin->getIp());

@@ -68,7 +68,7 @@ class Enchant extends BaseCommand
         } else if ($item instanceof Armor) {
             $form->addButton("Protection", label: EnchantmentIds::PROTECTION . ";Protection;2");
         } else if ($item instanceof Pickaxe || $item instanceof Axe || $item instanceof Shovel) {
-            $form->addButton("Efficacité", label: EnchantmentIds::EFFICIENCY . ";Efficacité;5");
+            $form->addButton("Efficacité", label: EnchantmentIds::EFFICIENCY . ";Efficacité;30");
         }
 
         $form->addButton("Solidité", label: EnchantmentIds::UNBREAKING . ";Solidité;3");

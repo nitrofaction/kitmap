@@ -47,7 +47,7 @@ class Event extends BaseCommand
                 return;
             }
 
-            $menu = InvMenu::create(InvMenuTypeIds::TYPE_HOPPER);
+            $menu = InvMenu::create(InvMenuTypeIds::TYPE_CHEST);
             $inventory = $menu->getInventory();
 
             $eventsData = Cache::$config["event"];

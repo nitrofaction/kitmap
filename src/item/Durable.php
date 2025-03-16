@@ -30,4 +30,9 @@ abstract class Durable extends Item
     }
 
     abstract public function getMaxDurability(): int;
+
+    public function isRare(): bool
+    {
+        return true;
+    }
 }

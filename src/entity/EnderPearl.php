@@ -5,6 +5,7 @@ namespace Kitmap\entity;
 use Kitmap\Session;
 use Kitmap\Util;
 use pocketmine\block\Block;
+use pocketmine\block\FenceGate;
 use pocketmine\block\PressurePlate;
 use pocketmine\block\Tripwire;
 use pocketmine\block\utils\DyeColor;
@@ -36,11 +37,21 @@ class EnderPearl extends PmEnderPearl
     {
         $player = $this->getOwningEntity();
 
-        if ($player instanceof Player && ($block->isSameState(VanillaBlocks::STAINED_GLASS()->setColor(DyeColor::BROWN())) || $block->hasSameTypeId(VanillaBlocks::REDSTONE()))) {
+        if ($player instanceof Player && $block instanceof FenceGate) {
+            $player->sendMessage(Util::PREFIX . "Votre perle a été annulé car elle a touché un portillon, votre cooldown perle à été reset à §q2 §fsecondes");
+            Session::get($player)->setCooldown("enderpearl", 2);
+
+            $this->setOwningEntity(null);
+            $this->flagForDespawn();
+
+            return null;
+        } else if ($player instanceof Player && ($block->isSameState(VanillaBlocks::STAINED_GLASS()->setColor(DyeColor::BROWN())) || $block->hasSameTypeId(VanillaBlocks::REDSTONE()))) {
             $player->sendMessage(Util::PREFIX . "Votre perle a été annulé car elle a touché un bloc antiback, votre cooldown perle à été reset à §q2 §fsecondes");
             Session::get($player)->setCooldown("enderpearl", 2);
 
+            $this->setOwningEntity(null);
             $this->flagForDespawn();
+
             return null;
         }
 

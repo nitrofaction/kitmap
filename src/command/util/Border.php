@@ -21,7 +21,7 @@ class Border extends BaseCommand
             "Active des particules pour voir les limites des chunks"
         );
 
-        $this->setAliases(["chunk"]);
+        $this->setAliases(["chunk", "limit"]);
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
     }
 

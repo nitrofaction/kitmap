@@ -4,6 +4,7 @@ namespace Kitmap\item;
 
 use Kitmap\entity\SplashPotion as SplashPotionEntity;
 use Kitmap\handler\trait\CooldownTrait;
+use pocketmine\entity\effect\EffectInstance;
 use pocketmine\entity\Location;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\entity\EntityDamageEvent;
@@ -12,6 +13,7 @@ use pocketmine\event\inventory\ItemDamageEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\event\player\PlayerItemUseEvent;
+use pocketmine\inventory\ArmorInventory;
 use pocketmine\item\Durable as PmDurable;
 use pocketmine\item\Item as PmItem;
 use pocketmine\item\PotionType;
@@ -115,5 +117,31 @@ class Item
             $newItem = $item->pop()->isNull() ? VanillaItems::AIR() : $item;
             $player->getInventory()->setItemInHand($newItem);
         }
+    }
+
+    public function addEffects(ArmorInventory $inventory, PmItem $item): void
+    {
+        foreach ($this->getEffects($item) as $data) {
+            [$effect, $amplifier] = $data;
+            $inventory->getHolder()->getEffects()->add(new EffectInstance($effect, 20 * 60 * 60 * 24, $amplifier, false));
+        }
+    }
+
+    public function getEffects(PmItem $item): array
+    {
+        return [];
+    }
+
+    public function removeEffects(ArmorInventory $inventory, PmItem $item): void
+    {
+        foreach ($this->getEffects($item) as $data) {
+            [$effect,] = $data;
+            $inventory->getHolder()->getEffects()->remove($effect);
+        }
+    }
+
+    public function isRare(): bool
+    {
+        return false;
     }
 }

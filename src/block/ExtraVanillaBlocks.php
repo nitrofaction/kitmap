@@ -29,13 +29,13 @@ class ExtraVanillaBlocks
         self::addBlock(VanillaBlocks::ENCHANTING_TABLE(), new EnchantingTable());
         self::addBlock(VanillaBlocks::TRAPPED_CHEST(), new FarmingChest());
         self::addBlock(VanillaBlocks::NETHER_WART(), new NetherWartPlant());
-        self::addBlock(VanillaBlocks::CHISELED_NETHER_BRICKS(), new GhostBlock());
         self::addBlock(VanillaBlocks::SMOKER(), new ChunkBuster());
         self::addBlock(VanillaBlocks::STONE(), new Stone());
         self::addBlock(VanillaBlocks::COBBLESTONE(), new Stone());
         self::addBlock(VanillaBlocks::LAPIS_LAZULI(), new Elevator());
         self::addBlock(ExtraVanillaBlocks::MONSTER_SPAWNER(), new MonsterSpawner());
         self::addBlock(VanillaBlocks::MELON_STEM(), new MelonStem());
+        self::addBlock(VanillaBlocks::BAMBOO(), new Bamboo());
 
         TileFactory::getInstance()->register(SpawnerTile::class, ["MobSpawner", "minecraft:mob_spawner"]);
 

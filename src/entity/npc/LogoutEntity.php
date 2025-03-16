@@ -84,6 +84,9 @@ class LogoutEntity extends Human
             $session->addValue("kill");
             $session->addValue("killstreak");
 
+            $session->addValue("elo", $winElo = mt_rand(3, 8));
+            $damager->sendMessage(Util::PREFIX . "Vous venez de gagner §q" . $winElo . " §felo !");
+
             if (Faction::hasFaction($damager)) Faction::addPower($session->data["faction"], 6);
             if (!is_null($this->faction)) Faction::addPower($this->faction, -4);
 
@@ -99,6 +102,7 @@ class LogoutEntity extends Human
 
         LastInventory::saveInventory($this->player, $damager, $this->saveNBT(), $this->getXpManager()->getCurrentTotalXp(), $file->get("killstreak"));
 
+        $file->set("elo", $file->get("elo", 0) - mt_rand(1, 5));
         $file->set("death", $file->get("death", 0) + 1);
         $file->set("killstreak", 0);
         $file->save();

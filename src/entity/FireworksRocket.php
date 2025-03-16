@@ -19,12 +19,6 @@ class FireworksRocket extends Entity
 {
 
     public const DATA_FIREWORK_ITEM = 16; //firework item
-
-    public static function getNetworkTypeId(): string
-    {
-        return EntityIds::FIREWORKS_ROCKET;
-    }
-
     protected int $lifeTime = 0;
     protected Fireworks $fireworks;
 
@@ -42,27 +36,23 @@ class FireworksRocket extends Entity
         $location->getWorld()->broadcastPacketToViewers($this->location, LevelSoundEventPacket::nonActorSound(LevelSoundEvent::LAUNCH, $this->location->asVector3(), false));
     }
 
-    protected function getInitialDragMultiplier(): float{
-        return 0.99;
+    public function setLifeTime(int $life): void
+    {
+        $this->lifeTime = $life;
     }
 
-    protected function getInitialGravity(): float{
-        return 0.05;
+    public static function getNetworkTypeId(): string
+    {
+        return EntityIds::FIREWORKS_ROCKET;
     }
 
     /**
      * TODO: The entity should be saved and loaded, but this is not possible.
      * @see https://bugs.mojang.com/browse/MCPE-165230
      */
-    public function canSaveWithChunk(): bool{
-        return false;
-    }
-
-    protected function tryChangeMovement(): void
+    public function canSaveWithChunk(): bool
     {
-        $this->motion->x *= 1.15;
-        $this->motion->y += 0.04;
-        $this->motion->z *= 1.15;
+        return false;
     }
 
     public function entityBaseTick(int $tickDiff = 1): bool
@@ -77,11 +67,6 @@ class FireworksRocket extends Entity
         }
 
         return $hasUpdate;
-    }
-
-    public function setLifeTime(int $life): void
-    {
-        $this->lifeTime = $life;
     }
 
     protected function doLifeTimeTick(): bool
@@ -134,15 +119,32 @@ class FireworksRocket extends Entity
         $properties->setCompoundTag(self::DATA_FIREWORK_ITEM, new CacheableNbt($this->fireworks->getNamedTag()));
     }
 
-    protected function getInitialSizeInfo(): EntitySizeInfo
-    {
-        return new EntitySizeInfo(0.25, 0.25);
-    }
-
     public function saveNBT(): CompoundTag
     {
         $nbt = parent::saveNBT();
         $nbt->setTag("Item", $this->fireworks->nbtSerialize());
         return $nbt;
+    }
+
+    protected function getInitialDragMultiplier(): float
+    {
+        return 0.99;
+    }
+
+    protected function getInitialGravity(): float
+    {
+        return 0.05;
+    }
+
+    protected function tryChangeMovement(): void
+    {
+        $this->motion->x *= 1.15;
+        $this->motion->y += 0.04;
+        $this->motion->z *= 1.15;
+    }
+
+    protected function getInitialSizeInfo(): EntitySizeInfo
+    {
+        return new EntitySizeInfo(0.25, 0.25);
     }
 }

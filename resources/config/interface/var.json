@@ -218,6 +218,7 @@
     "paradis"
   ],
   "partneritem": {
+    "refill": "fermented_spider_eye:\n§r§7Faites un clic droit sur cet item pour\ndéplacez toutes les potions de votre inventaire\ndans les espaces vide de votre hotbar\n\n§r§7Obtenable dans les §qpacks:§r§uRefill:1",
     "ninjastar": "nether_star:\n§r§7Faites un clic droit sur cet item pour\npour vous téléporter au dernier joueur que vous avez frappé ou\nqui vous a frappé durant les 15 dernières secondes\n\n§r§7Obtenable dans les §qpacks:§r§dNinjaStar:1",
     "repairstick": "stick:\n§r§7Faites un clic droit sur cet item pour\nque une pièce au hasard de votre inventaire\nse répare\n\n§r§7Obtenable dans les §qpacks:§r§aRepairStick:1",
     "rocket": "red_dye:\n§r§7Faites un clic droit sur cet item pour\nvous expulser dans les airs\n\n§r§7Obtenable dans les §qpacks:§r§cRocket:1",
@@ -249,8 +250,8 @@
     "market": [
       "10.5:71:20.5:90:Market:§8(§7Tape moi§8):market"
     ],
-    "planning": [
-      "10.5:71:23.5:90:Planning:§8(§7Tape moi§8):planning"
+    "event": [
+      "10.5:71:23.5:90:Event:§8(§7Tape moi§8):event"
     ],
     "casino": [
       "20.5:70:47.5:180:Croupier:§8(Tape moi):casino",
@@ -313,5 +314,183 @@
       ],
       "xp": 4
     }
+  },
+  "wiki": {
+    "cooked_fish": [
+      "Cookie de régénération",
+      "Une fois consommé, ce cookie vous donnera un effet de régénération"
+    ],
+    "fish": [
+      "Cookie combiné",
+      "Une fois consommé, ce cookie vous donnera un effet de régénération, force et vitesse"
+    ],
+    "cooked_salmon": [
+      "Cookie de force",
+      "Une fois consommé, ce cookie vous donnera un effet de force"
+    ],
+    "salmon": [
+      "Cookie de Vitesse",
+      "Une fois consommé, ce cookie vous donnera un effet de vitesse"
+    ],
+    "gold_nugget": [
+      "Pépite d'émeraude",
+      "Les pépites d'émeraude permettent de craft les lingots en émeraude"
+    ],
+    "dragon_breath": [
+      "Lingot d'émeraude renforcé",
+      "Le lingot d'émeraude renforcé permet de craft les items en émeraude renforcé"
+    ],
+    "rabbit_foot": [
+      "Poussière d'iris",
+      "Les poussières en iris permettent de craft les fragments en iris"
+    ],
+    "rabbit_hide": [
+      "Fragment d'iris",
+      "Les fragments en iris permettent de craft les lingots en iris"
+    ],
+    "netherite_ingot": [
+      "Lingot d'iris",
+      "Le lingot d'iris permet de craft les items en iris"
+    ],
+    "nether_wart": [
+      "Graines d'iris",
+      "Les graines d'iris poussé permettent d'avoir une chance d'avoir une poussière d'iris"
+    ],
+    "redstone_block": [
+      "Bloc AntiBack",
+      "Les blocs antiback permettent de bloquer les perles"
+    ],
+    "stained_glass.brown": [
+      "Verre AntiBack",
+      "Les verres antiback permettent de bloquer les perles"
+    ],
+    "lapis_block": [
+      "Élévateur",
+      "Les élévateurs permettent de se téléporter rapidement en sautant ou se sneakant par dessus quand il existe un élévateur placé au dessus ou en dessous"
+    ],
+    "chiseled_nether_bricks": [
+      "Ghost Block",
+      "..."
+    ],
+    "nether_gold_ore": [
+      "LuckyBlock",
+      "..."
+    ],
+    "trapped_chest": [
+      "Farming Chest",
+      "Les farming chest permettent de récupérer l'entierté des champs de manière instantané"
+    ],
+    "soul_sand": [
+      "Terre Fertilisée",
+      "La terre fertilisée permet de faire pousser les graines d'iris"
+    ],
+    "smoker": [
+      "Chunk Buster",
+      "..."
+    ],
+    "nautilus_shell": [
+      "Potion Launcher",
+      "Le potion launcher permet aux telephones et manettes d'envoyer des potions de manière à ne jamais ouvrir leur inventaire"
+    ],
+    "stone_hoe": [
+      "Arrosoir",
+      "Permet d’accélérer la croissance des graines"
+    ],
+    "stone_shovel": [
+      "Fourche",
+      "Clic gauche sur de la terre pour la fertiliser en 3x3, récolte une plantation avec pour la replanter directement"
+    ],
+    "chainmail_boots": [
+      "Bottes de paille",
+      "Les bottes en paille font partie de l'armure de farm du serveur qui donne des effets"
+    ],
+    "chainmail_chestplate": [
+      "Plastron en paille",
+      "Le plastron en paille fait partie de l'armure de farm du serveur qui donne des effets"
+    ],
+    "chainmail_helmet": [
+      "Chapeau de paille",
+      "Le chapeau en paille fait partie de l'armure de farm du serveur qui donne des effets"
+    ],
+    "chainmail_leggings": [
+      "Pantalon en paille",
+      "Le pantalon en paille fait partie de l'armure de farm du serveur qui donne des effets"
+    ],
+    "golden_boots": [
+      "Bottes en émeraude",
+      "Les bottes en émeraude sont les 1ères bottes du serveur et les moins résistantes des bottes moddé"
+    ],
+    "golden_chestplate": [
+      "Plastron en émeraude",
+      "Le plastron en émeraude est le 1er plastron du serveur et le moins résistant des plastrons moddé"
+    ],
+    "golden_leggings": [
+      "Jambières en émeraude",
+      "Les jambières en émeraude sont les 1ères jambières du serveur et les moins résistantes des jambières moddé"
+    ],
+    "golden_helmet": [
+      "Casque en émeraude",
+      "Le casque en émeraude est le 1er casque du serveur et le moins résistant des casques moddé"
+    ],
+    "iron_boots": [
+      "Bottes en émeraude renforcé",
+      "Les bottes en émeraude renforcé sont les 2èmes bottes du serveur et sont entre l'émeraude et l'iris"
+    ],
+    "iron_chestplate": [
+      "Plastron en émeraude renforcé",
+      "Le plastron en émeraude renforcé est le 2ème plastron du serveur et est entre l'émeraude et l'iris"
+    ],
+    "iron_leggings": [
+      "Jambières en émeraude renforcé",
+      "Les jambières en émeraude renforcé sont les 2èmes jambières du serveur et sont entre l'émeraude et l'iris"
+    ],
+    "iron_helmet": [
+      "Casque en émeraude renforcé",
+      "Le casque en émeraude renforcé est le 2ème casque du serveur et est entre l'émeraude et l'iris"
+    ],
+    "golden_sword": [
+      "Épée en émeraude",
+      "L'épée en émeraude est la 1ère épée du serveur et est la moins forte des épées moddé"
+    ],
+    "iron_sword": [
+      "Épée en émeraude renforcé",
+      "L'épée en émeraude renforcé est la 2ème épée du serveur et est entre l'émeraude et l'iris"
+    ],
+    "netherite_sword": [
+      "Épée en iris",
+      "L'épée en iris est la 3ème épée et la meilleure épée du serveur, craftable avec de l'iris seulement"
+    ],
+    "netherite_boots": [
+      "Bottes en iris",
+      "Les bottes iris sont les 3èmes bottes et les meilleures bottes du serveur, craftable avec de l'iris seulement"
+    ],
+    "netherite_chestplate": [
+      "Plastron en iris",
+      "Le plastron en iris est le 3ème plastron et le meilleur plastron du serveur, craftable avec de l'iris seulement"
+    ],
+    "netherite_helmet": [
+      "Casque en iris",
+      "Le casque en iris est le 3ème casque et le meilleur casque du serveur, craftable avec de l'iris seulement"
+    ],
+    "netherite_leggings": [
+      "Jambières en iris",
+      "Les jambières iris sont les 3èmes jambières et les meilleures jambières du serveur, craftable avec de l'iris seulement"
+    ],
+    "netherite_pickaxe": [
+      "Pioche en Ilvaïte",
+      "La pioche en Ilvaïte est la meilleure pioche du serveur, elle est obtenable dans la quête du mineur"
+    ],
+    "netherite_axe": [
+      "Hache en Ilvaïte",
+      "La hache en Ilvaïte est la meilleure hache du serveur, elle est obtenable dans la quête du bûcheron"
+    ],
+    "netherite_shovel": [
+      "Pelle en Ilvaïte",
+      "La pelle en Ilvaïte est la meilleure pelle du serveur, elle est obtenable dans la quête du paysan"
+    ],
+    "netherite_hoe": [
+      "Houe en Ilvaïte",
+      "La houe en Ilvaïte est la meilleure houe du serveur, elle est obtenable dans la quête du paysan"
+    ]
   }
 }

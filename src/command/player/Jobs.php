@@ -54,20 +54,20 @@ class Jobs extends BaseCommand
 
         switch ($job) {
             case "Mineur":
-                $label .= "§fPierre: §q1xp\n§fPierre taillée: §q1xp\n§fMinerai de charbon: §q2xp\n§fMinerai de fer: §q4xp\n§fMinerai d'or: §q10xp\n§fMinerai de diamant: §q20xp\n§fMinerai d'émeraude: §q40xp\n§fMinerai de rubis: §q80xp\n§fMinerai de lapis: §q5xp\n§fMinerai de redstone: §q2xp";
+                $label .= "§fPierre: §q1xp\n§fPierre taillée: §q1xp\n§fMinerai d'émeraude: §q5xp";
                 break;
             case "Farmeur":
                 $label .= "§fBlé: §q1-3xp\n§fCarrote: §q1-3xp\n§fBetterave: §q1-3xp\n§fPatate: §q1-3xp\n§fMelon: §q1-3xp\n§fBambou: §q1xp";
                 break;
             case "Hunteur":
-                $label .= "§fKill: §q50xp\n§fZombie: §q1-6xp\n§fWither Squelette: §q1-6xp\n§fEnderman: §q1-6xp\n§fCreeper: §q1-6xp\n§fPiglin: §q1-6xp";
+                $label .= "§fKill: §q50xp\n§fZombie: §q1-6xp\n§fPiglin: §q1-6xp";
                 break;
         }
 
         $label .= "\n\n" . Util::PREFIX . "§qRécomponses:\n\n";
 
         foreach (Cache::$config["job"][$job] as $level => $data) {
-            $label .= "\n§qNiveau " . $level . " §f: " . ucfirst($data["reward"]["name"]);
+            $label .= "\n§qNiveau " . intval($level + 1) . " §f: " . ucfirst($data["reward"]["name"]);
         }
 
         $form->setContent($label);

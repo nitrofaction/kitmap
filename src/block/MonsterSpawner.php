@@ -13,7 +13,6 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\inventory\CreativeInventory;
-use pocketmine\item\enchantment\VanillaEnchantments;
 use pocketmine\item\Item as PmItem;
 use pocketmine\item\StringToItemParser;
 use pocketmine\scheduler\ClosureTask;
@@ -51,19 +50,15 @@ class MonsterSpawner extends Block
 
     public function onBreak(BlockBreakEvent $event): bool
     {
-        $item = $event->getItem();
         $block = $event->getBlock();
+        $tile = $block->getPosition()->getWorld()->getTile($block->getPosition());
 
-        if ($item->hasEnchantment(VanillaEnchantments::SILK_TOUCH())) {
-            $tile = $block->getPosition()->getWorld()->getTile($block->getPosition());
+        if ($tile instanceof SpawnerTile && $tile->getEntityId() !== ":" && !$event->getPlayer()->isCreative()) {
+            $event->setXpDropAmount(0);
 
-            if ($tile instanceof SpawnerTile && $tile->getEntityId() !== ":") {
-                $event->setXpDropAmount(0);
-
-                $event->setDrops([
-                    StringToItemParser::getInstance()->parse("monster_spawner_" . str_replace("minecraft:", "", $tile->getEntityId()))
-                ]);
-            }
+            $event->setDrops([
+                StringToItemParser::getInstance()->parse("monster_spawner_" . str_replace("minecraft:", "", $tile->getEntityId()))
+            ]);
         }
 
         return parent::onBreak($event);

@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpDeprecationInspection */
 
 namespace Kitmap\handler;
 
@@ -48,8 +48,8 @@ class Casino
         $form->setTitle("Casino");
         $form->setContent(Util::PREFIX . "Bienvenue dans le menu du §qcasino §f! Veuillez choisir le jeu auquel vous voulez jouer !");
         $form->addButton("§8Pierre Feuille Ciseau", label: "pfc");
-        $form->addButton("§8Dragon Tower", label: "dragon-tower");
         $form->addButton("§8Mines", label: "mines");
+        $form->addButton("§8Dragon Tower", label: "dragon-tower");
         return $form;
     }
 

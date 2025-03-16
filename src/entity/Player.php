@@ -2,9 +2,13 @@
 
 namespace Kitmap\entity;
 
+use Kitmap\item\ExtraVanillaItems;
+use Kitmap\item\StrawArmor;
 use Kitmap\Main;
 use Kitmap\Util;
 use pocketmine\block\VanillaBlocks;
+use pocketmine\entity\effect\EffectInstance;
+use pocketmine\entity\effect\VanillaEffects;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player as PmPlayer;
@@ -16,6 +20,8 @@ class Player extends PmPlayer
     private array $lastPositions = [];
     private int $bedrockTicks = 0;
 
+    private bool $strawArmor = false;
+
     protected function entityBaseTick(int $tickDiff = 1): bool
     {
         $tick = parent::entityBaseTick($tickDiff);
@@ -23,6 +29,35 @@ class Player extends PmPlayer
 
         if ($gamemode === GameMode::CREATIVE() && !$this->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
             $this->setGamemode(GameMode::SURVIVAL());
+        }
+
+        if ($this->ticksLived % 20 == 0) {
+            $actual = $this->strawArmor;
+            $strawArmor = true;
+
+            foreach ($this->getArmorInventory()->getContents(true) as $targetItem) {
+                if (!ExtraVanillaItems::getItem($targetItem) instanceof StrawArmor) {
+                    $strawArmor = false;
+                }
+            }
+
+            if ($strawArmor) {
+                $this->getEffects()->add(new EffectInstance(VanillaEffects::WATER_BREATHING(), 60 * 20, 0, false));
+                $this->getEffects()->add(new EffectInstance(VanillaEffects::HASTE(), 60 * 20, 0, false));
+                $this->getEffects()->add(new EffectInstance(VanillaEffects::SPEED(), 60 * 20, 2, false));
+                $this->getEffects()->add(new EffectInstance(VanillaEffects::JUMP_BOOST(), 60 * 20, 2, false));
+
+                $this->strawArmor = true;
+            } else {
+                if ($actual) {
+                    $this->strawArmor = false;
+
+                    $this->getEffects()->remove(VanillaEffects::WATER_BREATHING());
+                    $this->getEffects()->remove(VanillaEffects::HASTE());
+                    $this->getEffects()->remove(VanillaEffects::SPEED());
+                    $this->getEffects()->remove(VanillaEffects::JUMP_BOOST());
+                }
+            }
         }
 
         $this->getHungerManager()->setFood(18);

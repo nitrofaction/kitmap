@@ -1,14 +1,21 @@
-<?php
+<?php /** @noinspection PhpInternalEntityUsedInspection */
 
 namespace Kitmap\handler;
 
 use Kitmap\entity\npc\LogoutEntity;
-use Kitmap\entity\npc\SubQuest;
 use Kitmap\Main;
 use Kitmap\Util;
 use pocketmine\crafting\ExactRecipeIngredient;
 use pocketmine\crafting\MetaWildcardRecipeIngredient;
 use pocketmine\item\StringToItemParser;
+use pocketmine\network\mcpe\protocol\ClientCacheBlobStatusPacket;
+use pocketmine\network\mcpe\protocol\EmoteListPacket;
+use pocketmine\network\mcpe\protocol\EmotePacket;
+use pocketmine\network\mcpe\protocol\MapInfoRequestPacket;
+use pocketmine\network\mcpe\protocol\MobArmorEquipmentPacket;
+use pocketmine\network\mcpe\protocol\PurchaseReceiptPacket;
+use pocketmine\network\mcpe\protocol\SetActorDataPacket;
+use pocketmine\network\mcpe\protocol\SubChunkRequestPacket;
 use pocketmine\player\Player;
 use pocketmine\utils\SingletonTrait;
 use Symfony\Component\Filesystem\Path;
@@ -28,6 +35,7 @@ class Cache
 
     public static array $deathXp = [];
     public static array $condenseShapes = [];
+    public static array $disabledPackets = [];
 
     /* @var array<string, LogoutEntity> */
     public static array $logouts;
@@ -52,7 +60,17 @@ class Cache
         @mkdir(Main::getInstance()->getDataFolder() . "data/inventories/");
         @mkdir(Main::getInstance()->getDataFolder() . "data/skins/");
 
-        $this->condenseShapes();
+        self::$disabledPackets = [
+            (new EmoteListPacket())->pid(),
+            (new EmotePacket())->pid(),
+            (new PurchaseReceiptPacket())->pid(),
+            (new MobArmorEquipmentPacket())->pid(),
+            (new MapInfoRequestPacket())->pid(),
+            (new SetActorDataPacket())->pid(),
+            (new ClientCacheBlobStatusPacket())->pid(),
+            (new SubChunkRequestPacket())->pid()
+        ];
+
         $this->makeConfig();
 
         self::$data = Util::getFile("data/data")->getAll();
@@ -101,7 +119,41 @@ class Cache
         }
     }
 
-    private function condenseShapes(): void
+    private function makeConfig(): void
+    {
+        $config = [];
+
+        foreach (Util::listAllFiles(Path::join(Main::getInstance()->getFile(), "resources", "config")) as $file) {
+            $data = pathinfo($file);
+
+            $dirs = explode(DIRECTORY_SEPARATOR, $data["dirname"]);
+            $elements = array_slice($dirs, -2);
+
+            $parent = $elements[1];
+            $name = $data["filename"];
+
+            $data = file_get_contents($file);
+            $json = json_decode($data, true);
+
+            switch ($parent) {
+                case "util":
+                case "config":
+                case "interface":
+                    if ($name === "main" || $name === "var") {
+                        $config = array_merge_recursive($config, $json);
+                    } else {
+                        $config[$name] = $json;
+                    }
+                    break;
+                default:
+                    $config[$parent][$name] = $json;
+            }
+        }
+
+        self::$config = $config;
+    }
+
+    public static function condenseShapes(): void
     {
         $craftMgr = Main::getInstance()->getServer()->getCraftingManager();
 
@@ -139,40 +191,6 @@ class Cache
                 }
             }
         }
-    }
-
-    private function makeConfig(): void
-    {
-        $config = [];
-
-        foreach (Util::listAllFiles(Path::join(Main::getInstance()->getFile(), "resources", "config")) as $file) {
-            $data = pathinfo($file);
-
-            $dirs = explode(DIRECTORY_SEPARATOR, $data["dirname"]);
-            $elements = array_slice($dirs, -2);
-
-            $parent = $elements[1];
-            $name = $data["filename"];
-
-            $data = file_get_contents($file);
-            $json = json_decode($data, true);
-
-            switch ($parent) {
-                case "util":
-                case "config":
-                case "interface":
-                    if ($name === "main" || $name === "var") {
-                        $config = array_merge_recursive($config, $json);
-                    } else {
-                        $config[$name] = $json;
-                    }
-                    break;
-                default:
-                    $config[$parent][$name] = $json;
-            }
-        }
-
-        self::$config = $config;
     }
 
     public function saveAll(): void

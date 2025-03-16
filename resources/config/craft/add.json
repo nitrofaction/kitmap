@@ -40,8 +40,8 @@
     ],
     "input": {
       "A": "stick",
-      "B": "diamond_hoe",
-      "C": "netherite_ingot"
+      "B": "netherite_hoe",
+      "C": "rabbit_hide"
     },
     "output": "stone_shovel"
   },
@@ -410,17 +410,6 @@
   },
   {
     "shape": [
-      "ABA",
-      "A A"
-    ],
-    "input": {
-      "A": "emerald",
-      "B": "stone"
-    },
-    "output": "turtle_helmet"
-  },
-  {
-    "shape": [
       "AAA",
       "AAA",
       "AAA"
@@ -438,5 +427,105 @@
       "A": "emerald"
     },
     "output": "gold_nugget:9"
+  },
+  {
+    "shape": [
+      "A",
+      "A",
+      "B"
+    ],
+    "input": {
+      "A": "dragon_breath",
+      "B": "stick"
+    },
+    "output": "iron_sword"
+  },
+  {
+    "shape": [
+      "AAA",
+      "A A"
+    ],
+    "input": {
+      "A": "dragon_breath"
+    },
+    "output": "iron_helmet"
+  },
+  {
+    "shape": [
+      "A A",
+      "AAA",
+      "AAA"
+    ],
+    "input": {
+      "A": "dragon_breath"
+    },
+    "output": "iron_chestplate"
+  },
+  {
+    "shape": [
+      "AAA",
+      "A A",
+      "A A"
+    ],
+    "input": {
+      "A": "dragon_breath"
+    },
+    "output": "iron_leggings"
+  },
+  {
+    "shape": [
+      "A A",
+      "A A"
+    ],
+    "input": {
+      "A": "dragon_breath"
+    },
+    "output": "iron_boots"
+  },
+  {
+    "shape": [
+      "BBB",
+      "A A"
+    ],
+    "input": {
+      "A": "gold_nugget",
+      "B": "hay_bale"
+    },
+    "output": "chainmail_helmet"
+  },
+  {
+    "shape": [
+      "A A",
+      "BAB",
+      "BBB"
+    ],
+    "input": {
+      "A": "gold_nugget",
+      "B": "hay_bale"
+    },
+    "output": "chainmail_chestplate"
+  },
+  {
+    "shape": [
+      "BBB",
+      "A A",
+      "B B"
+    ],
+    "input": {
+      "A": "gold_nugget",
+      "B": "hay_bale"
+    },
+    "output": "chainmail_leggings"
+  },
+  {
+    "shape": [
+      "A A",
+      "B B"
+    ],
+    "input": {
+      "A": "gold_nugget",
+      "B": "hay_bale"
+    },
+    "output": "chainmail_boots"
   }
 ]

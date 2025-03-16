@@ -18,6 +18,7 @@ use pocketmine\item\Durable;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\item\enchantment\VanillaEnchantments;
 use pocketmine\item\Item;
+use pocketmine\item\PotionType;
 use pocketmine\item\StringToItemParser;
 use pocketmine\item\VanillaItems;
 use pocketmine\math\Vector3;
@@ -41,7 +42,14 @@ class PartnerItem
             return false;
         }
 
-        $name = $item->getNamedTag()->getString("partneritem");
+        $name = $item->getNamedTag()->getTag("partneritem");
+        $val = $name->getValue();
+
+        if (!is_string($val)) {
+            return false;
+        }
+
+        $name = strval($val);
 
         if (explode(":", Cache::$config["partneritem"][$name])[3] === "2") {
             return false;
@@ -74,6 +82,16 @@ class PartnerItem
 
                     $session->setCooldown($name, 60 * 2);
                 }
+                break;
+            case "refill":
+                $item = VanillaItems::SPLASH_POTION()->setType(PotionType::STRONG_HEALING());
+                $pot = Util::getItemCount($player, $item);
+
+                $removeItems = array_fill(0, 40, $item);
+                $player->getInventory()->removeItem(...$removeItems);
+
+                $addItems = array_fill(0, $pot, $item);
+                $player->getInventory()->addItem(...$addItems);
                 break;
             case "repairstick":
                 $armorInventory = $player->getArmorInventory()->getContents();
@@ -271,7 +289,14 @@ class PartnerItem
             return;
         }
 
-        $name = $item->getNamedTag()->getString("partneritem");
+        $name = $item->getNamedTag()->getTag("partneritem");
+        $val = $name->getValue();
+
+        if (!is_string($val)) {
+            return;
+        }
+
+        $name = strval($val);
 
         if (explode(":", Cache::$config["partneritem"][$name])[3] === "1") {
             return;

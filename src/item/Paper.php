@@ -25,8 +25,25 @@ class Paper extends Item
             $event->cancel();
 
             return true;
+        } else if (!is_null($item->getNamedTag()->getTag("pack"))) {
+            $packs = $item->getNamedTag()->getInt("pack");
+
+            Session::get($player)->addValue("packs", $packs);
+            $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir §q" . $packs . " PACKS §f!");
+
+            $this->projectileSucces($player, $item);
+            $event->cancel();
+
+            return true;
         } else if (!is_null($item->getNamedTag()->getTag("partneritem"))) {
-            $amount = $item->getNamedTag()->getInt("partneritem");
+            $name = $item->getNamedTag()->getTag("partneritem");
+            $val = $name->getValue();
+
+            if (!is_int($val)) {
+                return false;
+            }
+
+            $amount = intval($val);
             $keys = array_keys(Cache::$config["partneritem"]);
 
             $selectedKeys = [];
@@ -79,5 +96,10 @@ class Paper extends Item
         }
 
         return false;
+    }
+
+    public function isRare(): bool
+    {
+        return true;
     }
 }

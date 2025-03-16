@@ -61,7 +61,7 @@ class DynamicFloatingText extends FloatingText
                             default => "§fLa faction §q" . $actual . " §fcontrôle le point"
                         };
 
-                        return Util::PREFIX . "Point " . $zone . "" . Util::IARROW . "\n" . $actual . "\n§fStatus du point: " . $status;
+                        return Util::PREFIX . "Point " . $zone . Util::IARROW . "\n" . $actual . "\n§fStatus du point: " . $status;
                     }
                 }
                 break;

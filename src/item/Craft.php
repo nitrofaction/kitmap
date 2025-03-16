@@ -78,5 +78,7 @@ class Craft
                 [$result]
             ));
         }
+
+        Cache::condenseShapes();
     }
 }

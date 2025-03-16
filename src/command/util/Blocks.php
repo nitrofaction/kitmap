@@ -3,6 +3,7 @@
 namespace Kitmap\command\util;
 
 use CortexPE\Commando\BaseCommand;
+use Kitmap\handler\Cache;
 use Kitmap\Session;
 use Kitmap\Util;
 use muqsit\invmenu\InvMenu;
@@ -17,6 +18,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\inventory\CreativeInventory;
 use pocketmine\item\Item;
 use pocketmine\item\ItemBlock;
+use pocketmine\item\StringToItemParser;
 use pocketmine\item\VanillaItems;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\Player;
@@ -39,8 +41,12 @@ class Blocks extends BaseCommand
         BlockTypeIds::HAY_BALE,
         BlockTypeIds::NETHER_QUARTZ_ORE,
         BlockTypeIds::IRON_ORE,
+        BlockTypeIds::SOUL_SAND,
         BlockTypeIds::LAPIS_LAZULI_ORE,
         BlockTypeIds::GOLD_ORE,
+        BlockTypeIds::BONE_BLOCK,
+        BlockTypeIds::END_PORTAL_FRAME,
+        BlockTypeIds::END_PORTAL_FRAME,
         BlockTypeIds::COAL_ORE,
         BlockTypeIds::DIAMOND_ORE,
         BlockTypeIds::EMERALD_ORE,
@@ -72,15 +78,17 @@ class Blocks extends BaseCommand
         BlockTypeIds::GOLD,
         BlockTypeIds::RAW_GOLD,
         BlockTypeIds::RAW_IRON,
-        BlockTypeIds::RAW_GOLD,
         BlockTypeIds::BAMBOO_SAPLING,
         BlockTypeIds::NETHER_WART,
         BlockTypeIds::NETHER_WART_BLOCK,
-        BlockTypeIds::REDSTONE,
         BlockTypeIds::REDSTONE_ORE,
         BlockTypeIds::BEDROCK,
         BlockTypeIds::AIR,
-        BlockTypeIds::GILDED_BLACKSTONE
+        BlockTypeIds::GILDED_BLACKSTONE,
+        BlockTypeIds::NETHERITE,
+        BlockTypeIds::ANCIENT_DEBRIS,
+        BlockTypeIds::REDSTONE,
+        BlockTypeIds::WITHER_ROSE
     ];
 
     public function __construct(PluginBase $plugin)
@@ -154,7 +162,25 @@ class Blocks extends BaseCommand
 
         /* @var ItemBlock[] $items */
         $items = array_filter(CreativeInventory::getInstance()->getAll(), function (Item $item): bool {
-            return $item instanceof ItemBlock && !in_array($item->getTypeId(), $this->removedBlocks) && !in_array($item->getBlock()->getTypeId(), $this->removedBlocks);
+            if (!$item instanceof ItemBlock) {
+                return false;
+            }
+
+            $block = $item->getBlock();
+
+            if (in_array($item->getTypeId(), $this->removedBlocks) || in_array($block->getTypeId(), $this->removedBlocks)) {
+                return false;
+            }
+
+            foreach (Cache::$config["craft"]["remove"] as $itemName) {
+                $itemToDelete = StringToItemParser::getInstance()->parse($itemName);
+
+                if ($itemToDelete !== null && $item->equals($itemToDelete, true, false)) {
+                    return false;
+                }
+            }
+
+            return $block->getBreakInfo()->isBreakable();
         });
 
         foreach (Util::arrayToPage($items, $page, 45)[1] as $item) {

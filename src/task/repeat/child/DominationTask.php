@@ -26,7 +26,7 @@ class DominationTask
     {
         $lines = [
             "§f ",
-            "§fTemps restant: §q" . Util::formatDurationFromSeconds(DominationTask::$time, 1),
+            "§fTemps: §q" . Util::formatDurationFromSeconds(DominationTask::$time, 1),
             "§7 ",
         ];
 
@@ -70,7 +70,7 @@ class DominationTask
         }
 
         $lines[] = "§q ";
-        $lines[] = "     §7nitrofaction.fr    ";
+        $lines[] = "    §7nitrofaction.fr    ";
 
         return $lines;
     }

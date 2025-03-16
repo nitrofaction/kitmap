@@ -163,6 +163,11 @@ class Fork extends Durable
         return 500;
     }
 
+    public function isRare(): bool
+    {
+        return true;
+    }
+
     private function getSeedByBlock(Crops $block): ?PmItem
     {
         return match (true) {

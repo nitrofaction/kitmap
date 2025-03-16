@@ -40,6 +40,10 @@ class EnderPearl extends Item
             $player->sendMessage(Util::PREFIX . "Vous ne pouvez pas lancer de perle en visant un bloc antiback");
             $event->cancel();
             return true;
+        } else if (Util::insideZone($player->getPosition(), "spawn")) {
+            $player->sendMessage(Util::PREFIX . "Vous ne pouvez pas lancer de perle au spawn");
+            $event->cancel();
+            return true;
         }
 
         $projectile = new EnderPearlEntity(Location::fromObject($player->getEyePos(), $player->getWorld(), $location->yaw, $location->pitch), $player);

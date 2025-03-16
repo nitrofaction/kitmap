@@ -61,6 +61,7 @@ class Armor extends Durable
                 $total += $itemArmor->getDefensePoints();
             }
         }
+
         return $total;
     }
 
@@ -72,5 +73,10 @@ class Armor extends Durable
     public function getMaxDurability(): int
     {
         return $this->maxDurability;
+    }
+
+    public function isRare(): bool
+    {
+        return true;
     }
 }

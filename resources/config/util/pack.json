@@ -11,6 +11,16 @@
       "kit:ultra"
     ],
     [
+      "5",
+      "1 pack",
+      "pack:1"
+    ],
+    [
+      "3",
+      "3 packs",
+      "pack:3"
+    ],
+    [
       "10",
       "Un billet de 10k$",
       "money:10000"
@@ -116,6 +126,21 @@
       "item:nether_wart:128"
     ],
     [
+      "5",
+      "5 poussières d'iris",
+      "item:rabbit_foot:5"
+    ],
+    [
+      "3",
+      "8 poussières d'iris",
+      "item:rabbit_foot:8"
+    ],
+    [
+      "1",
+      "3 fragments en iris",
+      "item:rabbit_hide:3"
+    ],
+    [
       "1",
       "3 fragments en iris",
       "item:rabbit_hide:3"
@@ -204,6 +229,11 @@
       "1",
       "Un générateur à Piglin",
       "item:monster_spawner_piglin:1"
+    ],
+    [
+      "1",
+      "Une fourche",
+      "item:stone_shovel:1"
     ]
   ],
   "gem": 200,

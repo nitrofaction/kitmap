@@ -1,19 +1,17 @@
 {
   "nexus": {
     "description": "§r§fInformations:\n\nTuez lentité qui apparaît dans la place au centre,\nlorsque cette entité naura plus de vie elle donnera\n§q30 §fitems aléatoire provenant des lots de §qpack §f!\n\nHoraires:\n\nCet event se lance toutes les 2h à partir de 13h jusquà 23h",
-    "item": "diamond_sword",
+    "item": "magenta_stained_clay",
     "positions": [
-      "-72.5:66:112.5",
-      "-31.5:66:110.5",
-      "-21.5:66:143.5",
-      "-33.5:66:169.5",
-      "-73.5:66:170.5"
+      "1:67:146",
+      "32:67:143",
+      "29:67:121"
     ],
-    "slot": 0
+    "slot": 11
   },
   "koth": {
     "description": "§r§fInformations:\n\nRestez le plus longtemps possible sur la platforme de §q5x5 §fau\nbout de 3minutes dessus vous remportez §q25k §fpièces,\nentre §q15 §fet §q25 §fde power pour votre faction et §q2 §fpacks !\n\nHoraires:\n\nCet event se lance toutes les heures à partir de 12h30 jusquà 23h30",
-    "item": "netherite_sword",
+    "item": "cyan_stained_clay",
     "positions": [
       "-92.5:66:6.5",
       "-133.5:66:-1.5",
@@ -23,32 +21,28 @@
       "-96.5:66:40.5",
       "-118.5:68:37.5"
     ],
-    "slot": 1
+    "slot": 12
   },
   "domination": {
     "description": "§r§fInformations:\n\nCet event dure 15 minutes, vous devez capturé les §q3 §fzones\navec votre faction et obtenir le plus de point, les §q3 §ffactions\nobtiendrons du power à la fin de levent.\n\nHoraires:\n\nCet event se lance tous les jours à 18h et à 21h sauf si il ny a pas plus de §q30 §fjoueurs",
-    "item": "iron_sword",
+    "item": "light_blue_stained_clay",
     "positions": [
-      "100.5:66:27.5",
-      "88.5:66:-2.5",
-      "117.5:66:-26.5",
-      "138.5:66:9.5",
-      "137.5:82:-0.5",
-      "112.5:106:-0.5",
-      "122.5:119:-5.5"
+      "153:67:43",
+      "159:66:6",
+      "118:66:-36",
+      "107:66:5"
     ],
-    "slot": 3
+    "slot": 14
   },
   "outpost": {
     "description": "§r§fInformations:\n\nCapturez avec laide de votre faction la platforme !\nLorsque loutpost est capturé par une faction, celle-ci\ngagne §q8 §fpowers tous les 5 minutes et les joueurs\nconnectés de la faction gagnent entre §q5k §fet §q7.5k §fpièces !\n\nHoraires:\n\nCet event est 24h sur 24 lancé",
-    "item": "golden_sword",
+    "item": "blue_stained_clay",
     "positions": [
-      "46.5:66:158.5",
-      "77.5:66:163.5",
-      "91.5:66:140.5",
-      "72.5:66:118.5",
-      "54.5:66:114.5"
+      "-85:67:93",
+      "-115:67:109",
+      "111:67:154",
+      "-67:67:144"
     ],
-    "slot": 4
+    "slot": 15
   }
 }

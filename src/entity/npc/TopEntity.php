@@ -39,7 +39,7 @@ class TopEntity extends Human
         $top = Cache::$config["pos"]["top"];
 
         $position = $this->getLocation();
-        $text = $position->getX() . ":" . $position->getY(). ":" . $position->getZ() . ":" . intval($position->getYaw());
+        $text = $position->getX() . ":" . $position->getY() . ":" . $position->getZ() . ":" . intval($position->getYaw());
 
         $category = $top[$text] ?? null;
 

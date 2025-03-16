@@ -1,7 +1,7 @@
 {
   "webhook": {
-    "sanction": "https://discord.com/api/webhooks/1098211190418702376/fA-qlgI798kBWKp8VNsojK-94dZMwxALWW_bc0q0evI4N5XynAw_BLg86ypOz2O0Qa2p",
-    "nick": "https://discord.com/api/webhooks/1098211248887316492/KhwbPe9vj4_Lcml8I9-zzWl2jtjODxyxEsPLb9K_ctkiU_Kw-xVphZqY4b9WC7mONspl"
+    "sanction": "https://discord.com/api/webhooks/1346942371333668916/vDyZY1IqLr74VwOXal-pTuSWZcV3EvDQwDmZ8l_QpEw6yBngbNnPcuhqayr4wOzLsFbV",
+    "nick": "https://discord.com/api/webhooks/1346942321589223466/2AksJSojoOPX7pkjpCwCIYl3boZADki-h0V999-aF-yHlgYIy0idbjJyzsM90DTaX6OY"
   },
   "top": [
     "bounty",
@@ -88,7 +88,7 @@
         "lvl": 0,
         "xp": 0
       },
-      "Hunter": {
+      "Assassin": {
         "lvl": 0,
         "xp": 0
       }
@@ -195,10 +195,6 @@
     "netherite_sword": {
       "type": "iris",
       "number": 18
-    },
-    "turtle_helmet": {
-      "type": "emerald",
-      "number": 36
     }
   },
   "bounties": [

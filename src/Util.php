@@ -7,6 +7,7 @@ use Kitmap\command\player\XpBottle;
 use Kitmap\command\util\money\Money;
 use Kitmap\handler\Cache;
 use Kitmap\handler\Job;
+use Kitmap\handler\Pack;
 use Kitmap\handler\PartnerItem;
 use Kitmap\handler\ScoreFactory;
 use pocketmine\block\Block;
@@ -161,7 +162,7 @@ class Util
             $current = &$current[$part];
         }
 
-        $current[$lastPart] = ($substraction ? ($current[$lastPart] ?? 0) - $value : ($current[$lastPart] ?? 0) + $value);
+        $current[$lastPart] = max(0, ($substraction ? ($current[$lastPart] ?? 0) - $value : ($current[$lastPart] ?? 0) + $value));
         return $data;
     }
 
@@ -202,6 +203,10 @@ class Util
             }
         }
 
+        /*foreach ($player->getArmorInventory()->getContents() as $item) {
+            ExtraVanillaItems::getItem($item)->addEffects($player->getArmorInventory(), $item);
+        }*/
+
         $pk = new GameRulesChangedPacket();
         $pk->gameRules = ["showcoordinates" => new BoolGameRule($data["coordinates"], false)];
         $player->getNetworkSession()->sendDataPacket($pk);
@@ -217,12 +222,6 @@ class Util
 
         if ($data["staff_mod"][0] && $player->getGamemode() === GameMode::SURVIVAL()) {
             $player->setAllowFlight(true);
-        }
-
-        if ($player->getArmorInventory()->getHelmet()->getTypeId() === VanillaItems::TURTLE_HELMET()->getTypeId()) {
-            $player->getEffects()->add(new EffectInstance(VanillaEffects::FIRE_RESISTANCE(), 20 * 60 * 60 * 24, 0, false));
-            $player->getEffects()->add(new EffectInstance(VanillaEffects::HASTE(), 20 * 60 * 60 * 24, 1, false));
-            $player->getEffects()->add(new EffectInstance(VanillaEffects::JUMP_BOOST(), 20 * 60 * 60 * 24, 2, false));
         }
     }
 
@@ -627,6 +626,8 @@ class Util
                 return Kit::createPaperKit($data[1]);
             case "partneritem":
                 return PartnerItem::createPartnerItemPaper(intval($data[1] ?? 1));
+            case "pack":
+                return Pack::createPackPaper(intval($data[1] ?? 1));
             case "boost":
                 return Job::createBoostPaper(intval($data[1] ?? 1), intval($data[2] ?? 1));
             default:

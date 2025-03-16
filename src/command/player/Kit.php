@@ -198,7 +198,7 @@ class Kit extends BaseCommand
 
                     VanillaItems::RAW_FISH()->setCount(16)
                 ],
-                "cooldown" => 60 * 60 * 6,
+                "cooldown" => 60 * 60 * 4,
                 "rank" => "ultra"
             ],
             "legende" => [
@@ -213,7 +213,7 @@ class Kit extends BaseCommand
 
                     VanillaItems::RAW_FISH()->setCount(16)
                 ],
-                "cooldown" => 60 * 60 * 8,
+                "cooldown" => 60 * 60 * 4,
                 "rank" => "legende"
             ]
         ];

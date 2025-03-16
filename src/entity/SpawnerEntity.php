@@ -110,13 +110,14 @@ class SpawnerEntity extends Living
                 $damager = $source->getDamager();
 
                 if ($damager instanceof Player) {
-                    Job::addXp($damager, "Hunter", mt_rand(1, 6));
+                    Job::addXp($damager, "Assassin", mt_rand(1, 6));
                 }
             }
 
             if ($this->getStackSize() > 1) {
                 $source->cancel();
                 $this->onDeath();
+                return;
             }
         }
 

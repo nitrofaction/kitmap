@@ -32,7 +32,7 @@ final class SpawnerTile extends Spawner
 
         $this->handler = Main::getInstance()->getScheduler()->scheduleRepeatingTask(new ClosureTask(
             function () use ($tile) {
-                if ($tile->canUpdate()) {
+                if (!is_null($tile) && $tile->canUpdate()) {
                     $tile->onUpdate();
                 }
             }
@@ -41,7 +41,7 @@ final class SpawnerTile extends Spawner
 
     public function canUpdate(): bool
     {
-        return $this->entityTypeId !== ":" && $this->getPosition()->getWorld()->getNearestEntity($this->getPosition(), $this->requiredPlayerRange, Player::class) !== null;
+        return $this->position->isValid() && $this->entityTypeId !== ":" && $this->getPosition()->getWorld()->getNearestEntity($this->getPosition(), $this->requiredPlayerRange, Player::class) !== null;
     }
 
     public function onUpdate(): bool
@@ -80,6 +80,7 @@ final class SpawnerTile extends Spawner
         for ($attempts = 0; $attempts < $this->spawnAttempts; $attempts++) {
             $pos = $position->add(mt_rand(-$this->spawnRange, $this->spawnRange), mt_rand(-1, 1), mt_rand(-$this->spawnRange, $this->spawnRange));
 
+            /** @noinspection PhpDeprecationInspection */
             if (
                 $world->getBlock($pos)->isSolid() and
                 !$world->getBlock($pos)->canBeFlowedInto() or

@@ -14,53 +14,6 @@ use pocketmine\world\sound\XpCollectSound;
 
 class Job
 {
-    public static function getProgressBar(Player $player, string $job, int $option = 100): string
-    {
-        $levelIndex = self::getLevelIndex($player, $job);
-        $levelData = self::getLevelDataByIndex($job, $levelIndex);
-
-        $xp = self::getXp($player, $job);
-
-        $nextXp = $levelData["xp"];
-        $lastLevelIndex = self::getLastLevelIndex($job);
-
-        if ($option === 1) {
-            if ($levelIndex >= $lastLevelIndex) {
-                return "0§q/§8-1 §q- §8Level: §q" . $levelIndex + 1;
-            } else {
-                return $xp . "§q/§8" . $nextXp . " §q- §8Level: §q" . $levelIndex + 1;
-            }
-        }
-
-        if ($levelIndex >= $lastLevelIndex) {
-            return "§qNiveau maximum atteint";
-        } else {
-            $progress = intval(max(1, round((($xp / $nextXp) * $option) / 2, 2)));
-            return "§q" . str_repeat("|", $progress) . "§8" . str_repeat("|", ($option/2) - $progress);
-        }
-    }
-
-    public static function getLevelIndex(Player $player, string $job): int
-    {
-        return Session::get($player)->data["jobs"][$job]["lvl"] ?? 0;
-    }
-
-    public static function getLevelDataByIndex(string $job, int $index): array
-    {
-        $key = array_keys(Cache::$config["job"][$job])[$index];
-        return Cache::$config["job"][$job][$key];
-    }
-
-    public static function getXp(Player $player, string $job): int|float
-    {
-        return Session::get($player)->data["jobs"][$job]["xp"] ?? 0;
-    }
-
-    public static function getLastLevelIndex(string $job): int
-    {
-        return count(array_keys(Cache::$config["job"][$job])) - 1;
-    }
-
     public static function addXp(Player $player, string $job, int|float $xp, bool $tip = true): void
     {
         if ($player->isCreative()) {
@@ -90,7 +43,7 @@ class Job
                 Util::addItem($player, Util::parseItem($reward));
             }
 
-            $player->sendMessage(Util::PREFIX . "Vous venez de passer niveau §q" . $levelIndex + 2 . " §fdu métier de §q" . $job . " §f!");
+            $player->sendMessage(Util::PREFIX . "Vous venez de passer niveau §q" . $levelIndex + 1 . " §fdu métier de §q" . $job . " §f!");
             $player->sendMessage(Util::PREFIX . "Vous venez de recevoir " . $rewards["name"] . " §fen récompense de métier !");
 
             $player->broadcastSound(new BlazeShootSound());
@@ -108,6 +61,53 @@ class Job
             $init += $session->getCooldownData("xp_boost")[1];
         }
         return $init;
+    }
+
+    public static function getLevelIndex(Player $player, string $job): int
+    {
+        return Session::get($player)->data["jobs"][$job]["lvl"] ?? 0;
+    }
+
+    public static function getLevelDataByIndex(string $job, int $index): array
+    {
+        $key = array_keys(Cache::$config["job"][$job])[$index];
+        return Cache::$config["job"][$job][$key];
+    }
+
+    public static function getXp(Player $player, string $job): int|float
+    {
+        return Session::get($player)->data["jobs"][$job]["xp"] ?? 0;
+    }
+
+    public static function getProgressBar(Player $player, string $job, int $option = 100): string
+    {
+        $levelIndex = self::getLevelIndex($player, $job);
+        $levelData = self::getLevelDataByIndex($job, $levelIndex);
+
+        $xp = self::getXp($player, $job);
+
+        $nextXp = $levelData["xp"];
+        $lastLevelIndex = self::getLastLevelIndex($job);
+
+        if ($option === 1) {
+            if ($levelIndex >= $lastLevelIndex) {
+                return "0§q/§8-1 §q- §8Level: §q" . $levelIndex;
+            } else {
+                return $xp . "§q/§8" . $nextXp . " §q- §8Level: §q" . $levelIndex;
+            }
+        }
+
+        if ($levelIndex >= $lastLevelIndex) {
+            return "§qNiveau maximum atteint";
+        } else {
+            $progress = intval(max(1, round((($xp / $nextXp) * $option) / 2, 2)));
+            return "§q" . str_repeat("|", $progress) . "§8" . str_repeat("|", ($option / 2) - $progress);
+        }
+    }
+
+    public static function getLastLevelIndex(string $job): int
+    {
+        return count(array_keys(Cache::$config["job"][$job])) - 1;
     }
 
     public static function createBoostPaper(int $boost, int $duration): Item

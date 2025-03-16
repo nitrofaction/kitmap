@@ -19,7 +19,7 @@ class EmeraldOre extends Block
 
     public function getXpDropAmount(PmBlock $block): ?int
     {
-        return mt_rand(1, 2);
+        return mt_rand(1, 3);
     }
 
     public function breakableOnMine(): array

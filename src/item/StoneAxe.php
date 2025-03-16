@@ -25,6 +25,6 @@ class StoneAxe extends Item
             $event->cancel();
         }
 
-        return true;
+        return parent::onBreak($event);
     }
 }

@@ -14,7 +14,6 @@ use Kitmap\listener\EventListener;
 use Kitmap\task\repeat\child\GamblingTask;
 use Kitmap\task\repeat\PlayerTask;
 use muqsit\invmenu\InvMenuHandler;
-use NpcDialog\NpcDialog;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\SingletonTrait;
 

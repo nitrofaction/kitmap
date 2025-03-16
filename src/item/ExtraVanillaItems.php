@@ -4,6 +4,7 @@ namespace Kitmap\item;
 
 use Kitmap\Util;
 use pocketmine\data\bedrock\item\SavedItemData;
+use pocketmine\entity\effect\VanillaEffects;
 use pocketmine\inventory\CreativeInventory;
 use pocketmine\item\Item as PmItem;
 use pocketmine\item\StringToItemParser;
@@ -29,29 +30,36 @@ class ExtraVanillaItems
         self::addItem(VanillaItems::STONE_SHOVEL(), new Fork());
         self::addItem(VanillaItems::STONE_HOE(), new WateringCan());
         self::addItem(VanillaItems::STONE_AXE(), new StoneAxe());
+        self::addItem(VanillaItems::NETHERITE_AXE(), new IlvaiteTool());
+        self::addItem(VanillaItems::NETHERITE_SHOVEL(), new IlvaiteTool());
+        self::addItem(VanillaItems::NETHERITE_HOE(), new IlvaiteTool());
+        self::addItem(VanillaItems::NETHERITE_PICKAXE(), new IlvaiteTool());
 
-        self::addItem(VanillaItems::TURTLE_HELMET(), new Armor(334, 2));
+        self::addItem(VanillaItems::CHAINMAIL_HELMET(), new StrawArmor(56, 1, VanillaEffects::WATER_BREATHING(), 0));
+        self::addItem(VanillaItems::CHAINMAIL_CHESTPLATE(), new StrawArmor(76, 2, VanillaEffects::HASTE(), 0));
+        self::addItem(VanillaItems::CHAINMAIL_LEGGINGS(), new StrawArmor(81, 3, VanillaEffects::SPEED(), 2));
+        self::addItem(VanillaItems::CHAINMAIL_BOOTS(), new StrawArmor(66, 1, VanillaEffects::JUMP_BOOST(), 2));
 
         self::addItem(VanillaItems::GOLDEN_HELMET(), new Armor(1051, 3));
         self::addItem(VanillaItems::GOLDEN_CHESTPLATE(), new Armor(1531, 8));
         self::addItem(VanillaItems::GOLDEN_LEGGINGS(), new Armor(1434, 6));
         self::addItem(VanillaItems::GOLDEN_BOOTS(), new Armor(1243, 4));
 
-        self::addItem(VanillaItems::CHAINMAIL_HELMET(), new Armor(1051, 3));
-        self::addItem(VanillaItems::CHAINMAIL_CHESTPLATE(), new Armor(1531, 8));
-        self::addItem(VanillaItems::CHAINMAIL_LEGGINGS(), new Armor(1434, 6));
-        self::addItem(VanillaItems::CHAINMAIL_BOOTS(), new Armor(1243, 4));
+        self::addItem(VanillaItems::IRON_HELMET(), new Armor(1402, 4));
+        self::addItem(VanillaItems::IRON_CHESTPLATE(), new Armor(2042, 8));
+        self::addItem(VanillaItems::IRON_LEGGINGS(), new Armor(1912, 7));
+        self::addItem(VanillaItems::IRON_BOOTS(), new Armor(1658, 4));
 
-        self::addItem(VanillaItems::NETHERITE_HELMET(), new Armor(1402, 4));
-        self::addItem(VanillaItems::NETHERITE_CHESTPLATE(), new Armor(2042, 9));
-        self::addItem(VanillaItems::NETHERITE_LEGGINGS(), new Armor(1912, 7));
-        self::addItem(VanillaItems::NETHERITE_BOOTS(), new Armor(1658, 4));
+        self::addItem(VanillaItems::NETHERITE_HELMET(), new Armor(1752, 4));
+        self::addItem(VanillaItems::NETHERITE_CHESTPLATE(), new Armor(2552, 9));
+        self::addItem(VanillaItems::NETHERITE_LEGGINGS(), new Armor(2390, 7));
+        self::addItem(VanillaItems::NETHERITE_BOOTS(), new Armor(2072, 4));
 
         self::addItem(VanillaItems::DIAMOND_SWORD(), new Sword(VanillaItems::DIAMOND_SWORD()->getMaxDurability(), 7));
 
         self::addItem(VanillaItems::GOLDEN_SWORD(), new Sword(2286, 9));
-        self::addItem(VanillaItems::STONE_SWORD(), new Sword(3048, 10));
-        self::addItem(VanillaItems::NETHERITE_SWORD(), new Sword(3048, 10));
+        self::addItem(VanillaItems::IRON_SWORD(), new Sword(3048, 10));
+        self::addItem(VanillaItems::NETHERITE_SWORD(), new Sword(3810, 11));
 
         new Craft();
     }
