@@ -107,5 +107,9 @@ class Entities
             }
             return new PackItem(Helper::parseLocation($nbt, $world), $item, $nbt);
         }, ["PackItem"]);
+
+        EntityFactory::getInstance()->register(EggTrap::class, function (World $world, CompoundTag $nbt): EggTrap {
+            return new EggTrap(Helper::parseLocation($nbt, $world), null, $nbt);
+        }, ["EggTrap"]);
     }
 }

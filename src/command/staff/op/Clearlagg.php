@@ -3,6 +3,7 @@
 namespace Kitmap\command\staff\op;
 
 use CortexPE\Commando\BaseCommand;
+use Kitmap\entity\SpawnerEntity;
 use Kitmap\handler\Rank;
 use Kitmap\Main;
 use Kitmap\Util;
@@ -30,11 +31,8 @@ class Clearlagg extends BaseCommand
 
         foreach (Main::getInstance()->getServer()->getWorldManager()->getWorlds() as $world) {
             foreach ($world->getEntities() as $entity) {
-                if ($entity instanceof ItemEntity || $entity instanceof ExperienceOrb) {
-                    if ($entity instanceof ItemEntity) {
-                        $count++;
-                    }
-
+                if ($entity instanceof ItemEntity || $entity instanceof ExperienceOrb || $entity instanceof SpawnerEntity) {
+                    $count++;
                     $entity->flagForDespawn();
                 }
             }

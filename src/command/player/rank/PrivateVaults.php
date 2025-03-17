@@ -99,6 +99,10 @@ class PrivateVaults extends BaseCommand
         $menu->setListener(function (InvMenuTransaction $transaction) use ($player, $vault, $session): InvMenuTransactionResult {
             $item = $transaction->getIn();
 
+            if (!is_null($item->getNamedTag()->getTag("menu_item"))) {
+                return $transaction->discard();
+            }
+
             if ($item->isNull()) {
                 unset($session->data["private_vaults"][$vault]["inventory"][$transaction->getAction()->getSlot()]);
             } else {
@@ -118,6 +122,7 @@ class PrivateVaults extends BaseCommand
 
         $menu->send($player);
     }
+
 
     private function chooseForm(Player $player, string $vault): void
     {

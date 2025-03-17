@@ -38,7 +38,7 @@ class ChangeForgeron extends BaseCommand
             }
         }
 
-        list($x, $y, $z, $yaw) = explode(":", Cache::$data["forgeron-position"]);
+        [$x, $y, $z, $yaw] = explode(":", Cache::$data["forgeron-position"]);
 
         $entity = new BlackSmith(new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), intval($yaw), 0));
         $entity->spawnToAll();

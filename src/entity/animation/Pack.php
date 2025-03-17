@@ -74,7 +74,7 @@ class Pack extends Human
             $this->spawnFirework($color);
         }
 
-        if ($this->ticks >= 2500) {
+        if ($this->ticks >= 3600) {
             $this->ticks = 0;
         }
 

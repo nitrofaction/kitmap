@@ -77,7 +77,7 @@ class Shop extends BaseCommand
         $items = ($category["type"] === "bourse") ? Util::getBourse() : $category["items"];
 
         foreach ($items as $item) {
-            list($name, $itemName, $buy) = explode(":", $item);
+            [$name, $itemName, $buy] = explode(":", $item);
 
             $form->addButton(
                 $name . "\nPrix: §q" . $buy . " §8pièces§q/u",
@@ -86,6 +86,7 @@ class Shop extends BaseCommand
                 $item
             );
         }
+
         $player->sendForm($form);
     }
 
@@ -94,7 +95,7 @@ class Shop extends BaseCommand
         $item = explode(":", $item);
         $customName = $item[5] ?? null;
 
-        list($name, $itemName, $buy, $sell) = $item;
+        [$name, $itemName, $buy, $sell] = $item;
 
         $testItem = StringToItemParser::getInstance()->parse($itemName) ?? VanillaItems::AIR();
         $limit = (($items = Util::getItemCount($player, $testItem)) > 256) ? $items : 256;

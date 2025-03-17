@@ -4,6 +4,7 @@ namespace Kitmap\command\staff;
 
 use CortexPE\Commando\BaseCommand;
 use Kitmap\handler\Rank;
+use Kitmap\Main;
 use Kitmap\Session;
 use Kitmap\Util;
 use pocketmine\block\utils\DyeColor;
@@ -51,7 +52,11 @@ class Staff extends BaseCommand
                 $sender->sendMessage(Util::PREFIX . "Vous venez de désactiver le staff mod");
 
                 if (in_array($sender->getName(), Vanish::$vanish)) {
-                    $sender->sendMessage(Util::PREFIX . "Vous restez cependant toujours en vanish, n'oubliez pas de l'enlever");
+                    foreach (Main::getInstance()->getServer()->getOnlinePlayers() as $player) {
+                        $player->showPlayer($sender);
+                    }
+
+                    unset(Vanish::$vanish[array_search($sender->getName(), Vanish::$vanish)]);
                 }
 
                 if (!$sender->isCreative()) {

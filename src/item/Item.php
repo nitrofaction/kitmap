@@ -127,6 +127,7 @@ class Item
         }
     }
 
+    /** @noinspection PhpUnusedParameterInspection */
     public function getEffects(PmItem $item): array
     {
         return [];

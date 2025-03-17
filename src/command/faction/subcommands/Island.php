@@ -135,7 +135,7 @@ class Island extends FactionCommand
                     $world->setTime(13200);
                     $world->stopTime();
 
-                    list($x, $y, $z) = explode(":", Cache::$config["pos"]["island"][$data]["spawn"]);
+                    [$x, $y, $z] = explode(":", Cache::$config["pos"]["island"][$data]["spawn"]);
                     $world->setSpawnLocation(new Vector3(floatval($x), floatval($y), floatval($z)));
                 }
             }

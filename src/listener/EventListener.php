@@ -6,7 +6,7 @@ use Kitmap\block\ExtraVanillaBlocks;
 use Kitmap\command\player\rank\Enderchest;
 use Kitmap\command\staff\{Ban, LastInventory, Question, Vanish};
 use Kitmap\command\util\Bienvenue;
-use Kitmap\entity\{AntiBackBall, npc\LogoutEntity, SwitchBall};
+use Kitmap\entity\{AntiBackBall, EggTrap, npc\LogoutEntity, SwitchBall};
 use Kitmap\entity\Player as CustomPlayer;
 use Kitmap\handler\{Cache, Cosmetic, Faction, Job, PartnerItem, Rank, Sanction};
 use Kitmap\item\Armor;
@@ -16,7 +16,8 @@ use Kitmap\Session;
 use Kitmap\task\repeat\child\GamblingTask;
 use Kitmap\task\repeat\PlayerTask;
 use Kitmap\Util;
-use pocketmine\block\{Anvil,
+use pocketmine\block\{Air,
+    Anvil,
     Barrel,
     Block,
     BlockTypeTags,
@@ -90,6 +91,7 @@ use pocketmine\player\{GameMode, Player};
 use pocketmine\player\chat\LegacyRawChatFormatter;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\TextFormat;
+use pocketmine\world\Position;
 use pocketmine\world\sound\EndermanTeleportSound;
 use Symfony\Component\Filesystem\Path;
 
@@ -113,7 +115,7 @@ class EventListener implements Listener
             return;
         }
 
-        list($x, $y, $z) = explode(":", Cache::$config["pos"]["island"][$event->getWorld()->getProvider()->getWorldData()->getGenerator()]["chest"]);
+        [$x, $y, $z] = explode(":", Cache::$config["pos"]["island"][$event->getWorld()->getProvider()->getWorldData()->getGenerator()]["chest"]);
 
         $vector = new Vector3(intval($x), intval($y), intval($z));
         $tile = $event->getWorld()->getTile($vector);
@@ -218,6 +220,8 @@ class EventListener implements Listener
             }
         }
 
+        $rank = Rank::getRank($player->getName());
+
         if (($session->data["faction_chat"] || $event->getMessage()[0] === "-") && Faction::hasFaction($player)) {
             if (!$session->data["faction_chat"]) {
                 $message = substr($message, 1);
@@ -230,6 +234,19 @@ class EventListener implements Listener
             Faction::broadcastMessage($faction, "§q[§fF§q] §f" . $player->getName() . " " . Util::PREFIX . $message);
 
             return;
+        } else if ($event->getMessage()[0] === "!" && Rank::isStaff($rank)) {
+            $message = substr($message, 1);
+
+            Main::getInstance()->getLogger()->info("[S] " . $player->getName() . " » " . $message);
+
+            foreach (Main::getInstance()->getServer()->getOnlinePlayers() as $onlinePlayer) {
+                if (Rank::isStaff(Rank::getRank($onlinePlayer->getName()))) {
+                    $onlinePlayer->sendMessage("§q[§fS§q] §f" . $player->getName() . " " . Util::PREFIX . $message);
+                }
+            }
+
+            $event->cancel();
+            return;
         } else if ($session->inCooldown("mute")) {
             $format = Util::formatDurationFromSeconds($session->getCooldownData("mute")[0] - time());
             $player->sendMessage(Util::PREFIX . "Vous êtes mute, temps restant: §q" . $format);
@@ -241,7 +258,7 @@ class EventListener implements Listener
             return;
         }
 
-        $rank = ($player->getName() === $player->getDisplayName()) ? Rank::getRank($player->getName()) : "joueur";
+        $rank = ($player->getName() === $player->getDisplayName()) ? $rank : "joueur";
         $message = Rank::setReplace(Rank::getRankValue($rank, "chat"), $player, $message);
 
         $event->setFormatter(new LegacyRawChatFormatter($message));
@@ -481,6 +498,11 @@ class EventListener implements Listener
 
     public function onItemDamage(ItemDamageEvent $event): void
     {
+        if (!is_null($event->getItem()->getNamedTag()->getTag("menu_item"))) {
+            $event->setDamage(999999);
+            return;
+        }
+
         ExtraVanillaItems::getItem($event->getItem())->onDamage($event);
     }
 
@@ -943,7 +965,7 @@ class EventListener implements Listener
 
         if ($block->hasSameTypeId(VanillaBlocks::COBBLESTONE()) || $block->hasSameTypeId(VanillaBlocks::DEEPSLATE()) || $block->hasSameTypeId(VanillaBlocks::STONE())) {
             Job::addXp($player, "Mineur", 1);
-        } else if ($block->hasSameTypeId(VanillaBlocks::MELON()) || ($block instanceof Crops && !$block->ticksRandomly())) {
+        } else if ($block->hasSameTypeId(VanillaBlocks::MELON()) || $block->hasSameTypeId(VanillaBlocks::COCOA_POD()) || ($block instanceof Crops && !$block->ticksRandomly())) {
             Job::addXp($player, "Farmeur", mt_rand(1, 3));
         }
 
@@ -1007,6 +1029,26 @@ class EventListener implements Listener
                         $player->setNoClientPredictions(false);
                     }
                 }), 2 * 20);
+            } else if ($entity instanceof EggTrap) {
+                $pos = $player->getPosition();
+                $world = $pos->getWorld();
+
+                $damager->sendMessage(Util::PREFIX . "Vous avez touché §q" . $player->getDisplayName() . " §favec votre §qeggtrap§f, il est donc entouré de toiles d'araignées §q5 §fsecondes");
+                $player->sendMessage(Util::PREFIX . "Vous avez été touché par un §qeggtrap §fles toiles d'araignées disparaitront dans §q5 §fsecondes !");
+
+                for ($x = -1; $x <= 1; $x++) {
+                    for ($z = -1; $z <= 1; $z++) {
+                        if ($world->getBlock($pos->add($x, 1, $z)) instanceof Air) {
+                            $world->setBlock($pos->add($x, 1, $z), VanillaBlocks::COBWEB(), false);
+
+                            PlayerTask::$blocks[] = [
+                                time() + 5,
+                                Position::fromObject($pos->add($x, 1, $z), $pos->getWorld()),
+                                VanillaBlocks::AIR()
+                            ];
+                        }
+                    }
+                }
             }
         }
     }

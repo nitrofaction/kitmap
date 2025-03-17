@@ -57,7 +57,7 @@ class Jobs extends BaseCommand
                 $label .= "§fPierre: §q1xp\n§fPierre taillée: §q1xp\n§fMinerai d'émeraude: §q5xp";
                 break;
             case "Farmeur":
-                $label .= "§fBlé: §q1-3xp\n§fCarrote: §q1-3xp\n§fBetterave: §q1-3xp\n§fPatate: §q1-3xp\n§fMelon: §q1-3xp\n§fBambou: §q1xp";
+                $label .= "§fBlé: §q1-3xp\n§fCarrote: §q1-3xp\n§fBetterave: §q1-3xp\n§fPatate: §q1-3xp\n§fMelon: §q1-3xp\n§fCacao: §q1-3xp\n§fBambou: §q1xp\n§fCanne à sucre: §q1xp";
                 break;
             case "Hunteur":
                 $label .= "§fKill: §q50xp\n§fZombie: §q1-6xp\n§fPiglin: §q1-6xp";

@@ -19,6 +19,9 @@ class Leader extends BaseSubCommand
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);
     }
 
+    /** @noinspection PhpUnreachableStatementInspection
+     * @noinspection PhpUnusedLocalVariableInspection
+     */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
         $faction = strtolower($args["faction"]);

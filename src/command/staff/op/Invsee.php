@@ -1,11 +1,15 @@
-<?php /** @noinspection PhpUnused */
+<?php
+
+/** @noinspection DuplicatedCode */
+/** @noinspection PhpUndefinedClassInspection */
+/** @noinspection PhpUnreachableStatementInspection */
+/** @noinspection PhpUnused */
 
 namespace Kitmap\command\staff\op;
 
 use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\args\TargetPlayerArgument;
 use CortexPE\Commando\BaseCommand;
-use Element\player\InvSeePlayerList;
 use Kitmap\handler\Cache;
 use Kitmap\Main;
 use Kitmap\Session;

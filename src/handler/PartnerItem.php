@@ -3,6 +3,7 @@
 namespace Kitmap\handler;
 
 use Kitmap\entity\AntiBackBall;
+use Kitmap\entity\EggTrap;
 use Kitmap\entity\SwitchBall;
 use Kitmap\item\Durable as CustomDurable;
 use Kitmap\Main;
@@ -223,7 +224,7 @@ class PartnerItem
                     $entity->setMotion($event->getDirectionVector()->multiply(1.3));
                     $entity->spawnToAll();
 
-                    $session->setCooldown($name, 45);
+                    $session->setCooldown($name, 60);
                 }
                 break;
             case "antibackball":
@@ -236,6 +237,22 @@ class PartnerItem
 
                 $entity->setMotion($event->getDirectionVector()->multiply(1.7));
                 $entity->spawnToAll();
+                break;
+            case "eggtrap":
+                if ($player->getWorld()->getFolderName() !== "map") {
+                    $player->sendMessage(Util::PREFIX . "Vous ne pouvez pas utiliser d'eggtrap dans ce monde");
+                    return true;
+                } else if ($session->inCooldown($name)) {
+                    $player->sendMessage(Util::PREFIX . "Veuillez attendre §q" . ($session->getCooldownData($name)[0] - time()) . " §fseconde(s) avant de réutiliser un eggtrap");
+                    return true;
+                }
+
+                $entity = new EggTrap(Location::fromObject($player->getEyePos(), $player->getWorld(), $player->getLocation()->getYaw(), $player->getLocation()->getPitch()), $player);
+
+                $entity->setMotion($event->getDirectionVector()->multiply(1.7));
+                $entity->spawnToAll();
+
+                $session->setCooldown($name, 45);
                 break;
             case "rocket":
                 if ($session->inCooldown($name)) {

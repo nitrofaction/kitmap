@@ -34,7 +34,7 @@ class XpBottle extends BaseCommand
 
             $session = Session::get($sender);
 
-            if ($amount < 1 || $amount > 1000) {
+            if ($amount < 1 || $amount > 5000) {
                 $sender->sendMessage(Util::PREFIX . "Le montant indiqué est invalide");
                 return;
             } else if ($amount > $sender->getXpManager()->getXpLevel()) {

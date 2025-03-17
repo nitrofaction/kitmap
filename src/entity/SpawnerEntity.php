@@ -4,6 +4,7 @@ namespace Kitmap\entity;
 
 use Kitmap\handler\Cache;
 use Kitmap\handler\Job;
+use Kitmap\Util;
 use pocketmine\entity\animation\HurtAnimation;
 use pocketmine\entity\Attribute;
 use pocketmine\entity\EntitySizeInfo;
@@ -11,6 +12,7 @@ use pocketmine\entity\Living;
 use pocketmine\entity\Location;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityDeathEvent;
 use pocketmine\item\StringToItemParser;
 use pocketmine\item\VanillaItems;
 use pocketmine\nbt\tag\CompoundTag;
@@ -42,6 +44,103 @@ class SpawnerEntity extends Living
     public function getName(): string
     {
         return Cache::$config["entities"][$this->networkTypeId]["name"];
+    }
+
+    public function saveNBT(): CompoundTag
+    {
+        $nbt = parent::saveNBT();
+        $nbt->setString("id", $this->networkTypeId);
+        $nbt->setInt("stack", $this->stack);
+        return $nbt;
+    }
+
+    public function attack(EntityDamageEvent $source): void
+    {
+        $this->updateNametag();
+
+        if ($source->isCancelled()) {
+            return;
+        }
+
+        if ($source instanceof EntityDamageByEntityEvent) {
+            $source->setKnockBack(0);
+        }
+
+        $this->broadcastAnimation(new HurtAnimation($this));
+
+        if ($source->getFinalDamage() >= $this->getHealth()) {
+            if ($this->getStackSize() > 1) {
+                $source->cancel();
+                $this->onDeath();
+                return;
+            }
+        }
+
+        parent::attack($source);
+    }
+
+    public function updateNametag(): void
+    {
+        $this->setNameTag("§q" . $this->getFrenchName() . "s §7[x§q" . $this->getStackSize() . "§7]\n§7" . round($this->getHealth(), 2) . " §c❤");
+    }
+
+    public function getFrenchName(): string
+    {
+        return Cache::$config["entities"][$this->networkTypeId]["french"];
+    }
+
+    public function getStackSize(): int
+    {
+        return $this->stack;
+    }
+
+    public function onDeath(): void
+    {
+        if ($this->getStackSize() > 1) {
+            $this->addStackSize(-1);
+            $this->setHealth($this->getMaxHealth());
+        }
+
+        $ev = new EntityDeathEvent($this, $this->getDrops(), $this->getXpDropAmount());
+        $ev->call();
+
+        $cause = $this->getLastDamageCause();
+        $dropped = false;
+
+        if ($cause instanceof EntityDamageByEntityEvent) {
+            $damager = $cause->getDamager();
+
+            if ($damager instanceof Player) {
+                Job::addXp($damager, "Assassin", mt_rand(1, 6));
+
+                foreach ($ev->getDrops() as $item) {
+                    Util::addItem($damager, $item);
+                }
+
+                $damager->getXpManager()->addXp($ev->getXpDropAmount());
+                $dropped = true;
+            }
+        }
+
+        if (!$dropped) {
+            foreach ($ev->getDrops() as $item) {
+                $this->getWorld()->dropItem($this->location, $item);
+            }
+
+            $this->getWorld()->dropExperience($this->location, $ev->getXpDropAmount());
+        }
+
+        $this->startDeathAnimation();
+    }
+
+    public function addStackSize(int $stack): void
+    {
+        $this->setStackSize($this->stack + $stack);
+    }
+
+    public function setStackSize(int $stack): void
+    {
+        $this->stack = max(1, $stack);
     }
 
     public function getDrops(): array
@@ -83,77 +182,19 @@ class SpawnerEntity extends Living
         return floor(Cache::$config["entities"][$this->networkTypeId]["xp"]);
     }
 
-    public function saveNBT(): CompoundTag
+    public function startDeathAnimation(): void
     {
-        $nbt = parent::saveNBT();
-        $nbt->setString("id", $this->networkTypeId);
-        $nbt->setInt("stack", $this->stack);
-        return $nbt;
-    }
-
-    public function attack(EntityDamageEvent $source): void
-    {
-        $this->updateNametag();
-
-        if ($source->isCancelled()) {
-            return;
+        if (!$this->isAlive()) {
+            parent::startDeathAnimation();
         }
-
-        if ($source instanceof EntityDamageByEntityEvent) {
-            $source->setKnockBack(0);
-        }
-
-        $this->broadcastAnimation(new HurtAnimation($this));
-
-        if ($source->getFinalDamage() >= $this->getHealth()) {
-            if ($source instanceof EntityDamageByEntityEvent) {
-                $damager = $source->getDamager();
-
-                if ($damager instanceof Player) {
-                    Job::addXp($damager, "Assassin", mt_rand(1, 6));
-                }
-            }
-
-            if ($this->getStackSize() > 1) {
-                $source->cancel();
-                $this->onDeath();
-                return;
-            }
-        }
-
-        parent::attack($source);
-    }
-
-    public function updateNametag(): void
-    {
-        $this->setNameTag("§q" . $this->getFrenchName() . "s §7[x§q" . $this->getStackSize() . "§7]\n§7" . round($this->getHealth(), 2) . " §c❤");
-    }
-
-    public function getFrenchName(): string
-    {
-        return Cache::$config["entities"][$this->networkTypeId]["french"];
-    }
-
-    public function getStackSize(): int
-    {
-        return $this->stack;
-    }
-
-    public function onDeath(): void
-    {
-        if ($this->stack > 1) {
-            $this->stack--;
-            $this->setHealth($this->getMaxHealth());
-        }
-        parent::onDeath();
     }
 
     public function kill(): void
     {
         if ($this->getStackSize() > 1) {
-            for ($i = 1; $i <= $this->getStackSize(); $i++) {
-                $this->onDeath();
-            }
+            // for ($i = 1; $i <= $this->getStackSize(); $i++) {
+            $this->onDeath();
+            // }
         }
         parent::kill();
     }
@@ -168,26 +209,9 @@ class SpawnerEntity extends Living
         return parent::onUpdate($currentTick);
     }
 
-    public function startDeathAnimation(): void
-    {
-        if (!$this->isAlive()) {
-            parent::startDeathAnimation();
-        }
-    }
-
     public function getCustomNetworkTypeId(): string
     {
         return $this->networkTypeId;
-    }
-
-    public function addStackSize(int $stack): void
-    {
-        $this->setStackSize($this->stack + $stack);
-    }
-
-    public function setStackSize(int $stack): void
-    {
-        $this->stack = max(1, $stack);
     }
 
     protected function getInitialSizeInfo(): EntitySizeInfo

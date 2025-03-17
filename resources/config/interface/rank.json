@@ -2,6 +2,7 @@
   "joueur": {
     "gamertag": "§7[{fac}] {name}",
     "chat": "§7[{fac}] §7{name}:§7 {msg}",
+    "name": "§7Joueur",
     "outpost": 5000,
     "tax": 10,
     "pack": 0,
@@ -14,6 +15,7 @@
   "vip": {
     "gamertag": "§t[§7{fac}§t] §7{name}",
     "chat": "§t[§7{fac}§t][VIP] §7{name}§t:§7 {msg}",
+    "name": "§tVIP",
     "outpost": 5000,
     "tax": 8,
     "pack": 1,
@@ -26,6 +28,7 @@
   "vip-plus": {
     "gamertag": "§v[§7{fac}§v] §7{name}",
     "chat": "§v[§7{fac}§v][VIP+] §7{name}§v:§7 {msg}",
+    "name": "§vVIP+",
     "outpost": 6000,
     "tax": 5,
     "pack": 2,
@@ -38,6 +41,7 @@
   "ultra": {
     "gamertag": "§c[{fac}] {name}",
     "chat": "§c[§7{fac}§c][Ultra] §c{name}:§7 {msg}",
+    "name": "§cUltra",
     "outpost": 8000,
     "tax": 2,
     "pack": 4,
@@ -50,6 +54,7 @@
   "legende": {
     "gamertag": "§u[{fac}] {name}",
     "chat": "§u[§7{fac}§u][Légende] §u{name}:§7 {msg}",
+    "name": "§uLégende",
     "outpost": 10000,
     "tax": 0,
     "pack": 5,
@@ -61,26 +66,32 @@
   },
   "createur": {
     "gamertag": "§f[§b{fac}§f] §b{name}",
-    "chat": "§f[§b{fac}§f][§bCréateur§f] §f{name}:§7 {msg}"
+    "chat": "§f[§b{fac}§f][§bCréateur§f] §f{name}:§7 {msg}",
+    "name": "§bCréateur"
   },
   "guide": {
     "gamertag": "§a[{fac}] {name}",
-    "chat": "§a[{fac}][Guide] §a{name}:§a {msg}"
+    "chat": "§a[{fac}][Guide] §a{name}:§a {msg}",
+    "name": "§aGuide"
   },
   "moderateur": {
     "gamertag": "§e[{fac}] {name}",
-    "chat": "§e[{fac}][Modo] §e{name}:§e {msg}"
+    "chat": "§e[{fac}][Modo] §e{name}:§e {msg}",
+    "name": "§eModérateur"
   },
   "sm": {
     "gamertag": "§6[{fac}] {name}",
-    "chat": "§6[{fac}][SuperModo] §6{name}:§6 {msg}"
+    "chat": "§6[{fac}][SuperModo] §6{name}:§6 {msg}",
+    "name": "§6Super-Modérateur"
   },
   "administrateur": {
     "gamertag": "§c[{fac}] {name}",
-    "chat": "§c[{fac}][Admin] §c{name}:§c {msg}"
+    "chat": "§c[{fac}][Admin] §c{name}:§c {msg}",
+    "name": "§cAdministrateur"
   },
   "fondateur": {
     "gamertag": "§4[{fac}] {name}",
-    "chat": "§4[{fac}][Fonda] §4{name}:§4 {msg}"
+    "chat": "§4[{fac}][Fonda] §4{name}:§4 {msg}",
+    "name": "§4Fondateur"
   }
 }

@@ -168,6 +168,7 @@ class Fork extends Durable
         return true;
     }
 
+    /** @noinspection PhpUnusedPrivateMethodInspection */
     private function getSeedByBlock(Crops $block): ?PmItem
     {
         return match (true) {

@@ -4,21 +4,21 @@
     "texture": "",
     "bienbien": {
       "gem": 100,
-      "money": 2000000,
+      "money": 500000,
       "texture": "",
       "button": "Cape Bien Bien",
       "description": "La cape des envieux"
     },
     "singe": {
       "gem": 100,
-      "money": 2000000,
+      "money": 500000,
       "texture": "",
       "button": "Cape singe",
       "description": "C'est comme ça les mra te voit quand t'as pas d'argent"
     },
     "harr": {
       "gem": 100,
-      "money": 2000000,
+      "money": 500000,
       "texture": "",
       "button": "C'est harr",
       "description": "Tellement c'était harr j'ai laché une larme"
@@ -29,10 +29,24 @@
     "texture": "",
     "mushroom": {
       "gem": 100,
-      "money": 2000000,
+      "money": 750000,
       "texture": "",
       "button": "Champignon",
       "description": "Un gros champignon sur votre §qtête §f!"
+    },
+    "chicken": {
+      "gem": 100,
+      "money": 750000,
+      "texture": "",
+      "button": "Poulet",
+      "description": "Un gros poulet qui vient se déposer sur votre §qtête §f!"
+    },
+    "frog": {
+      "gem": 100,
+      "money": 750000,
+      "texture": "",
+      "button": "Grenouille",
+      "description": "Une grosse grenouille qui vient se déposer sur votre §qtête §f!"
     }
   }
 }

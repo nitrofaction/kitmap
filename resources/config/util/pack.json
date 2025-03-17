@@ -12,6 +12,11 @@
     ],
     [
       "5",
+      "Un kit ultra",
+      "kit:ultra"
+    ],
+    [
+      "5",
       "1 pack",
       "pack:1"
     ],
@@ -47,32 +52,32 @@
     ],
     [
       "30",
-      "8 PartnerItems",
+      "4 PartnerItems",
       "partneritem:4"
     ],
     [
       "30",
+      "4 PartnerItems",
+      "partneritem:4"
+    ],
+    [
+      "15",
       "8 PartnerItems",
       "partneritem:4"
     ],
     [
       "15",
-      "12 PartnerItems",
-      "partneritem:4"
-    ],
-    [
-      "15",
-      "12 PartnerItems",
+      "8 PartnerItems",
       "partneritem:4"
     ],
     [
       "10",
-      "16 PartnerItems",
+      "12 PartnerItems",
       "partneritem:8"
     ],
     [
       "5",
-      "32 PartnerItems",
+      "16 PartnerItems",
       "partneritem:16"
     ],
     [
@@ -126,14 +131,14 @@
       "item:nether_wart:128"
     ],
     [
-      "5",
+      "3",
       "5 poussières d'iris",
       "item:rabbit_foot:5"
     ],
     [
       "3",
-      "8 poussières d'iris",
-      "item:rabbit_foot:8"
+      "7 poussières d'iris",
+      "item:rabbit_foot:7"
     ],
     [
       "1",
@@ -186,7 +191,7 @@
       "item:iron_sword:1::9,2;17,3"
     ],
     [
-      "5",
+      "3",
       "Épée en iris",
       "item:netherite_sword:1::9,2;17,3"
     ],

@@ -24,8 +24,11 @@ class EnderPearl extends PmEnderPearl
     {
         $owner = $this->getOwningEntity();
 
-        if ($owner !== null) {
+        if ($owner instanceof Player) {
             if ($owner->getWorld() !== $this->getWorld()) {
+                return;
+            } else if (Util::insideZone($this->getPosition(), "spawn")) {
+                $this->cancel($owner, "Votre perle a été annulé car elle a attéri au spawn");
                 return;
             }
 
@@ -33,26 +36,25 @@ class EnderPearl extends PmEnderPearl
         }
     }
 
+    private function cancel(Player $player, string $reason): void
+    {
+        $player->sendMessage(Util::PREFIX . $reason . ", votre cooldown perle à été reset à §q2 §fsecondes");
+        Session::get($player)->setCooldown("enderpearl", 2);
+
+        $this->setOwningEntity(null);
+        $this->flagForDespawn();
+    }
+
     protected function calculateInterceptWithBlock(Block $block, Vector3 $start, Vector3 $end): ?RayTraceResult
     {
         $player = $this->getOwningEntity();
 
-        if ($player instanceof Player && $block instanceof FenceGate) {
-            $player->sendMessage(Util::PREFIX . "Votre perle a été annulé car elle a touché un portillon, votre cooldown perle à été reset à §q2 §fsecondes");
-            Session::get($player)->setCooldown("enderpearl", 2);
-
-            $this->setOwningEntity(null);
-            $this->flagForDespawn();
-
-            return null;
-        } else if ($player instanceof Player && ($block->isSameState(VanillaBlocks::STAINED_GLASS()->setColor(DyeColor::BROWN())) || $block->hasSameTypeId(VanillaBlocks::REDSTONE()))) {
-            $player->sendMessage(Util::PREFIX . "Votre perle a été annulé car elle a touché un bloc antiback, votre cooldown perle à été reset à §q2 §fsecondes");
-            Session::get($player)->setCooldown("enderpearl", 2);
-
-            $this->setOwningEntity(null);
-            $this->flagForDespawn();
-
-            return null;
+        if ($player instanceof Player) {
+            if ($block instanceof FenceGate) {
+                $this->cancel($player, "Votre perle a été annulé car elle a touché un portillon");
+            } else if ($block->isSameState(VanillaBlocks::STAINED_GLASS()->setColor(DyeColor::BROWN())) || $block->hasSameTypeId(VanillaBlocks::REDSTONE())) {
+                $this->cancel($player, "Votre perle a été annulé car elle a touché un bloc antiback");
+            }
         }
 
         if ($block instanceof PressurePlate || $block instanceof Tripwire) {

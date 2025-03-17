@@ -37,7 +37,7 @@ class Merchant extends Villager
 
         $dialogue = NpcDialogueBuilder::create()
             ->setName("Marchant")
-            ->setText("Salut, je suis le marchant ! C'est moi qui transforme ton §qémeraude §ren §qémeraude renforcé §r!\n\nPour cela il me faudra:\n" . Util::PREFIX . "§r1 lingot d'émeraude\n" . Util::PREFIX . "§r32 chairs putrifiées\n" . Util::PREFIX . "§r25 lingots d'or")
+            ->setText("Salut, je suis le marchant ! C'est moi qui transforme ton §qémeraude §ren §qémeraude renforcé §r!\n\nPour cela il me faudra:\n" . Util::PREFIX . "§r16 lingots d'émeraude\n" . Util::PREFIX . "§r32 chairs putréfiées\n" . Util::PREFIX . "§r25 lingots d'or")
             ->setDefaultNpcTexture(DefaultNpcDialogueTexture::TEXTURE_AGRICULTURE_8);
 
         $dialogue = $dialogue->addSimpleButton("Je reviens", function (Player $player) use ($prefix) {
@@ -49,7 +49,7 @@ class Merchant extends Villager
             NpcDialogueManager::remove($player);
 
             $requirements = [
-                "emerald:1",
+                "emerald:16",
                 "rotten_flesh:32",
                 "gold_ingot:25"
             ];
@@ -75,7 +75,7 @@ class Merchant extends Villager
 
             Util::addItem($player, VanillaItems::DRAGON_BREATH());
 
-            $player->sendMessage($prefix . "Et hop ! Je t'ai donné ton lingot d'émeraude renforcé, merci pour ton or et chair putrifié !!");
+            $player->sendMessage($prefix . "Et hop ! Je t'ai donné ton lingot d'émeraude renforcé, merci pour ton or et ta chair putréfiée !!");
         });
 
         NpcDialogueManager::send($player, $dialogue->build(), true);
