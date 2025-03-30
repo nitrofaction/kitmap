@@ -47,10 +47,10 @@ class Clearcooldown extends BaseCommand
         $targetSession = Session::get($target);
 
         if ($target->getName() === $sender->getName()) {
-            $sender->sendMessage(Util::PREFIX . "Vous venez de clear votre cooldown §q" . $cooldown);
+            $sender->sendMessage(Util::PREFIX . "Vous venez de clear votre cooldown §n" . $cooldown);
         } else {
-            $sender->sendMessage(Util::PREFIX . "Vous venez de clear le cooldown §q" . $cooldown . " §fdu joueur §q" . $target->getName());
-            $target->sendMessage(Util::PREFIX . "Un staff a clear votre cooldown §q" . $cooldown . " §f!");
+            $sender->sendMessage(Util::PREFIX . "Vous venez de clear le cooldown §n" . $cooldown . " §fdu joueur §n" . $target->getName());
+            $target->sendMessage(Util::PREFIX . "Un staff a clear votre cooldown §n" . $cooldown . " §f!");
         }
 
         if ($targetSession->inCooldown($cooldown)) {

@@ -16,7 +16,7 @@ class XpBottle extends Item
             $xp = $item->getNamedTag()->getInt("xp_bottle");
 
             $player->getXpManager()->addXpLevels($xp);
-            $player->sendMessage(Util::PREFIX . "§fVous venez de récupérer §q" . $xp . " §fniveaux d'expérience !");
+            $player->sendMessage(Util::PREFIX . "§fVous venez de récupérer §n" . $xp . " §fniveaux d'expérience !");
 
             $this->projectileSucces($player, $item);
             $event->cancel();

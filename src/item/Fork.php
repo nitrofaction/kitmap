@@ -66,10 +66,10 @@ class Fork extends Durable
 
         if ($mode === 3) {
             $this->changeForkMode($player, 5);
-            $player->sendMessage(Util::PREFIX . "Votre fourche vient de passer en §qmode 5x5 §fet elle perdra donc §q3 points de durabilité §fpar utilisation !");
+            $player->sendMessage(Util::PREFIX . "Votre fourche vient de passer en §nmode 5x5 §fet elle perdra donc §n3 points de durabilité §fpar utilisation !");
         } else {
             $this->changeForkMode($player, 3);
-            $player->sendMessage(Util::PREFIX . "Votre fourche vient de passer en §qmode 3x3 §fet elle perdra donc §q1 point de durabilité §fpar utilisation !");
+            $player->sendMessage(Util::PREFIX . "Votre fourche vient de passer en §nmode 3x3 §fet elle perdra donc §n1 point de durabilité §fpar utilisation !");
         }
     }
 

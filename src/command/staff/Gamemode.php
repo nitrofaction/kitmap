@@ -65,10 +65,10 @@ class Gamemode extends BaseCommand
                 }
 
                 $target->setGamemode($gameMode);
-                $sender->sendMessage(Util::PREFIX . "Vous venez de changer le mode de jeu de §q" . $target->getName() . " §fpour §q" . $gameModeName . " §f!");
+                $sender->sendMessage(Util::PREFIX . "Vous venez de changer le mode de jeu de §n" . $target->getName() . " §fpour §n" . $gameModeName . " §f!");
             } else {
                 $sender->setGamemode($gameMode);
-                $sender->sendMessage(Util::PREFIX . "Vous venez de définir votre mode de jeu à §q" . $gameModeName . " §f!");
+                $sender->sendMessage(Util::PREFIX . "Vous venez de définir votre mode de jeu à §n" . $gameModeName . " §f!");
             }
         }
     }

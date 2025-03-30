@@ -33,12 +33,12 @@ class Repair extends BaseCommand
         if ($sender instanceof Player) {
             $session = Session::get($sender);
 
-            if (!Rank::hasRank($sender, "ultra")) {
+            if (!Rank::hasRank($sender, "vip-plus")) {
                 $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
                 return;
             } else if ($session->inCooldown("repair")) {
                 $format = Util::formatDurationFromSeconds($session->getCooldownData("repair")[0] - time());
-                $sender->sendMessage(Util::PREFIX . "Vous ne pourrez ré-utiliser la commande §q/repair §fque dans: §q" . $format);
+                $sender->sendMessage(Util::PREFIX . "Vous ne pourrez ré-utiliser la commande §n/repair §fque dans: §n" . $format);
                 return;
             } else if ($session->inCooldown("combat")) {
                 $sender->sendMessage(Util::PREFIX . "Cette commande est interdite en combat");
@@ -46,7 +46,7 @@ class Repair extends BaseCommand
             }
 
             if (isset($args["opt"]) && strtolower($args["opt"]) === "all") {
-                if (!Rank::hasRank($sender, "legende")) {
+                if (!Rank::hasRank($sender, "ultra")) {
                     $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
                     return;
                 }

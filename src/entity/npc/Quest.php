@@ -65,7 +65,7 @@ class Quest extends Villager
             ->setName(ucfirst($id))
             ->setDefaultNpcTexture($data["texture"]);
 
-        $prefix = "§f[§q" . ucfirst($id) . "§f] " . Util::PREFIX;
+        $prefix = "§f[§n" . ucfirst($id) . "§f] " . Util::PREFIX;
 
         if ($session->inCooldown("quest_" . $id)) {
             $dialogue = $dialogue->setText($data["in-cooldown"]);

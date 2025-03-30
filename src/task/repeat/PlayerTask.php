@@ -104,7 +104,7 @@ class PlayerTask extends Task
 
         if ($tick % 50 == 0) {
             if (Pack::$itemsAmount > 3) {
-                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le §qPRIME TIME §fest en cours ! Les packs donnent donc §q5 PACKS §fpar ouverture jusqu'à §q21H §f!");
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le §nPRIME TIME §fest en cours ! Les packs donnent donc §n5 PACKS §fpar ouverture jusqu'à §n21H §f!");
             }
 
             $time = date("H:i");

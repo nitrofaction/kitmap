@@ -38,7 +38,7 @@ class EnderPearl extends PmEnderPearl
 
     private function cancel(Player $player, string $reason): void
     {
-        $player->sendMessage(Util::PREFIX . $reason . ", votre cooldown perle à été reset à §q2 §fsecondes");
+        $player->sendMessage(Util::PREFIX . $reason . ", votre cooldown perle à été reset à §n2 §fsecondes");
         Session::get($player)->setCooldown("enderpearl", 2);
 
         $this->setOwningEntity(null);

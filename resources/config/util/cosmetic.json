@@ -32,21 +32,21 @@
       "money": 750000,
       "texture": "",
       "button": "Champignon",
-      "description": "Un gros champignon sur votre §qtête §f!"
+      "description": "Un gros champignon sur votre §ntête §f!"
     },
     "chicken": {
       "gem": 100,
       "money": 750000,
       "texture": "",
       "button": "Poulet",
-      "description": "Un gros poulet qui vient se déposer sur votre §qtête §f!"
+      "description": "Un gros poulet qui vient se déposer sur votre §ntête §f!"
     },
     "frog": {
       "gem": 100,
       "money": 750000,
       "texture": "",
       "button": "Grenouille",
-      "description": "Une grosse grenouille qui vient se déposer sur votre §qtête §f!"
+      "description": "Une grosse grenouille qui vient se déposer sur votre §ntête §f!"
     }
   }
 }

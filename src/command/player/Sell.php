@@ -47,7 +47,7 @@ class Sell extends BaseCommand
                 }
 
                 $session->addValue("money", $total);
-                $sender->sendMessage(Util::PREFIX . "Tous les items vendable de votre inventaire ont été vendu, cela vous a rapporté §q" . $total . " §fpièces");
+                $sender->sendMessage(Util::PREFIX . "Tous les items vendable de votre inventaire ont été vendu, cela vous a rapporté §n" . $total . " §fpièces");
                 return;
             }
 
@@ -64,7 +64,7 @@ class Sell extends BaseCommand
                 $total = ($item->getCount() * $sell[2]);
                 $session->addValue("money", $total);
 
-                $sender->sendMessage(Util::PREFIX . "Vous venez de vendre §q" . $item->getCount() . " " . $sell[1] . " §fpour §q" . $total . " §fpièces");
+                $sender->sendMessage(Util::PREFIX . "Vous venez de vendre §n" . $item->getCount() . " " . $sell[1] . " §fpour §n" . $total . " §fpièces");
             }
         }
     }

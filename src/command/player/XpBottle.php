@@ -42,14 +42,14 @@ class XpBottle extends BaseCommand
                 return;
             } else if ($session->inCooldown("xp_bottle")) {
                 $format = Util::formatDurationFromSeconds($session->getCooldownData("xp_bottle")[0] - time());
-                $sender->sendMessage(Util::PREFIX . "Vous ne pourrez ré-utiliser la commande §q/xpbottle §fque dans: §q" . $format);
+                $sender->sendMessage(Util::PREFIX . "Vous ne pourrez ré-utiliser la commande §n/xpbottle §fque dans: §n" . $format);
                 return;
             }
 
             Util::addItem($sender, self::createXpBottle($amount));
 
             $sender->getXpManager()->setXpLevel($sender->getXpManager()->getXpLevel() - $amount);
-            $sender->sendMessage(Util::PREFIX . "Vous avez crée une bouteille d'expérience avec §q" . $amount . " niveaux §fà l'intérieur");
+            $sender->sendMessage(Util::PREFIX . "Vous avez crée une bouteille d'expérience avec §n" . $amount . " niveaux §fà l'intérieur");
 
             $session->setCooldown("xp_bottle", 60 * 5);
         }

@@ -15,7 +15,9 @@ class Message extends Living
     public function __construct(Location $location, ?CompoundTag $nbt = null)
     {
         parent::__construct($location, $nbt);
+
         $this->setLifeTime(50);
+        $this->setCanSaveWithChunk(false);
     }
 
     public function setLifeTime(int $life): void

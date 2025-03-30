@@ -19,7 +19,7 @@ class Paper extends Item
             $money = $item->getNamedTag()->getInt("money");
 
             Session::get($player)->addValue("money", $money);
-            $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir §q" . $money . "$ §f!");
+            $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir §n" . $money . "$ §f!");
 
             $this->projectileSucces($player, $item);
             $event->cancel();
@@ -29,7 +29,7 @@ class Paper extends Item
             $packs = $item->getNamedTag()->getInt("pack");
 
             Session::get($player)->addValue("packs", $packs);
-            $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir §q" . $packs . " PACKS §f!");
+            $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir §n" . $packs . " PACKS §f!");
 
             $this->projectileSucces($player, $item);
             $event->cancel();
@@ -57,7 +57,7 @@ class Paper extends Item
                 Util::addItem($player, $partneritem);
             }
 
-            $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir §q" . $amount . " partneritems §fdivers !");
+            $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir §n" . $amount . " partneritems §fdivers !");
 
             $this->projectileSucces($player, $item);
             $event->cancel();
@@ -82,12 +82,12 @@ class Paper extends Item
                 $current = $session->getCooldownData("xp_boost")[1];
                 $remaining = $session->getCooldownData("xp_boost")[0];
 
-                $player->sendMessage(Util::PREFIX . "Vous possèdez déjà un boost de §q" . $current . "%§f, pour utiliser un nouveau boost veuillez attendre: §q" . Util::formatDurationFromSeconds($remaining));
+                $player->sendMessage(Util::PREFIX . "Vous possèdez déjà un boost de §n" . $current . "%§f, pour utiliser un nouveau boost veuillez attendre: §n" . Util::formatDurationFromSeconds($remaining));
                 return true;
             }
 
             $session->setCooldown("xp_boost", $duration, [$boost]);
-            $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir un boost de §q" . $boost . "% §fsur l'xp de vos jobs pendant §q" . Util::formatDurationFromSeconds($duration));
+            $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir un boost de §n" . $boost . "% §fsur l'xp de vos jobs pendant §n" . Util::formatDurationFromSeconds($duration));
 
             $this->projectileSucces($player, $item);
             $event->cancel();

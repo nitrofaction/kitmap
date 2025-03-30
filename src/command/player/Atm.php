@@ -54,10 +54,10 @@ class Atm extends BaseCommand
                 $session->addValue("money", $money);
 
                 Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient de convertir " . Util::formatDurationFromSeconds($remaining) . " de jeu en " . Util::formatNumberWithSuffix($money) . "$");
-                $player->sendMessage(Util::PREFIX . "Vous venez de convertir §q" . Util::formatDurationFromSeconds($remaining) . " §fde jeu en §q" . Util::formatNumberWithSuffix($money) . "$ §f!");
+                $player->sendMessage(Util::PREFIX . "Vous venez de convertir §n" . Util::formatDurationFromSeconds($remaining) . " §fde jeu en §n" . Util::formatNumberWithSuffix($money) . "$ §f!");
             });
             $form->setTitle("ATM");
-            $form->setContent(Util::PREFIX . "Actuellement vous avez §q" . Util::formatDurationFromSeconds($remaining) . " §fnon converties, ce qui est équivalent à §q" . Util::formatNumberWithSuffix($money) . "$ §f!\n\nCliquez sur les boutons ci-dessous si vous voulez les convertir");
+            $form->setContent(Util::PREFIX . "Actuellement vous avez §n" . Util::formatDurationFromSeconds($remaining) . " §fnon converties, ce qui est équivalent à §n" . Util::formatNumberWithSuffix($money) . "$ §f!\n\nCliquez sur les boutons ci-dessous si vous voulez les convertir");
             $form->addButton("Convertir");
             $form->addButton("Quitter");
             $sender->sendForm($form);

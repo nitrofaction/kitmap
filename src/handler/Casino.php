@@ -46,7 +46,7 @@ class Casino
             }
         });
         $form->setTitle("Casino");
-        $form->setContent(Util::PREFIX . "Bienvenue dans le menu du §qcasino §f! Veuillez choisir le jeu auquel vous voulez jouer !");
+        $form->setContent(Util::PREFIX . "Bienvenue dans le menu du §ncasino §f! Veuillez choisir le jeu auquel vous voulez jouer !");
         $form->addButton("§8Pierre Feuille Ciseau", label: "pfc");
         $form->addButton("§8Mines", label: "mines");
         $form->addButton("§8Dragon Tower", label: "dragon-tower");
@@ -69,7 +69,7 @@ class Casino
             $player->sendForm($formToSend);
         });
         $form->setTitle(self::getGameName($game));
-        $form->setContent(Util::PREFIX . "Bienvenue dans le menu du jeu §q" . self::getGameName($game) . " §f! Que voulez-vous faire ?");
+        $form->setContent(Util::PREFIX . "Bienvenue dans le menu du jeu §n" . self::getGameName($game) . " §f! Que voulez-vous faire ?");
         $form->addButton("§8Jouer");
         $form->addButton("§8Règles");
         return $form;
@@ -93,7 +93,7 @@ class Casino
                 $player->sendMessage(Util::PREFIX . "La mise minimale de ce jeu est 10k de pièces");
                 return;
             } else if ($session->data["money"] < $amount) {
-                $player->sendMessage(Util::PREFIX . "Votre monnaie est infèrieur à §q" . $amount);
+                $player->sendMessage(Util::PREFIX . "Votre monnaie est infèrieur à §n" . $amount);
                 return;
             }
 
@@ -201,7 +201,7 @@ class Casino
 
                 $gainColor = $possibleGain >= $bet ? TextFormat::GREEN : TextFormat::RED;
 
-                $collectGainBlock = VanillaBlocks::CONCRETE()->setColor(DyeColor::YELLOW())->asItem()->setCustomName("§r§l§q» §r§qRécupérer ses gains §l§q«§r\n§l§q| §r§fMise initial§8: §b" . $formattedBet . "\n§l§q| §r§fRécompense§8: " . $gainColor . Util::formatNumberWithSuffix(round($possibleGain)) . " §8(§7x" . $possibleMultiplier . "§8)");
+                $collectGainBlock = VanillaBlocks::CONCRETE()->setColor(DyeColor::YELLOW())->asItem()->setCustomName("§r§l§n» §r§nRécupérer ses gains §l§n«§r\n§l§n| §r§fMise initial§8: §b" . $formattedBet . "\n§l§n| §r§fRécompense§8: " . $gainColor . Util::formatNumberWithSuffix(round($possibleGain)) . " §8(§7x" . $possibleMultiplier . "§8)");
                 $invMenuInventory->setItem($collectGainSlot, $collectGainBlock);
             }
         };
@@ -314,7 +314,7 @@ class Casino
         $game = ucwords(implode(" ", explode("-", $game)));
 
         if ($bet > 99999) {
-            Server::getInstance()->broadcastMessage(Util::PREFIX . "§q" . $player->getName() . " §fa perdu §q" . Util::formatNumberWithSuffix($bet) . " pièces " . $suffix . " " . $game);
+            Server::getInstance()->broadcastMessage(Util::PREFIX . "§n" . $player->getName() . " §fa perdu §n" . Util::formatNumberWithSuffix($bet) . " §fpièces " . $suffix . " §n" . $game);
         }
 
         $player->sendMessage(Util::PREFIX . "Vous n'avez rien gagné en jouant " . $suffix . " " . $game);
@@ -332,15 +332,15 @@ class Casino
         $session->addValue("money", $finalGain);
 
         $playerName = strtolower($player->getName());
-        $player->sendTitle("§q+ " . $finalGain . " +", "§7Vous avez gagné " . $formattedFinalGain . " pièce(s) en jouant à " . self::getGameName($game) . " !");
+        $player->sendTitle("§n+ " . $finalGain . " +", "§7Vous avez gagné " . $formattedFinalGain . " pièce(s) en jouant à " . self::getGameName($game) . " !");
 
         switch ($game) {
             case "dragon-tower":
-                Server::getInstance()->broadcastMessage(Util::PREFIX . "§q" . $player->getName() . " §fa remporté §q" . $formattedFinalGain . " pièces §fen réussissant §q" . $score . " palier(s) §fau §qDragon Tower §f! §8(§q/casino§8)");
+                Server::getInstance()->broadcastMessage(Util::PREFIX . "§n" . $player->getName() . " §fa remporté §n" . $formattedFinalGain . " pièces §fen réussissant §n" . $score . " palier(s) §fau §nDragon Tower §f! §8(§n/casino§8)");
                 break;
             case "mines":
                 if ($multiplier > 1) {
-                    Server::getInstance()->broadcastMessage(Util::PREFIX . "§q" . $player->getName() . " §fa remporté §q" . $formattedFinalGain . " pièces §8[§7x" . $multiplier . "§8] §fen esquivant §q" . $score . "/" . $scoreToComplete . " mine(s) §fdans les §qMines §f! §8(§q/casino§8)");
+                    Server::getInstance()->broadcastMessage(Util::PREFIX . "§n" . $player->getName() . " §fa remporté §n" . $formattedFinalGain . " pièces §8[§7x" . $multiplier . "§8] §fen esquivant §n" . $score . "/" . $scoreToComplete . " mine(s) §fdans les §nMines §f! §8(§n/casino§8)");
                 }
                 break;
         }
@@ -405,7 +405,7 @@ class Casino
             $possibleGain = round((($bet * $multiplier) - $bet) * 0.90, 2) * 0.90;
             $multiplier = round((($multiplier - 1) * 0.90) + 1, 2);
 
-            $collectGainBlock = VanillaBlocks::CONCRETE()->setColor(DyeColor::YELLOW())->asItem()->setCustomName("§r§l§q» §r§qRécupérer ses gains §l§q«§r\n§l§q| §r§fMise initial§8: §b" . $formattedBet . "\n§l§q| §r§fRécompense§8: §a" . Util::formatNumberWithSuffix($possibleGain) . " §8(§7x" . $multiplier . "§8)");
+            $collectGainBlock = VanillaBlocks::CONCRETE()->setColor(DyeColor::YELLOW())->asItem()->setCustomName("§r§l§n» §r§nRécupérer ses gains §l§n«§r\n§l§n| §r§fMise initial§8: §b" . $formattedBet . "\n§l§n| §r§fRécompense§8: §a" . Util::formatNumberWithSuffix($possibleGain) . " §8(§7x" . $multiplier . "§8)");
             $invMenuInventory->setItem(49, $collectGainBlock);
         };
 

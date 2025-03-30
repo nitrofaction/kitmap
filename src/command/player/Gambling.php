@@ -81,7 +81,7 @@ class Gambling extends BaseCommand
             $form->setTitle("Gambling");
             $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
             $form->addButton("Créer");
-            $form->addButton("Rejoindre §q(" . count(self::$gamblings) . ")");
+            $form->addButton("Rejoindre §n(" . count(self::$gamblings) . ")");
             $form->addButton("Visualiser les kits");
             $sender->sendForm($form);
         }
@@ -97,7 +97,7 @@ class Gambling extends BaseCommand
             $session = Session::get($player);
 
             if ($session->inCooldown("gambling")) {
-                $player->sendMessage(Util::PREFIX . "Vous devez encore attendre §q" . Util::formatDurationFromSeconds($session->getCooldownData("gambling")[0] - time()) . " §favant de pouvoir re-créer un gambling");
+                $player->sendMessage(Util::PREFIX . "Vous devez encore attendre §n" . Util::formatDurationFromSeconds($session->getCooldownData("gambling")[0] - time()) . " §favant de pouvoir re-créer un gambling");
                 return;
             }
 
@@ -126,7 +126,7 @@ class Gambling extends BaseCommand
             $session->setCooldown("gambling", 60 * 5);
             $session->addValue("money", $bet, true);
 
-            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §q" . $player->getName() . " §fvient de créer un gambling ! Affrontez le via la commande §q/gambling §f!");
+            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §n" . $player->getName() . " §fvient de créer un gambling ! Affrontez le via la commande §n/gambling §f!");
         });
         $form->setTitle("Gambling");
         $form->addInput(Util::PREFIX . "Combien misez vous sur votre victoire?", default: 0, label: "bet");
@@ -150,7 +150,7 @@ class Gambling extends BaseCommand
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
 
         foreach (self::$gamblings as $target => $value) {
-            $form->addButton($value["upper_name"] . "\nMise de §q" . Util::formatNumberWithSuffix($value["bet"]) . " pièces §8- Kit §q" . $value["kit"] + 1, -1, "", $target);
+            $form->addButton($value["upper_name"] . "\nMise de §n" . Util::formatNumberWithSuffix($value["bet"]) . " pièces §8- Kit §n" . $value["kit"] + 1, -1, "", $target);
         }
 
         $form->addButton("Rafraîchir", -1, "", "refresh");
@@ -341,7 +341,7 @@ class Gambling extends BaseCommand
 
         foreach ($kits[$number] as $item) {
             if ($item instanceof Item) {
-                $item = $item->setLore(["§r§qItem provenant du gambling"]);
+                $item = $item->setLore(["§r§nItem provenant du gambling"]);
                 $item->getNamedTag()->setInt("menu_item", 0);
 
                 $items[] = $item;

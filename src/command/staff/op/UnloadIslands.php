@@ -48,7 +48,7 @@ class UnloadIslands extends BaseCommand
         }
 
         if ($message) {
-            $sender->sendMessage(Util::PREFIX . "Vous venez de décharger §q" . $count . " §file(s) vide(s)");
+            $sender->sendMessage(Util::PREFIX . "Vous venez de décharger §n" . $count . " §file(s) vide(s)");
         }
     }
 

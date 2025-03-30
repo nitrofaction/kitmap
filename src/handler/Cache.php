@@ -35,7 +35,7 @@ class Cache
 
     public static array $deathXp = [];
     public static array $condenseShapes = [];
-    public static array $disabledPackets = [];
+    public static array $pendingAlly = [];
 
     /* @var array<string, LogoutEntity> */
     public static array $logouts;
@@ -59,17 +59,6 @@ class Cache
         @mkdir(Main::getInstance()->getDataFolder() . "data/players");
         @mkdir(Main::getInstance()->getDataFolder() . "data/inventories/");
         @mkdir(Main::getInstance()->getDataFolder() . "data/skins/");
-
-        self::$disabledPackets = [
-            (new EmoteListPacket())->pid(),
-            (new EmotePacket())->pid(),
-            (new PurchaseReceiptPacket())->pid(),
-            (new MobArmorEquipmentPacket())->pid(),
-            (new MapInfoRequestPacket())->pid(),
-            (new SetActorDataPacket())->pid(),
-            (new ClientCacheBlobStatusPacket())->pid(),
-            (new SubChunkRequestPacket())->pid()
-        ];
 
         $this->makeConfig();
 

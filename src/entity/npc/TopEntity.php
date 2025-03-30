@@ -58,11 +58,11 @@ class TopEntity extends Human
         $this->tickToUpdate = 600;
 
         return match ($category) {
-            "death" => "§q" . $name . "\nTop #1 Mort",
-            "elo" => "§q" . $name . "\nTop #1 Elo",
-            "money" => "§q" . $name . "\nTop #1 Money",
-            "played_time" => "§q" . $name . "\nTop #1 Nerd",
-            default => "§q" . $name . "\nTop #1 Kill",
+            "death" => "§n" . $name . "\nTop #1 Mort",
+            "elo" => "§n" . $name . "\nTop #1 Elo",
+            "money" => "§n" . $name . "\nTop #1 Money",
+            "played_time" => "§n" . $name . "\nTop #1 Nerd",
+            default => "§n" . $name . "\nTop #1 Kill",
         };
     }
 

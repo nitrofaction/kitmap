@@ -25,7 +25,7 @@ class Add extends BaseSubCommand
         $amount = intval($args["montant"]);
 
         if (!Faction::exists($faction)) {
-            $sender->sendMessage(Util::PREFIX . "La faction §q" . $faction . " §fn'existe pas");
+            $sender->sendMessage(Util::PREFIX . "La faction §n" . $faction . " §fn'existe pas");
             return;
         } else if (0 > $amount) {
             $sender->sendMessage(Util::PREFIX . "Le montant que vous avez inscrit est invalide");
@@ -33,7 +33,7 @@ class Add extends BaseSubCommand
         }
 
         Faction::addPower($faction, $amount);
-        $sender->sendMessage(Util::PREFIX . "Vous venez d'ajouter §q" . $amount . " §fpower(s) à la faction §q" . $faction);
+        $sender->sendMessage(Util::PREFIX . "Vous venez d'ajouter §n" . $amount . " §fpower(s) à la faction §n" . $faction);
     }
 
     protected function prepare(): void

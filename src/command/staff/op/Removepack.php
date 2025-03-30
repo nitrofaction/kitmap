@@ -34,7 +34,7 @@ class Removepack extends BaseCommand
             return;
         }
 
-        $sender->sendMessage(Util::PREFIX . "Vous venez de retirer §q" . $amount . " §fpacks au joueur §q" . $player);
+        $sender->sendMessage(Util::PREFIX . "Vous venez de retirer §n" . $amount . " §fpacks au joueur §n" . $player);
         Util::addValue($sender->getName(), $player, ["packs"], $amount, true);
     }
 

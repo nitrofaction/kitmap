@@ -26,7 +26,7 @@ class LeaderboardFloatingText extends FloatingText
 
         $category = Cache::$config["top"][$this->currentCategory];
 
-        $format = "§7{COUNT}. §q{KEY} §8(§f{VALUE}§8)";
+        $format = "§7{COUNT}. §n{KEY} §8(§f{VALUE}§8)";
 
         $top = Top::getTopByCategory($category);
         $response = Util::arrayToPage($top, 1, 10);

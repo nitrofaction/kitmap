@@ -30,10 +30,10 @@ class ScoreFactory
 
         if (self::hasScore($player)) {
             if (DominationTask::$currentDomination) {
-                self::setScore($player, "§qDomination (§7" . date("H:i") . " #8§q)");
+                self::setScore($player, "§nDomination (§7" . date("H:i") . " #8§n)");
                 $lines = DominationTask::getScoreboardLines();
             } else {
-                self::setScore($player, "§8§l» §r§qNitro §l§8«");
+                self::setScore($player, "§8§l» §r§nNitro §l§8«");
 
                 $faction = Faction::hasFaction($player) ? Faction::getFactionUpperName($session->data["faction"]) : "Aucune";
 
@@ -44,14 +44,14 @@ class ScoreFactory
 
                 $lines = [
                     "§r",
-                    "§l§q" . $player->getDisplayName(),
-                    "  §7| §fFaction: §q" . $faction,
-                    "  §7| §fPieces: §q" . $money,
-                    "  §7| §fGemmes: §q" . $gem,
+                    "§l§n" . $player->getDisplayName(),
+                    "  §7| §fFaction: §n" . $faction,
+                    "  §7| §fPieces: §n" . $money,
+                    "  §7| §fGemmes: §n" . $gem,
                     "§r ",
-                    "§l§qINFOS §r§8(§7" . date("H:i") . "§8)",
-                    "  §7| §fJoueurs: §q" . count(Main::getInstance()->getServer()->getOnlinePlayers()),
-                    "  §7| §fVote: §q" . $voteparty . "§f/§q100",
+                    "§l§nINFOS §r§8(§7" . date("H:i") . "§8)",
+                    "  §7| §fJoueurs: §n" . count(Main::getInstance()->getServer()->getOnlinePlayers()),
+                    "  §7| §fVote: §n" . $voteparty . "§f/§n100",
                     "§f",
                     "    §7nitrofaction.fr    "
                 ];
@@ -61,7 +61,7 @@ class ScoreFactory
                 self::setScoreLine($player, $key + 1, $value);
             }
         } else {
-            self::setScore($player, "§8§l» §r§qNitro §l§8«");
+            self::setScore($player, "§8§l» §r§nNitro §l§8«");
             self::updateScoreboard($player);
         }
     }

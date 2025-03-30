@@ -3,6 +3,7 @@
 namespace Kitmap\entity;
 
 use Kitmap\handler\Cache;
+use Kitmap\handler\Faction;
 use Kitmap\handler\Job;
 use Kitmap\Util;
 use pocketmine\entity\animation\HurtAnimation;
@@ -81,7 +82,7 @@ class SpawnerEntity extends Living
 
     public function updateNametag(): void
     {
-        $this->setNameTag("§q" . $this->getFrenchName() . "s §7[x§q" . $this->getStackSize() . "§7]\n§7" . round($this->getHealth(), 2) . " §c❤");
+        $this->setNameTag("§n" . $this->getFrenchName() . "s §7[x§n" . $this->getStackSize() . "§7]\n§7" . round($this->getHealth(), 2) . " §c❤");
     }
 
     public function getFrenchName(): string
@@ -91,7 +92,19 @@ class SpawnerEntity extends Living
 
     public function getStackSize(): int
     {
-        return $this->stack;
+        return min($this->getStackLimit(), $this->stack);
+    }
+
+    private function getStackLimit(): int
+    {
+        $world = $this->getWorld()->getFolderName();
+
+        if (!str_starts_with($world, "island-")) {
+            return 999;
+        }
+
+        $faction = substr($world, 7);
+        return Faction::getIslandMobsLimit($faction);
     }
 
     public function onDeath(): void
@@ -135,7 +148,7 @@ class SpawnerEntity extends Living
 
     public function addStackSize(int $stack): void
     {
-        $this->setStackSize($this->stack + $stack);
+        $this->setStackSize($this->getStackSize() + $stack);
     }
 
     public function setStackSize(int $stack): void
@@ -241,5 +254,10 @@ class SpawnerEntity extends Living
             new PropertySyncData([], []),
             []
         ));
+    }
+
+    public function getMaxHealth(): int
+    {
+        return 10;
     }
 }

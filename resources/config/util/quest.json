@@ -1,6 +1,6 @@
 {
   "Paysan": {
-    "description": "Haaa... J'ai très très faim... Ma famille et moi n'avions pas mangé depuis plus de §q3 §rjours, je n'ai même plus assez de force pour continuer à cultiver mes terres... Peux tu m'aider ??\n\nJ'aurais besoin de §q14 §rbetteraves, §q43 §rblés, §q23 §rcarottes et §q6 §rpatates. En retour je peux te donner ma §qhoue et ma pelle en ilvaïte§r. Merci !",
+    "description": "Haaa... J'ai très très faim... Ma famille et moi n'avions pas mangé depuis plus de §n3 §rjours, je n'ai même plus assez de force pour continuer à cultiver mes terres... Peux tu m'aider ??\n\nJ'aurais besoin de §n14 §rbetteraves, §n43 §rblés, §n23 §rcarottes et §n6 §rpatates. En retour je peux te donner ma §nhoue et ma pelle en ilvaïte§r. Merci !",
     "in-cooldown": "Je t'ai déjà donné une une houe et une pelle en ilvaïte... Je n'en ai pas pour l'instant pour toi, reviens plus tard.",
     "needs": [
       "wheat:43",
@@ -12,11 +12,11 @@
       "item:netherite_hoe:1",
       "item:netherite_shovel:1"
     ],
-    "completed": "Merci beaucoup pour ta générosité ! Pour cela je peux te donner mes §q2 §foutils en §qilvaïte§f.. J'espère que ça te suffira",
+    "completed": "Merci beaucoup pour ta générosité ! Pour cela je peux te donner mes §n2 §foutils en §nilvaïte§f.. J'espère que ça te suffira",
     "texture": 40
   },
   "Mineur": {
-    "description": "Tu as besoin d'une pioche en ilvaïte ? Si oui, tu es tombé sur la bonne personne. J'ai besoin d'émeraude pour mon armurie, je peux te faire un échange mais pour cela il te faudra de la force et du courage.\n\nAmène moi §q37 §rémeraudes, en échange je te donnerais ce que tu veux.",
+    "description": "Tu as besoin d'une pioche en ilvaïte ? Si oui, tu es tombé sur la bonne personne. J'ai besoin d'émeraude pour mon armurie, je peux te faire un échange mais pour cela il te faudra de la force et du courage.\n\nAmène moi §n37 §rémeraudes, en échange je te donnerais ce que tu veux.",
     "in-cooldown": "Je t'ai déjà donné une pioche en ilvaïte... Je n'en ai pas pour l'instant pour toi, reviens plus tard.",
     "needs": [
       "emerald:37"
@@ -28,7 +28,7 @@
     "texture": 46
   },
   "Bucheron": {
-    "description": "En ce moment, j'ai envie de cookie ! Mais j'ai un peu la flemme d'aller les chercher.. Tu peux les casser pour moi ? Si tu accepte je te ferais offrande de ma hache en ilvaïte !\n\nDonne moi §q13 §rcookies combinés et je te donne ce dont tu veux !",
+    "description": "En ce moment, j'ai envie de cookie ! Mais j'ai un peu la flemme d'aller les chercher.. Tu peux les casser pour moi ? Si tu accepte je te ferais offrande de ma hache en ilvaïte !\n\nDonne moi §n13 §rcookies combinés et je te donne ce dont tu veux !",
     "in-cooldown": "Je t'ai déjà donné une hache en ilvaïte... Je n'en ai pas pour l'instant pour toi, reviens plus tard.",
     "needs": [
       "raw_fish:13"

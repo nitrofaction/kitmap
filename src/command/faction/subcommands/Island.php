@@ -162,13 +162,13 @@ class Island extends FactionCommand
             }
 
             switch ($data) {
-                case "expand":
+                case "upgrade":
                     if (!Faction::hasFaction($player)) {
                         $player->sendMessage(Util::PREFIX . "Vous n'êtes dans aucune faction");
                         return;
                     }
 
-                    $this->expandForm($player, $session->data["faction"]);
+                    $this->upgradeForm($player, $session->data["faction"]);
                     return;
                 case "lock":
                 case "unlock":
@@ -279,7 +279,7 @@ class Island extends FactionCommand
         if (Faction::hasFaction($player)) {
             $form->setTitle("Ile");
             $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
-            $form->addButton("Agrandir l'ile", -1, "", "expand");
+            $form->addButton("Améliorer l'ile", -1, "", "upgrade");
 
             if (Faction::isIslandLocked($session->data["faction"])) {
                 $form->addButton("Débloqué aux visiteurs", -1, "", "unlock");
@@ -297,9 +297,22 @@ class Island extends FactionCommand
         }
     }
 
-    private function expandForm(Player $player, string $faction): void
+    private function upgradeForm(Player $player, string $faction): void
     {
-        $amount = $this->getExpandPrice($faction);
+        if (!Faction::exists($faction)) {
+            return;
+        }
+
+        $level = Faction::getIslandLevel($faction);
+        $newLevel = $level + 1;
+
+        $amount = Faction::getIslandUpgradePrice($faction);
+
+        $actualMobsLimit = Faction::getIslandMobsLimit($faction);
+        $actualCactusLimit = Faction::getCactusLimit($faction);
+
+        $newMobsLimit = Faction::getIslandMobsLimit($faction, true);
+        $newCactusLimit = Faction::getCactusLimit($faction, true);
 
         $form = new SimpleForm(function (Player $player, mixed $data) {
             if (!is_string($data) || $data != "yes") {
@@ -312,34 +325,33 @@ class Island extends FactionCommand
             $session = Session::get($player);
 
             $faction = $session->data["faction"];
-            $amount = $this->getExpandPrice($faction);
+            $amount = Faction::getIslandUpgradePrice($faction);
 
             if ($amount > $session->data["money"]) {
-                $player->sendMessage(Util::PREFIX . "Votre nombre de pièces est inférieur à §q" . $amount);
+                $player->sendMessage(Util::PREFIX . "Votre nombre de pièces est inférieur à §n" . $amount);
                 return;
             }
 
             $session->addValue("money", $amount, true);
-            Cache::$factions[$faction]["logs"][time()] = "§q" . $player->getName() . " §faugmente la taille de l'ile";
+            Cache::$factions[$faction]["logs"][time()] = "§n" . $player->getName() . " §fa augmenté le niveau de l'ile";
 
             Cache::$factions[$faction]["island"]["zone"]["min"] -= 1;
             Cache::$factions[$faction]["island"]["zone"]["max"] += 1;
 
-            Faction::broadcastMessage($faction, "§q[§fF§q] §q" . $player->getName() . " §fvient d'augmenter la taille de l'ile et a utiliser §q" . Util::formatNumberWithSuffix($amount) . " §fpièces de sa poche");
+            Faction::broadcastFactionMessage($faction, "§n" . $player->getName() . " §fvient d'§naugmenter §fle niveau de l'ile !");
         });
-        $form->setTitle("Ile");
-        $form->setContent(Util::PREFIX . "Le diamètre de l'ile sera augmenté de 1 bloc pour §q" . Util::formatNumberWithSuffix($amount) . " pièces §f!\n\n§fL'argent sera déduit de votre poche, alors réunissez l'argent au bon endroit\n\n" . Util::PREFIX . "Êtes vous sur de faire cela?");
+        $form->setTitle("Amélioration de l'île");
+        $form->setContent(Util::PREFIX . "Votre île passera au niveau §n" . $newLevel . " §f!\n\n"
+            . "§fCela augmentera les limites suivantes :\n"
+            . "§f- §nDiamètre de l'ile : §f+1\n"
+            . "§f- §nMobs : §f" . $actualMobsLimit . " -> §n" . $newMobsLimit . "\n"
+            . "§f- §nCactus : §f" . $actualCactusLimit . " -> §n" . $newCactusLimit . "\n\n"
+            . "§fLe coût de l'amélioration est de §n" . Util::formatNumberWithSuffix($amount) . "§f$.\n\n"
+            . "§fL'argent sera déduit de votre poche. Assurez-vous d'avoir assez de fonds.\n\n"
+            . Util::PREFIX . "Etes-vous sûr de vouloir améliorer votre île?");
         $form->addButton("Oui", -1, "", "yes");
         $form->addButton("Non", -1, "", "no");
         $player->sendForm($form);
-    }
-
-    private function getExpandPrice(string $faction): ?int
-    {
-        $default = Cache::$config["pos"]["island"]["default-max"];
-        $max = Cache::$factions[$faction]["island"]["zone"]["max"] ?? $default;
-
-        return is_null($max) ? $max : ($max - ($default - 1)) * 5000;
     }
 
     private function verifForm(Player $player, string $option): void

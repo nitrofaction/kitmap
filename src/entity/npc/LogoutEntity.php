@@ -79,19 +79,19 @@ class LogoutEntity extends Human
             $pot2 = Util::getItemCount($damager, VanillaItems::SPLASH_POTION()->setType(PotionType::STRONG_HEALING()));
 
             Main::getInstance()->getLogger()->info($this->player . " (PNJ) a été tué par " . $damager->getDisplayName() . " (" . $damager->getName() . ")");
-            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $this->player . "[§7" . $pot1 . "§q] §fa été tué par le joueur §q" . $damager->getDisplayName() . "[§7" . $pot2 . "§q]");
+            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§n" . $this->player . "[§7" . $pot1 . "§n] §fa été tué par le joueur §n" . $damager->getDisplayName() . "[§7" . $pot2 . "§n]");
 
             $session->addValue("kill");
             $session->addValue("killstreak");
 
             $session->addValue("elo", $winElo = mt_rand(3, 8));
-            $damager->sendMessage(Util::PREFIX . "Vous venez de gagner §q" . $winElo . " §felo !");
+            $damager->sendMessage(Util::PREFIX . "Vous venez de gagner §n" . $winElo . " §felo !");
 
             if (Faction::hasFaction($damager)) Faction::addPower($session->data["faction"], 6);
             if (!is_null($this->faction)) Faction::addPower($this->faction, -4);
 
             if ($session->data["killstreak"] % 5 == 0) {
-                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §q" . $damager->getName() . " §fa fait §q" . $session->data["killstreak"] . " §fkill sans mourrir !");
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §n" . $damager->getName() . " §fa fait §n" . $session->data["killstreak"] . " §fkill sans mourrir !");
             }
         } else {
             Main::getInstance()->getLogger()->info($this->player . " (PNJ) est mort (" . $source->getCause() . ")");

@@ -37,7 +37,7 @@ class Kit extends BaseCommand
         $item = VanillaItems::PAPER();
         $item->getNamedTag()->setString("kit", $kit);
         $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
-        $item->setCustomName("§r§qKit " . ucfirst($kit));
+        $item->setCustomName("§r§nKit " . ucfirst($kit));
         return $item;
     }
 
@@ -63,7 +63,7 @@ class Kit extends BaseCommand
                     return;
                 } else if ($session->inCooldown("kit_" . $data) && !$player->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
                     $format = Util::formatDurationFromSeconds($session->getCooldownData("kit_" . $data)[0] - time(), 1);
-                    $player->sendMessage(Util::PREFIX . "Vous ne pourrez re-prendre le kit §q" . $data . " §fque dans: §q" . $format);
+                    $player->sendMessage(Util::PREFIX . "Vous ne pourrez re-prendre le kit §n" . $data . " §fque dans: §n" . $format);
                     return;
                 }
 
@@ -157,14 +157,16 @@ class Kit extends BaseCommand
 
                     VanillaItems::DIAMOND_CHESTPLATE()->addEnchantment($unbreaking)->addEnchantment($protection),
                     VanillaItems::DIAMOND_LEGGINGS()->addEnchantment($unbreaking)->addEnchantment($protection),
-                    VanillaItems::DIAMOND_BOOTS()->addEnchantment($unbreaking)->addEnchantment($protection),
+
+                    VanillaItems::GOLDEN_BOOTS()->addEnchantment($unbreaking)->addEnchantment($protection),
+
                     VanillaItems::DIAMOND_SWORD()->addEnchantment($sharpness)->addEnchantment($unbreaking),
 
                     VanillaItems::COOKED_SALMON()->setCount(8),
                     VanillaItems::COOKED_FISH()->setCount(8),
                     VanillaItems::RAW_SALMON()->setCount(8)
                 ],
-                "cooldown" => 60 * 60 * 3,
+                "cooldown" => 60 * 60 * 4,
                 "rank" => "vip"
             ],
             "vip-plus" => [
@@ -172,8 +174,8 @@ class Kit extends BaseCommand
                     VanillaItems::GOLDEN_HELMET()->addEnchantment($unbreaking)->addEnchantment($protection),
 
                     VanillaItems::DIAMOND_CHESTPLATE()->addEnchantment($unbreaking)->addEnchantment($protection),
-                    VanillaItems::DIAMOND_LEGGINGS()->addEnchantment($unbreaking)->addEnchantment($protection),
 
+                    VanillaItems::GOLDEN_LEGGINGS()->addEnchantment($unbreaking)->addEnchantment($protection),
                     VanillaItems::GOLDEN_BOOTS()->addEnchantment($unbreaking)->addEnchantment($protection),
 
                     VanillaItems::DIAMOND_SWORD()->addEnchantment($sharpness)->addEnchantment($unbreaking),
@@ -188,9 +190,7 @@ class Kit extends BaseCommand
             "ultra" => [
                 "items" => [
                     VanillaItems::GOLDEN_HELMET()->addEnchantment($unbreaking)->addEnchantment($protection),
-
-                    VanillaItems::DIAMOND_CHESTPLATE()->addEnchantment($unbreaking)->addEnchantment($protection),
-
+                    VanillaItems::GOLDEN_CHESTPLATE()->addEnchantment($unbreaking)->addEnchantment($protection),
                     VanillaItems::GOLDEN_LEGGINGS()->addEnchantment($unbreaking)->addEnchantment($protection),
                     VanillaItems::GOLDEN_BOOTS()->addEnchantment($unbreaking)->addEnchantment($protection),
 
@@ -207,7 +207,8 @@ class Kit extends BaseCommand
 
                     VanillaItems::GOLDEN_CHESTPLATE()->addEnchantment($unbreaking)->addEnchantment($protection),
                     VanillaItems::GOLDEN_LEGGINGS()->addEnchantment($unbreaking)->addEnchantment($protection),
-                    VanillaItems::GOLDEN_BOOTS()->addEnchantment($unbreaking)->addEnchantment($protection),
+
+                    VanillaItems::IRON_BOOTS()->addEnchantment($unbreaking)->addEnchantment($protection),
 
                     VanillaItems::GOLDEN_SWORD()->addEnchantment($sharpness)->addEnchantment($unbreaking),
 

@@ -39,10 +39,10 @@ class Leave extends FactionCommand
         $session->data["faction"] = null;
         $session->data["faction_chat"] = false;
 
-        Cache::$factions[$faction]["logs"][time()] = "§q" . $sender->getName() . " §fquitte la faction";
+        Cache::$factions[$faction]["logs"][time()] = "§n" . $sender->getName() . " §fquitte la faction";
 
         $sender->sendMessage(Util::PREFIX . "Vous venez de quitter votre faction");
-        Faction::broadcastMessage($faction, "§q[§fF§q] §fLe joueur §q" . $sender->getName() . " §fvient de quitter votre faction");
+        Faction::broadcastFactionMessage($faction, "Le joueur §n" . $sender->getName() . " §fvient de quitter votre faction");
     }
 
     protected function prepare(): void

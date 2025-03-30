@@ -5,6 +5,9 @@ namespace Kitmap\command\faction;
 use CortexPE\Commando\BaseCommand;
 use Kitmap\command\faction\subcommands\Accept;
 use Kitmap\command\faction\subcommands\Admin;
+use Kitmap\command\faction\subcommands\Ally;
+use Kitmap\command\faction\subcommands\AllyAccept;
+use Kitmap\command\faction\subcommands\AllyBreak;
 use Kitmap\command\faction\subcommands\Cactus;
 use Kitmap\command\faction\subcommands\Chat;
 use Kitmap\command\faction\subcommands\Claim;
@@ -46,6 +49,9 @@ class Faction extends BaseCommand
     {
         $this->registerSubCommand(new Cactus());
         $this->registerSubCommand(new Chat());
+        $this->registerSubCommand(new Ally());
+        $this->registerSubCommand(new AllyAccept());
+        $this->registerSubCommand(new AllyBreak());
         $this->registerSubCommand(new Claim());
         $this->registerSubCommand(new Island());
         $this->registerSubCommand(new Accept());

@@ -30,7 +30,7 @@ class Leader extends BaseSubCommand
         return;
 
         if (!Faction::exists($faction)) {
-            $sender->sendMessage(Util::PREFIX . "La faction §q" . $faction . " §fn'existe pas");
+            $sender->sendMessage(Util::PREFIX . "La faction §n" . $faction . " §fn'existe pas");
             return;
         } else if (!in_array($member, Faction::getFactionMembers($faction, false))) {
             $sender->sendMessage(Util::PREFIX . "Ce joueur n'est pas dans la faction que vous avez indiqué (verifiez les majs)");
@@ -45,8 +45,8 @@ class Leader extends BaseSubCommand
         unset(Cache::$factions[$faction]["members"][$rank . "s"][array_search($member, Cache::$factions[$faction]["members"][$rank . "s"])]);
         Cache::$factions[$faction]["members"]["leader"] = $member;
 
-        Faction::broadcastMessage($faction, "§q[§fF§q] §fLe joueur §q" . $member . " §fest votre nouveau chef de faction");
-        $sender->sendMessage(Util::PREFIX . "Vous venez de mettre la tête de la faction §q" . $faction . " §fà §q" . $member);
+        Faction::broadcastFactionMessage($faction, "Le joueur §n" . $member . " §fest votre nouveau chef de faction");
+        $sender->sendMessage(Util::PREFIX . "Vous venez de mettre la tête de la faction §n" . $faction . " §fà §n" . $member);
     }
 
     protected function prepare(): void

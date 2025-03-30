@@ -31,8 +31,8 @@ class Invite extends FactionCommand
         /** @noinspection PhpDeprecationInspection */
         $target = Main::getInstance()->getServer()->getPlayerByPrefix($args["joueur"]);
 
-        if (count(Faction::getFactionMembers($faction, false)) >= 20) {
-            $sender->sendMessage(Util::PREFIX . "Votre faction ne peut pas comporter plus de 20 joueurs");
+        if (count(Faction::getFactionMembers($faction, false)) >= Cache::$config["faction"]["limit"]) {
+            $sender->sendMessage(Util::PREFIX . "Votre faction ne peut pas comporter plus de " . Cache::$config["faction"]["limit"] . " membres");
             return;
         } else if (!$target instanceof Player) {
             $sender->sendMessage(Util::PREFIX . "Le joueur indiqué n'est pas connecté sur le serveur");
@@ -48,10 +48,10 @@ class Invite extends FactionCommand
             $targetSession->data["invite"][] = $faction;
         }
 
-        $target->sendMessage(Util::PREFIX . "Vous avez été invité à rejoindre la faction §q" . Faction::getFactionUpperName($faction) . "\n§f/f accept §q" . $faction . " §fpour accepter l'invitation");
+        $target->sendMessage(Util::PREFIX . "Vous avez été invité à rejoindre la faction §n" . Faction::getFactionUpperName($faction) . "\n§f/f accept §n" . $faction . " §fpour accepter l'invitation");
 
-        Cache::$factions[$faction]["logs"][time()] = "§q" . $sender->getName() . " §finvite §q" . $target->getName();
-        Faction::broadcastMessage($faction, "§q[§fF§q] §fLe joueur §q" . $target->getName() . " §fvient d'être invité dans votre faction");
+        Cache::$factions[$faction]["logs"][time()] = "§n" . $sender->getName() . " §finvite §n" . $target->getName();
+        Faction::broadcastFactionMessage($faction, "Le joueur §n" . $target->getName() . " §fvient d'être invité dans votre faction");
     }
 
     protected function prepare(): void

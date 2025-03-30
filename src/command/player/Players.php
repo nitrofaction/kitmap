@@ -36,8 +36,8 @@ class Players extends BaseCommand
         $path = Path::join(Main::getInstance()->getServer()->getDataPath(), "players");
         $count = count(glob($path . "/*")) + 1;
 
-        $list = implode("§f, §q", $players);
-        $sender->sendMessage(Util::PREFIX . "Voici la liste des joueurs connectés sur le serveur actuellement (§q" . count($players) . "§f)\n§q" . $list . "\n§q" . $count . " §fjoueurs uniques se sont déjà connectés au serveur");
+        $list = implode("§f, §n", $players);
+        $sender->sendMessage(Util::PREFIX . "Voici la liste des joueurs connectés sur le serveur actuellement (§n" . count($players) . "§f)\n§n" . $list . "\n§n" . $count . " §fjoueurs uniques se sont déjà connectés au serveur");
     }
 
     protected function prepare(): void

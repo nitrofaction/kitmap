@@ -119,7 +119,7 @@ class PackAnimationTask extends Task
             $randomItems = Api::chooseRandomItems(Api::$itemsAmount);
             $prizeList = [];
 
-            $this->player->sendMessage(Util::PREFIX . "Grace à votre §qPACK §fvous venez de gagner:");
+            $this->player->sendMessage(Util::PREFIX . "Grace à votre §nPACK §fvous venez de gagner:");
 
             foreach ($randomItems as $index => $randomItem) {
                 $offset = $spawnOffsets[$index] ?? [0, 1, 0];
@@ -139,7 +139,7 @@ class PackAnimationTask extends Task
             }
 
             Main::getInstance()->getLogger()->info("Le joueur " . $this->player->getName() . " vient d'ouvrir un pack (ses lots: " . implode(", ", $prizeList) . ")");
-            Main::getInstance()->getServer()->broadcastTip(Util::PREFIX . "Le joueur §q" . $this->player->getName() . " §fvient d'ouvrir un §qPACK §f!");
+            Main::getInstance()->getServer()->broadcastTip(Util::PREFIX . "Le joueur §n" . $this->player->getName() . " §fvient d'ouvrir un §nPACK §f!");
 
             $this->player->sendMessage(Util::PREFIX . "Vos lots ont été mis dans votre inventaire");
         }

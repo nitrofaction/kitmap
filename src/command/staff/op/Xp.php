@@ -29,7 +29,7 @@ class Xp extends BaseCommand
         if ($sender instanceof Player) {
             $xp = intval($args["niveaux"]) ?? 1;
             $sender->getXpManager()->addXpLevels($xp);
-            $sender->sendMessage(Util::PREFIX . "Vous venez de vous ajouter §q" . $xp . " niveau(x)");
+            $sender->sendMessage(Util::PREFIX . "Vous venez de vous ajouter §n" . $xp . " niveau(x)");
         }
     }
 

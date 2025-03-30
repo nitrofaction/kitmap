@@ -32,7 +32,7 @@ class Wiki extends BaseCommand
                 $targetItem = Util::getItemByName($itemName);
 
                 if ($targetItem->equals($item, false, false)) {
-                    $sender->sendMessage("§f[§q" . ($data[0] ?? "") . "§f] " . Util::PREFIX . ($data[1] ?? ""));
+                    $sender->sendMessage("§f[§n" . ($data[0] ?? "") . "§f] " . Util::PREFIX . ($data[1] ?? ""));
                     return;
                 }
             }

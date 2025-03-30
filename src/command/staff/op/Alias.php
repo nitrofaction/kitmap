@@ -37,15 +37,15 @@ class Alias extends BaseCommand
         $bar = "§l§8-----------------------";
 
         if (count($alias) === 0) {
-            $sender->sendMessage(Util::PREFIX . "Le joueur §q" . $target . " §fne possède aucun double compte lié à son ip, did etc...");
+            $sender->sendMessage(Util::PREFIX . "Le joueur §n" . $target . " §fne possède aucun double compte lié à son ip, did etc...");
             return;
         }
 
         $sender->sendMessage($bar);
-        $sender->sendMessage(Util::PREFIX . "Liste de compte lié au compte §q" . $target);
+        $sender->sendMessage(Util::PREFIX . "Liste de compte lié au compte §n" . $target);
 
         foreach ($alias as $username) {
-            $sender->sendMessage("§f- §q" . $username);
+            $sender->sendMessage("§f- §n" . $username);
         }
 
         $sender->sendMessage($bar);
@@ -63,7 +63,7 @@ class Alias extends BaseCommand
                 $similar = array_intersect_assoc($value, $ip);
 
                 if (count($similar) > 0 && $key !== $name) {
-                    $result[] = $key . " §f- Depuis son §q" . $column;
+                    $result[] = $key . " §f- Depuis son §n" . $column;
                 }
             }
         }

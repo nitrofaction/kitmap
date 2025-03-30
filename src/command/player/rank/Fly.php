@@ -67,19 +67,19 @@ class Fly extends BaseCommand
 
             $money = $session->data["money"];
 
-            if ($money >= 1000000) {
-                $session->addValue("money", 1000000, true);
+            if ($money >= 500000) {
+                $session->addValue("money", 500000, true);
                 $session->data["fly"] = true;
-                $player->sendMessage(Util::PREFIX . "Vous venez d'acheter la commande §q/fly §favec §q1M §fpièces");
+                $player->sendMessage(Util::PREFIX . "Vous venez d'acheter la commande §n/fly §favec §n1M §fpièces");
             } else {
-                $player->sendMessage(Util::PREFIX . "Vous ne possedez pas assez de pièces pour acheter la commande §q/fly");
+                $player->sendMessage(Util::PREFIX . "Vous ne possedez pas assez de pièces pour acheter la commande §n/fly");
             }
 
             Util::givePlayerPreferences($player);
         });
 
         $form->setTitle("Fly");
-        $form->addLabel(Util::PREFIX . "Cette commande vous donnera la possibilité de voler dans votre île de faction !\n\nPrix: §q1M §fpièces\n\nVous possedez §q" . Util::formatNumberWithSuffix($session->data["money"]) . " §fpièces(s)\n");
+        $form->addLabel(Util::PREFIX . "Cette commande vous donnera la possibilité de voler dans votre île de faction !\n\nPrix: §n500k§f$\n\nVous possedez §n" . Util::formatNumberWithSuffix($session->data["money"]) . " §fpièces(s)\n");
         $form->addToggle("Acheter la commande /fly ?", true);
 
         $player->sendForm($form);

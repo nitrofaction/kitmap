@@ -42,7 +42,7 @@ class PayGem extends BaseCommand
                 $sender->sendMessage(Util::PREFIX . "Le montant que vous avez inscrit est invalide");
                 return;
             } else if (floor($amount) > $senderSession->data["gem"]) {
-                $sender->sendMessage(Util::PREFIX . "Vos gemmes sont infèrieur à §q" . floor($amount));
+                $sender->sendMessage(Util::PREFIX . "Vos gemmes sont infèrieur à §n" . floor($amount));
                 return;
             }
 
@@ -52,8 +52,8 @@ class PayGem extends BaseCommand
             $targetSession->addValue("gem", $gem);
             $senderSession->addValue("gem", $gem, true);
 
-            $sender->sendMessage(Util::PREFIX . "Vous avez envoyé un montant de gemmes égal à §q" . $gem . " §fà §q" . $target->getName());
-            $target->sendMessage(Util::PREFIX . "Vous avez recu un montant de gemmes égal à §q" . $gem . " §fde la part de §q" . $sender->getName());
+            $sender->sendMessage(Util::PREFIX . "Vous avez envoyé un montant de gemmes égal à §n" . $gem . " §fà §n" . $target->getName());
+            $target->sendMessage(Util::PREFIX . "Vous avez recu un montant de gemmes égal à §n" . $gem . " §fde la part de §n" . $sender->getName());
         }
     }
 

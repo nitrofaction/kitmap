@@ -39,7 +39,7 @@ class Jobs extends BaseCommand
             $form->setTitle("Métiers");
             $form->setContent(Util::PREFIX . "Cliquez sur un métier pour avoir plus d'informations sur son propos");
             foreach (Cache::$config["job"] as $name => $data) {
-                $form->addButton("§8" . $name . "§q: §8" . Api::getProgressBar($sender, $name, 1) . "\n" . Api::getProgressBar($sender, $name), -1, "", $name);
+                $form->addButton("§8" . $name . "§n: §8" . Api::getProgressBar($sender, $name, 1) . "\n" . Api::getProgressBar($sender, $name), -1, "", $name);
             }
             $sender->sendForm($form);
         }
@@ -50,24 +50,24 @@ class Jobs extends BaseCommand
         $form = new SimpleForm(null);
         $form->setTitle("Métiers");
 
-        $label = Util::PREFIX . "§qMétier de " . ucfirst($job) . "\n\n";
+        $label = Util::PREFIX . "§nMétier de " . ucfirst($job) . "\n\n";
 
         switch ($job) {
             case "Mineur":
-                $label .= "§fPierre: §q1xp\n§fPierre taillée: §q1xp\n§fMinerai d'émeraude: §q5xp";
+                $label .= "§fPierre: §n1xp\n§fPierre taillée: §n1xp\n§fMinerai d'émeraude: §n5xp";
                 break;
             case "Farmeur":
-                $label .= "§fBlé: §q1-3xp\n§fCarrote: §q1-3xp\n§fBetterave: §q1-3xp\n§fPatate: §q1-3xp\n§fMelon: §q1-3xp\n§fCacao: §q1-3xp\n§fBambou: §q1xp\n§fCanne à sucre: §q1xp";
+                $label .= "§fBlé: §n1-3xp\n§fCarrote: §n1-3xp\n§fBetterave: §n1-3xp\n§fPatate: §n1-3xp\n§fMelon: §n1-3xp\n§fCacao: §n1-3xp\n§fBambou: §n1xp\n§fCanne à sucre: §n1xp";
                 break;
             case "Hunteur":
-                $label .= "§fKill: §q50xp\n§fZombie: §q1-6xp\n§fPiglin: §q1-6xp";
+                $label .= "§fKill: §n50xp\n§fZombie: §n1-6xp\n§fPiglin: §n1-6xp";
                 break;
         }
 
-        $label .= "\n\n" . Util::PREFIX . "§qRécomponses:\n\n";
+        $label .= "\n\n" . Util::PREFIX . "§nRécomponses:\n\n";
 
         foreach (Cache::$config["job"][$job] as $level => $data) {
-            $label .= "\n§qNiveau " . intval($level + 1) . " §f: " . ucfirst($data["reward"]["name"]);
+            $label .= "\n§nNiveau " . intval($level + 1) . " §f: " . ucfirst($data["reward"]["name"]);
         }
 
         $form->setContent($label);

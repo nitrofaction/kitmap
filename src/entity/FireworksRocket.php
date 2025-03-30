@@ -34,6 +34,7 @@ class FireworksRocket extends Entity
         }
 
         $location->getWorld()->broadcastPacketToViewers($this->location, LevelSoundEventPacket::nonActorSound(LevelSoundEvent::LAUNCH, $this->location->asVector3(), false));
+        $this->setCanSaveWithChunk(false);
     }
 
     public function setLifeTime(int $life): void

@@ -45,8 +45,8 @@ class Leader extends FactionCommand
         Cache::$factions[$faction]["members"]["officiers"][] = $sender->getName();
         Cache::$factions[$faction]["members"]["leader"] = $args["membre"];
 
-        Cache::$factions[$faction]["logs"][time()] = "§q" . $sender->getName() . " §fdonne son lead a §q" . $args["membre"];
-        Faction::broadcastMessage($faction, "§q[§fF§q] §fLe joueur §q" . $args["membre"] . " §fest votre nouveau chef de faction");
+        Cache::$factions[$faction]["logs"][time()] = "§n" . $sender->getName() . " §fdonne son lead a §n" . $args["membre"];
+        Faction::broadcastFactionMessage($faction, "Le joueur §n" . $args["membre"] . " §fest votre nouveau chef de faction");
     }
 
     protected function prepare(): void

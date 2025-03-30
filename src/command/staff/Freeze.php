@@ -38,12 +38,12 @@ class Freeze extends BaseCommand
             $target->setNoClientPredictions(false);
 
             $target->sendMessage(Util::PREFIX . "Vous venez d'être unfreeze, vous pouvez désormais bouger");
-            $sender->sendMessage(Util::PREFIX . "Vous venez de unfreeze le joueur §q" . $target->getName());
+            $sender->sendMessage(Util::PREFIX . "Vous venez de unfreeze le joueur §n" . $target->getName());
         } else {
             $target->setNoClientPredictions();
 
             $target->sendMessage(Util::PREFIX . "Vous venez d'être freeze, vous ne pouvez plus bouger");
-            $sender->sendMessage(Util::PREFIX . "Vous venez de freeze le joueur §q" . $target->getName());
+            $sender->sendMessage(Util::PREFIX . "Vous venez de freeze le joueur §n" . $target->getName());
         }
     }
 

@@ -114,7 +114,7 @@ class Cosmetic extends BaseCommand
         Session::get($player)->data["cosmetic"] = $cosmetic;
         Api::setCosmetic($player, $type, $name);
 
-        $player->sendMessage(Util::PREFIX . "Vous venez de mettre le cosmetique §q" . $data["button"]);
+        $player->sendMessage(Util::PREFIX . "Vous venez de mettre le cosmetique §n" . $data["button"]);
     }
 
     private function buyCosmetic(Player $player, Session $session, string $cosmetic): void
@@ -139,21 +139,21 @@ class Cosmetic extends BaseCommand
             };
 
             if ($cosmeticData[$money] > $session->data[$money]) {
-                $player->sendMessage(Util::PREFIX . "Vous ne possedez pas assez de " . $devise . " pour acheter le cosmétique §q" . $cosmeticData["button"]);
+                $player->sendMessage(Util::PREFIX . "Vous ne possedez pas assez de " . $devise . " pour acheter le cosmétique §n" . $cosmeticData["button"]);
                 return;
             }
 
             $session->data["cosmetics"][] = $cosmetic;
 
             $session->addValue($money, $cosmeticData[$money], true);
-            $player->sendMessage(Util::PREFIX . "Vous venez d'acheter le cosmétique §q" . $cosmeticData["button"] . " §favec §q" . $cosmeticData[$money] . $devise);
+            $player->sendMessage(Util::PREFIX . "Vous venez d'acheter le cosmétique §n" . $cosmeticData["button"] . " §favec §n" . $cosmeticData[$money] . $devise);
         });
         $form->setTitle("Cosmétiques");
 
         if ($cosmeticData["money"] > 0) {
-            $form->addLabel(Util::PREFIX . $cosmeticData["description"] . "\n\n§fPrix: §q" . Util::formatNumberWithSuffix($cosmeticData["money"]) . "$ §fou §q" . $cosmeticData["gem"] . " §fgemmes\n\nVous possedez §q" . $session->data["gem"] . " §fgemmes\nVous possedez §q" . $session->data["money"] . "$\n");
+            $form->addLabel(Util::PREFIX . $cosmeticData["description"] . "\n\n§fPrix: §n" . Util::formatNumberWithSuffix($cosmeticData["money"]) . "$ §fou §n" . $cosmeticData["gem"] . " §fgemmes\n\nVous possedez §n" . $session->data["gem"] . " §fgemmes\nVous possedez §n" . $session->data["money"] . "$\n");
             $form->addDropdown("Méthode de payement", ["Argent", "Gemmes"]);
-            $form->addToggle("Acheter le cosmetique §q" . $cosmeticData["button"] . " §f?", true);
+            $form->addToggle("Acheter le cosmetique §n" . $cosmeticData["button"] . " §f?", true);
         } else {
             $form->addLabel(Util::PREFIX . $cosmeticData["description"] . "\n\nCelui-ci n'est pas achetable");
         }

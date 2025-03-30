@@ -31,11 +31,11 @@ class PrimeTime extends BaseCommand
         switch ($opt) {
             case "start";
                 Pack::$itemsAmount = 5;
-                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le §qPRIME TIME §fcommence maintenant ! Jusqu'à §q21h§f, les packs donnent §q5 items §f!");
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le §nPRIME TIME §fcommence maintenant ! Jusqu'à §n21h§f, les packs donnent §n5 items §f!");
                 break;
             case "end":
                 Pack::$itemsAmount = 3;
-                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le §qPRIME TIME §fest terminé ! Les packs donnent maintenant plus §q3 items §f! À demain !");
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le §nPRIME TIME §fest terminé ! Les packs donnent maintenant plus §n3 items §f! À demain !");
                 break;
         }
     }

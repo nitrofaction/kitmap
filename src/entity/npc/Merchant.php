@@ -33,11 +33,11 @@ class Merchant extends Villager
             return;
         }
 
-        $prefix = "§f[§qMarchant§f] " . Util::PREFIX;
+        $prefix = "§f[§nMarchant§f] " . Util::PREFIX;
 
         $dialogue = NpcDialogueBuilder::create()
             ->setName("Marchant")
-            ->setText("Salut, je suis le marchant ! C'est moi qui transforme ton §qémeraude §ren §qémeraude renforcé §r!\n\nPour cela il me faudra:\n" . Util::PREFIX . "§r16 lingots d'émeraude\n" . Util::PREFIX . "§r32 chairs putréfiées\n" . Util::PREFIX . "§r25 lingots d'or")
+            ->setText("Salut, je suis le marchant ! C'est moi qui transforme ton §némeraude §ren §némeraude renforcé §r!\n\nPour cela il me faudra:\n" . Util::PREFIX . "§r16 lingots d'émeraude\n" . Util::PREFIX . "§r32 chairs putréfiées\n" . Util::PREFIX . "§r25 lingots d'or")
             ->setDefaultNpcTexture(DefaultNpcDialogueTexture::TEXTURE_AGRICULTURE_8);
 
         $dialogue = $dialogue->addSimpleButton("Je reviens", function (Player $player) use ($prefix) {

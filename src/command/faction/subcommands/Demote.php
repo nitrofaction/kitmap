@@ -50,8 +50,8 @@ class Demote extends FactionCommand
         unset(Cache::$factions[$faction]["members"][$target_rank . "s"][array_search($args["membre"], Cache::$factions[$faction]["members"][$target_rank . "s"])]);
         Cache::$factions[$faction]["members"][$previous_rank . "s"][] = $args["membre"];
 
-        Cache::$factions[$faction]["logs"][time()] = "§q" . $sender->getName() . " §fdemote §q" . $args["membre"] . "§f" . $rank_name;
-        Faction::broadcastMessage($faction, "§q[§fF§q] §fLe joueur §q" . $args["membre"] . " §fvient d'être rétogradé §q" . $rank_name);
+        Cache::$factions[$faction]["logs"][time()] = "§n" . $sender->getName() . " §fdemote §n" . $args["membre"] . "§f" . $rank_name;
+        Faction::broadcastFactionMessage($faction, "Le joueur §n" . $args["membre"] . " §fvient d'être rétogradé §n" . $rank_name);
     }
 
     protected function prepare(): void

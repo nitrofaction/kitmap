@@ -2,7 +2,7 @@
   "Mineur": {
     "1": {
       "reward": {
-        "name": "une bouteille d'§qxp §fde §q20 §fniveaux",
+        "name": "une bouteille d'§nxp §fde §n20 §fniveaux",
         "items": [
           "xp:20"
         ]
@@ -11,7 +11,7 @@
     },
     "2": {
       "reward": {
-        "name": "un billet de §q10k$",
+        "name": "un billet de §n10k$",
         "items": [
           "money:10000"
         ]
@@ -20,7 +20,7 @@
     },
     "3": {
       "reward": {
-        "name": "§q8 §fblocs d'§qémeraudes",
+        "name": "§n8 §fblocs d'§némeraudes",
         "items": [
           "item:emerald_block:8"
         ]
@@ -29,7 +29,7 @@
     },
     "4": {
       "reward": {
-        "name": "§q1 §fcasque et bottes en §qémeraude",
+        "name": "§n1 §fcasque et bottes en §némeraude",
         "items": [
           "item:golden_boots:1",
           "item:golden_helmet:1"
@@ -39,7 +39,7 @@
     },
     "5": {
       "reward": {
-        "name": "§q1 §fplastron en §qémeraude §fet §q4 PartnerItems",
+        "name": "§n1 §fplastron en §némeraude §fet §n4 PartnerItems",
         "items": [
           "item:golden_chestplate:1",
           "partneritem:4"
@@ -49,7 +49,7 @@
     },
     "6": {
       "reward": {
-        "name": "un billet de §q15k$ §fet §q30 §fniveaux",
+        "name": "un billet de §n15k$ §fet §n30 §fniveaux",
         "items": [
           "xp:30",
           "money:15000"
@@ -59,7 +59,7 @@
     },
     "7": {
       "reward": {
-        "name": "un kit §qultra",
+        "name": "un kit §nultra",
         "items": [
           "kit:ultra"
         ]
@@ -68,7 +68,7 @@
     },
     "8": {
       "reward": {
-        "name": "un §qfarming chest",
+        "name": "un §nfarming chest",
         "items": [
           "item:trapped_chest:1"
         ]
@@ -77,7 +77,7 @@
     },
     "9": {
       "reward": {
-        "name": "§q1 §fcasque et bottes en §qémeraude renforcé",
+        "name": "§n1 §fcasque et bottes en §némeraude renforcé",
         "items": [
           "item:iron_boots:1",
           "item:iron_helmet:1"
@@ -87,7 +87,7 @@
     },
     "10": {
       "reward": {
-        "name": "§q1 §fpack",
+        "name": "§n1 §fpack",
         "items": [
           "pack:1"
         ]
@@ -96,7 +96,7 @@
     },
     "11": {
       "reward": {
-        "name": "§q48 §fgraines d'iris et §q60 §fniveaux",
+        "name": "§n48 §fgraines d'iris et §n60 §fniveaux",
         "items": [
           "item:nether_wart:48",
           "xp:60"
@@ -106,7 +106,7 @@
     },
     "12": {
       "reward": {
-        "name": "une épée en §qémeraude renforcé",
+        "name": "une épée en §némeraude renforcé",
         "items": [
           "item:iron_sword:1::9,2;17,3"
         ]
@@ -115,7 +115,7 @@
     },
     "13": {
       "reward": {
-        "name": "un billet de §q35k$ §fet 128 blocs §qantiback",
+        "name": "un billet de §n35k$ §fet 128 blocs §nantiback",
         "items": [
           "item:redstone_block:128",
           "money:35000"
@@ -125,7 +125,7 @@
     },
     "14": {
       "reward": {
-        "name": "§q128 §fgraines d'iris et §q8 §fpartneritems",
+        "name": "§n128 §fgraines d'iris et §n8 §fpartneritems",
         "items": [
           "partneritem:8",
           "item:nether_wart:128"
@@ -135,7 +135,7 @@
     },
     "15": {
       "reward": {
-        "name": "un kit §qlégende §fet un billet de §q50k$",
+        "name": "un kit §nlégende §fet un billet de §n50k$",
         "items": [
           "money:50000",
           "kit:legende"
@@ -145,7 +145,7 @@
     },
     "16": {
       "reward": {
-        "name": "une §qFourche §fet un §qArrosoir",
+        "name": "une §nFourche §fet un §nArrosoir",
         "items": [
           "item:stone_hoe:1",
           "item:stone_shovel:1"
@@ -155,7 +155,7 @@
     },
     "17": {
       "reward": {
-        "name": "64 blocs d'§qémeraude §fet §q100 §fniveaux",
+        "name": "64 blocs d'§némeraude §fet §n100 §fniveaux",
         "items": [
           "xp:100",
           "item:emerald_block:64"
@@ -165,7 +165,7 @@
     },
     "18": {
       "reward": {
-        "name": "un full en §qémeraude renforcé",
+        "name": "un full en §némeraude renforcé",
         "items": [
           "item:iron_sword:1::9,2;17,3",
           "item:iron_helmet:1::0,2;17,3",
@@ -178,7 +178,7 @@
     },
     "19": {
       "reward": {
-        "name": "un fragment en §qiris §fet un billet de §q100k$",
+        "name": "un fragment en §niris §fet un billet de §n100k$",
         "items": [
           "money:100000",
           "item:rabbit_hide:1"
@@ -188,7 +188,7 @@
     },
     "20": {
       "reward": {
-        "name": "3 fragments en §qiris§f, §q150 §fniveaux et 32 §fPartnerItems",
+        "name": "3 fragments en §niris§f, §n150 §fniveaux et 32 §fPartnerItems",
         "items": [
           "item:rabbit_hide:3",
           "xp:150",
@@ -201,7 +201,7 @@
   "Farmeur": {
     "1": {
       "reward": {
-        "name": "une bouteille d'§qxp §fde §q20 §fniveaux",
+        "name": "une bouteille d'§nxp §fde §n20 §fniveaux",
         "items": [
           "xp:20"
         ]
@@ -210,7 +210,7 @@
     },
     "2": {
       "reward": {
-        "name": "un billet de §q10k$",
+        "name": "un billet de §n10k$",
         "items": [
           "money:10000"
         ]
@@ -219,7 +219,7 @@
     },
     "3": {
       "reward": {
-        "name": "§q8 §fblocs d'§qémeraudes",
+        "name": "§n8 §fblocs d'§némeraudes",
         "items": [
           "item:emerald_block:8"
         ]
@@ -228,7 +228,7 @@
     },
     "4": {
       "reward": {
-        "name": "§q1 §fcasque et bottes en §qémeraude",
+        "name": "§n1 §fcasque et bottes en §némeraude",
         "items": [
           "item:golden_boots:1",
           "item:golden_helmet:1"
@@ -238,7 +238,7 @@
     },
     "5": {
       "reward": {
-        "name": "§q1 §fplastron en §qémeraude §fet §q4 PartnerItems",
+        "name": "§n1 §fplastron en §némeraude §fet §n4 PartnerItems",
         "items": [
           "item:golden_chestplate:1",
           "partneritem:4"
@@ -248,7 +248,7 @@
     },
     "6": {
       "reward": {
-        "name": "un billet de §q15k$ §fet §q30 §fniveaux",
+        "name": "un billet de §n15k$ §fet §n30 §fniveaux",
         "items": [
           "xp:30",
           "money:15000"
@@ -258,7 +258,7 @@
     },
     "7": {
       "reward": {
-        "name": "un kit §qultra",
+        "name": "un kit §nultra",
         "items": [
           "kit:ultra"
         ]
@@ -267,7 +267,7 @@
     },
     "8": {
       "reward": {
-        "name": "un §qfarming chest",
+        "name": "un §nfarming chest",
         "items": [
           "item:trapped_chest:1"
         ]
@@ -276,7 +276,7 @@
     },
     "9": {
       "reward": {
-        "name": "§q1 §fcasque et bottes en §qémeraude renforcé",
+        "name": "§n1 §fcasque et bottes en §némeraude renforcé",
         "items": [
           "item:iron_boots:1",
           "item:iron_helmet:1"
@@ -286,7 +286,7 @@
     },
     "10": {
       "reward": {
-        "name": "§q1 §fpack",
+        "name": "§n1 §fpack",
         "items": [
           "pack:1"
         ]
@@ -295,7 +295,7 @@
     },
     "11": {
       "reward": {
-        "name": "§q48 §fgraines d'iris et §q60 §fniveaux",
+        "name": "§n48 §fgraines d'iris et §n60 §fniveaux",
         "items": [
           "item:nether_wart:48",
           "xp:60"
@@ -305,7 +305,7 @@
     },
     "12": {
       "reward": {
-        "name": "une épée en §qémeraude renforcé",
+        "name": "une épée en §némeraude renforcé",
         "items": [
           "item:iron_sword:1::9,2;17,3"
         ]
@@ -314,7 +314,7 @@
     },
     "13": {
       "reward": {
-        "name": "un billet de §q35k$ §fet 128 blocs §qantiback",
+        "name": "un billet de §n35k$ §fet 128 blocs §nantiback",
         "items": [
           "item:redstone_block:128",
           "money:35000"
@@ -324,7 +324,7 @@
     },
     "14": {
       "reward": {
-        "name": "§q128 §fgraines d'iris et §q8 §fpartneritems",
+        "name": "§n128 §fgraines d'iris et §n8 §fpartneritems",
         "items": [
           "partneritem:8",
           "item:nether_wart:128"
@@ -334,7 +334,7 @@
     },
     "15": {
       "reward": {
-        "name": "un kit §qlégende §fet un billet de §q50k$",
+        "name": "un kit §nlégende §fet un billet de §n50k$",
         "items": [
           "money:50000",
           "kit:legende"
@@ -344,7 +344,7 @@
     },
     "16": {
       "reward": {
-        "name": "une §qFourche §fet un §qArrosoir",
+        "name": "une §nFourche §fet un §nArrosoir",
         "items": [
           "item:stone_hoe:1",
           "item:stone_shovel:1"
@@ -354,7 +354,7 @@
     },
     "17": {
       "reward": {
-        "name": "64 blocs d'§qémeraude §fet §q100 §fniveaux",
+        "name": "64 blocs d'§némeraude §fet §n100 §fniveaux",
         "items": [
           "xp:100",
           "item:emerald_block:64"
@@ -364,7 +364,7 @@
     },
     "18": {
       "reward": {
-        "name": "un full en §qémeraude renforcé",
+        "name": "un full en §némeraude renforcé",
         "items": [
           "item:iron_sword:1::9,2;17,3",
           "item:iron_helmet:1::0,2;17,3",
@@ -377,7 +377,7 @@
     },
     "19": {
       "reward": {
-        "name": "un fragment en §qiris §fet un billet de §q100k$",
+        "name": "un fragment en §niris §fet un billet de §n100k$",
         "items": [
           "money:100000",
           "item:rabbit_hide:1"
@@ -387,7 +387,7 @@
     },
     "20": {
       "reward": {
-        "name": "3 fragments en §qiris§f, §q150 §fniveaux et 32 §fPartnerItems",
+        "name": "3 fragments en §niris§f, §n150 §fniveaux et 32 §fPartnerItems",
         "items": [
           "item:rabbit_hide:3",
           "xp:150",
@@ -400,7 +400,7 @@
   "Assassin": {
     "1": {
       "reward": {
-        "name": "une bouteille d'§qxp §fde §q20 §fniveaux",
+        "name": "une bouteille d'§nxp §fde §n20 §fniveaux",
         "items": [
           "xp:20"
         ]
@@ -409,7 +409,7 @@
     },
     "2": {
       "reward": {
-        "name": "un billet de §q10k$",
+        "name": "un billet de §n10k$",
         "items": [
           "money:10000"
         ]
@@ -418,7 +418,7 @@
     },
     "3": {
       "reward": {
-        "name": "§q8 §fblocs d'§qémeraudes",
+        "name": "§n8 §fblocs d'§némeraudes",
         "items": [
           "item:emerald_block:8"
         ]
@@ -427,7 +427,7 @@
     },
     "4": {
       "reward": {
-        "name": "§q1 §fcasque et bottes en §qémeraude",
+        "name": "§n1 §fcasque et bottes en §némeraude",
         "items": [
           "item:golden_boots:1",
           "item:golden_helmet:1"
@@ -437,7 +437,7 @@
     },
     "5": {
       "reward": {
-        "name": "§q1 §fplastron en §qémeraude §fet §q4 PartnerItems",
+        "name": "§n1 §fplastron en §némeraude §fet §n4 PartnerItems",
         "items": [
           "item:golden_chestplate:1",
           "partneritem:4"
@@ -447,7 +447,7 @@
     },
     "6": {
       "reward": {
-        "name": "un billet de §q15k$ §fet §q30 §fniveaux",
+        "name": "un billet de §n15k$ §fet §n30 §fniveaux",
         "items": [
           "xp:30",
           "money:15000"
@@ -457,7 +457,7 @@
     },
     "7": {
       "reward": {
-        "name": "un kit §qultra",
+        "name": "un kit §nultra",
         "items": [
           "kit:ultra"
         ]
@@ -466,7 +466,7 @@
     },
     "8": {
       "reward": {
-        "name": "un §qfarming chest",
+        "name": "un §nfarming chest",
         "items": [
           "item:trapped_chest:1"
         ]
@@ -475,7 +475,7 @@
     },
     "9": {
       "reward": {
-        "name": "§q1 §fcasque et bottes en §qémeraude renforcé",
+        "name": "§n1 §fcasque et bottes en §némeraude renforcé",
         "items": [
           "item:iron_boots:1",
           "item:iron_helmet:1"
@@ -485,7 +485,7 @@
     },
     "10": {
       "reward": {
-        "name": "§q1 §fpack",
+        "name": "§n1 §fpack",
         "items": [
           "pack:1"
         ]
@@ -494,7 +494,7 @@
     },
     "11": {
       "reward": {
-        "name": "§q48 §fgraines d'iris et §q60 §fniveaux",
+        "name": "§n48 §fgraines d'iris et §n60 §fniveaux",
         "items": [
           "item:nether_wart:48",
           "xp:60"
@@ -504,7 +504,7 @@
     },
     "12": {
       "reward": {
-        "name": "une épée en §qémeraude renforcé",
+        "name": "une épée en §némeraude renforcé",
         "items": [
           "item:iron_sword:1::9,2;17,3"
         ]
@@ -513,7 +513,7 @@
     },
     "13": {
       "reward": {
-        "name": "un billet de §q35k$ §fet 128 blocs §qantiback",
+        "name": "un billet de §n35k$ §fet 128 blocs §nantiback",
         "items": [
           "item:redstone_block:128",
           "money:35000"
@@ -523,7 +523,7 @@
     },
     "14": {
       "reward": {
-        "name": "§q128 §fgraines d'iris et §q8 §fpartneritems",
+        "name": "§n128 §fgraines d'iris et §n8 §fpartneritems",
         "items": [
           "partneritem:8",
           "item:nether_wart:128"
@@ -533,7 +533,7 @@
     },
     "15": {
       "reward": {
-        "name": "un kit §qlégende §fet un billet de §q50k$",
+        "name": "un kit §nlégende §fet un billet de §n50k$",
         "items": [
           "money:50000",
           "kit:legende"
@@ -543,7 +543,7 @@
     },
     "16": {
       "reward": {
-        "name": "une §qFourche §fet un §qArrosoir",
+        "name": "une §nFourche §fet un §nArrosoir",
         "items": [
           "item:stone_hoe:1",
           "item:stone_shovel:1"
@@ -553,7 +553,7 @@
     },
     "17": {
       "reward": {
-        "name": "64 blocs d'§qémeraude §fet §q100 §fniveaux",
+        "name": "64 blocs d'§némeraude §fet §n100 §fniveaux",
         "items": [
           "xp:100",
           "item:emerald_block:64"
@@ -563,7 +563,7 @@
     },
     "18": {
       "reward": {
-        "name": "un full en §qémeraude renforcé",
+        "name": "un full en §némeraude renforcé",
         "items": [
           "item:iron_sword:1::9,2;17,3",
           "item:iron_helmet:1::0,2;17,3",
@@ -576,7 +576,7 @@
     },
     "19": {
       "reward": {
-        "name": "un fragment en §qiris §fet un billet de §q100k$",
+        "name": "un fragment en §niris §fet un billet de §n100k$",
         "items": [
           "money:100000",
           "item:rabbit_hide:1"
@@ -586,7 +586,7 @@
     },
     "20": {
       "reward": {
-        "name": "3 fragments en §qiris§f, §q150 §fniveaux et 32 §fPartnerItems",
+        "name": "3 fragments en §niris§f, §n150 §fniveaux et 32 §fPartnerItems",
         "items": [
           "item:rabbit_hide:3",
           "xp:150",

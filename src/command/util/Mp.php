@@ -34,7 +34,7 @@ class Mp extends BaseCommand
             $session = Session::get($sender);
 
             if ($session->inCooldown("mute")) {
-                $sender->sendMessage(Util::PREFIX . "Vous êtes mute, temps restant: §q" . Util::formatDurationFromSeconds($session->getCooldownData("mute")[0] - time()));
+                $sender->sendMessage(Util::PREFIX . "Vous êtes mute, temps restant: §n" . Util::formatDurationFromSeconds($session->getCooldownData("mute")[0] - time()));
                 return;
             }
 
@@ -48,7 +48,7 @@ class Mp extends BaseCommand
                 Session::get($player)->data["reply"] = $sender->getName();
 
                 foreach ([$player, $sender] as $players) {
-                    $players->sendMessage("§q[§fMP§q] §q[§f" . $sender->getName() . " " . Util::PREFIX . $player->getName() . "§q] §f" . implode(" ", $args));
+                    $players->sendMessage("§n[§fMP§n] §n[§f" . $sender->getName() . " " . Util::PREFIX . $player->getName() . "§n] §f" . implode(" ", $args));
                     $players->broadcastSound(new ClickSound());
                 }
             } else {

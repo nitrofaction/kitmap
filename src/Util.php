@@ -50,8 +50,8 @@ use Symfony\Component\Filesystem\Path;
 
 class Util
 {
-    const PREFIX = "§q§l» §r§f";
-    const IARROW = " §l§q«";
+    const PREFIX = "§r§n§l» §r§f";
+    const IARROW = " §l§n«";
 
     public static function arrayToPage(array $array, ?int $page, int $separator): array
     {
@@ -124,8 +124,8 @@ class Util
 
             $player->sendMessage(
                 $substraction ?
-                    self::PREFIX . "Le staff §q" . $staff . " §fvient de vous retirer §q" . $value . " " . $word :
-                    self::PREFIX . "Le staff §q" . $staff . " §fvient de vous ajouter §q" . $value . " " . $word
+                    self::PREFIX . "Le staff §n" . $staff . " §fvient de vous retirer §n" . $value . " " . $word :
+                    self::PREFIX . "Le staff §n" . $staff . " §fvient de vous ajouter §n" . $value . " " . $word
             );
         } else {
             $file = self::getFile("data/players/" . $player);
@@ -230,7 +230,7 @@ class Util
         $sup = "";
 
         if (($bounty = Session::get($player)->data["bounty"]) > 0) {
-            $sup .= " §7| §q" . self::formatNumberWithSuffix($bounty) . " \u{E102}";
+            $sup .= " §7| §n" . self::formatNumberWithSuffix($bounty) . " \u{E102}";
         }
 
         $player->setScoreTag("§7" . round($player->getHealth(), 2) . " §c❤" . $sup);
@@ -577,19 +577,36 @@ class Util
         }
     }
 
-    public static function stringToUnicode(string $title, bool $mini = false): string
+    public static function stringToUnicode(string $title, int $type = 0): string
     {
+        /*
+         *
+         * 0 = blue
+         * 1 = big
+         *
+         */
+
         $result = "";
 
         foreach (str_split(TextFormat::clean($title)) as $caracter) {
-            $result .= self::caracterToUnicode($caracter . ($mini ? "2" : "")) . " ";
+            $result .= self::caracterToUnicode($caracter, $type) . " ";
         }
         return trim($result);
     }
 
-    public static function caracterToUnicode(string $input): string
+    public static function caracterToUnicode(string $input, int $type = 0): string
     {
-        return Cache::$config["unicode"][strtolower($input)] ?? " ";
+        $types = [
+            "blue",
+            "big"
+        ];
+
+        return Cache::$config[$types[$type] . "-text"][strtolower($input)] ?? " ";
+    }
+
+    public static function stringToIcon(string $input): string
+    {
+        return Cache::$config["icon"][strtolower($input)] ?? " ";
     }
 
     public static function antiBlockGlitch(Player $player): void

@@ -52,7 +52,7 @@ class Pack
             }
         });
         $form->setTitle("Pack ");
-        $form->setContent(Util::PREFIX . "Vous possedez actuellement §q" . $session->data["packs"] . " §fpack(s)");
+        $form->setContent(Util::PREFIX . "Vous possedez actuellement §n" . $session->data["packs"] . " §fpack(s)");
         if ($primeTime[0]) {
             $form->addButton("Ouvrir un pack\n§8(§aPrime time pendant encore: " . Util::formatDurationFromSeconds($primeTime[1], 1) . "§8)");
         } else {
@@ -99,20 +99,20 @@ class Pack
         if ($animationBlock instanceof Block) {
             if ($session->inCooldown("pack")) {
                 $session->addValue("packs");
-                $player->sendMessage(Util::PREFIX . "Veuillez attendre un peu avant de ré-ouvrir un §qpack §f(commande /pack pour éviter l'animation)..");
+                $player->sendMessage(Util::PREFIX . "Veuillez attendre un peu avant de ré-ouvrir un §npack §f(commande /pack pour éviter l'animation)..");
                 return;
             }
 
             $player->getWorld()->addSound($animationBlock->getPosition()->add(0.5, 0.5, 0.5), new ChestOpenSound());
-            $player->sendMessage(Util::PREFIX . "Vous ouvrez un §q§lPACK§r§f...");
+            $player->sendMessage(Util::PREFIX . "Vous ouvrez un §n§lPACK§r§f...");
 
-            Main::getInstance()->getServer()->broadcastPopup(Util::PREFIX . "§q" . $player->getName() . " §fouvre un §q§lPACK" . Util::IARROW);
+            Main::getInstance()->getServer()->broadcastPopup(Util::PREFIX . "§n" . $player->getName() . " §fouvre un §n§lPACK" . Util::IARROW);
             Main::getInstance()->getScheduler()->scheduleRepeatingTask(new PackAnimationTask($player, $animationBlock), 1);
         } else {
             $player->getWorld()->addSound($player->getPosition()->add(0.5, 0.5, 0.5), new ChestOpenSound());
 
             $randomItems = self::chooseRandomItems(self::$itemsAmount);
-            $player->sendMessage(Util::PREFIX . "Grâce à votre §qPACK §fvous venez de gagner:");
+            $player->sendMessage(Util::PREFIX . "Grâce à votre §nPACK §fvous venez de gagner:");
 
             $prizeList = [];
 
@@ -126,7 +126,7 @@ class Pack
             $player->sendMessage(Util::PREFIX . "Vos lots ont été mis dans votre inventaire");
 
             Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient d'ouvrir un pack (ses lots: " . implode(", ", $prizeList) . ")");
-            Main::getInstance()->getServer()->broadcastTip(Util::PREFIX . "Le joueur §q" . $player->getName() . " §fvient d'ouvrir un §qPACK §f!");
+            Main::getInstance()->getServer()->broadcastTip(Util::PREFIX . "Le joueur §n" . $player->getName() . " §fvient d'ouvrir un §nPACK §f!");
         }
     }
 
@@ -191,12 +191,12 @@ class Pack
             switch ($data[1]) {
                 case 0:
                     if (Cache::$config["pack"]["gem"] > $session->data["gem"]) {
-                        $player->sendMessage(Util::PREFIX . "Vous ne possedez pas assez de gemmes pour acheter un §qpack");
+                        $player->sendMessage(Util::PREFIX . "Vous ne possedez pas assez de gemmes pour acheter un §npack");
                         return;
                     }
 
                     $session->addValue("gem", Cache::$config["pack"]["gem"], true);
-                    $player->sendMessage(Util::PREFIX . "Vous venez d'acheter un pack avec §q" . Util::formatNumberWithSuffix(Cache::$config["pack"]["gem"]) . " §fgemmes");
+                    $player->sendMessage(Util::PREFIX . "Vous venez d'acheter un pack avec §n" . Util::formatNumberWithSuffix(Cache::$config["pack"]["gem"]) . " §fgemmes");
 
                     Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient d'acheter un pack avec des gemmes");
                     break;
@@ -207,7 +207,7 @@ class Pack
                     }
 
                     $session->addValue("money", Cache::$config["pack"]["money"], true);
-                    $player->sendMessage(Util::PREFIX . "Vous venez d'acheter un pack avec §q" . Util::formatNumberWithSuffix(Cache::$config["pack"]["money"]) . " §fpièces");
+                    $player->sendMessage(Util::PREFIX . "Vous venez d'acheter un pack avec §n" . Util::formatNumberWithSuffix(Cache::$config["pack"]["money"]) . " §fpièces");
 
                     Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient d'acheter un pack avec des pièces");
                     break;
@@ -219,7 +219,7 @@ class Pack
             self::openPackUI($player);
         });
         $form->setTitle("Pack");
-        $form->addLabel(Util::PREFIX . "Êtes vous sur d'acheter un §qpack §f?\nPrix d'un pack: §q" . Util::formatNumberWithSuffix(Cache::$config["pack"]["money"]) . " §fpièces ou §a" . Util::formatNumberWithSuffix(Cache::$config["pack"]["gem"]) . " §fgemmes\n\nVous possedez §q" . $session->data["gem"] . " §fgemme(s)\nVous possedez §q" . $session->data["money"] . " §fpièces(s)\n");
+        $form->addLabel(Util::PREFIX . "Êtes vous sur d'acheter un §npack §f?\nPrix d'un pack: §n" . Util::formatNumberWithSuffix(Cache::$config["pack"]["money"]) . " §fpièces ou §a" . Util::formatNumberWithSuffix(Cache::$config["pack"]["gem"]) . " §fgemmes\n\nVous possedez §n" . $session->data["gem"] . " §fgemme(s)\nVous possedez §n" . $session->data["money"] . " §fpièces(s)\n");
         $form->addDropdown("Méthode de payement", ["gemmes", "pièces"]);
         $form->addToggle("Acheter un pack?", true);
         $player->sendForm($form);
@@ -268,7 +268,7 @@ class Pack
         $item = VanillaItems::PAPER();
         $item->getNamedTag()->setInt("pack", $amount);
         $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
-        $item->setCustomName("§r§q" . $amount . " §fpack(s)");
+        $item->setCustomName("§r§n" . $amount . " §fpack(s)");
         return $item;
     }
 }

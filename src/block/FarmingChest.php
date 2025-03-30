@@ -87,7 +87,7 @@ class FarmingChest extends Block
         ];
 
         Job::addXp($player, "Farmeur", min(1, intval(mt_rand(1, intval(array_sum($results)))) / 5));
-        $player->sendMessage(Util::PREFIX . "Vous venez de récolter : §q" . ($results[0] ?? 0) . " blé(s), " . ($results[1] ?? 0) . " patate(s), " . ($results[2] ?? 0) . " carotte(s) et " . ($results[3] ?? 0) . " betterave(s) §fgrâce à votre farming chest !");
+        $player->sendMessage(Util::PREFIX . "Vous venez de récolter : §n" . ($results[0] ?? 0) . " blé(s), " . ($results[1] ?? 0) . " patate(s), " . ($results[2] ?? 0) . " carotte(s) et " . ($results[3] ?? 0) . " betterave(s) §fgrâce à votre farming chest !");
     }
 
     private function getSeedByBlock(PmBlock $block): ?array

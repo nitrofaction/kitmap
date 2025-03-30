@@ -104,13 +104,45 @@ class Faction
         return !is_null($key) && isset(Cache::$factions[strtolower($key)]);
     }
 
-    public static function broadcastMessage(string $key, string $message): void
+    public static function broadcastFactionMessage(string $faction, string $message, bool $ally = false): void
     {
-        $members = self::getFactionMembers($key, true);
+        $faction = strtolower($faction);
+
+        if ($ally) {
+            $prefix = "§n[§fALLY§n] [§f" . self::getFactionUpperName($faction) . "§n] §f";
+        } else {
+            $prefix = "§n[§fFAC§n] §f";
+        }
+
+        $members = self::getFactionMembers($faction, true);
 
         foreach ($members as $player) {
             if ($player instanceof Player) {
-                $player->sendMessage($message);
+                $player->sendMessage($prefix . $message);
+            }
+        }
+
+        if ($ally) {
+            self::broadcastAllyMessage($faction, $message);
+        }
+    }
+
+    private static function broadcastAllyMessage(string $faction, string $message): void
+    {
+        $faction = strtolower($faction);
+
+        $prefix = "§n[§fALLY§n] [§f" . self::getFactionUpperName($faction) . "§n] §f";
+        $ally = self::getAlly($faction);
+
+        if (is_null($ally)) {
+            return;
+        }
+
+        $members = self::getFactionMembers($ally, true);
+
+        foreach ($members as $player) {
+            if ($player instanceof Player) {
+                $player->sendMessage($prefix . $message);
             }
         }
     }
@@ -153,11 +185,15 @@ class Faction
 
     public static function getFactionUpperName(string $faction): string
     {
-        return !isset(Cache::$factions[$faction]) ? $faction : Cache::$factions[$faction]["upper_name"];
+        return !isset(Cache::$factions[$faction = strtolower($faction)]) ? $faction : Cache::$factions[$faction]["upper_name"];
     }
 
     public static function addPower(string $faction, int $amount): void
     {
+        if (!Faction::exists($faction)) {
+            return;
+        }
+
         self::setPower($faction, $amount + self::getPower($faction));
 
         if (self::getPower($faction) < 0) {
@@ -167,12 +203,14 @@ class Faction
 
     private static function setPower(string $faction, int $amount): void
     {
-        Cache::$factions[$faction]["power"] = $amount;
+        if (self::exists($faction)) {
+            Cache::$factions[strtolower($faction)]["power"] = $amount;
+        }
     }
 
     public static function getPower(string $faction): int
     {
-        return Cache::$factions[$faction]["power"];
+        return Cache::$factions[strtolower($faction)]["power"] ?? 0;
     }
 
     public static function addCactus(BlockGrowEvent $event): void
@@ -200,19 +238,21 @@ class Faction
 
         foreach (self::getFactionMembers($faction, true) as $player) {
             if ($player instanceof Player && Session::get($player)->data["cactus"]) {
-                $player->sendTip(Util::PREFIX . "+1 §qcactus" . Util::IARROW);
+                $player->sendTip(Util::PREFIX . "+1 §ncactus" . Util::IARROW);
             }
         }
     }
 
     private static function setCactus(string $faction, int $amount): void
     {
-        Cache::$factions[$faction]["cactus"] = $amount;
+        if (self::exists($faction)) {
+            Cache::$factions[$faction]["cactus"] = $amount;
+        }
     }
 
     public static function getCactus(string $faction): int
     {
-        return Cache::$factions[$faction]["cactus"];
+        return min(Cache::$factions[strtolower($faction)]["cactus"] ?? 0, self::getCactusLimit($faction) - 1);
     }
 
     public static function removeCactus(string $faction, int $amount): void
@@ -232,7 +272,7 @@ class Faction
         $position = $block instanceof Position ? $block : $block->getPosition();
 
         if ($session->inCooldown("_antibuild")) {
-            $player->sendTip(Util::PREFIX . "Veuillez attendre §q" . ($session->getCooldownData("_antibuild")[0] - time()) . " §fseconde(s) avant de construire");
+            $player->sendTip(Util::PREFIX . "Veuillez attendre §n" . ($session->getCooldownData("_antibuild")[0] - time()) . " §fseconde(s) avant de construire");
             return false;
         } else if ($player->getGamemode() === GameMode::CREATIVE() && $player->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
             return true;
@@ -379,5 +419,40 @@ class Faction
     {
         self::getFactionRank($player);
         return !is_null(Session::get($player)->data["faction"]);
+    }
+
+    public static function getAlly(?string $faction): ?string
+    {
+        return Cache::$factions[strtolower($faction ?? "")]["ally"] ?? null;
+    }
+
+    public static function setAlly(string $faction, ?string $ally): void
+    {
+        if (self::exists($faction)) {
+            Cache::$factions[strtolower($faction)]["ally"] = $ally;
+        }
+    }
+
+    public static function getIslandLevel(string $faction): int
+    {
+        $default = Cache::$config["pos"]["island"]["default-max"];
+        $max = Cache::$factions[strtolower($faction)]["island"]["zone"]["max"] ?? $default;
+
+        return is_null($max) ? $max : ($max - ($default - 1));
+    }
+
+    public static function getIslandUpgradePrice(string $faction): int
+    {
+        return Faction::getIslandLevel($faction) * 5000;
+    }
+
+    public static function getIslandMobsLimit(string $faction, bool $next = false): int
+    {
+        return round(25 * (1.14 ** (Faction::getIslandLevel($faction) + ($next ? 1 : 0))));
+    }
+
+    public static function getCactusLimit(string $faction, bool $next = false): int
+    {
+        return round(208 * (1.25 ** (Faction::getIslandLevel($faction) + ($next ? 1 : 0))));
     }
 }

@@ -46,7 +46,11 @@ class Create extends FactionCommand
         Cache::$factions[$name] = [
             "upper_name" => $args["nom"],
             "home" => "0:0:0",
+            "activity" => [],
+            "power" => 0,
+            "cactus" => 0,
             "claim" => null,
+            "ally" => null,
             "members" => [
                 "leader" => $sender->getName(),
                 "officiers" => [],
@@ -73,6 +77,9 @@ class Create extends FactionCommand
                 "demote" => "officier",
                 "promote" => "officier",
                 "cactus" => "officier",
+                "ally" => "officier",
+                "allyaccept" => "officier",
+                "allybreak" => "officier",
 
                 "place" => "member",
                 "break" => "member",
@@ -84,9 +91,6 @@ class Create extends FactionCommand
                 "home" => "recruit",
                 "island" => "recruit"
             ],
-            "activity" => [],
-            "power" => 0,
-            "cactus" => 0,
             "island" => [
                 "lock" => false,
                 "zone" => [
@@ -98,7 +102,7 @@ class Create extends FactionCommand
 
         $session->data["faction"] = $name;
 
-        $sender->sendMessage(Util::PREFIX . "Vous venez de créer votre faction §q" . $args["nom"] . " §f!");
+        $sender->sendMessage(Util::PREFIX . "Vous venez de créer votre faction §n" . $args["nom"] . " §f!");
         Rank::updateNameTag($sender);
     }
 

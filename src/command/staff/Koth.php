@@ -30,12 +30,12 @@ class Koth extends BaseCommand
         switch ($args["opt"]) {
             case "start":
                 if (is_numeric(KothTask::$currentKoth)) {
-                    $sender->sendMessage(Util::PREFIX . "Un event §qKOTH §fest déjà en cours... Vous pouvez l'arrêter avec la commande §q/koth end");
+                    $sender->sendMessage(Util::PREFIX . "Un event §nKOTH §fest déjà en cours... Vous pouvez l'arrêter avec la commande §n/koth end");
                     return;
                 }
 
                 KothTask::$currentKoth = 180;
-                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Un event §qKOTH §fvient de commencer ! Vous pouvez vous y téléporter grace à la commande §q/event koth");
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Un event §nKOTH §fvient de commencer ! Vous pouvez vous y téléporter grace à la commande §n/event koth");
                 break;
             case "end":
                 KothTask::$currentKoth = null;
@@ -45,7 +45,7 @@ class Koth extends BaseCommand
                     BossBarAPI::getInstance()->hideBossBar($player, 1);
                 }
 
-                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "L'event §qKOTH §fa été arrêté, pas de stuff :/");
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "L'event §nKOTH §fa été arrêté, pas de stuff :/");
                 break;
         }
     }

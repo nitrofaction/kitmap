@@ -65,6 +65,7 @@
     "played_time": 0,
     "atm": 0,
     "faction_chat": false,
+    "ally_chat": false,
     "scoreboard": true,
     "night_vision": false,
     "cobblestone": true,

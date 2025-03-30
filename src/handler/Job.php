@@ -30,7 +30,7 @@ class Job
         $totalXp = self::getXp($player, $job) + $xp;
 
         if ($tip) {
-            $player->sendTip(Util::PREFIX . "+ §q" . $xp . " §f" . $job . " §8(" . self::getProgressBar($player, $job, 50) . "§8)" . Util::IARROW);
+            $player->sendTip(Util::PREFIX . "+ §n" . $xp . " §f" . $job . " §8(" . self::getProgressBar($player, $job, 50) . "§8)" . Util::IARROW);
         }
 
         if ($totalXp > $nextXp) {
@@ -43,7 +43,7 @@ class Job
                 Util::addItem($player, Util::parseItem($reward));
             }
 
-            $player->sendMessage(Util::PREFIX . "Vous venez de passer niveau §q" . $levelIndex + 1 . " §fdu métier de §q" . $job . " §f!");
+            $player->sendMessage(Util::PREFIX . "Vous venez de passer niveau §n" . $levelIndex + 1 . " §fdu métier de §n" . $job . " §f!");
             $player->sendMessage(Util::PREFIX . "Vous venez de recevoir " . $rewards["name"] . " §fen récompense de métier !");
 
             $player->broadcastSound(new BlazeShootSound());
@@ -91,17 +91,17 @@ class Job
 
         if ($option === 1) {
             if ($levelIndex >= $lastLevelIndex) {
-                return "0§q/§8-1 §q- §8Level: §q" . $levelIndex;
+                return "0§n/§8-1 §n- §8Level: §n" . $levelIndex;
             } else {
-                return $xp . "§q/§8" . $nextXp . " §q- §8Level: §q" . $levelIndex;
+                return $xp . "§n/§8" . $nextXp . " §n- §8Level: §n" . $levelIndex;
             }
         }
 
         if ($levelIndex >= $lastLevelIndex) {
-            return "§qNiveau maximum atteint";
+            return "§nNiveau maximum atteint";
         } else {
             $progress = intval(max(1, round((($xp / $nextXp) * $option) / 2, 2)));
-            return "§q" . str_repeat("|", $progress) . "§8" . str_repeat("|", ($option / 2) - $progress);
+            return "§n" . str_repeat("|", $progress) . "§8" . str_repeat("|", ($option / 2) - $progress);
         }
     }
 
@@ -116,7 +116,7 @@ class Job
         $item->getNamedTag()->setInt("xp_boost", $boost);
         $item->getNamedTag()->setInt("duration", $duration);
         $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
-        $item->setCustomName("§r§fBoost d'xp de §q" . $boost . "% §7(" . Util::formatDurationFromSeconds($duration, 1) . ")");
+        $item->setCustomName("§r§fBoost d'xp de §n" . $boost . "% §7(" . Util::formatDurationFromSeconds($duration, 1) . ")");
         return $item;
     }
 }

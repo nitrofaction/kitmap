@@ -15,12 +15,12 @@ use pocketmine\world\World;
 
 class TeleportationTask extends Task
 {
-    public function __construct(private readonly Player $player, private readonly Position $position)
+    public function __construct(private readonly Player $player, private readonly string|Position $position)
     {
         $session = Session::get($player);
         $time = Util::getTpTime($player);
 
-        $player->sendMessage(Util::PREFIX . "Vous allez être téléporté dans §q" . max($time, 0) . " §fseconde(s), veuillez ne pas bouger");
+        $player->sendMessage(Util::PREFIX . "Vous allez être téléporté dans §n" . max($time, 0) . " §fseconde(s), veuillez ne pas bouger");
         $player->getEffects()->add(new EffectInstance(VanillaEffects::BLINDNESS(), 20 * ($time + 1), 1, false));
 
         $session->setCooldown("teleportation", $time, [Util::getPlace($player)]);
@@ -45,7 +45,9 @@ class TeleportationTask extends Task
             $this->cancel($session);
             return;
         } else if (!$session->inCooldown("teleportation")) {
-            if ($this->position->world instanceof World && $this->position->world->isLoaded()) {
+            if (is_string($this->position)) {
+                $player->transfer("lobby");
+            } else if ($this->position instanceof Position && $this->position->world instanceof World && $this->position->world->isLoaded()) {
                 $player->teleport($this->position);
                 $player->broadcastSound(new BlazeShootSound());
 
@@ -58,7 +60,7 @@ class TeleportationTask extends Task
             return;
         }
 
-        $player->sendTip(Util::PREFIX . "Teleportation dans: §q" . ($data[0] - time()));
+        $player->sendTip(Util::PREFIX . "Teleportation dans: §n" . ($data[0] - time()));
         $player->broadcastSound(new ClickSound());
     }
 

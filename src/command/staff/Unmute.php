@@ -40,14 +40,14 @@ class Unmute extends BaseCommand
         $session = Session::get($target);
 
         if (!$session->inCooldown("mute")) {
-            $sender->sendMessage(Util::PREFIX . "Le joueur §q" . $target->getName() . " §fn'est pas mute");
+            $sender->sendMessage(Util::PREFIX . "Le joueur §n" . $target->getName() . " §fn'est pas mute");
             return;
         }
 
         $session->removeCooldown("mute");
 
-        $sender->sendMessage(Util::PREFIX . "Vous venez de unmute §q" . $target->getName());
-        $target->sendMessage(Util::PREFIX . "Vous venez d'être unmute par §q" . $sender->getName());
+        $sender->sendMessage(Util::PREFIX . "Vous venez de unmute §n" . $target->getName());
+        $target->sendMessage(Util::PREFIX . "Vous venez d'être unmute par §n" . $sender->getName());
 
         $embed = new EmbedBuilder();
         $embed->setDescription("**Unmute**\n\n**Joueur**\n" . $target->getName() . "\n\n*Unmute par le staff: " . $sender->getName() . "*");

@@ -1,28 +1,25 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Kitmap\command\player\rank;
+namespace Kitmap\command\util;
 
 use CortexPE\Commando\BaseCommand;
-use Kitmap\handler\Rank;
+use Kitmap\Main;
 use Kitmap\Session;
+use Kitmap\task\TeleportationTask;
 use Kitmap\Util;
-use muqsit\invmenu\InvMenu;
 use pocketmine\command\CommandSender;
 use pocketmine\permission\DefaultPermissions;
-use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 
-class Craft extends BaseCommand
+class Lobby extends BaseCommand
 {
-    public const INV_MENU_TYPE_WORKBENCH = "nitro:workbench";
-
     public function __construct(PluginBase $plugin)
     {
         parent::__construct(
             $plugin,
-            "craft",
-            "Ouvre un établi n'importe où"
+            "lobby",
+            "Vous téléporte au lobby"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
@@ -33,15 +30,15 @@ class Craft extends BaseCommand
         if ($sender instanceof Player) {
             $session = Session::get($sender);
 
-            if ($session->data["staff_mod"][0] || $sender->getGamemode() === GameMode::SPECTATOR()) {
-                $sender->sendMessage(Util::PREFIX . "Vous ne pouvez pas accèder à votre enderchest en étant en staff mod");
+            if ($session->inCooldown("combat")) {
+                $sender->sendMessage(Util::PREFIX . "Cette commande est interdite en combat");
                 return;
-            } else if (!Rank::hasRank($sender, "vip")) {
-                $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
+            } else if ($session->inCooldown("teleportation")) {
+                $sender->sendMessage(Util::PREFIX . "Vous ne pouvez pas executer cette commande en teleportation");
                 return;
             }
 
-            InvMenu::create(self::INV_MENU_TYPE_WORKBENCH)->send($sender);
+            Main::getInstance()->getScheduler()->scheduleRepeatingTask(new TeleportationTask($sender, "lobby"), 20);
         }
     }
 

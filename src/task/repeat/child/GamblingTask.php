@@ -62,7 +62,7 @@ class GamblingTask
 
                 Util::removeCurrentWindow($p);
 
-                $p->sendTitle("§qDébut dans " . 5 - (self::$since + 5));
+                $p->sendTitle("§nDébut dans " . 5 - (self::$since + 5));
                 $p->setNoClientPredictions();
                 $p->setGamemode(GameMode::SURVIVAL());
 
@@ -155,14 +155,14 @@ class GamblingTask
         if (!is_null($winner)) {
             $loser = (self::$players[0] === $winner) ? self::$players[1] : self::$players[0];
 
-            $message = $bet > 1 ? " Le prix de la victoire était de §q" . Util::formatNumberWithSuffix($bet * 2) . " §fpièces !" : "";
-            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§q" . $winner . "[§7" . $winnerPot . "§q] §fvient de gagner un gambling ou il affrontait §q" . $loser . "[§7" . $loserPot . "§q] §f!" . $message);
+            $message = $bet > 1 ? " Le prix de la victoire était de §n" . Util::formatNumberWithSuffix($bet * 2) . " §fpièces !" : "";
+            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§n" . $winner . "[§7" . $winnerPot . "§n] §fvient de gagner un gambling ou il affrontait §n" . $loser . "[§7" . $loserPot . "§n] §f!" . $message);
 
             if (($p = Main::getInstance()->getServer()->getPlayerExact($winner)) instanceof Player) {
                 Session::get($p)->addValue("money", $bet * 2);
             }
         } else {
-            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le gambling affrontant §q" . self::$players[0] . " §fet §q" . self::$players[1] . " §fa été annulé");
+            Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le gambling affrontant §n" . self::$players[0] . " §fet §n" . self::$players[1] . " §fa été annulé");
 
             if ($bet > 1) {
                 Util::addValue("CONSOLE", strtolower(self::$players[0]), "money", $bet);

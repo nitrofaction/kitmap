@@ -40,7 +40,7 @@ class MoneyZoneTask
             $session = Session::get($player);
 
             $entity = new Message($player->getLocation());
-            $entity->initEntityB("§q+ 50$");
+            $entity->initEntityB("§n+ 50$");
             $entity->spawnToAll();
             $entity->setMotion(new Vector3(0, 0.15, 0));
 

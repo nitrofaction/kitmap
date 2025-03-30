@@ -28,7 +28,7 @@ class Ping extends BaseCommand
     {
         if (!isset($args["joueur"])) {
             if ($sender instanceof Player) {
-                $sender->sendMessage(Util::PREFIX . "Vous possèdez §q" . $sender->getNetworkSession()->getPing() . " §fde ping");
+                $sender->sendMessage(Util::PREFIX . "Vous possèdez §n" . $sender->getNetworkSession()->getPing() . " §fde ping");
             }
         } else {
             /** @noinspection PhpDeprecationInspection */
@@ -36,11 +36,11 @@ class Ping extends BaseCommand
 
             if (!$target instanceof Player) {
                 if ($sender instanceof Player) {
-                    $sender->sendMessage(Util::PREFIX . "Vous possèdez §q" . $sender->getNetworkSession()->getPing() . " §fde ping");
+                    $sender->sendMessage(Util::PREFIX . "Vous possèdez §n" . $sender->getNetworkSession()->getPing() . " §fde ping");
                 }
                 return;
             }
-            $sender->sendMessage(Util::PREFIX . "Le joueur §q" . $target->getName() . "§f possède §q" . $target->getNetworkSession()->getPing() . "§f de ping");
+            $sender->sendMessage(Util::PREFIX . "Le joueur §n" . $target->getName() . "§f possède §n" . $target->getNetworkSession()->getPing() . "§f de ping");
         }
     }
 

@@ -10,7 +10,8 @@
     "hdv": 10,
     "pv": 1,
     "xp": 0,
-    "boost": 0
+    "boost": 0,
+    "stuff": 0
   },
   "vip": {
     "gamertag": "§t[§7{fac}§t] §7{name}",
@@ -23,7 +24,8 @@
     "hdv": 15,
     "pv": 2,
     "xp": 20,
-    "boost": 5
+    "boost": 5,
+    "stuff": 5
   },
   "vip-plus": {
     "gamertag": "§v[§7{fac}§v] §7{name}",
@@ -36,7 +38,8 @@
     "hdv": 20,
     "pv": 4,
     "xp": 40,
-    "boost": 5
+    "boost": 5,
+    "stuff": 10
   },
   "ultra": {
     "gamertag": "§c[{fac}] {name}",
@@ -49,7 +52,8 @@
     "hdv": 25,
     "pv": 6,
     "xp": 60,
-    "boost": 10
+    "boost": 10,
+    "stuff": 20
   },
   "legende": {
     "gamertag": "§u[{fac}] {name}",
@@ -62,7 +66,8 @@
     "hdv": 30,
     "pv": 10,
     "xp": 80,
-    "boost": 15
+    "boost": 15,
+    "stuff": 30
   },
   "createur": {
     "gamertag": "§f[§b{fac}§f] §b{name}",

@@ -38,16 +38,16 @@ class Size extends BaseCommand
             }
             return;
         } else if (0.05 >= $size || $size > 99) {
-            $sender->sendMessage(Util::PREFIX . "La taille indiqué n'est pas correcte elle doit être entre §q0.05 §fet §q99");
+            $sender->sendMessage(Util::PREFIX . "La taille indiqué n'est pas correcte elle doit être entre §n0.05 §fet §n99");
             return;
         }
 
         $player->setScale($size);
 
         if ($player === $sender) {
-            $sender->sendMessage(Util::PREFIX . "Vous venez de vous mettre à la taille §q" . $size);
+            $sender->sendMessage(Util::PREFIX . "Vous venez de vous mettre à la taille §n" . $size);
         } else {
-            $sender->sendMessage(Util::PREFIX . "Vous venez de mettre le joueur §q" . $player->getName() . " §fà la taille §q" . $size);
+            $sender->sendMessage(Util::PREFIX . "Vous venez de mettre le joueur §n" . $player->getName() . " §fà la taille §n" . $size);
         }
     }
 

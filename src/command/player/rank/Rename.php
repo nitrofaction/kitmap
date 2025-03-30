@@ -39,7 +39,7 @@ class Rename extends BaseCommand
 
             if ($session->inCooldown("rename")) {
                 $format = Util::formatDurationFromSeconds($session->getCooldownData("rename")[0] - time());
-                $sender->sendMessage(Util::PREFIX . "Vous ne pourrez ré-utiliser la commande §q/rename §fque dans: §q" . $format);
+                $sender->sendMessage(Util::PREFIX . "Vous ne pourrez ré-utiliser la commande §n/rename §fque dans: §n" . $format);
                 return;
             }
 

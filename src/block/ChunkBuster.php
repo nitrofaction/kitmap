@@ -82,7 +82,7 @@ class ChunkBuster extends Block
             $this->confirmationForm($player, $data, $faction, $position);
         });
         $form->setTitle("Chunk Buster");
-        $form->setContent(Util::PREFIX . "Cliquez sur le bouton de votre choix (§qvide = 0 bloc§f, §qentier = un claim de base neuf§f)");
+        $form->setContent(Util::PREFIX . "Cliquez sur le bouton de votre choix (§nvide = 0 bloc§f, §nentier = un claim de base neuf§f)");
 
         foreach (Cache::$config["pos"]["chunk-buster"] as $name => $chunk) {
             $form->addButton(ucfirst($name), label: $name);
@@ -133,11 +133,11 @@ class ChunkBuster extends Block
             $world->addParticle($position, new BubbleParticle());
             $world->addSound($position, new AmethystBlockChimeSound());
 
-            Cache::$factions[$faction]["logs"][time()] = "§q" . $player->getName() . " §fa changé le claim avec un chunkbuster";
-            Faction::broadcastMessage($faction, "§q[§fF§r§q] §q" . $player->getName() . " §fvient de remplacer le claim par un chunk §q" . ucfirst($data) . " §f!");
+            Cache::$factions[$faction]["logs"][time()] = "§n" . $player->getName() . " §fa changé le claim avec un chunkbuster";
+            Faction::broadcastFactionMessage($faction, "§n[§fF§r§n] §n" . $player->getName() . " §fvient de remplacer le claim par un chunk §n" . ucfirst($data) . " §f!");
         });
         $form->setTitle("Chunk Buster");
-        $form->setContent(Util::PREFIX . "Êtes vous sûr de remplacer votre claim par un chunk §q" . ucfirst($data) . " §f?\n\nVotre chunk buster disparaitra en cliquant sur confirmer ainsi que tout les coffres, blocs de votre claim actuel\n\nAucun retour en arrière possible");
+        $form->setContent(Util::PREFIX . "Êtes vous sûr de remplacer votre claim par un chunk §n" . ucfirst($data) . " §f?\n\nVotre chunk buster disparaitra en cliquant sur confirmer ainsi que tout les coffres, blocs de votre claim actuel\n\nAucun retour en arrière possible");
         $form->addButton("Confirmer", label: "yes");
         $form->addButton("Annuler", label: "no");
         $player->sendForm($form);

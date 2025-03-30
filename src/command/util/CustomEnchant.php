@@ -62,9 +62,9 @@ class CustomEnchant extends BaseCommand
     private function getInformationsByEnchant(string $enchant): string
     {
         return match ($enchant) {
-            "Pilleur" => "§l§q» §r§qDescription §l§q«\n§r§fCet enchantement vous permet, dès que vous tuez un joueur, de lui voler un certain pourcentage des pièces.\n\n§l§q» §r§qNiveaux §l§q«\n§r§f1 §8-> §q%2%%\n§f2 §8-> §q%4%%\n§f3 §8-> §q%6%%",
-            "Foudroiement" => "§l§q» §r§qDescription §l§q«\n§r§fCet enchantement peut vous permettre, dès que vous attaquez un joueur et si vous avez de la chance, de lui faire apparaître un éclair dessus qui lui retirera subitement 1.5 HP.\n\n§l§q» §r§qNiveaux §l§q«\n§r§f1 §8-> §q1/200\n§f2 §8-> §q1/150\n§f3 §8-> §q1/100",
-            "Arès" => "§l§q» §r§qDescription §l§q«\n§r§fCet enchantement vous permet, lorsque vous tuez un joueur, d'afficher un compteur de kill qui augmentera au fil des kills que vous ferez avec la même épée.\n\n§l§q» §r§qNiveaux §l§q«\n§r§fCet enchantement ne possède qu'un seul niveau",
+            "Pilleur" => "§l§n» §r§nDescription §l§n«\n§r§fCet enchantement vous permet, dès que vous tuez un joueur, de lui voler un certain pourcentage des pièces.\n\n§l§n» §r§nNiveaux §l§n«\n§r§f1 §8-> §n%2%%\n§f2 §8-> §n%4%%\n§f3 §8-> §n%6%%",
+            "Foudroiement" => "§l§n» §r§nDescription §l§n«\n§r§fCet enchantement peut vous permettre, dès que vous attaquez un joueur et si vous avez de la chance, de lui faire apparaître un éclair dessus qui lui retirera subitement 1.5 HP.\n\n§l§n» §r§nNiveaux §l§n«\n§r§f1 §8-> §n1/200\n§f2 §8-> §n1/150\n§f3 §8-> §n1/100",
+            "Arès" => "§l§n» §r§nDescription §l§n«\n§r§fCet enchantement vous permet, lorsque vous tuez un joueur, d'afficher un compteur de kill qui augmentera au fil des kills que vous ferez avec la même épée.\n\n§l§n» §r§nNiveaux §l§n«\n§r§fCet enchantement ne possède qu'un seul niveau",
             default => "§cAucune description n'est disponible pour cet enchantement."
         };
     }

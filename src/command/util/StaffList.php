@@ -5,6 +5,7 @@ namespace Kitmap\command\util;
 use CortexPE\Commando\BaseCommand;
 use Kitmap\handler\Rank;
 use Kitmap\Main;
+use Kitmap\Session;
 use Kitmap\Util;
 use pocketmine\command\CommandSender;
 use pocketmine\permission\DefaultPermissions;
@@ -27,7 +28,7 @@ class StaffList extends BaseCommand
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
-        if ($sender instanceof Player && !$sender->hasPlayedBefore()) {
+        if ($sender instanceof Player && 30 * 60 > Session::get($sender)->data["played_time"]) {
             $sender->sendMessage(Util::PREFIX . "Par mesure de securité vous ne pouvez actuellement pas voir les staffs en ligne");
             return;
         }
@@ -49,7 +50,7 @@ class StaffList extends BaseCommand
         }, $staffs);
 
         $list = implode("§f, ", $staffNames);
-        $sender->sendMessage(Util::PREFIX . "Voici la liste des staffs connectés sur le serveur actuellement (§q" . count($staffNames) . "§f)\n" . $list);
+        $sender->sendMessage(Util::PREFIX . "Voici la liste des staffs connectés sur le serveur actuellement (§n" . count($staffNames) . "§f)\n" . $list);
     }
 
     protected function prepare(): void

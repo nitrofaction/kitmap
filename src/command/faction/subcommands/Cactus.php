@@ -45,8 +45,8 @@ class Cactus extends FactionCommand
         } else if ($cactus <= 0) {
             $sender->sendMessage(Util::PREFIX . "Votre faction n'a aucun cactus à vendre !");
             return;
-        } else if (!Rank::hasRank($sender, "vip-plus")) {
-            $sender->sendMessage(Util::PREFIX . "Le §q/f cactus sell §fest destiné aux joueurs au minimum §qvip+ §f!");
+        } else if (!Rank::hasRank($sender, "vip")) {
+            $sender->sendMessage(Util::PREFIX . "Le §n/f cactus sell §fest destiné aux joueurs au minimum §nVIP §f!");
             return;
         }
 
@@ -56,8 +56,8 @@ class Cactus extends FactionCommand
         Faction::removeCactus($faction, $cactus);
         $session->addValue("money", $total);
 
-        Cache::$factions[$faction]["logs"][time()] = "§q" . $sender->getName() . " §fa vendu §q" . $cactus . " §fcactus pour §q" . $total . "$";
-        Faction::broadcastMessage($faction, "§q[§fF§q] §fLe joueur §q" . $sender->getName() . " §fvient de vendre §q" . $cactus . " §fcactus de la faction pour §q" . $total . "$");
+        Cache::$factions[$faction]["logs"][time()] = "§n" . $sender->getName() . " §fa vendu §n" . $cactus . " §fcactus pour §n" . $total . "$";
+        Faction::broadcastFactionMessage($faction, "Le joueur §n" . $sender->getName() . " §fvient de vendre §n" . $cactus . " §fcactus de la faction pour §n" . $total . "$");
     }
 
     private function sendCactusForm(Player $player, ?string $faction, int $maxCactus): void
@@ -70,7 +70,7 @@ class Cactus extends FactionCommand
             $maxCactus = Faction::getCactus($faction);
             $amount = intval($data[0]);
 
-            if ($amount > $maxCactus || 1 > $amount || $amount > 255) {
+            if ($amount > $maxCactus || 1 > $amount || $amount > 2304) {
                 $player->sendMessage(Util::PREFIX . "Vous avez essayé de récupérer plus de cactus que disponible");
                 return;
             }
@@ -78,11 +78,11 @@ class Cactus extends FactionCommand
             Faction::removeCactus($faction, $amount);
             Util::addItem($player, VanillaBlocks::CACTUS()->asItem()->setCount($amount));
 
-            Cache::$factions[$faction]["logs"][time()] = "§q" . $player->getName() . " §fa récupérer §q" . $amount . " §fcactus";
-            Faction::broadcastMessage($faction, "§q[§fF§q] §fLe joueur §q" . $player->getName() . " §fvient de récupérer §q" . $amount . " §fcactus à la faction");
+            Cache::$factions[$faction]["logs"][time()] = "§n" . $player->getName() . " §fa récupéré §n" . $amount . " §fcactus";
+            Faction::broadcastFactionMessage($faction, "Le joueur §n" . $player->getName() . " §fvient de récupérer §n" . $amount . " §fcactus à la faction");
         });
         $form->setTitle("Cactus");
-        $form->addSlider(Util::PREFIX . "Votre faction possède actuellement §q" . $maxCactus . " §fcactus ! Vous pouvez récupérer maximum §q255 §fcactus par demande, les cactus seront mis dans votre inventaire\n\nChoisissez la quantité de cactus que vous voulez récupérer", 1, min(255, $maxCactus));
+        $form->addSlider(Util::PREFIX . "Votre faction possède actuellement §n" . $maxCactus . " §fcactus ! Vous pouvez récupérer maximum §n2304 §fcactus par demande, les cactus seront mis dans votre inventaire\n\nChoisissez la quantité de cactus que vous voulez récupérer", 1, min(2304, $maxCactus));
         $player->sendForm($form);
     }
 

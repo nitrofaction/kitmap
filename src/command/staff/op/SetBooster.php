@@ -45,7 +45,7 @@ class SetBooster extends BaseCommand
             }
         }
 
-        $sender->sendMessage(Util::PREFIX . "Vous venez de définir le joueur §q" . $username . " §fcomme booster");
+        $sender->sendMessage(Util::PREFIX . "Vous venez de définir le joueur §n" . $username . " §fcomme booster");
     }
 
     protected function prepare(): void

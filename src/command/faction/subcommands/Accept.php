@@ -53,8 +53,8 @@ class Accept extends FactionCommand
             if (!in_array(strtolower($args["faction"]), $session->data["invite"])) {
                 $sender->sendMessage(Util::PREFIX . "Vous n'avez aucune invitation provenant de cette faction");
                 return;
-            } else if (count($members) >= 20) {
-                $sender->sendMessage(Util::PREFIX . "Cette faction ne peut pas comporter plus de 20 joueurs");
+            } else if (count($members) >= Cache::$config["faction"]["limit"]) {
+                $sender->sendMessage(Util::PREFIX . "Cette faction ne peut pas comporter plus de " . Cache::$config["faction"]["limit"] . " membres");
                 return;
             }
 
@@ -74,12 +74,12 @@ class Accept extends FactionCommand
         }
 
         Cache::$factions[$faction]["members"]["recruits"][] = $player->getName();
-        Cache::$factions[$faction]["logs"][time()] = "§q" . $player->getName() . " §fa rejoint la faction";
+        Cache::$factions[$faction]["logs"][time()] = "§n" . $player->getName() . " §fa rejoint la faction";
 
         $session->data["faction"] = $faction;
         $session->data["invite"] = [];
 
-        Faction::broadcastMessage($faction, "§q[§fF§q] §fLe joueur §q" . $player->getName() . " §fvient de rejoindre votre faction");
+        Faction::broadcastFactionMessage($faction, "Le joueur §n" . $player->getName() . " §fvient de rejoindre votre faction");
     }
 
     protected function prepare(): void

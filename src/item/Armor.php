@@ -2,6 +2,7 @@
 
 namespace Kitmap\item;
 
+use Kitmap\task\repeat\child\GamblingTask;
 use pocketmine\entity\effect\VanillaEffects;
 use pocketmine\entity\Living;
 use pocketmine\event\entity\EntityDamageEvent;
@@ -34,8 +35,16 @@ class Armor extends Durable
 
         $totalEpf = 0;
 
-        foreach ($entity->getArmorInventory()->getContents() as $item) {
+        foreach ($entity->getArmorInventory()->getContents() as $slot => $item) {
             if ($item instanceof PmArmor) {
+                if (
+                    !in_array($entity->getName(), GamblingTask::$players) &&
+                    !is_null($item->getNamedTag()->getTag("menu_item"))
+                ) {
+                    $item->setDamage(999999);
+                    $entity->getArmorInventory()->setItem($slot, $item);
+                }
+
                 $totalEpf += $item->getEnchantmentProtectionFactor($source);
             }
         }

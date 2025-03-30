@@ -41,7 +41,7 @@ class Setrank extends BaseCommand
         }
 
         Rank::setRank($player, $args["grade"]);
-        $sender->sendMessage(Util::PREFIX . "Vous venez d'ajouter le rang §q" . $args["grade"] . " §fà un joueur (§q" . $player . "§f)");
+        $sender->sendMessage(Util::PREFIX . "Vous venez d'ajouter le rang §n" . $args["grade"] . " §fà un joueur (§n" . $player . "§f)");
     }
 
     protected function prepare(): void

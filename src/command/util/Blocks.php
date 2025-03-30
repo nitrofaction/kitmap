@@ -26,70 +26,8 @@ use pocketmine\plugin\PluginBase;
 
 class Blocks extends BaseCommand
 {
-    private array $removedBlocks = [
-        BlockTypeIds::DRAGON_EGG,
-        BlockTypeIds::BED,
-        BlockTypeIds::FURNACE,
-        BlockTypeIds::BLAST_FURNACE,
-        BlockTypeIds::SMOKER,
-        BlockTypeIds::SHULKER_BOX,
-        BlockTypeIds::DYED_SHULKER_BOX,
-        BlockTypeIds::CHEST,
-        BlockTypeIds::TRAPPED_CHEST,
-        BlockTypeIds::ITEM_FRAME,
-        BlockTypeIds::GLOWING_ITEM_FRAME,
-        BlockTypeIds::HAY_BALE,
-        BlockTypeIds::NETHER_QUARTZ_ORE,
-        BlockTypeIds::IRON_ORE,
-        BlockTypeIds::SOUL_SAND,
-        BlockTypeIds::LAPIS_LAZULI_ORE,
-        BlockTypeIds::GOLD_ORE,
-        BlockTypeIds::BONE_BLOCK,
-        BlockTypeIds::END_PORTAL_FRAME,
-        BlockTypeIds::END_PORTAL_FRAME,
-        BlockTypeIds::COAL_ORE,
-        BlockTypeIds::DIAMOND_ORE,
-        BlockTypeIds::EMERALD_ORE,
-        BlockTypeIds::DEEPSLATE_COAL_ORE,
-        BlockTypeIds::DEEPSLATE_DIAMOND_ORE,
-        BlockTypeIds::DEEPSLATE_EMERALD_ORE,
-        BlockTypeIds::DEEPSLATE_LAPIS_LAZULI_ORE,
-        BlockTypeIds::DEEPSLATE_REDSTONE_ORE,
-        BlockTypeIds::DEEPSLATE_IRON_ORE,
-        BlockTypeIds::DEEPSLATE_GOLD_ORE,
-        BlockTypeIds::DEEPSLATE_COPPER_ORE,
-        BlockTypeIds::COPPER_ORE,
-        BlockTypeIds::NETHER_GOLD_ORE,
-        BlockTypeIds::SMOKER,
-        BlockTypeIds::CHISELED_NETHER_BRICKS,
-        BlockTypeIds::TRAPPED_CHEST,
-        BlockTypeIds::WHEAT,
-        BlockTypeIds::CACTUS,
-        BlockTypeIds::MELON,
-        BlockTypeIds::MONSTER_SPAWNER,
-        BlockTypeIds::SUGARCANE,
-        BlockTypeIds::LAPIS_LAZULI,
-        BlockTypeIds::EMERALD,
-        BlockTypeIds::DIAMOND,
-        BlockTypeIds::COAL,
-        BlockTypeIds::TNT,
-        BlockTypeIds::HOPPER,
-        BlockTypeIds::BAMBOO,
-        BlockTypeIds::GOLD,
-        BlockTypeIds::RAW_GOLD,
-        BlockTypeIds::RAW_IRON,
-        BlockTypeIds::BAMBOO_SAPLING,
-        BlockTypeIds::NETHER_WART,
-        BlockTypeIds::NETHER_WART_BLOCK,
-        BlockTypeIds::REDSTONE_ORE,
-        BlockTypeIds::BEDROCK,
-        BlockTypeIds::AIR,
-        BlockTypeIds::GILDED_BLACKSTONE,
-        BlockTypeIds::NETHERITE,
-        BlockTypeIds::ANCIENT_DEBRIS,
-        BlockTypeIds::REDSTONE,
-        BlockTypeIds::WITHER_ROSE
-    ];
+    /* @var ItemBlock[] $items */
+    private array $items;
 
     public function __construct(PluginBase $plugin)
     {
@@ -99,6 +37,32 @@ class Blocks extends BaseCommand
             "Ouvre l'inventaire créatif",
             ["blocks"]
         );
+
+        $this->items = array_filter(CreativeInventory::getInstance()->getAll(), function (Item $item): bool {
+            if (!$item instanceof ItemBlock) {
+                return false;
+            }
+
+            $block = $item->getBlock();
+
+            foreach (Cache::$config["block"] as $removedBlock) {
+                $typeId = constant(BlockTypeIds::class . "::" . $removedBlock);;
+
+                if ($item->getTypeId() === $typeId || $block->getTypeId() === $typeId) {
+                    return false;
+                }
+            }
+
+            foreach (Cache::$config["craft"]["remove"] as $itemName) {
+                $itemToDelete = StringToItemParser::getInstance()->parse($itemName);
+
+                if ($itemToDelete !== null && $item->equals($itemToDelete, true, false)) {
+                    return false;
+                }
+            }
+
+            return $block->getBreakInfo()->isBreakable();
+        });
 
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
     }
@@ -126,9 +90,9 @@ class Blocks extends BaseCommand
                 $page = $menu->getInventory()->getItem(45)->getCount();
 
                 if (is_null($item->getNamedTag()->getTag("block"))) {
-                    if ($item->getCustomName() === "§r§qPage Suivante") {
+                    if ($item->getCustomName() === "§r§nPage Suivante") {
                         $this->addItems($menu, ($page + 1));
-                    } else if ($item->getCustomName() === "§r§qPage Précédente" && $page > 1) {
+                    } else if ($item->getCustomName() === "§r§nPage Précédente" && $page > 1) {
                         $this->addItems($menu, ($page - 1));
                     }
 
@@ -139,16 +103,16 @@ class Blocks extends BaseCommand
 
                 $session = Session::get($player);
 
-                if (3000 > $session->data["money"]) {
+                if (2500 > $session->data["money"]) {
                     Util::removeCurrentWindow($player);
-                    $player->sendMessage(Util::PREFIX . "Un stack coute §q3k$ §fet vous n'avez plus assez d'argent pour ça !");
+                    $player->sendMessage(Util::PREFIX . "Un stack coute §n2k5$ §fet vous n'avez plus assez d'argent pour ça !");
                     return;
                 }
 
-                $session->addValue("money", 3000, true);
+                $session->addValue("money", 2500, true);
                 $transaction->getPlayer()->getInventory()->addItem($item->setCount(64));
 
-                $player->sendMessage(Util::PREFIX . "Vous venez acheter un stack de blocs pour §q3k$");
+                $player->sendMessage(Util::PREFIX . "Vous venez acheter un stack de blocs pour §n2k5$");
             }));
 
             $this->addItems($menu, $page);
@@ -160,30 +124,7 @@ class Blocks extends BaseCommand
     {
         $menu->getInventory()->clearAll();
 
-        /* @var ItemBlock[] $items */
-        $items = array_filter(CreativeInventory::getInstance()->getAll(), function (Item $item): bool {
-            if (!$item instanceof ItemBlock) {
-                return false;
-            }
-
-            $block = $item->getBlock();
-
-            if (in_array($item->getTypeId(), $this->removedBlocks) || in_array($block->getTypeId(), $this->removedBlocks)) {
-                return false;
-            }
-
-            foreach (Cache::$config["craft"]["remove"] as $itemName) {
-                $itemToDelete = StringToItemParser::getInstance()->parse($itemName);
-
-                if ($itemToDelete !== null && $item->equals($itemToDelete, true, false)) {
-                    return false;
-                }
-            }
-
-            return $block->getBreakInfo()->isBreakable();
-        });
-
-        foreach (Util::arrayToPage($items, $page, 45)[1] as $item) {
+        foreach (Util::arrayToPage($this->items, $page, 45)[1] as $item) {
             if ($item instanceof ItemBlock) {
                 $block = $item->getBlock();
 
@@ -195,7 +136,7 @@ class Blocks extends BaseCommand
 
                 $item->setLore([
                     "§r ",
-                    Util::PREFIX . "Le cout d'un stack de ce bloc vous coutera §q3k$" . Util::IARROW,
+                    Util::PREFIX . "Le cout d'un stack de ce bloc vous coutera §n2k5$" . Util::IARROW,
                     "§l§r ",
                     "§r§fDès que vous transférez un stack dans votre inventaire, l'argent",
                     "§r§fsera retiré de votre compte sans remboursement possible",
@@ -206,13 +147,13 @@ class Blocks extends BaseCommand
             }
         }
 
-        $item = VanillaItems::DIAMOND()->setCount($page)->setCustomName("§r§qPage Actuel");
+        $item = VanillaItems::DIAMOND()->setCount($page)->setCustomName("§r§nPage Actuel");
         $menu->getInventory()->setItem(45, $item);
 
-        $item = VanillaItems::PAPER()->setCustomName("§r§qPage Précédente");
+        $item = VanillaItems::PAPER()->setCustomName("§r§nPage Précédente");
         $menu->getInventory()->setItem(48, $item);
 
-        $item = VanillaItems::PAPER()->setCustomName("§r§qPage Suivante");
+        $item = VanillaItems::PAPER()->setCustomName("§r§nPage Suivante");
         $menu->getInventory()->setItem(50, $item);
     }
 
