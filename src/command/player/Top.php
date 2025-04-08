@@ -39,7 +39,7 @@ class Top extends BaseCommand
 
         foreach ($response[1] as $key => $value) {
             if ($args["categorie"] === "nerd") {
-                $value = Util::formatDurationFromSeconds(intval($value));
+                $value = Util::formatDurationFromSeconds(intval($value), 1);
             }
 
             $sender->sendMessage(str_replace(["{KEY}", "{VALUE}", "{COUNT}"], [$key, $value, (($page - 1) * 10) + $i], $format));

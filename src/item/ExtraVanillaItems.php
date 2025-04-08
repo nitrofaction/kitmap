@@ -30,6 +30,7 @@ class ExtraVanillaItems
         self::addItem(VanillaItems::STONE_SHOVEL(), new Fork());
         self::addItem(VanillaItems::STONE_HOE(), new WateringCan());
         self::addItem(VanillaItems::STONE_AXE(), new StoneAxe());
+        self::addItem(VanillaItems::IRON_AXE(), new IronAxe());
         self::addItem(VanillaItems::NETHERITE_AXE(), new IlvaiteTool());
         self::addItem(VanillaItems::NETHERITE_SHOVEL(), new IlvaiteTool());
         self::addItem(VanillaItems::NETHERITE_HOE(), new IlvaiteTool());

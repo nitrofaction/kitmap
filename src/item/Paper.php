@@ -35,15 +35,8 @@ class Paper extends Item
             $event->cancel();
 
             return true;
-        } else if (!is_null($item->getNamedTag()->getTag("partneritem"))) {
-            $name = $item->getNamedTag()->getTag("partneritem");
-            $val = $name->getValue();
-
-            if (!is_int($val)) {
-                return false;
-            }
-
-            $amount = intval($val);
+        } else if (!is_null($item->getNamedTag()->getTag("pp"))) {
+            $amount = $item->getNamedTag()->getInt("pp");
             $keys = array_keys(Cache::$config["partneritem"]);
 
             $selectedKeys = [];
@@ -80,7 +73,7 @@ class Paper extends Item
 
             if ($session->inCooldown("xp_boost")) {
                 $current = $session->getCooldownData("xp_boost")[1];
-                $remaining = $session->getCooldownData("xp_boost")[0];
+                $remaining = $session->getCooldownData("xp_boost")[0] - time();
 
                 $player->sendMessage(Util::PREFIX . "Vous possèdez déjà un boost de §n" . $current . "%§f, pour utiliser un nouveau boost veuillez attendre: §n" . Util::formatDurationFromSeconds($remaining));
                 return true;

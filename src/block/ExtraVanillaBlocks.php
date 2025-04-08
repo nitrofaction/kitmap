@@ -37,6 +37,10 @@ class ExtraVanillaBlocks
         self::addBlock(VanillaBlocks::MELON_STEM(), new MelonStem());
         self::addBlock(VanillaBlocks::BAMBOO(), new Bamboo());
         self::addBlock(VanillaBlocks::SUGARCANE(), new Sugarcane());
+        self::addBlock(VanillaBlocks::LAVA_CAULDRON(), new Cauldron());
+        self::addBlock(VanillaBlocks::WATER_CAULDRON(), new Cauldron());
+        self::addBlock(VanillaBlocks::POTION_CAULDRON(), new Cauldron());
+        self::addBlock(VanillaBlocks::CAULDRON(), new Cauldron());
 
         TileFactory::getInstance()->register(SpawnerTile::class, ["MobSpawner", "minecraft:mob_spawner"]);
 

@@ -21,7 +21,7 @@
     "door": "Ouvrir les portes",
     "demote": "Rétrograder des membres",
     "promote": "Promouvoir des membres",
-    "island": "Permet de se téléporter à l'ile",
+    "island": "Se téléporter à l'ile",
     "set-spawn": "Changer le point de spawn de l'ile",
     "delete-island": "Supprimer l'ile",
     "lock": "Gérer les visiteurs de l'ile",
@@ -31,7 +31,24 @@
     "allyaccept": "Accepter une demande d'alliance",
     "allybreak": "Arrêter une alliance"
   },
+  "ally-permission": {
+    "chest": "Ouvrir des coffres dans votre claim et ile",
+    "place": "Placer des blocs dans votre claim",
+    "break": "Casser des blocs dans votre claim",
+    "home": "Se rendre à votre f home",
+    "island": "Se téléporter à votre ile même bloqué",
+    "fence-gates": "Ouvrir les portillons dans votre claim",
+    "trapdoor": "Ouvrir les traps dans votre claim",
+    "door": "Ouvrir les portes dans votre claim"
+  },
   "rank": {
+    "leader": "Chef",
+    "officier": "Officier",
+    "member": "Membre",
+    "recruit": "Recrue"
+  },
+  "ally-rank": {
+    "nul": "Personne",
     "leader": "Chef",
     "officier": "Officier",
     "member": "Membre",

@@ -33,10 +33,10 @@ class Ally extends FactionCommand
         if (!Faction::exists($fac)) {
             $sender->sendMessage(Util::PREFIX . "La faction indiqué n'existe pas");
             return;
-        } else if (!is_null(Faction::getAlly($faction))) {
+        } else if (Faction::hasAlly($faction)) {
             $sender->sendMessage(Util::PREFIX . "Votre faction possède déjà une alliance");
             return;
-        } else if (!is_null(Faction::getAlly($fac))) {
+        } else if (Faction::hasAlly($fac)) {
             $sender->sendMessage(Util::PREFIX . "La faction indiqué possède déjà une alliance");
             return;
         }

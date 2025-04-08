@@ -38,7 +38,7 @@ class Logs extends FactionCommand
         }
 
         $form = new SimpleForm(null);
-        $form->setTitle("Logs de faction");
+        $form->setTitle("§nLogs de faction");
         $form->setContent($content);
         $player->sendForm($form);
     }

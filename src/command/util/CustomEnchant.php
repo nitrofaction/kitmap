@@ -40,7 +40,7 @@ class CustomEnchant extends BaseCommand
             $this->openInformationsEnchantForm($player, $data);
         });
 
-        $form->setTitle("Custom Enchant");
+        $form->setTitle("§nCustom Enchant");
         $form->setContent(Util::PREFIX . "Bienvenue dans le menu des custom enchant ! Veuillez cliquer sur l'enchantement sur lequel vous souhaitez obtenir ses informations !");
         $form->addButton("§8Pilleur", label: "Pilleur");
         $form->addButton("§8Foudroiement", label: "Foudroiement");

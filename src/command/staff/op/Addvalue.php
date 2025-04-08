@@ -13,7 +13,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\plugin\PluginBase;
 
-class Addvalue extends BaseCommand
+class AddValue extends BaseCommand
 {
     public function __construct(PluginBase $plugin)
     {

@@ -14,38 +14,6 @@ class StuffFloating extends FloatingText
     private int $timeBeforeClose = 30;
     private string $protectedBy = "";
 
-    protected function initEntity(CompoundTag $nbt): void
-    {
-        parent::initEntity($nbt);
-        $this->setCanSaveWithChunk(false);
-    }
-
-    public function setTimeBeforeClose(int $timeBeforeClose): void
-    {
-        $this->timeBeforeClose = $timeBeforeClose;
-    }
-
-    public function setProtectedBy(string $protectedBy): void
-    {
-        $this->protectedBy = $protectedBy;
-    }
-
-    protected function getPeriod(): ?int
-    {
-        return $this->period;
-    }
-
-    protected function getUpdate(): string
-    {
-        if ($this->timeBeforeClose <= 0) {
-            $this->flagForDespawn();
-            return "";
-        } else {
-            $this->timeBeforeClose--;
-            return Util::PREFIX . "Stuff protégé par: §n" . $this->protectedBy . Util::IARROW ."\n§fTemps restant: §n" . $this->timeBeforeClose . "§fs";
-        }
-    }
-
     public static function lockStuff(Player $victim, Player $damager, PlayerDeathEvent $event): void
     {
         $drops = $event->getdrops();
@@ -80,6 +48,38 @@ class StuffFloating extends FloatingText
                 $item->getNamedTag()->setInt("lockWhile", time() + $seconds);
                 $pos->getWorld()->dropItem($pos, $item);
             }
+        }
+    }
+
+    public function setTimeBeforeClose(int $timeBeforeClose): void
+    {
+        $this->timeBeforeClose = $timeBeforeClose;
+    }
+
+    public function setProtectedBy(string $protectedBy): void
+    {
+        $this->protectedBy = $protectedBy;
+    }
+
+    protected function initEntity(CompoundTag $nbt): void
+    {
+        parent::initEntity($nbt);
+        $this->setCanSaveWithChunk(false);
+    }
+
+    protected function getPeriod(): ?int
+    {
+        return $this->period;
+    }
+
+    protected function getUpdate(): string
+    {
+        if ($this->timeBeforeClose <= 0) {
+            $this->flagForDespawn();
+            return "";
+        } else {
+            $this->timeBeforeClose--;
+            return Util::PREFIX . "Stuff protégé par: §n" . $this->protectedBy . Util::IARROW . "\n§fTemps restant: §n" . $this->timeBeforeClose . "§fs";
         }
     }
 }

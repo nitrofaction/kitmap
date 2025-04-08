@@ -36,7 +36,7 @@ class TeleportationTask extends Task
         if (!$player->isOnline()) {
             $this->getHandler()->cancel();
             return;
-        } else if ($data[1] !== Util::getPlace($player)) {
+        } else if ($data[1] !== Util::getPlace($player) && Util::getTpTime($player) > 0) {
             $player->sendMessage(Util::PREFIX . "Vous avez bougé lors de la teleportation, elle a donc été annulée");
             $this->cancel($session);
             return;

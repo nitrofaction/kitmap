@@ -48,7 +48,6 @@ class FireworksRocket extends Entity
     }
 
     /**
-     * TODO: The entity should be saved and loaded, but this is not possible.
      * @see https://bugs.mojang.com/browse/MCPE-165230
      */
     public function canSaveWithChunk(): bool

@@ -5,6 +5,7 @@ namespace Kitmap\command\player;
 use CortexPE\Commando\BaseCommand;
 use jojoe77777\FormAPI\SimpleForm;
 use Kitmap\handler\Cache;
+use Kitmap\handler\Rank;
 use Kitmap\Main;
 use Kitmap\Session;
 use Kitmap\Util;
@@ -35,15 +36,19 @@ class Atm extends BaseCommand
             $session->data["connection"] = time();
 
             $remaining = $session->data["played_time"] - $session->data["atm"];
+            
             $money = round($remaining / 60) * Cache::$config["atm"];
-
+            $money = round($money * (1 + (Rank::getRankValue(Rank::getEqualRankBySession($session), "atm") / 100)));
+            
             $form = new SimpleForm(function (Player $player, mixed $data) use ($session) {
                 if ($data !== 0) {
                     return;
                 }
 
                 $remaining = $session->data["played_time"] - $session->data["atm"];
+
                 $money = round($remaining / 60) * Cache::$config["atm"];
+                $money = round($money * (1 + (Rank::getRankValue(Rank::getEqualRankBySession($session), "atm") / 100)));
 
                 if (1 > $money) {
                     $player->sendMessage(Util::PREFIX . "Vous ne pouvez actuellement pas convertir votre temps de jeu en argent, veuillez jouer encore un peu plus");
@@ -56,7 +61,7 @@ class Atm extends BaseCommand
                 Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient de convertir " . Util::formatDurationFromSeconds($remaining) . " de jeu en " . Util::formatNumberWithSuffix($money) . "$");
                 $player->sendMessage(Util::PREFIX . "Vous venez de convertir §n" . Util::formatDurationFromSeconds($remaining) . " §fde jeu en §n" . Util::formatNumberWithSuffix($money) . "$ §f!");
             });
-            $form->setTitle("ATM");
+            $form->setTitle("§nATM");
             $form->setContent(Util::PREFIX . "Actuellement vous avez §n" . Util::formatDurationFromSeconds($remaining) . " §fnon converties, ce qui est équivalent à §n" . Util::formatNumberWithSuffix($money) . "$ §f!\n\nCliquez sur les boutons ci-dessous si vous voulez les convertir");
             $form->addButton("Convertir");
             $form->addButton("Quitter");

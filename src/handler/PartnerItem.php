@@ -43,14 +43,7 @@ class PartnerItem
             return false;
         }
 
-        $name = $item->getNamedTag()->getTag("partneritem");
-        $val = $name->getValue();
-
-        if (!is_string($val)) {
-            return false;
-        }
-
-        $name = strval($val);
+        $name = $item->getNamedTag()->getString("partneritem");
 
         if (explode(":", Cache::$config["partneritem"][$name])[3] === "2") {
             return false;
@@ -317,14 +310,7 @@ class PartnerItem
             return;
         }
 
-        $name = $item->getNamedTag()->getTag("partneritem");
-        $val = $name->getValue();
-
-        if (!is_string($val)) {
-            return;
-        }
-
-        $name = strval($val);
+        $name = $item->getNamedTag()->getString("partneritem");
 
         if (explode(":", Cache::$config["partneritem"][$name])[3] === "1") {
             return;
@@ -425,7 +411,7 @@ class PartnerItem
     public static function createPartnerItemPaper(int $amount): Item
     {
         $item = VanillaItems::PAPER();
-        $item->getNamedTag()->setInt("partneritem", $amount);
+        $item->getNamedTag()->setInt("pp", $amount);
         $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
         $item->setCustomName("§r§n" . $amount . " PartnerItems");
         return $item;

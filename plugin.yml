@@ -5,4 +5,4 @@ src-namespace-prefix: Kitmap
 
 author: Maxence
 api: [ 5.0.0 ]
-version: 1.12.0
+version: 1.13.0

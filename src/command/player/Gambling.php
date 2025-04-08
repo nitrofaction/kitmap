@@ -78,7 +78,7 @@ class Gambling extends BaseCommand
                         break;
                 }
             });
-            $form->setTitle("Gambling");
+            $form->setTitle("§nGambling");
             $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
             $form->addButton("Créer");
             $form->addButton("Rejoindre §n(" . count(self::$gamblings) . ")");
@@ -128,7 +128,7 @@ class Gambling extends BaseCommand
 
             Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §n" . $player->getName() . " §fvient de créer un gambling ! Affrontez le via la commande §n/gambling §f!");
         });
-        $form->setTitle("Gambling");
+        $form->setTitle("§nGambling");
         $form->addInput(Util::PREFIX . "Combien misez vous sur votre victoire?", default: 0, label: "bet");
         $form->addDropdown(Util::PREFIX . "Avec quel kit voulez vous vous battre?", ["Kit 1", "Kit 2", "Kit 3", "Kit 4"], 0, "kit");
         $player->sendForm($form);
@@ -146,7 +146,7 @@ class Gambling extends BaseCommand
 
             $this->confirmationForm($player, $data);
         });
-        $form->setTitle("Gambling");
+        $form->setTitle("§nGambling");
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
 
         foreach (self::$gamblings as $target => $value) {
@@ -225,7 +225,7 @@ class Gambling extends BaseCommand
             GamblingTask::$player1 = $p;
             GamblingTask::$player2 = $player;
         });
-        $form->setTitle("Gambling");
+        $form->setTitle("§nGambling");
         $form->setContent(Util::PREFIX . "Êtes vous sur de rejoindre ce gambling ?");
         $form->addButton("Oui", -1, "", "yes");
         $form->addButton("Non", -1, "", "no");
@@ -253,7 +253,7 @@ class Gambling extends BaseCommand
 
             $player->sendMessage(Util::PREFIX . "Vous venez de retirer votre gambling en attente");
         });
-        $form->setTitle("Gambling");
+        $form->setTitle("§nGambling");
         $form->setContent(Util::PREFIX . "Êtes vous sur de supprimer votre gambling ?");
         $form->addButton("Oui", -1, "", "yes");
         $form->addButton("Non", -1, "", "no");
@@ -276,7 +276,7 @@ class Gambling extends BaseCommand
                 $menu->send($player);
             }
         });
-        $form->setTitle("Gambling");
+        $form->setTitle("§nGambling");
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
         $form->addButton("Kit 1");
         $form->addButton("Kit 2");

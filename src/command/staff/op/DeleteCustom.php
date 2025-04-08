@@ -2,23 +2,24 @@
 
 namespace Kitmap\command\staff\op;
 
-use CortexPE\Commando\args\IntegerArgument;
-use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\args\TargetPlayerArgument;
 use CortexPE\Commando\BaseCommand;
+use Kitmap\Main;
+use Kitmap\Session;
 use Kitmap\Util;
 use pocketmine\command\CommandSender;
 use pocketmine\permission\DefaultPermissions;
+use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 
-class Removepack extends BaseCommand
+class DeleteCustom extends BaseCommand
 {
     public function __construct(PluginBase $plugin)
     {
         parent::__construct(
             $plugin,
-            "removepack",
-            "Retire des packs à un ou des joueurs"
+            "DeleteCustom",
+            "Supprime le format du grade custom d'un joueur"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);
@@ -26,22 +27,21 @@ class Removepack extends BaseCommand
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
-        $amount = intval($args["montant"]);
+        /** @noinspection PhpDeprecationInspection */
+        $target = Main::getInstance()->getServer()->getPlayerByPrefix($args["joueur"]);
 
-        $player = Addvalue::addValue($sender, $this->getName(), $args);
-
-        if (is_null($player)) {
+        if (!$target instanceof Player) {
+            $sender->sendMessage(Util::PREFIX . "Le joueur indiqué n'est pas connecté sur le serveur");
             return;
         }
 
-        $sender->sendMessage(Util::PREFIX . "Vous venez de retirer §n" . $amount . " §fpacks au joueur §n" . $player);
-        Util::addValue($sender->getName(), $player, ["packs"], $amount, true);
+        Session::get($target)->data["format"]["custom"] = null;
+
+        $sender->sendMessage(Util::PREFIX . "Vous venez de supprimer le format du grade custom de §n" . $target->getName());
     }
 
     protected function prepare(): void
     {
         $this->registerArgument(0, new TargetPlayerArgument(false, "joueur"));
-        $this->registerArgument(0, new RawStringArgument("joueur"));
-        $this->registerArgument(1, new IntegerArgument("montant"));
     }
 }

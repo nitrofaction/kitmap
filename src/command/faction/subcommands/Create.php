@@ -91,6 +91,19 @@ class Create extends FactionCommand
                 "home" => "recruit",
                 "island" => "recruit"
             ],
+            "ally-permissions" => [
+                "chest" => "nul",
+
+                "place" => "officier",
+                "break" => "officier",
+
+                "fence-gates" => "member",
+                "trapdoor" => "member",
+                "door" => "member",
+
+                "home" => "member",
+                "island" => "member"
+            ],
             "island" => [
                 "lock" => false,
                 "zone" => [

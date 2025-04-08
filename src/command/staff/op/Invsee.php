@@ -19,7 +19,7 @@ use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 
-class Invsee extends BaseCommand
+class InvSee extends BaseCommand
 {
     public function __construct()
     {

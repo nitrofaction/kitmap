@@ -165,8 +165,8 @@ class GamblingTask
             Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le gambling affrontant §n" . self::$players[0] . " §fet §n" . self::$players[1] . " §fa été annulé");
 
             if ($bet > 1) {
-                Util::addValue("CONSOLE", strtolower(self::$players[0]), "money", $bet);
-                Util::addValue("CONSOLE", strtolower(self::$players[1]), "money", $bet);
+                Util::addValue("CONSOLE", self::$players[0], "money", $bet);
+                Util::addValue("CONSOLE", self::$players[1], "money", $bet);
             }
         }
 

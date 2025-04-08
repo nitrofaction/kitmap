@@ -60,7 +60,7 @@ class Enchant extends BaseCommand
             self::openEnchantLevelsMenu($player, $data, $force);
         });
 
-        $form->setTitle("Enchantement");
+        $form->setTitle("§nEnchantement");
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
 
         if ($item instanceof Sword) {
@@ -68,7 +68,7 @@ class Enchant extends BaseCommand
         } else if ($item instanceof Armor) {
             $form->addButton("Protection", label: EnchantmentIds::PROTECTION . ";Protection;2");
         } else if ($item instanceof Pickaxe || $item instanceof Axe || $item instanceof Shovel) {
-            $form->addButton("Efficacité", label: EnchantmentIds::EFFICIENCY . ";Efficacité;30");
+            $form->addButton("Efficacité", label: EnchantmentIds::EFFICIENCY . ";Efficacité;5");
         }
 
         $form->addButton("Solidité", label: EnchantmentIds::UNBREAKING . ";Solidité;3");
@@ -91,7 +91,7 @@ class Enchant extends BaseCommand
             self::confirmationForm($player, $enchantId, $data + 1, $onlyLevels, $force);
         });
 
-        $form->setTitle("Enchantement");
+        $form->setTitle("§nEnchantement");
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
 
         while ($x <= $maxLevel) {
@@ -140,7 +140,7 @@ class Enchant extends BaseCommand
             $type = $data[1] === 0 ? "levels" : "émeraudes";
             self::enchantItem($player, $enchantId, $enchantLevel, $finalPrice, $type);
         });
-        $form->setTitle("Enchantement");
+        $form->setTitle("§nEnchantement");
         $form->addLabel(Util::PREFIX . "Êtes-vous sur d'enchanter l'item dans votre main ?");
         $form->addDropdown("Méthode de paiement", $onlyLevels ? ["levels"] : ["levels", "émeraudes"]);
         $form->addToggle("Enchanter votre item ?", true);

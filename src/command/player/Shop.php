@@ -55,7 +55,7 @@ class Shop extends BaseCommand
             $form->addButton($item, -1, "", $item);
         }
 
-        $form->setTitle("Boutique");
+        $form->setTitle("§nBoutique");
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
         $player->sendForm($form);
     }
@@ -70,7 +70,7 @@ class Shop extends BaseCommand
             $this->itemMenuForm($player, $data);
         });
 
-        $form->setTitle("Boutique");
+        $form->setTitle("§nBoutique");
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
 
         $category = Cache::$config["shop"][$category];
@@ -147,7 +147,7 @@ class Shop extends BaseCommand
                 $player->sendMessage(Util::PREFIX . "Vous venez de vendre §n" . $count . " §f" . $name . " pour §n" . ($sell * $count) . " §fpièces");
             }
         });
-        $form->setTitle("Boutique");
+        $form->setTitle("§nBoutique");
         $form->addLabel("Nombre de §n" . $name . " §rdans votre inventaire: §n" . $items . "\n\n§fPrix achat unité: §n" . $buy . "\n§fPrix vente unité: §n" . $sell);
         $form->addDropdown("Voulez vous achetez ou vendre", (intval($sell) == 0) ? ["Acheter"] : ["Acheter", "Vendre"]);
         $form->addSlider("Combien voulez vous en acheter/vendre?", 1, $limit);

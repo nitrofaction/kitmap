@@ -46,7 +46,7 @@ class CoinFlip extends BaseCommand
                         return;
                 }
             });
-            $form->setTitle("Coinflip");
+            $form->setTitle("§nCoinflip");
             $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
             $form->addButton("Créer");
             $form->addButton("Rejoindre §n(" . count(CoinFlip::$coinflip) . ")");
@@ -96,7 +96,7 @@ class CoinFlip extends BaseCommand
             $session->setCooldown("coinflip", 30);
             $player->sendMessage(Util::PREFIX . "Vous venez de miser §n" . $price . " §fpièces!");
         });
-        $form->setTitle("Coinflip");
+        $form->setTitle("§nCoinflip");
         $form->addInput(Util::PREFIX . "Choisissez le prix de votre choix");
         $player->sendForm($form);
     }
@@ -113,7 +113,7 @@ class CoinFlip extends BaseCommand
 
             $this->confirmationForm($player, $data);
         });
-        $form->setTitle("Coinflip");
+        $form->setTitle("§nCoinflip");
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
 
         foreach (CoinFlip::$coinflip as $id => $value) {
@@ -176,7 +176,7 @@ class CoinFlip extends BaseCommand
 
             unset(CoinFlip::$coinflip[$id]);
         });
-        $form->setTitle("Coinflip");
+        $form->setTitle("§nCoinflip");
         $form->setContent(Util::PREFIX . "Êtes vous sur de rejoindre ce coinflip ?");
         $form->addButton("Oui", -1, "", "yes");
         $form->addButton("Non", -1, "", "no");

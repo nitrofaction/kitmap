@@ -44,7 +44,7 @@ class Anvil extends Block
 
             self::confirmationForm($player, $data);
         });
-        $form->setTitle("Enclume");
+        $form->setTitle("§nEnclume");
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
         $form->addButton("Réparer avec\n§n15 levels");
         $form->addButton("Réparer avec\n§n10 émeraudes");
@@ -93,7 +93,7 @@ class Anvil extends Block
 
             $player->sendMessage(Util::PREFIX . "Vous venez de réparer l'item dans votre main");
         });
-        $form->setTitle("Enclume");
+        $form->setTitle("§nEnclume");
         $form->setContent(Util::PREFIX . "Êtes vous sur de réparer l'item dans votre main ?");
         $form->addButton("Oui", -1, "", "yes");
         $form->addButton("Non", -1, "", "no");

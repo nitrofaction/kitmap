@@ -62,6 +62,8 @@ class Cactus extends FactionCommand
 
     private function sendCactusForm(Player $player, ?string $faction, int $maxCactus): void
     {
+        $max = Util::getEmptySlots($player) * 64;
+
         $form = new CustomForm(function (Player $player, $data) use ($faction) {
             if (!is_array($data) || !Faction::exists($faction)) {
                 return;
@@ -81,8 +83,8 @@ class Cactus extends FactionCommand
             Cache::$factions[$faction]["logs"][time()] = "§n" . $player->getName() . " §fa récupéré §n" . $amount . " §fcactus";
             Faction::broadcastFactionMessage($faction, "Le joueur §n" . $player->getName() . " §fvient de récupérer §n" . $amount . " §fcactus à la faction");
         });
-        $form->setTitle("Cactus");
-        $form->addSlider(Util::PREFIX . "Votre faction possède actuellement §n" . $maxCactus . " §fcactus ! Vous pouvez récupérer maximum §n2304 §fcactus par demande, les cactus seront mis dans votre inventaire\n\nChoisissez la quantité de cactus que vous voulez récupérer", 1, min(2304, $maxCactus));
+        $form->setTitle("§nCactus");
+        $form->addSlider(Util::PREFIX . "Votre faction possède actuellement §n" . $maxCactus . " §fcactus ! Vous pouvez récupérer actuellement au maximum §n" . $max . " §fcactus selon votre inventaire, les cactus seront mis dedans\n\nChoisissez la quantité de cactus que vous voulez récupérer", 1, min($max, $maxCactus));
         $player->sendForm($form);
     }
 

@@ -23,21 +23,21 @@ use Symfony\Component\Filesystem\Path;
 
 class Faction
 {
-    public static function getNextRank(string $rank): string
+    public static function getNextRank(string $rank, bool $ally = false): string
     {
-        $ranks = array_keys(Cache::$config["faction"]["rank"]);
+        $ranks = array_keys(Cache::$config["faction"][($ally ? "ally-" : "") . "rank"]);
         return $ranks[self::getRankPosition($rank) - 1] ?? $rank;
     }
 
-    public static function getRankPosition(string $rank): int
+    public static function getRankPosition(string $rank, bool $ally = false): int
     {
-        $ranks = array_keys(Cache::$config["faction"]["rank"]);
+        $ranks = array_keys(Cache::$config["faction"][($ally ? "ally-" : "") . "rank"]);
         return array_search($rank, $ranks);
     }
 
-    public static function getPreviousRank(string $rank): string
+    public static function getPreviousRank(string $rank, bool $ally = false): string
     {
-        $ranks = array_keys(Cache::$config["faction"]["rank"]);
+        $ranks = array_keys(Cache::$config["faction"][($ally ? "ally-" : "") . "rank"]);
         return $ranks[self::getRankPosition($rank) + 1] ?? $rank;
     }
 
@@ -127,24 +127,9 @@ class Faction
         }
     }
 
-    private static function broadcastAllyMessage(string $faction, string $message): void
+    public static function getFactionUpperName(string $faction): string
     {
-        $faction = strtolower($faction);
-
-        $prefix = "§n[§fALLY§n] [§f" . self::getFactionUpperName($faction) . "§n] §f";
-        $ally = self::getAlly($faction);
-
-        if (is_null($ally)) {
-            return;
-        }
-
-        $members = self::getFactionMembers($ally, true);
-
-        foreach ($members as $player) {
-            if ($player instanceof Player) {
-                $player->sendMessage($prefix . $message);
-            }
-        }
+        return !isset(Cache::$factions[$faction = strtolower($faction)]) ? $faction : Cache::$factions[$faction]["upper_name"];
     }
 
     public static function getFactionMembers(string $key, bool $online): array
@@ -183,9 +168,29 @@ class Faction
         return $arr;
     }
 
-    public static function getFactionUpperName(string $faction): string
+    private static function broadcastAllyMessage(string $faction, string $message): void
     {
-        return !isset(Cache::$factions[$faction = strtolower($faction)]) ? $faction : Cache::$factions[$faction]["upper_name"];
+        $faction = strtolower($faction);
+
+        $prefix = "§n[§fALLY§n] [§f" . self::getFactionUpperName($faction) . "§n] §f";
+        $ally = self::getAlly($faction);
+
+        if (is_null($ally)) {
+            return;
+        }
+
+        $members = self::getFactionMembers($ally, true);
+
+        foreach ($members as $player) {
+            if ($player instanceof Player) {
+                $player->sendMessage($prefix . $message);
+            }
+        }
+    }
+
+    public static function getAlly(?string $faction): ?string
+    {
+        return Cache::$factions[strtolower($faction ?? "")]["ally"] ?? null;
     }
 
     public static function addPower(string $faction, int $amount): void
@@ -255,6 +260,19 @@ class Faction
         return min(Cache::$factions[strtolower($faction)]["cactus"] ?? 0, self::getCactusLimit($faction) - 1);
     }
 
+    public static function getCactusLimit(string $faction, bool $next = false): int
+    {
+        return round(208 * (1.25 ** (Faction::getIslandLevel($faction) + ($next ? 1 : 0))));
+    }
+
+    public static function getIslandLevel(string $faction): int
+    {
+        $default = Cache::$config["pos"]["island"]["default-max"];
+        $max = Cache::$factions[strtolower($faction)]["island"]["zone"]["max"] ?? $default;
+
+        return is_null($max) ? $max : ($max - ($default - 1));
+    }
+
     public static function removeCactus(string $faction, int $amount): void
     {
         self::setCactus($faction, self::getCactus($faction) - $amount);
@@ -295,6 +313,9 @@ class Faction
             $claim = Faction::inClaim($position->getX(), $position->getZ());
 
             if ($claim[0]) {
+                $isFactionClaim = $claim[1] === $faction;
+                $isAllyClaim = Faction::hasAlly($faction) && $claim[1] === Faction::getAlly($faction);
+
                 if ($type === "interact") {
                     $type = match (true) {
                         $block instanceof Door => "door",
@@ -308,32 +329,49 @@ class Faction
                 }
 
                 $permission = is_null($type) ? true : Faction::hasPermission($player, $type);
+                $allyPermission = is_null($type) ? true : Faction::hasPermission($player, $type, true);
 
-                if (is_bool($permission)) {
-                    if ($type === "interact" || $permission) {
-                        return $claim[1] == $faction;
-                    }
+                if (
+                    ($isFactionClaim && is_bool($permission) && $permission) ||
+                    ($isAllyClaim && is_bool($allyPermission) && $allyPermission)
+                ) {
+                    return true;
                 }
             }
             return false;
         }
     }
 
-    public static function hasPermission(Player $player, string $permission): ?bool
+    public static function hasPermission(Player $player, string $permission, bool $ally = false): ?bool
     {
         $session = Session::get($player);
         $rank = self::getFactionRank($player);
+
+        $suffix = $ally ? "ally-" : "";
 
         if (is_null($rank)) {
             return null;
         }
 
         $faction = $session->data["faction"];
+
+        if ($ally) {
+            if (!Faction::hasAlly($faction)) {
+                return false;
+            }
+
+            $allyFaction = Faction::getAlly($faction);
+            $faction = $allyFaction;
+        }
+
         $data = Cache::$factions[$faction];
+        $require = $data[$suffix . "permissions"][$permission] ?? null;
+
+        if ($require === "nul") {
+            return false;
+        }
 
         if ($rank !== "leader") {
-            $require = $data["permissions"][$permission] ?? null;
-
             if (is_null($require)) {
                 return true;
             }
@@ -344,7 +382,7 @@ class Faction
                 return true;
             }
 
-            foreach (array_keys(Cache::$config["faction"]["rank"]) as $value) {
+            foreach (array_keys(Cache::$config["faction"][$suffix . "rank"]) as $value) {
                 if (!$passed && $value === $require) {
                     return false;
                 } else if ($rank === $value) {
@@ -421,11 +459,6 @@ class Faction
         return !is_null(Session::get($player)->data["faction"]);
     }
 
-    public static function getAlly(?string $faction): ?string
-    {
-        return Cache::$factions[strtolower($faction ?? "")]["ally"] ?? null;
-    }
-
     public static function setAlly(string $faction, ?string $ally): void
     {
         if (self::exists($faction)) {
@@ -433,12 +466,9 @@ class Faction
         }
     }
 
-    public static function getIslandLevel(string $faction): int
+    public static function hasAlly(string $faction): bool
     {
-        $default = Cache::$config["pos"]["island"]["default-max"];
-        $max = Cache::$factions[strtolower($faction)]["island"]["zone"]["max"] ?? $default;
-
-        return is_null($max) ? $max : ($max - ($default - 1));
+        return !is_null(Faction::getAlly($faction));
     }
 
     public static function getIslandUpgradePrice(string $faction): int
@@ -449,10 +479,5 @@ class Faction
     public static function getIslandMobsLimit(string $faction, bool $next = false): int
     {
         return round(25 * (1.14 ** (Faction::getIslandLevel($faction) + ($next ? 1 : 0))));
-    }
-
-    public static function getCactusLimit(string $faction, bool $next = false): int
-    {
-        return round(208 * (1.25 ** (Faction::getIslandLevel($faction) + ($next ? 1 : 0))));
     }
 }

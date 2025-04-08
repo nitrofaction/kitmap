@@ -2,6 +2,7 @@
 
 namespace Kitmap\command\player;
 
+use CortexPE\Commando\args\OptionArgument;
 use CortexPE\Commando\BaseCommand;
 use jojoe77777\FormAPI\SimpleForm;
 use Kitmap\handler\Rank;
@@ -45,9 +46,13 @@ class Kit extends BaseCommand
     {
         if ($sender instanceof Player) {
             $session = Session::get($sender);
+            $instant = $args["kit"] ?? null;
 
             if ($session->inCooldown("combat")) {
                 $sender->sendMessage(Util::PREFIX . "Cette commande est interdite en combat");
+                return;
+            } else if (!is_null($instant)) {
+                $this->giveKit($sender, $session, $instant);
                 return;
             }
 
@@ -56,41 +61,9 @@ class Kit extends BaseCommand
                     return;
                 }
 
-                $kit = self::getKits()[$data];
-
-                if (!Rank::hasRank($player, $kit["rank"])) {
-                    $player->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de prendre ce kit");
-                    return;
-                } else if ($session->inCooldown("kit_" . $data) && !$player->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
-                    $format = Util::formatDurationFromSeconds($session->getCooldownData("kit_" . $data)[0] - time(), 1);
-                    $player->sendMessage(Util::PREFIX . "Vous ne pourrez re-prendre le kit §n" . $data . " §fque dans: §n" . $format);
-                    return;
-                }
-
-                $session->setCooldown("kit_" . $data, $kit["cooldown"]);
-
-                foreach ($kit["items"] as $item) {
-                    if ($item instanceof Armor) {
-                        if ($player->getArmorInventory()->getItem($item->getArmorSlot())->equals(VanillaItems::AIR())) {
-                            $player->getArmorInventory()->setItem($item->getArmorSlot(), $item);
-                            continue;
-                        }
-                    }
-
-                    if ($item->equals(VanillaItems::NAUTILUS_SHELL()) && $player->getNetworkSession()->getPlayerInfo()->getExtraData()["CurrentInputMode"] === InputMode::MOUSE_KEYBOARD) {
-                        $item->setCount(0);
-                    }
-
-                    if ($item->equals(VanillaItems::ENDER_PEARL())) {
-                        $item->setCount(max(32 - Util::getItemCount($player, VanillaItems::ENDER_PEARL()), 0));
-                    }
-
-                    $player->getInventory()->addItem($item);
-                }
-
-                $player->sendMessage(Util::PREFIX . "Vous venez de recevoir votre kit !");
+                $this->giveKit($player, $session, $data);
             });
-            $form->setTitle("Kit");
+            $form->setTitle("§nKit");
             $form->setContent(Util::PREFIX . "Quel kit voulez-vous prendre");
 
             foreach (self::getKits() as $key => $value) {
@@ -107,6 +80,45 @@ class Kit extends BaseCommand
             }
             $sender->sendForm($form);
         }
+    }
+
+    public function giveKit(Player $player, Session $session, string $data): void
+    {
+        $kit = self::getKits()[$data] ?? null;
+
+        if (is_null($kit)) {
+            return;
+        } else if (!Rank::hasRank($player, $kit["rank"])) {
+            $player->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de prendre ce kit");
+            return;
+        } else if ($session->inCooldown("kit_" . $data) && !$player->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
+            $format = Util::formatDurationFromSeconds($session->getCooldownData("kit_" . $data)[0] - time(), 1);
+            $player->sendMessage(Util::PREFIX . "Vous ne pourrez re-prendre le kit §n" . ucfirst($data) . " §fque dans: §n" . $format);
+            return;
+        }
+
+        $session->setCooldown("kit_" . $data, $kit["cooldown"]);
+
+        foreach ($kit["items"] as $item) {
+            if ($item instanceof Armor) {
+                if ($player->getArmorInventory()->getItem($item->getArmorSlot())->equals(VanillaItems::AIR())) {
+                    $player->getArmorInventory()->setItem($item->getArmorSlot(), $item);
+                    continue;
+                }
+            }
+
+            if ($item->equals(VanillaItems::NAUTILUS_SHELL()) && $player->getNetworkSession()->getPlayerInfo()->getExtraData()["CurrentInputMode"] === InputMode::MOUSE_KEYBOARD) {
+                $item->setCount(0);
+            }
+
+            if ($item->equals(VanillaItems::ENDER_PEARL())) {
+                $item->setCount(max(32 - Util::getItemCount($player, VanillaItems::ENDER_PEARL()), 0));
+            }
+
+            $player->getInventory()->addItem($item);
+        }
+
+        $player->sendMessage(Util::PREFIX . "Vous venez de recevoir votre kit §n" . ucfirst($data) . " §f!");
     }
 
     public static function getKits(): array
@@ -222,5 +234,6 @@ class Kit extends BaseCommand
 
     protected function prepare(): void
     {
+        $this->registerArgument(0, new OptionArgument("kit", array_keys(self::getKits()), true));
     }
 }

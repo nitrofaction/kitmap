@@ -5,6 +5,7 @@ namespace Kitmap\command\faction\subcommands;
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\SimpleForm;
 use Kitmap\command\faction\FactionCommand;
+use Kitmap\command\faction\subcommands\island\Teleport;
 use Kitmap\handler\Cache;
 use Kitmap\handler\Faction;
 use Kitmap\Main;
@@ -58,15 +59,15 @@ class Island extends FactionCommand
             }
         });
 
-        $form->setTitle("Ile");
+        $form->setTitle("§j§nIle");
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
-        $form->addButton("Votre Ile");
-        $form->addButton("Gérer Votre Ile");
-        $form->addButton("Visiter une Ile");
+        $form->addButton("Votre Ile", 0, "textures/ui/nitro/player");
+        $form->addButton("Gérer Votre Ile", 0, "textures/ui/nitro/gear");
+        $form->addButton("Visiter une Ile", 0, "textures/ui/nitro/globe");
         $player->sendForm($form);
     }
 
-    private function tpForm(Player $player, string $visit = null): void
+    public static function tpForm(Player $player, string $visit = null, bool $message = false): void
     {
         $session = Session::get($player);
 
@@ -103,6 +104,9 @@ class Island extends FactionCommand
 
         if (!is_null($visit)) {
             $player->sendMessage(Util::PREFIX . "Cette faction ne possède pas encore d'ile");
+            return;
+        } else if ($message) {
+            $player->sendMessage(Util::PREFIX . "Votre faction ne possède pas encore d'île. Pour en créer une, utilisez la commande §n/f island");
             return;
         }
 
@@ -141,10 +145,10 @@ class Island extends FactionCommand
             }
 
             Main::getInstance()->getServer()->getWorldManager()->loadWorld($name);
-            $this->tpForm($player);
+            self::tpForm($player);
         });
 
-        $form->setTitle("Ile");
+        $form->setTitle("§j§nIle");
         $form->setContent(Util::PREFIX . "Votre faction ne possède pas encore d'ile, veuillez choisir une ile :");
         $form->addButton("Basique", 0, "textures/render/cherry_leaves", "basic");
         $form->addButton("Generateur", 0, "textures/render/jungle_log", "cobblestone");
@@ -277,7 +281,7 @@ class Island extends FactionCommand
         });
 
         if (Faction::hasFaction($player)) {
-            $form->setTitle("Ile");
+            $form->setTitle("§nIle");
             $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
             $form->addButton("Améliorer l'ile", -1, "", "upgrade");
 
@@ -340,7 +344,7 @@ class Island extends FactionCommand
 
             Faction::broadcastFactionMessage($faction, "§n" . $player->getName() . " §fvient d'§naugmenter §fle niveau de l'ile !");
         });
-        $form->setTitle("Amélioration de l'île");
+        $form->setTitle("§nAmélioration de l'île");
         $form->setContent(Util::PREFIX . "Votre île passera au niveau §n" . $newLevel . " §f!\n\n"
             . "§fCela augmentera les limites suivantes :\n"
             . "§f- §nDiamètre de l'ile : §f+1\n"
@@ -379,7 +383,7 @@ class Island extends FactionCommand
                 $player->sendMessage(Util::PREFIX . "Votre ile de faction vient d'être supprimé");
             }
         });
-        $form->setTitle("Ile");
+        $form->setTitle("§nIle");
         $form->setContent(Util::PREFIX . "Êtes vous sur de faire cela?");
         $form->addButton("Oui", -1, "", "yes");
         $form->addButton("Non", -1, "", "no");
@@ -392,25 +396,35 @@ class Island extends FactionCommand
             if (!is_array($data)) {
                 return;
             }
+
             $faction = strtolower($data[0]);
 
             if (!Faction::exists($faction)) {
                 $player->sendMessage(Util::PREFIX . "Cette faction n'existe pas (verifiez les majuscules)");
                 return;
             } else if (Faction::isIslandLocked($faction)) {
-                $player->sendMessage(Util::PREFIX . "La faction à laquelle vous vouliez vous téléportez à bloqué les visites");
-                return;
+                $playerFaction = Session::get($player)->data["faction"];
+
+                if (!(
+                    Faction::hasAlly($faction) &&
+                    Faction::getAlly($faction) === $playerFaction &&
+                    Faction::hasPermission($player, "island", true)
+                )) {
+                    $player->sendMessage(Util::PREFIX . "La faction à laquelle vous vouliez vous téléportez à bloqué les visites");
+                    return;
+                }
             }
 
             $this->tpForm($player, $faction);
         });
 
-        $form->setTitle("Ile");
+        $form->setTitle("§nIle");
         $form->addInput(Util::PREFIX . "Veuillez entrer le nom d'une faction");
         $player->sendForm($form);
     }
 
     protected function prepare(): void
     {
+        $this->registerSubCommand(new Teleport());
     }
 }

@@ -20,8 +20,8 @@ class Rank
         $permManager = PermissionManager::getInstance();
         $opRoot = $permManager->getPermission(DefaultPermissions::ROOT_OPERATOR);
 
-        $permManager->addPermission(new Permission(self::GROUP_STAFF));
-        $opRoot->addChild(self::GROUP_STAFF, true);
+        $permManager->addPermission(new Permission(Rank::GROUP_STAFF));
+        $opRoot->addChild(Rank::GROUP_STAFF, true);
     }
 
     public static function existRank(string $rank): bool
@@ -32,13 +32,13 @@ class Rank
     public static function getEqualRankBySession(Session $session): string
     {
         $rank = $session->data["rank"];
-        return self::getEqualRankByString($rank);
+        return Rank::getEqualRankByString($rank);
     }
 
     public static function getEqualRankByString(string $rank): string
     {
-        if (self::isStaff($rank)) {
-            return "legende";
+        if (Rank::isStaff($rank)) {
+            return "custom";
         } else {
             if ($rank === "createur") {
                 return "ultra";
@@ -54,8 +54,13 @@ class Rank
 
     public static function getEqualRankByName(string $name): string
     {
-        $rank = self::getRank($name);
-        return self::getEqualRankByString($rank);
+        $rank = Rank::getRank($name);
+        return Rank::getEqualRankByString($rank);
+    }
+
+    public static function getRankBySession(Session $session): string
+    {
+        return $session->data["rank"];
     }
 
     public static function getRank(string $name): ?string
@@ -67,7 +72,7 @@ class Rank
 
         if ($player instanceof Player) {
             $session = Session::get($player);
-            $rank = $session->data["rank"];
+            $rank = Rank::getRankBySession($session);
         } else {
             $file = Util::getFile("data/players/" . $name);
             $rank = $file->get("rank", "joueur");
@@ -77,7 +82,7 @@ class Rank
 
     public static function hasRank(Player $player, string $rank): bool
     {
-        return self::hasRankOffline(self::getRank($player->getName()), $rank);
+        return Rank::hasRankOffline(Rank::getRank($player->getName()), $rank);
     }
 
     public static function hasRankOffline(string $rank, string $needle): bool
@@ -97,10 +102,10 @@ class Rank
             $session->removeCooldown("kit");
             $session->data["rank"] = $rank;
 
-            self::updateNameTag($player);
-            self::addPermissions($player);
+            Rank::updateNameTag($player);
+            Rank::addPermissions($player);
 
-            self::saveRank($name, $rank);
+            Rank::saveRank($name, $rank);
         } else {
             $file = Util::getFile("data/players/" . $name);
 
@@ -108,7 +113,7 @@ class Rank
                 $file->set("rank", $rank);
                 $file->save();
 
-                self::saveRank($name, $rank);
+                Rank::saveRank($name, $rank);
             }
         }
     }
@@ -116,10 +121,10 @@ class Rank
     public static function updateNameTag(Player $player): void
     {
         $name = $player->getName();
-        $rank = ($name === $player->getDisplayName()) ? self::getRank($name) : "joueur";
+        $rank = ($name === $player->getDisplayName()) ? Rank::getRank($name) : "joueur";
 
-        $prefix = self::getRankValue($rank, "gamertag");
-        $replace = self::setReplace($prefix, $player);
+        $prefix = Rank::getRankValue($rank, "gamertag");
+        $replace = Rank::setReplace($prefix, $player);
 
         $player->setNameTag($replace);
         $player->setNameTagAlwaysVisible();
@@ -135,12 +140,17 @@ class Rank
         $session = Session::get($player);
         Faction::hasFaction($player);
 
+        $rank = Rank::getrankBySession($session);
+
         $faction = $session->data["faction"];
         $faction = (is_null($faction)) ? "..." : Cache::$factions[$faction]["upper_name"];
 
+        $color = !is_string($session->data["format"]["color"]) ? Rank::getRankValue($rank, "color") : $session->data["format"]["color"];
+        $custom = is_null($session->data["format"]["custom"]) ? Rank::getRankValue($rank, "name") : $session->data["format"]["custom"];
+
         return str_replace(
-            ["{name}", "{fac}", "{msg}"],
-            [$player->getDisplayName(), $faction, $msg],
+            ["{name}", "{fac}", "{msg}", "{color}", "{custom}"],
+            [$player->getDisplayName(), $faction, $msg, $color, $custom],
             $replace
         );
     }
@@ -149,13 +159,13 @@ class Rank
     {
         $session = Session::get($player);
 
-        if (Rank::isStaff($session->data["rank"]) || $player->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
-            $player->addAttachment(Main::getInstance(), self::GROUP_STAFF, true);
+        if (Rank::isStaff(Rank::getRankBySession($session)) || $player->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
+            $player->addAttachment(Main::getInstance(), Rank::GROUP_STAFF, true);
 
             $player->addAttachment(Main::getInstance(), DefaultPermissionNames::COMMAND_TELEPORT_OTHER, true);
             $player->addAttachment(Main::getInstance(), DefaultPermissionNames::COMMAND_TELEPORT_SELF, true);
 
-            if (!in_array($session->data["rank"], ["guide", "moderateur"])) {
+            if (!in_array(Rank::getRankBySession($session), ["guide", "moderateur"])) {
                 $player->addAttachment(Main::getInstance(), DefaultPermissionNames::COMMAND_GAMEMODE_SELF, true);
             }
         }

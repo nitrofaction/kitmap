@@ -61,7 +61,7 @@ class Atout extends BaseCommand
                 }
             });
 
-            $form->setTitle("Atouts");
+            $form->setTitle("§nAtouts");
             $form->setContent(Util::PREFIX . "Clique sur le bouton de ton choix");
 
             foreach (Cache::$config["atout"] as $name => $atout) {
@@ -117,7 +117,7 @@ class Atout extends BaseCommand
 
             Util::givePlayerPreferences($player);
         });
-        $form->setTitle("Atouts");
+        $form->setTitle("§nAtouts");
         $form->addLabel(Util::PREFIX . "L'atout vous donnera l'effet de " . $name . " constament lorsque l'atout sera activé\n\nPrix: §n" . $atout["price"] . " §fpièces ou §a" . $atout["gem"] . " §fgemmes\n\nVous possedez §n" . $session->data["gem"] . " §fgemme(s)\nVous possedez §n" . $session->data["money"] . " §fpièces(s)\n");
         $form->addDropdown("Méthode de payement", ["pièces", "gemmes"]);
         $form->addToggle("Acheter l'atout de " . $name . "?", true);

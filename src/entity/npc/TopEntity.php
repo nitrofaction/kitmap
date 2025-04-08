@@ -39,7 +39,7 @@ class TopEntity extends Human
         $top = Cache::$config["pos"]["top"];
 
         $position = $this->getLocation();
-        $text = $position->getX() . ":" . $position->getY() . ":" . $position->getZ() . ":" . intval($position->getYaw());
+        $text = $position->getX() . ":" . ceil($position->getY()) . ":" . $position->getZ() . ":" . intval($position->getYaw());
 
         $category = $top[$text] ?? null;
 
@@ -58,11 +58,11 @@ class TopEntity extends Human
         $this->tickToUpdate = 600;
 
         return match ($category) {
-            "death" => "§n" . $name . "\nTop #1 Mort",
-            "elo" => "§n" . $name . "\nTop #1 Elo",
-            "money" => "§n" . $name . "\nTop #1 Money",
-            "played_time" => "§n" . $name . "\nTop #1 Nerd",
-            default => "§n" . $name . "\nTop #1 Kill",
+            "death" => "§n" . $name . "\nTop §n#1 §fMort",
+            "elo" => "§n" . $name . "\nTop §n#1 §fElo",
+            "money" => "§n" . $name . "\nTop §n#1 §fMoney",
+            "played_time" => "§n" . $name . "\nTop §n#1 §fNerd",
+            default => "§n" . $name . "\nTop §n#1 §fKill",
         };
     }
 

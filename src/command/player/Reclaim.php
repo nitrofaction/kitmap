@@ -79,7 +79,7 @@ class Reclaim extends BaseCommand
             $form->addButton("Mort par §n" . $value["killer"], -1, "", $key);
         }
 
-        $form->setTitle("Remboursement");
+        $form->setTitle("§nRemboursement");
         $form->setContent(Util::PREFIX . "Cliquez sur le bouton de choix");
         $player->sendForm($form);
     }
@@ -126,7 +126,7 @@ class Reclaim extends BaseCommand
             }
         });
 
-        $form->setTitle("Remboursement");
+        $form->setTitle("§nRemboursement");
         $form->setContent("§fL'inventaire contient §n" . count($items) . " §fitems\nVerifiez que votre inventaire a assez de place pour récupérer les items");
         $form->addButton("Récupérer l'inventaire");
         $form->addButton("Récupérer plus tard");

@@ -3,6 +3,7 @@
     "gamertag": "§7[{fac}] {name}",
     "chat": "§7[{fac}] §7{name}:§7 {msg}",
     "name": "§7Joueur",
+    "color": "§7",
     "outpost": 5000,
     "tax": 10,
     "pack": 0,
@@ -11,12 +12,14 @@
     "pv": 1,
     "xp": 0,
     "boost": 0,
-    "stuff": 0
+    "stuff": 0,
+    "atm": 0
   },
   "vip": {
     "gamertag": "§t[§7{fac}§t] §7{name}",
     "chat": "§t[§7{fac}§t][VIP] §7{name}§t:§7 {msg}",
     "name": "§tVIP",
+    "color": "§t",
     "outpost": 5000,
     "tax": 8,
     "pack": 1,
@@ -25,12 +28,14 @@
     "pv": 2,
     "xp": 20,
     "boost": 5,
-    "stuff": 5
+    "stuff": 5,
+    "atm": 10
   },
   "vip-plus": {
     "gamertag": "§v[§7{fac}§v] §7{name}",
-    "chat": "§v[§7{fac}§v][VIP+] §7{name}§v:§7 {msg}",
+    "chat": "§v[§7{fac}§v][VIP+] {color}{name}:§7 {msg}",
     "name": "§vVIP+",
+    "color": "§v",
     "outpost": 6000,
     "tax": 5,
     "pack": 2,
@@ -39,12 +44,14 @@
     "pv": 4,
     "xp": 40,
     "boost": 5,
-    "stuff": 10
+    "stuff": 10,
+    "atm": 10
   },
   "ultra": {
     "gamertag": "§c[{fac}] {name}",
-    "chat": "§c[§7{fac}§c][Ultra] §c{name}:§7 {msg}",
+    "chat": "§c[§7{fac}§c][Ultra] {color}{name}:§7 {msg}",
     "name": "§cUltra",
+    "color": "§c",
     "outpost": 8000,
     "tax": 2,
     "pack": 4,
@@ -53,12 +60,14 @@
     "pv": 6,
     "xp": 60,
     "boost": 10,
-    "stuff": 20
+    "stuff": 20,
+    "atm": 20
   },
   "legende": {
     "gamertag": "§u[{fac}] {name}",
-    "chat": "§u[§7{fac}§u][Légende] §u{name}:§7 {msg}",
+    "chat": "§u[§7{fac}§u][Légende] {collor}{name}:§7 {msg}",
     "name": "§uLégende",
+    "color": "§u",
     "outpost": 10000,
     "tax": 0,
     "pack": 5,
@@ -67,36 +76,59 @@
     "pv": 10,
     "xp": 80,
     "boost": 15,
-    "stuff": 30
+    "stuff": 30,
+    "atm": 35
+  },
+  "custom": {
+    "gamertag": "{color}[{fac}] {name}",
+    "chat": "{color}[§7{fac}{color}][{custom}§r{color}] {name}:§7 {msg}",
+    "name": "§dPersonnalisé",
+    "color": "§d",
+    "outpost": 10000,
+    "tax": 0,
+    "pack": 5,
+    "enderchest": 27,
+    "hdv": 30,
+    "pv": 10,
+    "xp": 80,
+    "boost": 15,
+    "stuff": 30,
+    "atm": 35
   },
   "createur": {
     "gamertag": "§f[§b{fac}§f] §b{name}",
-    "chat": "§f[§b{fac}§f][§bCréateur§f] §f{name}:§7 {msg}",
-    "name": "§bCréateur"
+    "chat": "§f[§b{fac}§f][§bCréateur§f] {color}{name}:§7 {msg}",
+    "name": "§bCréateur",
+    "color": "§b"
   },
   "guide": {
     "gamertag": "§a[{fac}] {name}",
-    "chat": "§a[{fac}][Guide] §a{name}:§a {msg}",
-    "name": "§aGuide"
+    "chat": "§a[{fac}][Guide] {color}{name}:§a {msg}",
+    "name": "§aGuide",
+    "color": "§a"
   },
   "moderateur": {
     "gamertag": "§e[{fac}] {name}",
-    "chat": "§e[{fac}][Modo] §e{name}:§e {msg}",
-    "name": "§eModérateur"
+    "chat": "§e[{fac}][Modo] {color}{name}:§e {msg}",
+    "name": "§eModérateur",
+    "color": "§e"
   },
   "sm": {
     "gamertag": "§6[{fac}] {name}",
-    "chat": "§6[{fac}][SuperModo] §6{name}:§6 {msg}",
-    "name": "§6Super-Modérateur"
+    "chat": "§6[{fac}][SuperModo] {color}{name}:§6 {msg}",
+    "name": "§6Super-Modérateur",
+    "color": "§6"
   },
   "administrateur": {
     "gamertag": "§c[{fac}] {name}",
-    "chat": "§c[{fac}][Admin] §c{name}:§c {msg}",
-    "name": "§cAdministrateur"
+    "chat": "§c[{fac}][Admin] {color}{name}:§c {msg}",
+    "name": "§cAdministrateur",
+    "color": "§c"
   },
   "fondateur": {
     "gamertag": "§4[{fac}] {name}",
-    "chat": "§4[{fac}][Fonda] §4{name}:§4 {msg}",
-    "name": "§4Fondateur"
+    "chat": "§4[{fac}][Fonda] {color}{name}:§4 {msg}",
+    "name": "§4Fondateur",
+    "color": "§4"
   }
 }

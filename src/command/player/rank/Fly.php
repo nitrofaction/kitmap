@@ -78,7 +78,7 @@ class Fly extends BaseCommand
             Util::givePlayerPreferences($player);
         });
 
-        $form->setTitle("Fly");
+        $form->setTitle("§nFly");
         $form->addLabel(Util::PREFIX . "Cette commande vous donnera la possibilité de voler dans votre île de faction !\n\nPrix: §n500k§f$\n\nVous possedez §n" . Util::formatNumberWithSuffix($session->data["money"]) . " §fpièces(s)\n");
         $form->addToggle("Acheter la commande /fly ?", true);
 

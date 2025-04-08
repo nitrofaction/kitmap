@@ -156,6 +156,11 @@ class SpawnerEntity extends Living
         $this->stack = max(1, $stack);
     }
 
+    public function getMaxHealth(): int
+    {
+        return 10;
+    }
+
     public function getDrops(): array
     {
         $drops = Cache::$config["entities"][$this->networkTypeId]["drops"];
@@ -254,10 +259,5 @@ class SpawnerEntity extends Living
             new PropertySyncData([], []),
             []
         ));
-    }
-
-    public function getMaxHealth(): int
-    {
-        return 10;
     }
 }

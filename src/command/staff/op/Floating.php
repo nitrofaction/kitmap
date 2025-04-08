@@ -76,7 +76,7 @@ class Floating extends BaseCommand
                     [$x, $y, $z, $yaw] = explode(":", $data);
 
                     $entity = new TopEntity(
-                        new Location(floatval($x), floatval($y), floatval($z), Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), intval($yaw), 0),
+                        new Location(floatval($x), floatval($y) + 1, floatval($z), Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), intval($yaw), 0),
                         Cosmetic::getSkinFromName("", "steve"),
                     );
 

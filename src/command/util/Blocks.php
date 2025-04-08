@@ -46,7 +46,7 @@ class Blocks extends BaseCommand
             $block = $item->getBlock();
 
             foreach (Cache::$config["block"] as $removedBlock) {
-                $typeId = constant(BlockTypeIds::class . "::" . $removedBlock);;
+                $typeId = constant(BlockTypeIds::class . "::" . $removedBlock);
 
                 if ($item->getTypeId() === $typeId || $block->getTypeId() === $typeId) {
                     return false;

@@ -26,7 +26,7 @@ class AllyAccept extends FactionCommand
 
     public function onNormalRun(Player $sender, Session $session, ?string $faction, array $args): void
     {
-        if (!is_null(Faction::getAlly($faction))) {
+        if (Faction::hasAlly($faction)) {
             $sender->sendMessage(Util::PREFIX . "Vous possèdez déjà une alliance");
             return;
         }
@@ -36,7 +36,7 @@ class AllyAccept extends FactionCommand
         if (is_null($ally) || !Faction::exists($ally)) {
             $sender->sendMessage(Util::PREFIX . "Vous n'avez aucune demande d'alliance en attente");
             return;
-        } else if (!is_null(Faction::getAlly($ally))) {
+        } else if (Faction::hasAlly($ally)) {
             $sender->sendMessage(Util::PREFIX . "La faction §n" . $ally . "§f possède déjà une alliance");
             return;
         }

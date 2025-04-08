@@ -66,7 +66,7 @@ class Pack extends Human
         $fireworkData = [
             5 => Fireworks::COLOR_BLUE,
             13 => Fireworks::COLOR_WHITE,
-            21 => Fireworks::COLOR_GREEN
+            21 => Fireworks::COLOR_DARK_PURPLE
         ];
 
         if (isset($fireworkData[$this->ticks])) {

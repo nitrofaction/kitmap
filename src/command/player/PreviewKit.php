@@ -45,7 +45,7 @@ class PreviewKit extends BaseCommand
                 $menu->send($player);
             });
 
-            $form->setTitle("Prévisualisation Kit");
+            $form->setTitle("§nPrévisualisation Kit");
             $form->setContent(Util::PREFIX . "Quel kit voulez-vous prévisualiser");
 
             foreach (Kit::getKits() as $key => $value) {

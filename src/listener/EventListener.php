@@ -8,7 +8,7 @@ use Kitmap\command\staff\{Ban, LastInventory, Question, Vanish};
 use Kitmap\command\util\Bienvenue;
 use Kitmap\entity\{AntiBackBall, EggTrap, floating\StuffFloating, npc\LogoutEntity, SwitchBall};
 use Kitmap\entity\Player as CustomPlayer;
-use Kitmap\handler\{Cache, Cosmetic, Faction, Job, PartnerItem, Rank, Sanction};
+use Kitmap\handler\{Cache, Cosmetic, Faction, Job, PartnerItem, Rank, Sanction, WaterdogPacketHandler};
 use Kitmap\item\Armor;
 use Kitmap\item\ExtraVanillaItems;
 use Kitmap\Main;
@@ -47,7 +47,10 @@ use pocketmine\event\block\{BlockBreakEvent,
     BlockPlaceEvent,
     BlockSpreadEvent,
     BlockUpdateEvent,
-    LeavesDecayEvent};
+    BrewingFuelUseEvent,
+    BrewItemEvent,
+    LeavesDecayEvent,
+    SignChangeEvent};
 use pocketmine\event\entity\{EntityDamageByEntityEvent,
     EntityDamageEvent,
     EntityItemPickupEvent,
@@ -76,7 +79,7 @@ use pocketmine\event\player\{PlayerBucketEvent,
     PlayerRespawnEvent,
     PlayerToggleSneakEvent};
 use pocketmine\event\server\CommandEvent;
-use pocketmine\event\server\DataPacketDecodeEvent;
+use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\event\server\DataPacketSendEvent;
 use pocketmine\event\world\ChunkLoadEvent;
 use pocketmine\inventory\transaction\action\SlotChangeAction;
@@ -84,7 +87,6 @@ use pocketmine\item\{Axe, Bucket, Hoe, PaintingItem, PotionType, Shovel, Stick, 
 use pocketmine\math\Facing;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\network\mcpe\protocol\ProtocolInfo;
 use pocketmine\network\mcpe\protocol\StartGamePacket;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\{GameMode, Player};
@@ -325,7 +327,7 @@ class EventListener implements Listener
         $bar = "§l§8-----------------------";
         $player->sendMessage($bar);
         $player->sendMessage("§fBienvenue, §n" . $player->getName() . "!");
-        $player->sendMessage(Util::caracterToUnicode("down-right-arrow") . " §fUtilisez §9/lobby §fpour revenir au lobby");
+        $player->sendMessage(Util::caracterToUnicode("down-right-arrow") . " §fUtilisez §n/lobby §fpour revenir au lobby");
         $player->sendMessage("§r ");
         $player->sendMessage(Util::PREFIX . "Discord: §ndiscord.gg/nitrofaction");
         $player->sendMessage(Util::PREFIX . "Boutique: §nstore.nitrofaction.fr");
@@ -741,9 +743,18 @@ class EventListener implements Listener
     public function onPick(EntityItemPickupEvent $event): void
     {
         $entity = $event->getEntity();
+        $origin = $event->getOrigin();
 
         if ($entity instanceof Player) {
             if (Session::get($entity)->data["staff_mod"][0] || in_array($entity->getName(), Vanish::$vanish)) {
+                $event->cancel();
+                return;
+            } else if (
+                $origin instanceof ItemEntity &&
+                $entity->getWorld() === Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld() &&
+                !ExtraVanillaItems::getItem($event->getItem())->isRare() &&
+                30 > $origin->ticksLived
+            ) {
                 $event->cancel();
                 return;
             }
@@ -1134,9 +1145,6 @@ class EventListener implements Listener
                 $sender->sendMessage(Util::PREFIX . "Vous ne pouvez pas executer de commande en plein gambling");
                 $event->cancel();
                 return;
-            } else if ($sender->hasNoClientPredictions()) {
-                $event->cancel();
-                return;
             }
 
             $command[0] = strtolower($command[0]);
@@ -1193,7 +1201,7 @@ class EventListener implements Listener
         $entity = $event->getEntity();
 
         if (ExtraVanillaItems::getItem($event->getEntity()->getItem())->isRare()) {
-            $entity->setDespawnDelay(intval(45 * Main::getInstance()->getServer()->getTicksPerSecondAverage()));
+            $entity->setDespawnDelay(intval(60 * Main::getInstance()->getServer()->getTicksPerSecondAverage()));
         } else {
             $entity->setDespawnDelay(intval(15 * Main::getInstance()->getServer()->getTicksPerSecondAverage()));
         }
@@ -1210,24 +1218,25 @@ class EventListener implements Listener
         }
     }
 
-    public function onDataPacketDecode(DataPacketDecodeEvent $event): void
+    public function onPacketReceive(DataPacketReceiveEvent $event): void
     {
-        $packetId = $event->getPacketId();
-        $packetBuffer = $event->getPacketBuffer();
+        WaterdogPacketHandler::process($event);
+    }
 
-        $origin = $event->getOrigin();
+    public function onBrewItem(BrewItemEvent $event): void
+    {
+        $event->cancel();
+    }
 
-        /*if (in_array($packetId, Cache::$disabledPackets)) {
-            Main::getInstance()->getLogger()->info("ID de paquet non décodé: $packetId (" . strlen($packetBuffer) . ") venant de : " . $origin->getPlayer() instanceof Player ? $origin->getPlayer()->getName() : $origin->getIp());
+    public function onBrewingFuelUse(BrewingFuelUseEvent $event): void
+    {
+        $event->cancel();
+    }
+
+    public function onSign(SignChangeEvent $event): void
+    {
+        if (!Faction::canBuild($event->getPlayer(), $event->getBlock(), "break")) {
             $event->cancel();
-            return;
-        }*/
-
-        if (strlen($packetBuffer) > 8096 && ($packetId !== ProtocolInfo::LOGIN_PACKET && $packetId !== ProtocolInfo::PLAYER_SKIN_PACKET)) {
-            $event->cancel();
-
-            Main::getInstance()->getLogger()->info("ID de paquet non décodé: $packetId (" . strlen($packetBuffer) . ") venant de : " . $origin->getPlayer() instanceof Player ? $origin->getPlayer()->getName() : $origin->getIp());
-            Main::getInstance()->getServer()->getNetwork()->blockAddress($origin->getIp(), 250);
         }
     }
 }

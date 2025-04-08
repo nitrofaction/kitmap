@@ -97,7 +97,7 @@ class LastInventory extends BaseCommand
                 $form->addButton("Aucun inventaire", -1, "", "none");
             }
 
-            $form->setTitle("Inventaires");
+            $form->setTitle("§nInventaires");
             $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
             $sender->sendForm($form);
         }
@@ -115,7 +115,7 @@ class LastInventory extends BaseCommand
 
         $message = "§n- §fXP: §n" . $information["xp"] . "\n§n- §fDate: §n" . $information["date"] . "\n§n- §fKillstreak: §n" . $information["killstreak"];
 
-        $form = new SimpleForm(function (?Player $player, mixed $choice) use ($target, $data) {
+        $form = new /*TODO COLOR*/ SimpleForm(function (?Player $player, mixed $choice) use ($target, $data) {
             if ($choice === 0) {
                 $this->sendInventory($player, $target, $data);
             }
@@ -134,7 +134,7 @@ class LastInventory extends BaseCommand
             $message .= "§n- Le joueur est mort de façon naturel";
         }
 
-        $form->setTitle("Inventaires");
+        $form->setTitle("§nInventaires");
         $form->setContent(Util::PREFIX . "Information sur la mort du joueur " . $target . "\n\n" . $message);
         $form->addButton("Passer à l'inventaire");
         $form->addButton("Annuler");

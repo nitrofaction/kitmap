@@ -52,7 +52,7 @@
     "y": "",
     "z": ""
   },
-  "blue-text":{
+  "blue-text": {
     "a": "",
     "b": "",
     "c": "",
@@ -265,26 +265,22 @@
   },
   "npc": {
     "mine": [
-      "-9.5:71:17.5:270:Mine:§8(§7Tape moi§8):mine"
+      "6.5:67:-16.5:90:Mine:§8(§7Tape moi§8):mine"
     ],
     "wiki": [
-      "-9.5:71:20.5:270:Wiki:§8(§7Tape moi§8):wiki"
+      "-5.5:67:-16.5:270:Wiki:§8(§7Tape moi§8):wiki"
     ],
     "blocs": [
-      "-9.5:71:23.5:270:Blocs:§8(§7Tape moi§8):block"
-    ],
-    "atm": [
-      "10.5:71:17.5:90:ATM:§8(§7Tape moi§8):atm"
+      "-8.5:67:-42.5:270:Blocs:§8(§7Tape moi§8):block"
     ],
     "market": [
-      "10.5:71:20.5:90:Market:§8(§7Tape moi§8):market"
+      "-8.5:67:-45.5:270:Market:§8(§7Tape moi§8):market"
+    ],
+    "atm": [
+      "5.5:67:-66.5:360:ATM:§8(§7Tape moi§8):atm"
     ],
     "event": [
-      "10.5:71:23.5:90:Event:§8(§7Tape moi§8):event"
-    ],
-    "casino": [
-      "20.5:70:47.5:180:Croupier:§8(Tape moi):casino",
-      "26.5:70:40.5:90:Croupier:§8(Tape moi):casino"
+      "-4.5:67:-66.5:360:Event:§8(§7Tape moi§8):event"
     ]
   },
   "char-width": {
@@ -585,5 +581,33 @@
     "ANCIENT_DEBRIS",
     "REDSTONE",
     "WITHER_ROSE"
-  ]
+  ],
+  "color": {
+    "§0": "Noir",
+    "§1": "Bleu foncé",
+    "§2": "Vert foncé",
+    "§3": "Aqua foncé",
+    "§4": "Rouge foncé",
+    "§5": "Violet foncé",
+    "§6": "Orange",
+    "§7": "Gris",
+    "§8": "Gris foncé",
+    "§9": "Bleu roi",
+    "§a": "Vert",
+    "§b": "Aqua",
+    "§c": "Rouge",
+    "§d": "Rose",
+    "§e": "Jaune",
+    "§f": "Blanc",
+    "§g": "Couleur minecoin",
+    "§h": "Couleur quartz",
+    "§i": "Couleur fer",
+    "§j": "Couleur netherite",
+    "§m": "Couleur redstone",
+    "§p": "Couleur or",
+    "§q": "Couleur émeraude",
+    "§s": "Couleur diamant",
+    "§t": "Couleur lapis",
+    "§u": "Couleur amethyst"
+  }
 }

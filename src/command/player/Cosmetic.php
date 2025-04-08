@@ -47,14 +47,14 @@ class Cosmetic extends BaseCommand
                     $this->accessCategory($player, $session, $data);
                 }
             });
-            $form->setTitle("Cosmétiques");
+            $form->setTitle("§j§nCosmétiques");
             $form->setContent(Util::PREFIX . "Veuillez choisir la catégorie de votre choix");
 
             foreach (Cache::$config["cosmetic"] as $name => $cosmetic) {
                 $form->addButton($cosmetic["name"], 0, $cosmetic["texture"], $name);
             }
 
-            $form->addButton("Supprimer son cosmetique", -1, "", "remove");
+            $form->addButton("Supprimer son\ncosmetique", 0, "textures/ui/nitro/gear", "remove");
             $sender->sendForm($form);
         }
     }
@@ -79,7 +79,7 @@ class Cosmetic extends BaseCommand
             }
         });
 
-        $form->setTitle("Cosmétiques");
+        $form->setTitle("§nCosmétiques");
         $form->setContent(Util::PREFIX . "Veuillez choisir sur le cosmétique que vous voulez acheter ou mettre");
 
         foreach ($cosmetics as $name => $cosmetic) {
@@ -148,7 +148,7 @@ class Cosmetic extends BaseCommand
             $session->addValue($money, $cosmeticData[$money], true);
             $player->sendMessage(Util::PREFIX . "Vous venez d'acheter le cosmétique §n" . $cosmeticData["button"] . " §favec §n" . $cosmeticData[$money] . $devise);
         });
-        $form->setTitle("Cosmétiques");
+        $form->setTitle("§nCosmétiques");
 
         if ($cosmeticData["money"] > 0) {
             $form->addLabel(Util::PREFIX . $cosmeticData["description"] . "\n\n§fPrix: §n" . Util::formatNumberWithSuffix($cosmeticData["money"]) . "$ §fou §n" . $cosmeticData["gem"] . " §fgemmes\n\nVous possedez §n" . $session->data["gem"] . " §fgemmes\nVous possedez §n" . $session->data["money"] . "$\n");

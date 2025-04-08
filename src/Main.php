@@ -71,6 +71,7 @@ class Main extends PluginBase
 
         foreach ($this->getServer()->getOnlinePlayers() as $player) {
             Session::get($player)->saveSessionData();
+            $player->transfer("lobby");
         }
     }
 }

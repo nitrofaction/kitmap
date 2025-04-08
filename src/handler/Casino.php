@@ -45,7 +45,7 @@ class Casino
                 $player->sendForm($formToSend);
             }
         });
-        $form->setTitle("Casino");
+        $form->setTitle("§nCasino");
         $form->setContent(Util::PREFIX . "Bienvenue dans le menu du §ncasino §f! Veuillez choisir le jeu auquel vous voulez jouer !");
         $form->addButton("§8Pierre Feuille Ciseau", label: "pfc");
         $form->addButton("§8Mines", label: "mines");
@@ -538,7 +538,7 @@ class Casino
             $player->sendForm(self::openCasinoGameForm($game));
         });
 
-        $form->setTitle("Règles " . self::getGameName($game));
+        $form->setTitle("§nRègles " . self::getGameName($game));
         $form->setContent(self::getRulesByGame($game));
 
         return $form;

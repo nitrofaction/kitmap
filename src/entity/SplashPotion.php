@@ -24,12 +24,10 @@ class SplashPotion extends PmSplashPotion
 {
     public const TAG_POTION_ID = "PotionId";
 
-    protected float $gravity = 0.065;
-    protected float $drag = 0.0025;
-
     public function __construct(Location $location, ?Entity $shootingEntity, PotionType $potionType, ?CompoundTag $nbt = null)
     {
         parent::__construct($location, $shootingEntity, $potionType, $nbt);
+        $this->setGravity(0.07);
     }
 
     public function entityBaseTick(int $tickDiff = 1): bool

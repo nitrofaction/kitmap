@@ -51,7 +51,7 @@ class Pack
                     break;
             }
         });
-        $form->setTitle("Pack ");
+        $form->setTitle("§nPack ");
         $form->setContent(Util::PREFIX . "Vous possedez actuellement §n" . $session->data["packs"] . " §fpack(s)");
         if ($primeTime[0]) {
             $form->addButton("Ouvrir un pack\n§8(§aPrime time pendant encore: " . Util::formatDurationFromSeconds($primeTime[1], 1) . "§8)");
@@ -218,7 +218,7 @@ class Pack
             $session->addValue("packs");
             self::openPackUI($player);
         });
-        $form->setTitle("Pack");
+        $form->setTitle("§nPack");
         $form->addLabel(Util::PREFIX . "Êtes vous sur d'acheter un §npack §f?\nPrix d'un pack: §n" . Util::formatNumberWithSuffix(Cache::$config["pack"]["money"]) . " §fpièces ou §a" . Util::formatNumberWithSuffix(Cache::$config["pack"]["gem"]) . " §fgemmes\n\nVous possedez §n" . $session->data["gem"] . " §fgemme(s)\nVous possedez §n" . $session->data["money"] . " §fpièces(s)\n");
         $form->addDropdown("Méthode de payement", ["gemmes", "pièces"]);
         $form->addToggle("Acheter un pack?", true);

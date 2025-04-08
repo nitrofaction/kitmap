@@ -80,7 +80,7 @@ class PrivateVaults extends BaseCommand
                 $form->addButton($name, -1, "", strval($i));
             }
 
-            $form->setTitle("Coffres Privés");
+            $form->setTitle("§nCoffres Privés");
             $form->setContent(Util::PREFIX . "Cliquez sur le coffre de votre choix");
             $sender->sendForm($form);
         }
@@ -169,7 +169,7 @@ class PrivateVaults extends BaseCommand
 
             $player->sendMessage(Util::PREFIX . "Vous venez de renommer votre coffre privé §n" . $name . " §f(" . $vault . ")");
         });
-        $form->setTitle("Coffres Privés");
+        $form->setTitle("§nCoffres Privés");
         $form->addInput(Util::PREFIX . "Choissisez le nouveau nom du coffre:");
         $player->sendForm($form);
     }

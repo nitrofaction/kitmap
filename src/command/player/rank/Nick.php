@@ -65,7 +65,7 @@ class Nick extends BaseCommand
                         break;
                 }
             });
-            $form->setTitle("Nick");
+            $form->setTitle("§nNick");
             $form->setContent(Util::PREFIX . "Cliquez sur le bouton de votre choix");
             $form->addButton("Nick custom");
             $form->addButton("Nick aléatoire");
@@ -96,7 +96,7 @@ class Nick extends BaseCommand
 
             $this->nickPlayer($player, $name);
         });
-        $form->setTitle("Nick");
+        $form->setTitle("§nNick");
         $form->addInput(Util::PREFIX . "Entrez le nick de votre choix");
         $player->sendForm($form);
     }

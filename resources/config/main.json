@@ -80,6 +80,10 @@
     "did": [],
     "cosmetics": [],
     "packs": 0,
+    "format": {
+      "color": null,
+      "custom": null
+    },
     "jobs": {
       "Mineur": {
         "lvl": 0,

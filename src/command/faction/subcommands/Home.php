@@ -2,6 +2,7 @@
 
 namespace Kitmap\command\faction\subcommands;
 
+use CortexPE\Commando\args\OptionArgument;
 use Kitmap\command\faction\FactionCommand;
 use Kitmap\handler\Cache;
 use Kitmap\handler\Faction;
@@ -29,6 +30,8 @@ class Home extends FactionCommand
 
     public function onNormalRun(Player $sender, Session $session, ?string $faction, array $args): void
     {
+        $ally = !is_null($args["opt"] ?? null);
+
         if ($session->inCooldown("combat")) {
             $sender->sendMessage(Util::PREFIX . "Cette commande est interdite en combat");
             return;
@@ -37,17 +40,36 @@ class Home extends FactionCommand
             return;
         }
 
+        if ($ally && !Faction::hasAlly($faction)) {
+            $sender->sendMessage(Util::PREFIX . "Votre faction n'a pas d'alliance");
+            return;
+        } else if ($ally && !Faction::hasPermission($sender, "home", true)) {
+            $sender->sendMessage(Util::PREFIX . "Votre alliance ne vous autorise pas à accèder à son home de faction");
+            return;
+        } else if ($ally) {
+            $faction = Faction::getAlly($faction);
+        }
+
         $home = Cache::$factions[$faction]["home"];
 
-        if (is_null($home)) {
-            $sender->sendMessage(Util::PREFIX . "Votre faction n'a pas encore définit de home");
+        if (is_null($home) || $home === "0:0:0") {
+            if ($ally) {
+                $sender->sendMessage(Util::PREFIX . "Votre alliance n'a pas encore défini de f home");
+            } else{
+                $sender->sendMessage(Util::PREFIX . "Votre faction n'a pas encore défini de f home");
+            }
             return;
         }
 
         [$x, $y, $z] = explode(":", Cache::$factions[$faction]["home"]);
 
         if (Faction::inClaim(intval($x), intval($z))[1] !== $faction) {
-            $sender->sendMessage(Util::PREFIX . "Votre home n'est pas dans votre claim");
+            if ($ally) {
+                $sender->sendMessage(Util::PREFIX . "Le f home de votre alliance n'est pas dans son claim");
+            } else {
+                $sender->sendMessage(Util::PREFIX . "Votre home n'est pas dans votre claim");
+            }
+
             Cache::$factions[$faction]["home"] = "0:0:0";
             return;
         }
@@ -58,5 +80,6 @@ class Home extends FactionCommand
 
     protected function prepare(): void
     {
+        $this->registerArgument(0, new OptionArgument("opt", ["ally"], true));
     }
 }

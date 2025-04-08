@@ -22,7 +22,7 @@ class Sanction
 
             $player->chat("/" . $data . " \"" . $target . "\"");
         });
-        $form->setTitle("Sanction");
+        $form->setTitle("§nSanction");
         $form->setContent(Util::PREFIX . "Cliquez sur le bouton de votre choix");
         $form->addButton("Ban", -1, "", "ban");
         $form->addButton("Kick", -1, "", "kick");

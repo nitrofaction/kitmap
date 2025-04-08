@@ -9,6 +9,7 @@ use Kitmap\handler\Cache;
 use Kitmap\handler\Job;
 use Kitmap\handler\Pack;
 use Kitmap\handler\PartnerItem;
+use Kitmap\handler\Rank;
 use Kitmap\handler\ScoreFactory;
 use pocketmine\block\Block;
 use pocketmine\block\FenceGate;
@@ -128,6 +129,8 @@ class Util
                     self::PREFIX . "Le staff §n" . $staff . " §fvient de vous ajouter §n" . $value . " " . $word
             );
         } else {
+            $player = strtolower($player);
+
             $file = self::getFile("data/players/" . $player);
             $data = self::addArrayValue($file->getAll(), $path, $value);
 
@@ -351,9 +354,24 @@ class Util
     {
         if ($canDrop && !$player->getInventory()->canAddItem($item)) {
             $player->getWorld()->dropItem($player->getPosition()->asVector3(), $item);
+            return;
         }
 
         $player->getInventory()->addItem($item);
+    }
+
+    public static function getEmptySlots(Player $player): int
+    {
+        $inventory = $player->getInventory();
+        $emptySlots = 0;
+
+        foreach ($inventory->getContents(true) as $item) {
+            if ($item->isNull() || $item->equals(VanillaItems::AIR())) {
+                $emptySlots++;
+            }
+        }
+
+        return $emptySlots;
     }
 
     public static function getTpTime(Player $player): int
@@ -362,7 +380,7 @@ class Util
 
         if (!$player->isAlive() || $player->isCreative() || $session->data["staff_mod"][0] || $player->getWorld() !== Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld() || self::insideZone($player->getPosition(), "spawn")) {
             return -1;
-        } else if ($session->data["rank"] !== "joueur") {
+        } else if (Rank::getRankBySession($session) !== "joueur") {
             return 3;
         } else {
             return 5;

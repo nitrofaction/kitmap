@@ -13,7 +13,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\plugin\PluginBase;
 
-class Removevalue extends BaseCommand
+class RemoveValue extends BaseCommand
 {
     public function __construct(PluginBase $plugin)
     {
@@ -31,7 +31,7 @@ class Removevalue extends BaseCommand
         $data = $args["valeur"];
         $amount = intval($args["montant"]);
 
-        $player = Addvalue::addValue($sender, $this->getName(), $args);
+        $player = AddValue::addValue($sender, $this->getName(), $args);
 
         if (is_null($player)) {
             return;

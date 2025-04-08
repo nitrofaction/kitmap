@@ -64,7 +64,7 @@ class Rename extends BaseCommand
                 $player->sendMessage(Util::PREFIX . "Vous venez de renommer l'item dans votre main en " . $data[0]);
                 Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient de renommer l'item dans sa main en " . $data[0]);
             });
-            $form->setTitle("Rename");
+            $form->setTitle("§nRename");
             $form->addInput(Util::PREFIX . "Tapez un nom personnalisé dans le champ ci-dessous, vous pouvez utiliser les couleurs");
             $sender->sendForm($form);
         }

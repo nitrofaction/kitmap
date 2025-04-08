@@ -1,50 +1,50 @@
 {
   "capes": {
     "name": "Capes",
-    "texture": "",
+    "texture": "textures/ui/nitro/capes/singe",
     "bienbien": {
       "gem": 100,
       "money": 500000,
-      "texture": "",
+      "texture": "textures/ui/nitro/capes/bienbien",
       "button": "Cape Bien Bien",
       "description": "La cape des envieux"
     },
     "singe": {
       "gem": 100,
       "money": 500000,
-      "texture": "",
+      "texture": "textures/ui/nitro/capes/singe",
       "button": "Cape singe",
       "description": "C'est comme ça les mra te voit quand t'as pas d'argent"
     },
     "harr": {
       "gem": 100,
       "money": 500000,
-      "texture": "",
+      "texture": "textures/ui/nitro/capes/harr",
       "button": "C'est harr",
       "description": "Tellement c'était harr j'ai laché une larme"
     }
   },
   "hats": {
     "name": "Chapeaux",
-    "texture": "",
+    "texture": "textures/ui/nitro/hats/chicken",
     "mushroom": {
       "gem": 100,
       "money": 750000,
-      "texture": "",
+      "texture": "textures/ui/nitro/hats/mushroom",
       "button": "Champignon",
       "description": "Un gros champignon sur votre §ntête §f!"
     },
     "chicken": {
       "gem": 100,
       "money": 750000,
-      "texture": "",
+      "texture": "textures/ui/nitro/hats/chicken",
       "button": "Poulet",
       "description": "Un gros poulet qui vient se déposer sur votre §ntête §f!"
     },
     "frog": {
       "gem": 100,
       "money": 750000,
-      "texture": "",
+      "texture": "textures/ui/nitro/hats/frog",
       "button": "Grenouille",
       "description": "Une grosse grenouille qui vient se déposer sur votre §ntête §f!"
     }

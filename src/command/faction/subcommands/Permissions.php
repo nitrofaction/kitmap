@@ -2,6 +2,7 @@
 
 namespace Kitmap\command\faction\subcommands;
 
+use CortexPE\Commando\args\OptionArgument;
 use jojoe77777\FormAPI\CustomForm;
 use Kitmap\command\faction\FactionCommand;
 use Kitmap\handler\Cache;
@@ -28,10 +29,13 @@ class Permissions extends FactionCommand
 
     public function onNormalRun(Player $sender, Session $session, ?string $faction, array $args): void
     {
-        $permissions = Cache::$factions[$faction]["permissions"];
-        $names = Cache::$config["faction"]["permission"];
+        $ally = is_null($args["opt"] ?? null) ? "" : "ally-";
+        $title = is_null($args["opt"] ?? null) ? "" : " d'Alliances";
 
-        $form = new CustomForm(function (Player $player, mixed $data) use ($faction) {
+        $permissions = Cache::$factions[$faction][$ally . "permissions"];
+        $names = Cache::$config["faction"][$ally . "permission"];
+
+        $form = new CustomForm(function (Player $player, mixed $data) use ($ally, $faction) {
             if (!is_array($data)) {
                 return;
             } else if (!Faction::exists($faction)) {
@@ -40,21 +44,33 @@ class Permissions extends FactionCommand
             }
 
             foreach ($data as $key => $value) {
-                if (isset(Cache::$factions[$faction]["permissions"][$key])) {
-                    $rank = array_keys(Cache::$config["faction"]["rank"])[$value] ?? "recruit";
-                    Cache::$factions[$faction]["permissions"][$key] = $rank;
+                if (isset(Cache::$factions[$faction][$ally . "permissions"][$key])) {
+                    $rank = array_keys(Cache::$config["faction"][$ally . "rank"])[$value] ?? "recruit";
+                    Cache::$factions[$faction][$ally . "permissions"][$key] = $rank;
                 }
             }
 
             $player->sendMessage(Util::PREFIX . "Vous venez de mettre à jour les permissions de votre faction");
         });
 
-        $form->setTitle("Permissions");
-        $form->addLabel(Util::PREFIX . "Choissisez un rôle minimum pour faire des actions:");
+        $form->setTitle("§nPermissions" . $title);
+
+        $bar = "§l§8-----------------------";
+        $label = $bar . "\n" . Util::caracterToUnicode("down-right-arrow") . " §r§f";
+
+        if ($ally) {
+            $label .= "Choissisez le rôle minimum du membre de votre alliance pour faire une des actions ci-dessous";
+        } else {
+            $label .= "Choissisez le rôle minimum du membre de votre faction pour faire une des actions ci-dessous";
+        }
+
+        $label .= "\n" . $bar;
+
+        $form->addLabel($label);
 
         foreach ($names as $permission => $description) {
             $actual = $permissions[$permission] ?? "Probleme merci de contacter le staff";
-            $form->addDropdown($description, array_values(Cache::$config["faction"]["rank"]), Faction::getRankPosition($actual), $permission);
+            $form->addDropdown(Util::PREFIX . $description, array_values(Cache::$config["faction"][$ally . "rank"]), Faction::getRankPosition($actual, true), $permission);
         }
 
         $sender->sendForm($form);
@@ -62,5 +78,6 @@ class Permissions extends FactionCommand
 
     protected function prepare(): void
     {
+        $this->registerArgument(0, new OptionArgument("opt", ["ally"], true));
     }
 }

@@ -35,7 +35,7 @@ class LeaderboardFloatingText extends FloatingText
 
         foreach ($response[1] as $key => $value) {
             if ($category === "nerd") {
-                $value = Util::formatDurationFromSeconds(intval($value));
+                $value = Util::formatDurationFromSeconds(intval($value), 1);
             }
 
             $str .= "\n§r" . str_replace(["{KEY}", "{VALUE}", "{COUNT}"], [$key, $value, $i], $format);

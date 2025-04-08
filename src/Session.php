@@ -50,9 +50,6 @@ class Session
         $data["connection"] = time();
         $data["skin"] = $player->getSkin();
 
-        // TODO REMOVE CA ET LES PARNRE ITEMS AUSSI !
-        if (!isset($data["ally_chat"])) $data["ally_chat"] = false;
-
         [$ip, $uuid] = [
             $player->getNetworkSession()->getIp(),
             $player->getNetworkSession()->getPlayerInfo()->getUuid()->toString()

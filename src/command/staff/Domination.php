@@ -28,8 +28,8 @@ class Domination extends BaseCommand
     {
         switch ($args["opt"]) {
             case "start":
-                if (30 > count(Main::getInstance()->getServer()->getOnlinePlayers())) {
-                    $sender->sendMessage(Util::PREFIX . "L'event domination demande au minimum §n30 §fjoueurs avant d'être lancé");
+                if (10 > count(Main::getInstance()->getServer()->getOnlinePlayers())) {
+                    $sender->sendMessage(Util::PREFIX . "L'event domination demande au minimum §n10 §fjoueurs avant d'être lancé");
                     return;
                 } else if (DominationTask::$currentDomination) {
                     $sender->sendMessage(Util::PREFIX . "Un event §ndomination §fest déjà en cours... Vous pouvez l'arrêter avec la commande §n/domination end");

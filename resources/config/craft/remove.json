@@ -56,5 +56,7 @@
   "end_portal",
   "end_gateway",
   "allow",
-  "deny"
+  "deny",
+  "cauldron",
+  "powder_snow"
 ]
