@@ -431,6 +431,11 @@ class Faction
         }
     }
 
+    public static function hasAlly(string $faction): bool
+    {
+        return !is_null(Faction::getAlly($faction));
+    }
+
     public static function inClaim(int|float $x, int|float $z): array
     {
         $chunkX = intval(floor($x)) >> Chunk::COORD_BIT_SIZE;
@@ -464,11 +469,6 @@ class Faction
         if (self::exists($faction)) {
             Cache::$factions[strtolower($faction)]["ally"] = $ally;
         }
-    }
-
-    public static function hasAlly(string $faction): bool
-    {
-        return !is_null(Faction::getAlly($faction));
     }
 
     public static function getIslandUpgradePrice(string $faction): int

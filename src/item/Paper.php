@@ -50,7 +50,7 @@ class Paper extends Item
                 Util::addItem($player, $partneritem);
             }
 
-            $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir §n" . $amount . " partneritems §fdivers !");
+            $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir §n" . $amount . " partner-items §fdivers !");
 
             $this->projectileSucces($player, $item);
             $event->cancel();

@@ -55,7 +55,7 @@ class Permissions extends FactionCommand
 
         $form->setTitle("§nPermissions" . $title);
 
-        $bar = "§l§8-----------------------";
+        $bar = Util::stringToIcon("dark-bar");
         $label = $bar . "\n" . Util::caracterToUnicode("down-right-arrow") . " §r§f";
 
         if ($ally) {

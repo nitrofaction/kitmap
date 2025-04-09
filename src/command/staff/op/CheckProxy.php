@@ -19,7 +19,7 @@ class CheckProxy extends BaseCommand
         parent::__construct(
             $plugin,
             "checkproxy",
-            "Détecter si un joueur est suspecté d'utiliser un proxy"
+            "Détecter si un joueur est suspecté d'utiliser un proxy §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);
@@ -35,7 +35,7 @@ class CheckProxy extends BaseCommand
         }
 
         $allCidDid = $this->getAllCidDidByName($target);
-        $bar = "§l§8-----------------------";
+        $bar = Util::stringToIcon("dark-bar");
 
         $sender->sendMessage($bar);
         $sender->sendMessage(Util::PREFIX . "Résultats du test proxy de §n" . $target);
@@ -43,7 +43,7 @@ class CheckProxy extends BaseCommand
         $isSuspect = false;
 
         foreach ($allCidDid as $column => $count) {
-            $sender->sendMessage("§l§n| §r§f" . strtoupper($column) . " §8- §f" . $count);
+            $sender->sendMessage(Util::caracterToUnicode("|") . " §r§f" . strtoupper($column) . " §8- §f" . $count);
             if ($count >= 10) {
                 $isSuspect = true;
             }

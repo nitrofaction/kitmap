@@ -11,13 +11,13 @@ use Kitmap\Session;
 use Kitmap\task\repeat\child\GamblingTask;
 use Kitmap\Util;
 use pocketmine\block\VanillaBlocks;
+use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\entity\effect\EffectInstance;
 use pocketmine\entity\effect\VanillaEffects;
 use pocketmine\entity\Location;
 use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\item\Durable;
 use pocketmine\item\enchantment\EnchantmentInstance;
-use pocketmine\item\enchantment\VanillaEnchantments;
 use pocketmine\item\Item;
 use pocketmine\item\PotionType;
 use pocketmine\item\StringToItemParser;
@@ -283,15 +283,15 @@ class PartnerItem
             return VanillaItems::AIR();
         }
 
-        [$itemName, $lore, $customName] = explode(":", Cache::$config["partneritem"][$name]);
+        [$itemName, $description, $customName] = explode(":", Cache::$config["partneritem"][$name]);
 
         $item = StringToItemParser::getInstance()->parse($itemName) ?? VanillaItems::AIR();
 
         $item->setCustomName($customName);
-        $item->setLore([$lore]);
+        $item->setLore([Util::stringToIcon("bar") . "\n§r" . $description . "\n\n" . Util::caracterToUnicode("down-right-arrow") . " §7Obtenable dans les §npacks\n" . Util::stringToIcon("bar")]);
 
         $item->getNamedTag()->setString("partneritem", $name);
-        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 10));
+        $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(-1), 255));
 
         return $item;
     }
@@ -412,8 +412,8 @@ class PartnerItem
     {
         $item = VanillaItems::PAPER();
         $item->getNamedTag()->setInt("pp", $amount);
-        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
-        $item->setCustomName("§r§n" . $amount . " PartnerItems");
+        $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(-1), 255));
+        $item->setCustomName("§r§n" . $amount . " Partner-Items");
         return $item;
     }
 }

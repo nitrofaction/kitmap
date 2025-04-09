@@ -20,7 +20,7 @@ class ResetJobs extends BaseCommand
         parent::__construct(
             $plugin,
             "resetjobs",
-            "Reset les métiers d'un joueur"
+            "Reset les métiers d'un joueur §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

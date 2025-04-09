@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Kitmap\command\staff\op;
+namespace Kitmap\command\staff\op\dev;
 
 use CortexPE\Commando\BaseCommand;
 use Kitmap\handler\Cosmetic;
@@ -17,7 +17,7 @@ class SaveSkin extends BaseCommand
         parent::__construct(
             $plugin,
             "saveskin",
-            "Save skin"
+            "À utiliser seulement si on connait l'usage /!\ §4(D)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

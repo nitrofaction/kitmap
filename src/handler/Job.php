@@ -4,8 +4,8 @@ namespace Kitmap\handler;
 
 use Kitmap\Session;
 use Kitmap\Util;
+use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\enchantment\EnchantmentInstance;
-use pocketmine\item\enchantment\VanillaEnchantments;
 use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
@@ -115,7 +115,7 @@ class Job
         $item = VanillaItems::PAPER();
         $item->getNamedTag()->setInt("xp_boost", $boost);
         $item->getNamedTag()->setInt("duration", $duration);
-        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
+        $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(-1), 255));
         $item->setCustomName("§r§fBoost d'xp de §n" . $boost . "% §7(" . Util::formatDurationFromSeconds($duration, 1) . ")");
         return $item;
     }

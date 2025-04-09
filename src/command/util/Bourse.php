@@ -25,7 +25,7 @@ class Bourse extends BaseCommand
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
         $items = Util::getBourse();
-        $bar = "§l§8-----------------------";
+        $bar = Util::stringToIcon("dark-bar");
 
         $sender->sendMessage($bar);
 

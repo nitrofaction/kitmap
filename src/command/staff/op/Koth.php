@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Kitmap\command\staff;
+namespace Kitmap\command\staff\op;
 
 use CortexPE\Commando\args\OptionArgument;
 use CortexPE\Commando\BaseCommand;
@@ -19,7 +19,7 @@ class Koth extends BaseCommand
         parent::__construct(
             $plugin,
             "koth",
-            "Commence ou arrête un event koth !"
+            "Commence ou arrête un event koth §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

@@ -8,8 +8,8 @@ use Kitmap\Main;
 use Kitmap\Session;
 use Kitmap\Util;
 use pocketmine\command\CommandSender;
+use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\enchantment\EnchantmentInstance;
-use pocketmine\item\enchantment\VanillaEnchantments;
 use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
 use pocketmine\permission\DefaultPermissions;
@@ -33,7 +33,7 @@ class Money extends BaseCommand
     {
         $item = VanillaItems::PAPER();
         $item->getNamedTag()->setInt("money", $amount);
-        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
+        $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(-1), 255));
         $item->setCustomName("§r§fBillet de §n" . Util::formatNumberWithSuffix($amount));
         return $item;
     }

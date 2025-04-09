@@ -20,7 +20,7 @@ class PartnerItem extends BaseCommand
         parent::__construct(
             $plugin,
             "partneritem",
-            "Permet de se donner un partner item de son choix"
+            "Permet de se donner un partner item de son choix §c(O)"
         );
 
         $this->setAliases(["pp"]);

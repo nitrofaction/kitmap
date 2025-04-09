@@ -22,7 +22,7 @@ class Unban extends BaseCommand
         parent::__construct(
             $plugin,
             "unban",
-            "Permet de débannir les joueurs banni"
+            "Permet de débannir un joueur banni §e(S)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

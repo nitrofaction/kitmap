@@ -33,7 +33,7 @@ class Floating extends BaseCommand
         parent::__construct(
             $plugin,
             "floating",
-            "Fait disparaitre ou apparaitre les floatings texts"
+            "Fait disparaitre ou apparaitre les floatings texts §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

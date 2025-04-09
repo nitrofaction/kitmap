@@ -20,7 +20,7 @@ class Condense extends BaseCommand
         parent::__construct(
             Main::getInstance(),
             "condense",
-            "Permet de condenser les items dans votre main ou inventaire"
+            "Permet de condenser les items dans sa main ou son inventaire"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
@@ -33,7 +33,7 @@ class Condense extends BaseCommand
 
             if ($opt === "all") {
                 if (!Rank::hasRank($sender, "vip-plus")) {
-                    $sender->sendMessage(Util::PREFIX . "Vous n'avez pas le grade necessaire pour utiliser cette commande");
+                    $sender->sendMessage(Util::PREFIX . "Pour accèder à la commande §n/condense all§f, vous devez avoir au minimum le grade §nVIP+ §f! Pour cela, achetez un grade sur la boutique: §nstore.nitrofaction.fr");
                     return;
                 }
 
@@ -55,7 +55,7 @@ class Condense extends BaseCommand
                 $sender->sendMessage(Util::PREFIX . "Vous avez condensé tous les items de votre inventaire");
             } else if ($opt === "hand") {
                 if (!Rank::hasRank($sender, "vip")) {
-                    $sender->sendMessage(Util::PREFIX . "Vous n'avez pas le grade necessaire pour utiliser cette commande");
+                    $sender->sendMessage(Util::PREFIX . "Pour accèder à la commande §n/condense§f, vous devez avoir au minimum le grade §nVIP §f! Pour cela, achetez un grade sur la boutique: §nstore.nitrofaction.fr");
                     return;
                 }
 

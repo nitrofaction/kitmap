@@ -25,7 +25,7 @@ class Tps extends BaseCommand
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
         $server = Main::getInstance()->getServer();
-        $bar = "§l§8-----------------------";
+        $bar = Util::stringToIcon("dark-bar");
 
         $sender->sendMessage($bar);
         $sender->sendMessage(Util::PREFIX . "Tps Actuel: §n" . $server->getTicksPerSecond() . " §f(§n" . $server->getTickUsage() . "%§f)");

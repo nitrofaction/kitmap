@@ -17,7 +17,7 @@ class Kick extends BaseCommand
         parent::__construct(
             $plugin,
             "kick",
-            "Expulse un joueur du serveur"
+            "Permet d'expulser un joueur du serveur §e(S)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

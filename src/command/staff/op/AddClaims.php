@@ -5,8 +5,8 @@ namespace Kitmap\command\staff\op;
 use CortexPE\Commando\BaseCommand;
 use Kitmap\handler\Cache;
 use pocketmine\command\CommandSender;
+use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\enchantment\EnchantmentInstance;
-use pocketmine\item\enchantment\VanillaEnchantments;
 use pocketmine\item\VanillaItems;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\Player;
@@ -20,7 +20,7 @@ class AddClaims extends BaseCommand
         parent::__construct(
             $plugin,
             "addclaims",
-            "Permet d'ajouter des claims"
+            "Permet d'ajouter des claims §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);
@@ -44,12 +44,9 @@ class AddClaims extends BaseCommand
     {
         if ($sender instanceof Player) {
             $item = VanillaItems::STONE_AXE();
-
             $item->setCustomName("§r§nClaims Axe");
-
             $item->getNamedTag()->setInt("claims", 1);
-            $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 10));
-
+            $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(-1), 255));
             $sender->getInventory()->setItemInHand($item);
         }
     }

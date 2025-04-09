@@ -20,7 +20,7 @@ class Annonce extends BaseCommand
         parent::__construct(
             $plugin,
             "annonce",
-            "Fait passer une annonce au serveur"
+            "Permet de diffuser une annonce à tous les joueurs connectés"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
@@ -32,7 +32,7 @@ class Annonce extends BaseCommand
             $session = Session::get($sender);
 
             if (!Rank::hasRank($sender, "ultra")) {
-                $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
+                $sender->sendMessage(Util::PREFIX . "Pour accèder à la commande §n/annonce§f, vous devez avoir au minimum le grade §nUltra §f! Pour cela, achetez un grade sur la boutique: §nstore.nitrofaction.fr");
                 return;
             } else if ($session->inCooldown("mute")) {
                 $sender->sendMessage(Util::PREFIX . "Vous êtes mute, temps restant: §n" . Util::formatDurationFromSeconds($session->getCooldownData("mute")[0] - time()));

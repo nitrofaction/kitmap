@@ -19,7 +19,7 @@ class ResetStats extends BaseCommand
         parent::__construct(
             $plugin,
             "resetstats",
-            "Réinitialise ses statistiques"
+            "Permet de réinitialiser ses statistiques"
         );
 
         $this->setAliases(["rs"]);
@@ -32,7 +32,7 @@ class ResetStats extends BaseCommand
             $session = Session::get($sender);
 
             if (!Rank::hasRank($sender, "vip-plus")) {
-                $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
+                $sender->sendMessage(Util::PREFIX . "Pour accèder à la commande §n/resetstats§f, vous devez avoir au minimum le grade §nVIP+ §f! Pour cela, achetez un grade sur la boutique: §nstore.nitrofaction.fr");
                 return;
             }
 

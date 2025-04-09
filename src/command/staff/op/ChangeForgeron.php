@@ -19,7 +19,7 @@ class ChangeForgeron extends BaseCommand
         parent::__construct(
             $plugin,
             "changeforgeron",
-            "Change le forgeron"
+            "Change le forgeron §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

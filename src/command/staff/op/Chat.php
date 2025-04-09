@@ -18,7 +18,7 @@ class Chat extends BaseCommand
         parent::__construct(
             $plugin,
             "chat",
-            "Permet d'activer ou désactiver le chat"
+            "Permet d'activer ou désactiver le chat §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

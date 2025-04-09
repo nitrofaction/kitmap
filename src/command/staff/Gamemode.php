@@ -22,7 +22,7 @@ class Gamemode extends BaseCommand
         parent::__construct(
             $plugin,
             "gamemode",
-            "Changer son mode de jeu/celui d'un joueur"
+            "Permet de changer son mode de jeu §e(S)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

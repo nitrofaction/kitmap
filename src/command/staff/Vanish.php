@@ -21,7 +21,7 @@ class Vanish extends BaseCommand
         parent::__construct(
             $plugin,
             "vanish",
-            "Disparaît aux yeux des autres joueurs"
+            "Permet de disparaître au yeux des joueurs §e(S)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

@@ -18,7 +18,7 @@ class UnloadIslands extends BaseCommand
         parent::__construct(
             $plugin,
             "unloadislands",
-            "Permet de décharger toutes les iles inactives"
+            "Permet de décharger toutes les iles inactives §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

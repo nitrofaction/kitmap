@@ -23,9 +23,8 @@ class Ban extends BaseCommand
         parent::__construct(
             $plugin,
             "ban",
-            "Permet de bannir les tricheurs ou autre"
+            "Permet de bannir un joueur §e(S)"
         );
-
 
         $this->setPermissions([Rank::GROUP_STAFF]);
     }

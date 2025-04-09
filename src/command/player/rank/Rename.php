@@ -21,7 +21,7 @@ class Rename extends BaseCommand
         parent::__construct(
             $plugin,
             "rename",
-            "Renomme les items"
+            "Permet de renommer l'item dans sa main"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
@@ -33,7 +33,7 @@ class Rename extends BaseCommand
             $session = Session::get($sender);
 
             if (!Rank::hasRank($sender, "vip-plus")) {
-                $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
+                $sender->sendMessage(Util::PREFIX . "Pour accèder à la commande §n/rename§f, vous devez avoir au minimum le grade §nVIP+ §f! Pour cela, achetez un grade sur la boutique: §nstore.nitrofaction.fr");
                 return;
             }
 

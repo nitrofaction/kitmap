@@ -17,7 +17,7 @@ class DeleteAllClaims extends BaseCommand
         parent::__construct(
             $plugin,
             "deleteallclaims",
-            "Supprime les emplacement des claims"
+            "Supprime les emplacement des claims §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

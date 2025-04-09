@@ -65,7 +65,7 @@ class Info extends FactionCommand
             return;
         }
 
-        $bar = "§l§8-----------------------";
+        $bar = Util::stringToIcon("dark-bar");
         $leader = Cache::$factions[$faction]["members"]["leader"];
 
         $officiers = self::getMembersFormat($faction, "officiers");

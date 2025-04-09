@@ -17,7 +17,7 @@ class ResetAllClaims extends BaseCommand
         parent::__construct(
             $plugin,
             "resetallclaims",
-            "Reset tout les claims"
+            "Reset tout les claims §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

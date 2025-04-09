@@ -22,7 +22,7 @@ class Repair extends BaseCommand
         parent::__construct(
             $plugin,
             "repair",
-            "Repair les items dans l'inventaire ou la main d'un joueur"
+            "Permet de réparer les items dans sa main ou son inventaire"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
@@ -34,7 +34,7 @@ class Repair extends BaseCommand
             $session = Session::get($sender);
 
             if (!Rank::hasRank($sender, "vip-plus")) {
-                $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
+                $sender->sendMessage(Util::PREFIX . "Pour accèder à la commande §n/repair§f, vous devez avoir au minimum le grade §nVIP+ §f! Pour cela, achetez un grade sur la boutique: §nstore.nitrofaction.fr");
                 return;
             } else if ($session->inCooldown("repair")) {
                 $format = Util::formatDurationFromSeconds($session->getCooldownData("repair")[0] - time());
@@ -47,7 +47,7 @@ class Repair extends BaseCommand
 
             if (isset($args["opt"]) && strtolower($args["opt"]) === "all") {
                 if (!Rank::hasRank($sender, "ultra")) {
-                    $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
+                    $sender->sendMessage(Util::PREFIX . "Pour accèder à la commande §n/repair all§f, vous devez avoir au minimum le grade §nUltra §f! Pour cela, achetez un grade sur la boutique: §nstore.nitrofaction.fr");
                     return;
                 }
 

@@ -29,7 +29,7 @@ class LastInventory extends BaseCommand
         parent::__construct(
             $plugin,
             "lastinventory",
-            "Récupére les derniers inventaires d'un joueur avant sa mort"
+            "Permet de récupérer le dernier inventaire d'un joueur après sa mort §6(SM)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

@@ -20,7 +20,7 @@ class AddValue extends BaseCommand
         parent::__construct(
             $plugin,
             "addvalue",
-            "Ajoute n'importe quel valeur dans les data d'un joueur"
+            "Ajoute n'importe quel valeur dans les data d'un joueur §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

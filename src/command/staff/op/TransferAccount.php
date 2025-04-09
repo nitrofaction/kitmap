@@ -21,7 +21,7 @@ class TransferAccount extends BaseCommand
         parent::__construct(
             $plugin,
             "transferaccount",
-            "Transfère les données d'un compte à un autre"
+            "Transfère les données d'un compte à un autre §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

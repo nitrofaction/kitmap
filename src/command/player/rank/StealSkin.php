@@ -19,7 +19,7 @@ class StealSkin extends BaseCommand
         parent::__construct(
             $plugin,
             "stealskin",
-            "Vole le skin d'un autre joueur"
+            "Permet le vol du skin d'un autre joueur"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
@@ -32,7 +32,7 @@ class StealSkin extends BaseCommand
             $player = Main::getInstance()->getServer()->getPlayerByPrefix($args["joueur"]);
 
             if (!Rank::hasRank($sender, "legende")) {
-                $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
+                $sender->sendMessage(Util::PREFIX . "Pour accèder à la commande §n/stealskin§f, vous devez avoir au minimum le grade §nLégende §f! Pour cela, achetez un grade sur la boutique: §nstore.nitrofaction.fr");
                 return;
             } else if (!$player instanceof Player) {
                 $sender->sendMessage(Util::PREFIX . "Le joueur n'éxiste pas ou n'est pas connecté sur le serveur");

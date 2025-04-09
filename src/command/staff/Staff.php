@@ -24,7 +24,7 @@ class Staff extends BaseCommand
         parent::__construct(
             $plugin,
             "staff",
-            "Active ou désactive le mode staff"
+            "Permet d'activer/désactiver le mode staff §e(S)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

@@ -16,7 +16,7 @@ class CancelStop extends BaseCommand
         parent::__construct(
             $plugin,
             "cancelstop",
-            "Arrête l'arrêt du serveur"
+            "Arrête l'arrêt du serveur §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

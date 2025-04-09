@@ -18,7 +18,7 @@ class PrimeTime extends BaseCommand
         parent::__construct(
             $plugin,
             "primetime",
-            "Commande pour gérer le primetime"
+            "Commande pour gérer le primetime §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

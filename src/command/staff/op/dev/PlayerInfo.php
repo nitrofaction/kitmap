@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Kitmap\command\staff\op;
+namespace Kitmap\command\staff\op\dev;
 
 use CortexPE\Commando\BaseCommand;
 use Kitmap\Util;
@@ -16,7 +16,7 @@ class PlayerInfo extends BaseCommand
         parent::__construct(
             $plugin,
             "playerinfo",
-            "Donne quelques infos à propos de son player"
+            "À utiliser seulement si on connait l'usage /!\ §4(D)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

@@ -28,6 +28,7 @@ class Cache
     public static array $deathXp = [];
     public static array $condenseShapes = [];
     public static array $pendingAlly = [];
+    public static array $infiniteBlade = [];
 
     /* @var array<string, LogoutEntity> */
     public static array $logouts;

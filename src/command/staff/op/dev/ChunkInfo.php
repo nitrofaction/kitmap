@@ -1,22 +1,23 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Kitmap\command\staff\op;
+namespace Kitmap\command\staff\op\dev;
 
 use CortexPE\Commando\BaseCommand;
-use Kitmap\handler\Cache;
 use Kitmap\Util;
 use pocketmine\command\CommandSender;
 use pocketmine\permission\DefaultPermissions;
+use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
+use pocketmine\world\format\Chunk;
 
-class Save extends BaseCommand
+class ChunkInfo extends BaseCommand
 {
     public function __construct(PluginBase $plugin)
     {
         parent::__construct(
             $plugin,
-            "save",
-            "Sauvegarde les données des factions, hdv, etc.."
+            "chunkinfo",
+            "À utiliser seulement si on connait l'usage /!\ §4(D)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);
@@ -24,8 +25,12 @@ class Save extends BaseCommand
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
-        Cache::getInstance()->saveAll();
-        $sender->sendMessage(Util::PREFIX . "Vous venez de sauvegarder les données du serveur");
+        if ($sender instanceof Player) {
+            $chunkX = $sender->getPosition()->getFloorX() >> Chunk::COORD_BIT_SIZE;
+            $chunkZ = $sender->getPosition()->getFloorZ() >> Chunk::COORD_BIT_SIZE;
+
+            $sender->sendMessage(Util::PREFIX . $chunkX . "§n:§f" . $chunkZ);
+        }
     }
 
     protected function prepare(): void

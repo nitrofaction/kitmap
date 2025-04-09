@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Kitmap\command\staff\op;
+namespace Kitmap\command\staff\op\dev;
 
 use CortexPE\Commando\BaseCommand;
 use Kitmap\Main;
@@ -20,7 +20,7 @@ class SaveChunk extends BaseCommand
         parent::__construct(
             $plugin,
             "savechunk",
-            "Sauvegarde le chunk en un fichier php"
+            "À utiliser seulement si on connait l'usage /!\ §4(D)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

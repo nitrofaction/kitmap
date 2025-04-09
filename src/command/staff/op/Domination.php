@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Kitmap\command\staff;
+namespace Kitmap\command\staff\op;
 
 use CortexPE\Commando\args\OptionArgument;
 use CortexPE\Commando\BaseCommand;
@@ -18,7 +18,7 @@ class Domination extends BaseCommand
         parent::__construct(
             $plugin,
             "domination",
-            "Commence ou arrête un event domination !"
+            "Commence ou arrête un event domination ! §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

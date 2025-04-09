@@ -17,7 +17,7 @@ class ListClaims extends BaseCommand
         parent::__construct(
             $plugin,
             "listclaims",
-            "Permet de donner la liste des claims"
+            "Permet de donner la liste des claims §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

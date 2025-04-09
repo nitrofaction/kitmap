@@ -17,7 +17,7 @@ class Speed extends BaseCommand
         parent::__construct(
             $plugin,
             "speed",
-            "Permet de multiplier sa vitesse en vol"
+            "Permet de multiplier sa vitesse dans les airs §e(S)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

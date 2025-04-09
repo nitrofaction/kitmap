@@ -29,7 +29,7 @@ class Enderchest extends BaseCommand
         parent::__construct(
             $plugin,
             "enderchest",
-            "Ouvre un enderchest n'importe où"
+            "Permet l'ouverture de l'enderchest à distance"
         );
 
         $this->setAliases(["ec"]);
@@ -45,7 +45,7 @@ class Enderchest extends BaseCommand
                 $sender->sendMessage(Util::PREFIX . "Vous ne pouvez pas accèder à votre enderchest en étant en staff mod");
                 return;
             } else if (!Rank::hasRank($sender, "vip")) {
-                $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
+                $sender->sendMessage(Util::PREFIX . "Pour accèder à la commande §n/enderchest§f, vous devez avoir au minimum le grade §nVIP §f! Pour cela, achetez un grade sur la boutique: §nstore.nitrofaction.fr");
                 return;
             } else if ($session->inCooldown("combat")) {
                 $sender->sendMessage(Util::PREFIX . "Cette commande est interdite en combat");

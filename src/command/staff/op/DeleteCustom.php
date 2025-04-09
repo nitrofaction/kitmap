@@ -18,8 +18,8 @@ class DeleteCustom extends BaseCommand
     {
         parent::__construct(
             $plugin,
-            "DeleteCustom",
-            "Supprime le format du grade custom d'un joueur"
+            "deletecustom",
+            "Supprime le format du grade custom d'un joueur §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

@@ -2,6 +2,7 @@
 
 namespace Kitmap\item;
 
+use Kitmap\item\enchantment\ExtraVanillaEnchantments;
 use Kitmap\Util;
 use pocketmine\data\bedrock\item\SavedItemData;
 use pocketmine\entity\effect\VanillaEffects;
@@ -63,6 +64,7 @@ class ExtraVanillaItems
         self::addItem(VanillaItems::NETHERITE_SWORD(), new Sword(3810, 11));
 
         new Craft();
+        new ExtraVanillaEnchantments();
     }
 
     public static function addItem(PmItem $item, Item $replace): void

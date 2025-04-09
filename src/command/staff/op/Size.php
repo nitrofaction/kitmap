@@ -19,7 +19,7 @@ class Size extends BaseCommand
         parent::__construct(
             $plugin,
             "size",
-            "Permet de changer sa taille ou celle d'un autre joueur"
+            "Permet de changer sa taille ou celle d'un autre joueur §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

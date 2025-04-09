@@ -13,8 +13,8 @@ use Kitmap\Util;
 use muqsit\invmenu\InvMenu;
 use muqsit\invmenu\type\InvMenuTypeIds;
 use pocketmine\block\Block;
+use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\enchantment\EnchantmentInstance;
-use pocketmine\item\enchantment\VanillaEnchantments;
 use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
@@ -267,7 +267,7 @@ class Pack
     {
         $item = VanillaItems::PAPER();
         $item->getNamedTag()->setInt("pack", $amount);
-        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
+        $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(-1), 255));
         $item->setCustomName("§r§n" . $amount . " §fpack(s)");
         return $item;
     }

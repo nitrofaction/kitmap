@@ -17,8 +17,8 @@ use pocketmine\network\mcpe\protocol\types\LevelSoundEvent;
 
 class FireworksRocket extends Entity
 {
-
     public const DATA_FIREWORK_ITEM = 16; //firework item
+
     protected int $lifeTime = 0;
     protected Fireworks $fireworks;
 

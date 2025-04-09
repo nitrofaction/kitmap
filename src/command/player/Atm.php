@@ -36,10 +36,10 @@ class Atm extends BaseCommand
             $session->data["connection"] = time();
 
             $remaining = $session->data["played_time"] - $session->data["atm"];
-            
+
             $money = round($remaining / 60) * Cache::$config["atm"];
             $money = round($money * (1 + (Rank::getRankValue(Rank::getEqualRankBySession($session), "atm") / 100)));
-            
+
             $form = new SimpleForm(function (Player $player, mixed $data) use ($session) {
                 if ($data !== 0) {
                     return;

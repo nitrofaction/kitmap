@@ -29,6 +29,7 @@ use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\item\Item;
 use pocketmine\item\StringToItemParser;
 use pocketmine\item\VanillaItems;
+use pocketmine\lang\Translatable;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\BigEndianNbtSerializer;
 use pocketmine\nbt\NbtDataException;
@@ -202,7 +203,7 @@ class Util
             $enabled = $data["atouts"][$name][0] ?? false;
 
             if ($enabled) {
-                $player->getEffects()->add(new EffectInstance(EffectIdMap::getInstance()->fromId($atout["id"]), 20 * 60 * 60 * 24, 0, false));
+                $player->getEffects()->add(new EffectInstance(EffectIdMap::getInstance()->fromId($atout["id"]), 20 * 60 * 60 * 24, $atout["level"] - 1, false));
             }
         }
 
@@ -406,8 +407,12 @@ class Util
         return $x >= $minX && $x <= $maxX && $y >= $minY && $y <= $maxY && $z >= $minZ && $z <= $maxZ && $position->getWorld()->getFolderName() === $world;
     }
 
-    public static function reprocess(string $input): string
+    public static function reprocess(string|Translatable $input): string
     {
+        if ($input instanceof Translatable) {
+            $input = $input->getText();
+        }
+
         return strtolower(str_replace([" ", "minecraft:"], ["_", ""], trim($input)));
     }
 
@@ -689,5 +694,24 @@ class Util
                 }
                 return $item;
         }
+    }
+
+    public static function formatToRomanNumber(int $integer): string
+    {
+        $romanNumber = "";
+
+        $units = [
+            "X" => 10, "IX" => 9,
+            "V" => 5, "IV" => 4,
+            "I" => 1
+        ];
+
+        foreach ($units as $unit => $value) {
+            while ($integer >= $value) {
+                $integer -= $value;
+                $romanNumber .= $unit;
+            }
+        }
+        return $romanNumber;
     }
 }

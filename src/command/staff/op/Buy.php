@@ -21,7 +21,7 @@ class Buy extends BaseCommand
         parent::__construct(
             $plugin,
             "buy",
-            "Commande permettant de gérer les achats de la boutique"
+            "Commande permettant de gérer les achats de la boutique §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

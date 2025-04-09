@@ -20,7 +20,7 @@ class Clearcooldown extends BaseCommand
         parent::__construct(
             $plugin,
             "clearcooldown",
-            "Supprime un cooldown ou celui d'un autre joueur"
+            "Supprime un cooldown ou celui d'un autre joueur §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

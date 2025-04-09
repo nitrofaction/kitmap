@@ -16,7 +16,7 @@ class ResetBourse extends BaseCommand
         parent::__construct(
             $plugin,
             "resetbourse",
-            "Réinitialise la bourse"
+            "Réinitialise la bourse §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

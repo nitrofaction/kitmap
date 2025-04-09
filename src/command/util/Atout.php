@@ -73,7 +73,7 @@ class Atout extends BaseCommand
                     default => $name . "\n§aActivé"
                 };
 
-                $form->addButton($button, 0, "textures/ui/" . $atout["texture"], $name);
+                $form->addButton($button, 0, "textures/ui/nitro/" . $atout["texture"], $name);
             }
 
             $sender->sendForm($form);

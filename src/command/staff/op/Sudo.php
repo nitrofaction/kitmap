@@ -19,7 +19,7 @@ class Sudo extends BaseCommand
         parent::__construct(
             $plugin,
             "sudo",
-            "Fait executer une commande ou parler un joueur"
+            "Fait executer une commande ou parler un joueur §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

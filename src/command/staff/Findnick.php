@@ -17,7 +17,7 @@ class Findnick extends BaseCommand
         parent::__construct(
             $plugin,
             "findnick",
-            "Trouve le joueur possedant le nick de son choix"
+            "Permet de trouver le vrai nom d'un nick §e(S)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

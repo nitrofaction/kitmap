@@ -17,7 +17,7 @@ class Banlist extends BaseCommand
         parent::__construct(
             $plugin,
             "banlist",
-            "Affiche la liste des joueurs banni du serveur"
+            "Permet l'affiche des joueurs bannis §e(S)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

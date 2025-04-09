@@ -20,7 +20,7 @@ class SetBooster extends BaseCommand
         parent::__construct(
             $plugin,
             "setbooster",
-            "Défini un joueur comme booster discord ou non"
+            "Défini un joueur comme booster discord ou non §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

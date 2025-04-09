@@ -137,27 +137,38 @@
   "atout": {
     "Vitesse": {
       "id": 1,
-      "gem": 100,
+      "level": 1,
+      "gem": 200,
       "price": 1500000,
       "texture": "speed_effect"
     },
-    "Jump Boost": {
-      "id": 8,
-      "gem": 100,
-      "price": 1500000,
-      "texture": "jump_boost_effect"
+    "Resistance": {
+      "id": 11,
+      "level": 1,
+      "gem": 200,
+      "price": 3000000,
+      "texture": "resistance_effect"
     },
     "Force": {
       "id": 5,
+      "level": 1,
       "gem": 200,
       "price": 3000000,
       "texture": "strength_effect"
     },
-    "Resistance": {
-      "id": 11,
+    "Célérité II": {
+      "id": 3,
+      "level": 2,
       "gem": 200,
       "price": 3000000,
-      "texture": "resistance_effect"
+      "texture": "haste_effect"
+    },
+    "Jump Boost II": {
+      "id": 8,
+      "level": 2,
+      "gem": 100,
+      "price": 1500000,
+      "texture": "jump_boost_effect"
     }
   },
   "forgeron": {

@@ -58,11 +58,6 @@ class Rank
         return Rank::getEqualRankByString($rank);
     }
 
-    public static function getRankBySession(Session $session): string
-    {
-        return $session->data["rank"];
-    }
-
     public static function getRank(string $name): ?string
     {
         $name = strtolower($name);
@@ -78,6 +73,11 @@ class Rank
             $rank = $file->get("rank", "joueur");
         }
         return $rank;
+    }
+
+    public static function getRankBySession(Session $session): string
+    {
+        return $session->data["rank"];
     }
 
     public static function hasRank(Player $player, string $rank): bool

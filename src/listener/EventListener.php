@@ -4,12 +4,14 @@ namespace Kitmap\listener;
 
 use Kitmap\block\ExtraVanillaBlocks;
 use Kitmap\command\player\rank\Enderchest;
-use Kitmap\command\staff\{Ban, LastInventory, Question, Vanish};
+use Kitmap\command\staff\{Ban, LastInventory, op\Question, Vanish};
 use Kitmap\command\util\Bienvenue;
 use Kitmap\entity\{AntiBackBall, EggTrap, floating\StuffFloating, npc\LogoutEntity, SwitchBall};
 use Kitmap\entity\Player as CustomPlayer;
 use Kitmap\handler\{Cache, Cosmetic, Faction, Job, PartnerItem, Rank, Sanction, WaterdogPacketHandler};
 use Kitmap\item\Armor;
+use Kitmap\item\enchantment\ExtraVanillaEnchantments;
+use Kitmap\item\enchantment\Hammer;
 use Kitmap\item\ExtraVanillaItems;
 use Kitmap\Main;
 use Kitmap\Session;
@@ -41,6 +43,7 @@ use pocketmine\block\{Air,
     VanillaBlocks,
     Water};
 use pocketmine\block\tile\Chest as ChestTile;
+use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\entity\object\ItemEntity;
 use pocketmine\event\block\{BlockBreakEvent,
     BlockGrowEvent,
@@ -83,7 +86,7 @@ use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\event\server\DataPacketSendEvent;
 use pocketmine\event\world\ChunkLoadEvent;
 use pocketmine\inventory\transaction\action\SlotChangeAction;
-use pocketmine\item\{Axe, Bucket, Hoe, PaintingItem, PotionType, Shovel, Stick, VanillaItems};
+use pocketmine\item\{Axe, Bucket, Hoe, Item, PaintingItem, PotionType, Shovel, Stick, VanillaItems};
 use pocketmine\math\Facing;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
@@ -161,6 +164,8 @@ class EventListener implements Listener
             }
 
             return;
+        } else if ($event->getAction() === $event::LEFT_CLICK_BLOCK) {
+            Hammer::$faces[$event->getPlayer()->getXuid()] = $event->getFace();
         }
 
         if (!ExtraVanillaItems::getItem($item)->onInteract($event)) {
@@ -324,7 +329,7 @@ class EventListener implements Listener
             }
         }, null));*/
 
-        $bar = "§l§8-----------------------";
+        $bar = Util::stringToIcon("dark-bar");
         $player->sendMessage($bar);
         $player->sendMessage("§fBienvenue, §n" . $player->getName() . "!");
         $player->sendMessage(Util::caracterToUnicode("down-right-arrow") . " §fUtilisez §n/lobby §fpour revenir au lobby");
@@ -371,7 +376,7 @@ class EventListener implements Listener
             str_starts_with($to->getWorld()->getFolderName(), "island-")
         ) {
             $faction = substr($to->getWorld()->getFolderName(), 7);
-            $bar = "§l§8-----------------------";
+            $bar = Util::stringToIcon("dark-bar");
 
             $entity->sendMessage($bar);
             $entity->sendMessage(Util::PREFIX . "Bienvenue sur l'ile de la §n" . Faction::getFactionUpperName($faction));
@@ -393,10 +398,17 @@ class EventListener implements Listener
     {
         $player = $event->getPlayer();
 
-        if (isset(Cache::$deathXp[$player->getName()])) {
-            $player->getXpManager()->setCurrentTotalXp(intval(Cache::$deathXp[$player->getName()]));
-            unset(Cache::$deathXp[$player->getName()]);
+        $xp = Cache::$deathXp[$player->getName()] ?? 0;
+        $blades = Cache::$infiniteBlade[$player->getXuid()] ?? [];
+
+        $player->getXpManager()->setCurrentTotalXp(intval($xp));
+
+        foreach ($blades as $item) {
+            $player->getInventory()->addItem($item);
         }
+
+        Cache::$deathXp[$player->getName()] = 0;
+        Cache::$infiniteBlade[$player->getXuid()] = [];
 
         Util::givePlayerPreferences($event->getPlayer());
     }
@@ -452,6 +464,19 @@ class EventListener implements Listener
 
             return;
         }
+
+        $infiniteEnchant = EnchantmentIdMap::getInstance()->fromId(ExtraVanillaEnchantments::INFINITE);
+
+        foreach ($event->getDrops() as $item) {
+            if ($item->hasEnchantment($infiniteEnchant)) {
+                Cache::$infiniteBlade[$player->getXuid()] ??= [];
+                Cache::$infiniteBlade[$player->getXuid()][] = $item;
+            }
+        }
+
+        $event->setDrops(array_filter($event->getDrops(), function (Item $item) use ($infiniteEnchant) {
+            return !$item->hasEnchantment($infiniteEnchant);
+        }));
 
         $session->addValue("death");
         $playerBounty = $session->data["bounty"];
@@ -517,6 +542,10 @@ class EventListener implements Listener
                 $damager->sendMessage(Util::PREFIX . "Vous venez de gagner §n" . $winElo . " §felo !");
 
                 Job::addXp($damager, "Assassin", 50 + $damagerSession->data["killstreak"]);
+
+                foreach ($damager->getInventory()->getItemInHand()->getEnchantments() as $enchant) {
+                    ExtraVanillaEnchantments::getEnchantment($enchant->getType())->onKill($event, $enchant, $damager, $player);
+                }
                 return;
             }
         } else {
@@ -658,6 +687,10 @@ class EventListener implements Listener
 
                 Util::updateBounty($entity);
                 Util::updateBounty($damager);
+
+                foreach ($damager->getInventory()->getItemInHand()->getEnchantments() as $enchant) {
+                    ExtraVanillaEnchantments::getEnchantment($enchant->getType())->onAttack($event, $enchant, $damager);
+                }
             }
         }
 
@@ -949,7 +982,7 @@ class EventListener implements Listener
                 $event->cancel();
                 Util::removeCurrentWindow($player);
 
-                $player->sendMessage(Util::PREFIX . "Vous ne pouvez pas utiliser des partneritems pour craft des items ou autre");
+                $player->sendMessage(Util::PREFIX . "Vous ne pouvez pas utiliser des partner-items pour craft des items ou autre");
                 break;
             } else if (!is_null($item->getNamedTag()->getTag("menu_item"))) {
                 $event->cancel();
@@ -1037,6 +1070,10 @@ class EventListener implements Listener
         }
 
         Util::addItems($player, $event->getDrops());
+
+        foreach ($event->getItem()->getEnchantments() as $enchant) {
+            ExtraVanillaEnchantments::getEnchantment($enchant->getType())->onBreak($event, $enchant);
+        }
 
         if ($event->getXpDropAmount() > 0) {
             $player->getXpManager()->addXp($event->getXpDropAmount());

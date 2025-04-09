@@ -20,7 +20,7 @@ class RemoveValue extends BaseCommand
         parent::__construct(
             $plugin,
             "removevalue",
-            "Supprime n'importe quel valeur dans les data d'un joueur"
+            "Supprime n'importe quel valeur dans les data d'un joueur §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

@@ -18,7 +18,7 @@ class Freeze extends BaseCommand
         parent::__construct(
             $plugin,
             "freeze",
-            "Rend immobile un joueur"
+            "Permet de rendre un joueur immobile §e(S)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

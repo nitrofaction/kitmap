@@ -22,7 +22,7 @@ class Stuff extends BaseCommand
         parent::__construct(
             $plugin,
             "stuff",
-            "Accède à l'inventaire d'un autre joueur connecté"
+            "Permet l'accès à l'inventaire d'un autre joueur"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
@@ -37,7 +37,7 @@ class Stuff extends BaseCommand
             $player = Main::getInstance()->getServer()->getPlayerByPrefix($args["joueur"]);
 
             if (!Rank::hasRank($sender, "ultra")) {
-                $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
+                $sender->sendMessage(Util::PREFIX . "Pour accèder à la commande §n/stuff§f, vous devez avoir au minimum le grade §nUltra §f! Pour cela, achetez un grade sur la boutique: §nstore.nitrofaction.fr");
                 return;
             } else if ($session->inCooldown("stuff")) {
                 $format = Util::formatDurationFromSeconds($session->getCooldownData("stuff")[0] - time());

@@ -19,7 +19,7 @@ class Clearlagg extends BaseCommand
         parent::__construct(
             $plugin,
             "clearlagg",
-            "Effectue un clearlagg forcé"
+            "Effectue un clearlagg forcé §c(O)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

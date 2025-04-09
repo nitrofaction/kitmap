@@ -25,7 +25,7 @@ class Nick extends BaseCommand
         parent::__construct(
             $plugin,
             "nick",
-            "Permet de cacher son vrai pseudo aux yeux des autres joueurs"
+            "Permet de changer son pseudo"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
@@ -35,7 +35,7 @@ class Nick extends BaseCommand
     {
         if ($sender instanceof Player) {
             if (!Rank::hasRank($sender, "vip")) {
-                $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
+                $sender->sendMessage(Util::PREFIX . "Pour accèder à la commande §n/nick§f, vous devez avoir au minimum le grade §nVIP §f! Pour cela, achetez un grade sur la boutique: §nstore.nitrofaction.fr");
                 return;
             }
 

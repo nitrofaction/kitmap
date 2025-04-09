@@ -20,7 +20,7 @@ class Fly extends BaseCommand
         parent::__construct(
             $plugin,
             "fly",
-            "Permet de voler sur les iles de faction"
+            "Permet de voler dans les iles de faction"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
@@ -79,6 +79,7 @@ class Fly extends BaseCommand
         });
 
         $form->setTitle("§nFly");
+        // TODO AJOUTER UN COMMENTAIRE ON PEUT ACHETER NANA SUR LA BOUTIQUE
         $form->addLabel(Util::PREFIX . "Cette commande vous donnera la possibilité de voler dans votre île de faction !\n\nPrix: §n500k§f$\n\nVous possedez §n" . Util::formatNumberWithSuffix($session->data["money"]) . " §fpièces(s)\n");
         $form->addToggle("Acheter la commande /fly ?", true);
 

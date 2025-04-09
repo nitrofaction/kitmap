@@ -1,23 +1,22 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Kitmap\command\staff\op;
+namespace Kitmap\command\staff\op\dev;
 
-use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\BaseCommand;
+use Kitmap\handler\Cache;
 use Kitmap\Util;
 use pocketmine\command\CommandSender;
 use pocketmine\permission\DefaultPermissions;
-use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 
-class ParseItem extends BaseCommand
+class Save extends BaseCommand
 {
     public function __construct(PluginBase $plugin)
     {
         parent::__construct(
             $plugin,
-            "parseitem",
-            "Permet de se donner un item en le parsant"
+            "save",
+            "À utiliser seulement si on connait l'usage /!\ §4(D)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);
@@ -25,16 +24,11 @@ class ParseItem extends BaseCommand
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
-        if ($sender instanceof Player) {
-            $item = Util::parseItem($args["item"]);
-
-            $sender->getInventory()->addItem($item);
-            $sender->sendMessage(Util::PREFIX . "Vous avez recu l'item dans votre inventaire");
-        }
+        Cache::getInstance()->saveAll();
+        $sender->sendMessage(Util::PREFIX . "Vous venez de sauvegarder les données du serveur");
     }
 
     protected function prepare(): void
     {
-        $this->registerArgument(0, new RawStringArgument("item"));
     }
 }

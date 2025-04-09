@@ -18,7 +18,7 @@ class Xp extends BaseCommand
         parent::__construct(
             $plugin,
             "xp",
-            "Se donner des niveaux d'xp"
+            "Se donner des niveaux d'xp §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);
@@ -37,5 +37,4 @@ class Xp extends BaseCommand
     {
         $this->registerArgument(0, new IntegerArgument("niveaux"));
     }
-
 }

@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Kitmap\command\staff;
+namespace Kitmap\command\staff\op;
 
 use CortexPE\Commando\BaseCommand;
 use Kitmap\handler\Cache;
@@ -20,7 +20,7 @@ class Question extends BaseCommand
         parent::__construct(
             $plugin,
             "question",
-            "Lance une question dans le chat !"
+            "Permet de lancer une question dans le chat §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

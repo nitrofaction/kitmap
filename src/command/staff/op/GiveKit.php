@@ -20,7 +20,7 @@ class GiveKit extends BaseCommand
         parent::__construct(
             $plugin,
             "givekit",
-            "Donne un kit à un joueur"
+            "Donne un kit à un joueur §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Kitmap\command\staff\op;
+namespace Kitmap\command\staff;
 
 use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\args\TargetPlayerArgument;
@@ -18,7 +18,7 @@ class Alias extends BaseCommand
         parent::__construct(
             $plugin,
             "alias",
-            "Permet de voir tous les comptes d'un joueur"
+            "Permet de voir les potentiels double compte d'un joueur §e(S)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);
@@ -34,7 +34,7 @@ class Alias extends BaseCommand
         }
 
         $alias = $this->getPlayerAliasByName($target);
-        $bar = "§l§8-----------------------";
+        $bar = Util::stringToIcon("dark-bar");
 
         if (count($alias) === 0) {
             $sender->sendMessage(Util::PREFIX . "Le joueur §n" . $target . " §fne possède aucun double compte lié à son ip, did etc...");

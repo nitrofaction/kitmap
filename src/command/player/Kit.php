@@ -9,6 +9,7 @@ use Kitmap\handler\Rank;
 use Kitmap\Session;
 use Kitmap\Util;
 use pocketmine\command\CommandSender;
+use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\Armor;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\item\enchantment\VanillaEnchantments;
@@ -37,7 +38,7 @@ class Kit extends BaseCommand
     {
         $item = VanillaItems::PAPER();
         $item->getNamedTag()->setString("kit", $kit);
-        $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE()));
+        $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(-1), 255));
         $item->setCustomName("§r§nKit " . ucfirst($kit));
         return $item;
     }

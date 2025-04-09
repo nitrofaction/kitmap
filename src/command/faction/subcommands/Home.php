@@ -55,7 +55,7 @@ class Home extends FactionCommand
         if (is_null($home) || $home === "0:0:0") {
             if ($ally) {
                 $sender->sendMessage(Util::PREFIX . "Votre alliance n'a pas encore défini de f home");
-            } else{
+            } else {
                 $sender->sendMessage(Util::PREFIX . "Votre faction n'a pas encore défini de f home");
             }
             return;

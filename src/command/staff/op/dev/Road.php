@@ -1,23 +1,24 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Kitmap\command\staff\op;
+namespace Kitmap\command\staff\op\dev;
 
 use CortexPE\Commando\BaseCommand;
-use Kitmap\Util;
 use pocketmine\command\CommandSender;
+use pocketmine\data\bedrock\EnchantmentIdMap;
+use pocketmine\item\enchantment\EnchantmentInstance;
+use pocketmine\item\VanillaItems;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
-use pocketmine\world\format\Chunk;
 
-class ChunkInfo extends BaseCommand
+class Road extends BaseCommand
 {
     public function __construct(PluginBase $plugin)
     {
         parent::__construct(
             $plugin,
-            "chunkinfo",
-            "Permet d'avoir les coordonnées du chunk actuel"
+            "road",
+            "À utiliser seulement si on connait l'usage /!\ §4(D)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);
@@ -26,10 +27,11 @@ class ChunkInfo extends BaseCommand
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
         if ($sender instanceof Player) {
-            $chunkX = $sender->getPosition()->getFloorX() >> Chunk::COORD_BIT_SIZE;
-            $chunkZ = $sender->getPosition()->getFloorZ() >> Chunk::COORD_BIT_SIZE;
-
-            $sender->sendMessage(Util::PREFIX . $chunkX . "§n:§f" . $chunkZ);
+            $item = VanillaItems::IRON_AXE();
+            $item->setCustomName("§r§nRoad Axe");
+            $item->getNamedTag()->setInt("road", 1);
+            $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(-1), 255));
+            $sender->getInventory()->setItemInHand($item);
         }
     }
 

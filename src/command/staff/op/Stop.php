@@ -20,7 +20,7 @@ class Stop extends BaseCommand
         parent::__construct(
             $plugin,
             "stop",
-            "Arrêter le serveur"
+            "Arrêter le serveur §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

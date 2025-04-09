@@ -55,7 +55,7 @@ class Stats extends BaseCommand
                 $data = $file->getAll();
             }
 
-            $bar = "§l§8-----------------------";
+            $bar = Util::stringToIcon("dark-bar");
             $playtime = Util::formatDurationFromSeconds($data["played_time"]);
 
             $faction = $data["faction"];

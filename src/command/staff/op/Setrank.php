@@ -20,7 +20,7 @@ class Setrank extends BaseCommand
         parent::__construct(
             $plugin,
             "setrank",
-            "Ajoute un grade à un joueur"
+            "Ajoute un grade à un joueur §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

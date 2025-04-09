@@ -18,7 +18,7 @@ class Clear extends BaseCommand
         parent::__construct(
             $plugin,
             "clear",
-            "Supprime les items de son inventaire ou d'un joueur"
+            "Supprime les items de son inventaire ou d'un joueur §c(O)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

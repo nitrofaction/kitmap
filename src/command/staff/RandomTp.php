@@ -17,7 +17,7 @@ class RandomTp extends BaseCommand
         parent::__construct(
             $plugin,
             "randomtp",
-            "Se téléporte à un joueur au hasard connecté"
+            "Permet la téléportation à un joueur au hasard §e(S)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

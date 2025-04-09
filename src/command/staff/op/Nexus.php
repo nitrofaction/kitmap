@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Kitmap\command\staff;
+namespace Kitmap\command\staff\op;
 
 use CortexPE\Commando\args\OptionArgument;
 use CortexPE\Commando\BaseCommand;
@@ -21,7 +21,7 @@ class Nexus extends BaseCommand
         parent::__construct(
             $plugin,
             "nexus",
-            "Commence ou arrête un event nexus !"
+            "Commence ou arrête un event nexus §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

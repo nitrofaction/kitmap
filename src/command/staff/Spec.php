@@ -20,7 +20,7 @@ class Spec extends BaseCommand
         parent::__construct(
             $plugin,
             "spec",
-            "Change de mode de jeu"
+            "Permet le changement de mode de jeu vers spectateur §e(S)"
         );
 
         $this->setAliases(["spectate"]);

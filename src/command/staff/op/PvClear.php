@@ -19,7 +19,7 @@ class PvClear extends BaseCommand
         parent::__construct(
             $plugin,
             "pvclear",
-            "Permet de clear des joueurs"
+            "Permet de clear des joueurs §c(O)"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_OPERATOR]);

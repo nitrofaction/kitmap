@@ -20,7 +20,7 @@ class Custom extends BaseCommand
         parent::__construct(
             $plugin,
             "custom",
-            "Permet de personnaliser son grade"
+            "Permet de modifier son grade personnalisé"
         );
 
         $this->setAliases(["perso", "customrank", "personnaliser"]);
@@ -36,7 +36,7 @@ class Custom extends BaseCommand
             $rank = Rank::getRankBySession($session);
 
             if ($rank !== "custom") {
-                $sender->sendMessage(Util::PREFIX . "Vous devez avoir le grade personnalisé pour cette commande");
+                $sender->sendMessage(Util::PREFIX . "Pour accèder à la commande §n/custom§f, vous devez avoir au minimum le grade §nPersonnalisé §f! Pour cela, achetez un grade sur la boutique: §nstore.nitrofaction.fr");
                 return;
             } else if ($delete) {
                 $session->data["format"]["custom"] = null;

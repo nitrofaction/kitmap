@@ -19,7 +19,7 @@ class Anvil extends Block
         if (!$player->isSneaking() && $event->getAction() === $event::RIGHT_CLICK_BLOCK) {
             Util::removeCurrentWindow($player);
 
-            $this->openAnvil($player);
+            Anvil::openAnvil($player);
             $event->cancel();
 
             return true;
@@ -28,7 +28,7 @@ class Anvil extends Block
         return false;
     }
 
-    private function openAnvil(Player $player): void
+    public static function openAnvil(Player $player): void
     {
         $item = $player->getInventory()->getItemInHand();
 
@@ -42,7 +42,7 @@ class Anvil extends Block
                 return;
             }
 
-            self::confirmationForm($player, $data);
+            Anvil::confirmationForm($player, $data);
         });
         $form->setTitle("§nEnclume");
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
@@ -51,7 +51,7 @@ class Anvil extends Block
         $player->sendForm($form);
     }
 
-    private function confirmationForm(Player $player, int $category): void
+    private static function confirmationForm(Player $player, int $category): void
     {
         $form = new SimpleForm(function (Player $player, mixed $data) use ($category) {
             $item = $player->getInventory()->getItemInHand();

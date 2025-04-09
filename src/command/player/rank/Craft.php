@@ -22,7 +22,7 @@ class Craft extends BaseCommand
         parent::__construct(
             $plugin,
             "craft",
-            "Ouvre un établi n'importe où"
+            "Permet l'ouverture de l'établi à distance"
         );
 
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
@@ -37,7 +37,7 @@ class Craft extends BaseCommand
                 $sender->sendMessage(Util::PREFIX . "Vous ne pouvez pas accèder à votre enderchest en étant en staff mod");
                 return;
             } else if (!Rank::hasRank($sender, "vip")) {
-                $sender->sendMessage(Util::PREFIX . "Vous n'avez pas la permission de faire cela");
+                $sender->sendMessage(Util::PREFIX . "Pour accèder à la commande §n/craft§f, vous devez avoir au minimum le grade §nVIP §f! Pour cela, achetez un grade sur la boutique: §nstore.nitrofaction.fr");
                 return;
             }
 

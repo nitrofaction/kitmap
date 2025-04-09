@@ -17,7 +17,7 @@ class Baninfo extends BaseCommand
         parent::__construct(
             $plugin,
             "baninfo",
-            "Affiche des informations sur le bannissement d'un joueur"
+            "Permet d'avoir les informations d'un joueur banni §e(S)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

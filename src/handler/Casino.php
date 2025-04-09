@@ -13,8 +13,8 @@ use muqsit\invmenu\type\InvMenuTypeIds;
 use pocketmine\block\Concrete;
 use pocketmine\block\utils\DyeColor;
 use pocketmine\block\VanillaBlocks;
+use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\enchantment\EnchantmentInstance;
-use pocketmine\item\enchantment\VanillaEnchantments;
 use pocketmine\item\ItemBlock;
 use pocketmine\player\Player;
 use pocketmine\scheduler\ClosureTask;
@@ -185,7 +185,7 @@ class Casino
                 $block->setLore([TextFormat::colorize(" ")]);
 
                 if ($stage === 0) {
-                    $block->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE(), 10));
+                    $block->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(-1), 255));
                 }
 
                 $invMenuInventory->setItem($slot, $block);
@@ -201,7 +201,7 @@ class Casino
 
                 $gainColor = $possibleGain >= $bet ? TextFormat::GREEN : TextFormat::RED;
 
-                $collectGainBlock = VanillaBlocks::CONCRETE()->setColor(DyeColor::YELLOW())->asItem()->setCustomName("§r§l§n» §r§nRécupérer ses gains §l§n«§r\n§l§n| §r§fMise initial§8: §b" . $formattedBet . "\n§l§n| §r§fRécompense§8: " . $gainColor . Util::formatNumberWithSuffix(round($possibleGain)) . " §8(§7x" . $possibleMultiplier . "§8)");
+                $collectGainBlock = VanillaBlocks::CONCRETE()->setColor(DyeColor::YELLOW())->asItem()->setCustomName("§r§l§n» §r§nRécupérer ses gains §l§n«§r\n§l§n| §r§fMise initial§8: §n" . $formattedBet . "\n§l§n| §r§fRécompense§8: " . $gainColor . Util::formatNumberWithSuffix(round($possibleGain)) . " §8(§7x" . $possibleMultiplier . "§8)");
                 $invMenuInventory->setItem($collectGainSlot, $collectGainBlock);
             }
         };
@@ -253,7 +253,7 @@ class Casino
 
                     foreach ($lines[$updatedMultiplier] as $slot) {
                         $newLineEnchanttedBlock = clone $invMenuInventory->getItem($slot);
-                        $newLineEnchanttedBlock->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE(), 10));
+                        $newLineEnchanttedBlock->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(-1), 255));
                         $invMenuInventory->setItem($slot, $newLineEnchanttedBlock);
                     }
 
@@ -405,7 +405,7 @@ class Casino
             $possibleGain = round((($bet * $multiplier) - $bet) * 0.90, 2) * 0.90;
             $multiplier = round((($multiplier - 1) * 0.90) + 1, 2);
 
-            $collectGainBlock = VanillaBlocks::CONCRETE()->setColor(DyeColor::YELLOW())->asItem()->setCustomName("§r§l§n» §r§nRécupérer ses gains §l§n«§r\n§l§n| §r§fMise initial§8: §b" . $formattedBet . "\n§l§n| §r§fRécompense§8: §a" . Util::formatNumberWithSuffix($possibleGain) . " §8(§7x" . $multiplier . "§8)");
+            $collectGainBlock = VanillaBlocks::CONCRETE()->setColor(DyeColor::YELLOW())->asItem()->setCustomName("§r§l§n» §r§nRécupérer ses gains §l§n«§r\n§l§n| §r§fMise initial§8: §n" . $formattedBet . "\n§l§n| §r§fRécompense§8: §a" . Util::formatNumberWithSuffix($possibleGain) . " §8(§7x" . $multiplier . "§8)");
             $invMenuInventory->setItem(49, $collectGainBlock);
         };
 
@@ -440,7 +440,7 @@ class Casino
                     $blockToSet->setCustomName(TextFormat::colorize(" "));
                     $blockToSet->setLore([TextFormat::colorize(" ")]);
 
-                    $blockToSet->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE(), 10));
+                    $blockToSet->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(-1), 255));
                     $invMenuInventory->setItem($itemSlot, $blockToSet);
 
                     self::$games[$playerName]["score"]++;
@@ -458,7 +458,7 @@ class Casino
 
                     $tntToSet->setCustomName(TextFormat::colorize(" "));
                     $tntToSet->setLore([TextFormat::colorize(" ")]);
-                    $tntToSet->addEnchantment(new EnchantmentInstance(VanillaEnchantments::FORTUNE(), 10));
+                    $tntToSet->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(-1), 255));
 
                     $invMenuInventory->setItem($itemSlot, $tntToSet);
                     self::$games[$playerName]["end-status"] = 1;

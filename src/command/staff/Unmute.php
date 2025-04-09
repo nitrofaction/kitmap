@@ -22,7 +22,7 @@ class Unmute extends BaseCommand
         parent::__construct(
             $plugin,
             "unmute",
-            "Redonne la parole à un joueur"
+            "Permet de redonner la parole à un joueur §e(S)"
         );
 
         $this->setPermissions([Rank::GROUP_STAFF]);

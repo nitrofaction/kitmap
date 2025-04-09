@@ -39,7 +39,7 @@
     },
     "5": {
       "reward": {
-        "name": "§n1 §fplastron en §némeraude §fet §n4 PartnerItems",
+        "name": "§n1 §fplastron en §némeraude §fet §n4 Partner-Items",
         "items": [
           "item:golden_chestplate:1",
           "partneritem:4"
@@ -125,7 +125,7 @@
     },
     "14": {
       "reward": {
-        "name": "§n128 §fgraines d'iris et §n8 §fpartneritems",
+        "name": "§n128 §fgraines d'iris et §n8 §fpartner-items",
         "items": [
           "partneritem:8",
           "item:nether_wart:128"
@@ -188,11 +188,11 @@
     },
     "20": {
       "reward": {
-        "name": "3 fragments en §niris§f, §n150 §fniveaux et 32 §fPartnerItems",
+        "name": "3 fragments en §niris§f, §n150 §fniveaux et 32 §fPartner-Items",
         "items": [
           "item:rabbit_hide:3",
           "xp:150",
-          "32:partneritems"
+          "32:partner-items"
         ]
       },
       "xp": 70000
@@ -238,7 +238,7 @@
     },
     "5": {
       "reward": {
-        "name": "§n1 §fplastron en §némeraude §fet §n4 PartnerItems",
+        "name": "§n1 §fplastron en §némeraude §fet §n4 Partner-Items",
         "items": [
           "item:golden_chestplate:1",
           "partneritem:4"
@@ -324,7 +324,7 @@
     },
     "14": {
       "reward": {
-        "name": "§n128 §fgraines d'iris et §n8 §fpartneritems",
+        "name": "§n128 §fgraines d'iris et §n8 §fpartner-items",
         "items": [
           "partneritem:8",
           "item:nether_wart:128"
@@ -387,11 +387,11 @@
     },
     "20": {
       "reward": {
-        "name": "3 fragments en §niris§f, §n150 §fniveaux et 32 §fPartnerItems",
+        "name": "3 fragments en §niris§f, §n150 §fniveaux et 32 §fPartner-Items",
         "items": [
           "item:rabbit_hide:3",
           "xp:150",
-          "32:partneritems"
+          "32:partner-items"
         ]
       },
       "xp": 70000
@@ -437,7 +437,7 @@
     },
     "5": {
       "reward": {
-        "name": "§n1 §fplastron en §némeraude §fet §n4 PartnerItems",
+        "name": "§n1 §fplastron en §némeraude §fet §n4 Partner-Items",
         "items": [
           "item:golden_chestplate:1",
           "partneritem:4"
@@ -523,7 +523,7 @@
     },
     "14": {
       "reward": {
-        "name": "§n128 §fgraines d'iris et §n8 §fpartneritems",
+        "name": "§n128 §fgraines d'iris et §n8 §fpartner-items",
         "items": [
           "partneritem:8",
           "item:nether_wart:128"
@@ -586,11 +586,11 @@
     },
     "20": {
       "reward": {
-        "name": "3 fragments en §niris§f, §n150 §fniveaux et 32 §fPartnerItems",
+        "name": "3 fragments en §niris§f, §n150 §fniveaux et 32 §fPartner-Items",
         "items": [
           "item:rabbit_hide:3",
           "xp:150",
-          "32:partneritems"
+          "32:partner-items"
         ]
       },
       "xp": 70000
