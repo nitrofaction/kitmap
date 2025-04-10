@@ -28,6 +28,9 @@ class Lobby extends BaseCommand
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
         if ($sender instanceof Player) {
+            $sender->sendMessage(Util::PREFIX  . "Le lobby est désactivé !");
+            return;
+
             $session = Session::get($sender);
 
             if ($session->inCooldown("combat")) {

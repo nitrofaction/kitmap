@@ -5,6 +5,7 @@ namespace Kitmap\handler;
 use Kitmap\Main;
 use Kitmap\Session;
 use Kitmap\task\repeat\child\DominationTask;
+use Kitmap\task\repeat\child\FarmWarsTask;
 use Kitmap\Util;
 use pocketmine\network\mcpe\protocol\RemoveObjectivePacket;
 use pocketmine\network\mcpe\protocol\SetDisplayObjectivePacket;
@@ -30,32 +31,50 @@ class ScoreFactory
 
         if (self::hasScore($player)) {
             if (DominationTask::$currentDomination) {
-                self::setScore($player, "§nDomination (§7" . date("H:i") . " #8§n)");
+                self::setScore($player, "§8§l» §r§nDomination §l§8«");
                 $lines = DominationTask::getScoreboardLines();
-            } else {
-                self::setScore($player, "§8§l» §r§nNitro §l§8«");
 
+                goto set;
+            }
+
+            self::setScore($player, "§8§l» §r§nNitro §l§8«");
+
+            if (is_int(FarmWarsTask::$current)) {
+                $lines = [
+                    "§r",
+                    "§l§nFARM WARS",
+                    "  §7| §fTemps: §n" . Util::formatDurationFromSeconds(FarmWarsTask::$current, 1),
+                    "§n",
+                    ...FarmWarsTask::getScoreboardLines($player)
+                ];
+            } else {
                 $faction = Faction::hasFaction($player) ? Faction::getFactionUpperName($session->data["faction"]) : "Aucune";
 
                 $money = Util::formatNumberWithSuffix($session->data["money"]);
                 $gem = Util::formatNumberWithSuffix($session->data["gem"]);
 
-                $voteparty = Cache::$data["voteparty"] ?? 0;
-
                 $lines = [
                     "§r",
                     "§l§n" . $player->getDisplayName(),
                     "  §7| §fFaction: §n" . $faction,
-                    "  §7| §fPieces: §n" . $money,
+                    "  §7| §fPièces: §n" . $money,
                     "  §7| §fGemmes: §n" . $gem,
-                    "§r ",
-                    "§l§nINFOS §r§8(§7" . date("H:i") . "§8)",
-                    "  §7| §fJoueurs: §n" . count(Main::getInstance()->getServer()->getOnlinePlayers()),
-                    "  §7| §fVote: §n" . $voteparty . "§f/§n100",
-                    "§f",
-                    "    §7nitrofaction.fr    "
                 ];
             }
+
+            $voteparty = Cache::$data["voteparty"] ?? 0;
+
+            $lines = [
+                ...$lines,
+                "§r ",
+                "§l§nINFOS §r§8(§7" . date("H:i") . "§8)",
+                "  §7| §fJoueurs: §n" . count(Main::getInstance()->getServer()->getOnlinePlayers()),
+                "  §7| §fVote: §n" . $voteparty . "§f/§n100",
+                "§f",
+                "    §7nitrofaction.fr    "
+            ];
+
+            set:
 
             foreach ($lines as $key => $value) {
                 self::setScoreLine($player, $key + 1, $value);

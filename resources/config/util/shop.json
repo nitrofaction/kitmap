@@ -2,19 +2,24 @@
   "Agriculture": {
     "type": "bourse"
   },
-  "Minerais": {
+  "Partner-Items": {
+    "type": "partneritem"
+  },
+  "Minerais / Pierre": {
     "type": "basic",
     "items": [
-      "Lingot d'or:gold_ingot:55:11",
-      "Lingot d'émeraude:emerald:3000:44",
-      "Lingot d'émeraude renforcée:dragon_breath:7000:82",
-      "Fragment en iris:rabbit_hide:50000:5000"
+      "Lingot d'or:gold_ingot:55:7",
+      "Émeraude:emerald:3000:44",
+      "Émeraude renforcée:dragon_breath:7000:82",
+      "Fragment en iris:rabbit_hide:50000:5000",
+      "Pierre:stone:5:1",
+      "Pierres:cobblestone:5:1"
     ]
   },
   "Générateurs / Loots mobs": {
     "type": "basic",
     "items": [
-      "Chair putréfiée:rotten_flesh:45:9",
+      "Chair putréfiée:rotten_flesh:45:7",
       "Générateur de Zombie:monster_spawner_zombie:500000:0",
       "Générateur de Piglin:monster_spawner_piglin:500000:0"
     ]
@@ -29,7 +34,7 @@
       "Sceau deau:water_bucket:50:0"
     ]
   },
-  "Autres": {
+  "Blocs": {
     "type": "basic",
     "items": [
       "Élevateur:lapis_block:10000:0",

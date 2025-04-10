@@ -84,11 +84,11 @@ class LogoutEntity extends Human
             $session->addValue("kill");
             $session->addValue("killstreak");
 
-            $session->addValue("elo", $winElo = mt_rand(3, 8));
+            $session->addValue("elo", $winElo = mt_rand(1, 3));
             $damager->sendMessage(Util::PREFIX . "Vous venez de gagner §n" . $winElo . " §felo !");
 
-            if (Faction::hasFaction($damager)) Faction::addPower($session->data["faction"], 6);
-            if (!is_null($this->faction)) Faction::addPower($this->faction, -4);
+            if (Faction::hasFaction($damager)) Faction::addPower($session->data["faction"], 2);
+            if (!is_null($this->faction)) Faction::addPower($this->faction, -1);
 
             if ($session->data["killstreak"] % 5 == 0) {
                 Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §n" . $damager->getName() . " §fa fait §n" . $session->data["killstreak"] . " §fkill sans mourrir !");

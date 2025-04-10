@@ -73,7 +73,7 @@ class EnchantingTable extends Block
         if ($item instanceof Sword) {
             $form->addButton("Trace sanglante", label: ExtraVanillaEnchantments::KILL_TRACKER . ";Trace sanglante;1;30;64");
             $form->addButton("Foudroiement", label: ExtraVanillaEnchantments::LIGHTNING . ";Foudroiement;3;30;64");
-            $form->addButton("Lame de l'Infini", label: ExtraVanillaEnchantments::INFINITE . ";Lame de l'infini;1;75;144");
+            $form->addButton("Lame de l'Infini", label: ExtraVanillaEnchantments::INFINITE . ";Lame de l'infini;1;90;256");
         }
 
         $player->sendForm($form);

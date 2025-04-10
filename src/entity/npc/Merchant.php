@@ -49,9 +49,9 @@ class Merchant extends Villager
             NpcDialogueManager::remove($player);
 
             $requirements = [
-                "emerald:16",
-                "rotten_flesh:32",
-                "gold_ingot:25"
+                "emerald:36",
+                "rotten_flesh:48",
+                "gold_ingot:32"
             ];
 
             foreach ($requirements as $requirement) {

@@ -20,11 +20,8 @@ class Lightning extends Enchantment
         $level = $enchantmentInstance->getLevel();
         $entity = $event->getEntity();
 
-        // 1 => 200
-        // TODO
-
         $chance = match ($level) {
-            1 => 5,
+            1 => 200,
             2 => 150,
             3 => 100
         };
@@ -43,7 +40,7 @@ class Lightning extends Enchantment
             $viewers = array_merge($entity->getViewers(), $player->getViewers());
 
             NetworkBroadcastUtils::broadcastPackets(array_unique($viewers), $hurtAnimation->encode());
-            $entity->getWorld()->broadcastPacketToViewers($entity->getPosition()->asVector3(), LevelSoundEventPacket::create(LevelSoundEvent::THUNDER, $entity->getLocation(), -1, "minecraft:lightning_bolt", false, false));
+            $entity->getWorld()->broadcastPacketToViewers($entity->getPosition()->asVector3(), LevelSoundEventPacket::create(LevelSoundEvent::THUNDER, $entity->getLocation(), -1, "minecraft:lightning_bolt", false, false, $entity->getId()));
 
             $entity->sendMessage(Util::PREFIX . "§n" . $player->getDisplayName() . " §fvient de vous envoyer un éclair dessus grâce à son enchantement §nFoudroiement §f!");
             $player->sendMessage(Util::PREFIX . "Vous venez d'envoyer un éclair dessus grâce à votre enchantement §nFoudroiement §fau joueur §n" . $entity->getDisplayName() . " §f!");

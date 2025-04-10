@@ -79,6 +79,7 @@ class Top extends BaseCommand
             "money" => "Joueurs ayant le plus de §npièces",
             "nerd" => "Joueurs ayant le plus d'§nheures de jeu",
             "bounty" => "Joueurs ayant la plus grosse §nprime",
+            "point" => "Joueurs ayant le plus de §npoints",
             default => "Joueurs ayant le plus de §nkills"
         };
     }

@@ -45,7 +45,7 @@ class Koth extends BaseCommand
                     BossBarAPI::getInstance()->hideBossBar($player, 1);
                 }
 
-                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "L'event §nKOTH §fa été arrêté, pas de stuff :/");
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "L'event §nKOTH §fa été arrêté par un administrateur du serveur");
                 break;
         }
     }

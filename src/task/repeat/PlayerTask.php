@@ -8,6 +8,7 @@ use Kitmap\handler\ScoreFactory;
 use Kitmap\Main;
 use Kitmap\Session;
 use Kitmap\task\repeat\child\DominationTask;
+use Kitmap\task\repeat\child\FarmWarsTask;
 use Kitmap\task\repeat\child\GamblingTask;
 use Kitmap\task\repeat\child\KothTask;
 use Kitmap\task\repeat\child\MoneyZoneTask;
@@ -44,6 +45,7 @@ class PlayerTask extends Task
         KothTask::run();
         GamblingTask::run();
         OutpostTask::run();
+        FarmWarsTask::run();
 
         if ($tick % 3 == 0) {
             MoneyZoneTask::run();
@@ -91,7 +93,7 @@ class PlayerTask extends Task
         }
 
         foreach (Cache::$scoreboardPlayers as $player => $ignore) {
-            if ($player->isConnected() && $tick % (DominationTask::$currentDomination ? 1 : 45) == 0) {
+            if ($player->isConnected() && $tick % ((DominationTask::$currentDomination || is_int(FarmWarsTask::$current)) ? 1 : 45) == 0) {
                 ScoreFactory::updateScoreboard($player);
             }
         }

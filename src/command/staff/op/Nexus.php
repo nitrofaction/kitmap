@@ -52,7 +52,7 @@ class Nexus extends BaseCommand
                 Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Un event nexus vient de commencer ! Vous pouvez vous y téléporter grace à la commande §n/event nexus");
                 break;
             case "end":
-                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "L'event nexus a été arrêté, pas de stuff :/");
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "L'event §nNEXUS §fa été arrêté par un administrateur du serveur");
 
                 foreach (Main::getInstance()->getServer()->getOnlinePlayers() as $player) {
                     BossBarAPI::getInstance()->hideBossBar($player, 2);

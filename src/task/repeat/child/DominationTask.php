@@ -26,6 +26,7 @@ class DominationTask
     {
         $lines = [
             "§f ",
+            "§fHeure: §n" . date("H:i"),
             "§fTemps: §n" . Util::formatDurationFromSeconds(DominationTask::$time, 1),
             "§7 ",
         ];
@@ -193,11 +194,13 @@ class DominationTask
             $factions = implode("§f, §n", $leaderboard);
 
             Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "L'event §ndomination §fest terminé ! Voici les factions gagnantes: §n" . $factions);
+
             $i = 0;
+            $rewards = [100, 50, 25];
 
             foreach ($leaderboard as $key) {
+                $power = $rewards[$i] ?? 25;
                 $i++;
-                $power = 200 - (($i - 1) * 50);
 
                 Faction::addPower($key, $power);
                 Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "La faction §n " . Faction::getFactionUpperName($key) . " §fqui est arrivé §n" . $i . " §fà l'event §ndomination §fa remporté §n" . $power . " §fpowers");

@@ -28,7 +28,7 @@ class Paper extends Item
         } else if (!is_null($item->getNamedTag()->getTag("pack"))) {
             $packs = $item->getNamedTag()->getInt("pack");
 
-            Session::get($player)->addValue("packs", $packs);
+            Session::get($player)->addValue("pack", $packs);
             $player->sendMessage(Util::PREFIX . "§fVous venez de recevoir §n" . $packs . " PACKS §f!");
 
             $this->projectileSucces($player, $item);

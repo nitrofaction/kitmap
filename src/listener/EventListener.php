@@ -8,7 +8,7 @@ use Kitmap\command\staff\{Ban, LastInventory, op\Question, Vanish};
 use Kitmap\command\util\Bienvenue;
 use Kitmap\entity\{AntiBackBall, EggTrap, floating\StuffFloating, npc\LogoutEntity, SwitchBall};
 use Kitmap\entity\Player as CustomPlayer;
-use Kitmap\handler\{Cache, Cosmetic, Faction, Job, PartnerItem, Rank, Sanction, WaterdogPacketHandler};
+use Kitmap\handler\{Cache, Cosmetic, Faction, Job, PartnerItem, Rank, Sanction};
 use Kitmap\item\Armor;
 use Kitmap\item\enchantment\ExtraVanillaEnchantments;
 use Kitmap\item\enchantment\Hammer;
@@ -41,7 +41,8 @@ use pocketmine\block\{Air,
     SweetBerryBush,
     Trapdoor,
     VanillaBlocks,
-    Water};
+    Water
+};
 use pocketmine\block\tile\Chest as ChestTile;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\entity\object\ItemEntity;
@@ -53,7 +54,8 @@ use pocketmine\event\block\{BlockBreakEvent,
     BrewingFuelUseEvent,
     BrewItemEvent,
     LeavesDecayEvent,
-    SignChangeEvent};
+    SignChangeEvent
+};
 use pocketmine\event\entity\{EntityDamageByEntityEvent,
     EntityDamageEvent,
     EntityItemPickupEvent,
@@ -61,7 +63,8 @@ use pocketmine\event\entity\{EntityDamageByEntityEvent,
     EntityTeleportEvent,
     EntityTrampleFarmlandEvent,
     ItemSpawnEvent,
-    ProjectileHitEntityEvent};
+    ProjectileHitEntityEvent
+};
 use pocketmine\event\inventory\{CraftItemEvent, InventoryOpenEvent, InventoryTransactionEvent, ItemDamageEvent};
 use pocketmine\event\Listener;
 use pocketmine\event\player\{PlayerBucketEvent,
@@ -80,7 +83,8 @@ use pocketmine\event\player\{PlayerBucketEvent,
     PlayerPreLoginEvent,
     PlayerQuitEvent,
     PlayerRespawnEvent,
-    PlayerToggleSneakEvent};
+    PlayerToggleSneakEvent
+};
 use pocketmine\event\server\CommandEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\event\server\DataPacketSendEvent;
@@ -176,7 +180,7 @@ class EventListener implements Listener
     public function onChat(PlayerChatEvent $event): void
     {
         $player = $event->getPlayer();
-        $message = TextFormat::clean($event->getMessage());
+        $message = $player->hasPermission(DefaultPermissions::ROOT_OPERATOR) ? $event->getMessage() : TextFormat::clean($event->getMessage());
 
         $session = Session::get($player);
 
@@ -279,6 +283,7 @@ class EventListener implements Listener
         $message = Rank::setReplace(Rank::getRankValue($rank, "chat"), $player, $message);
 
         $event->setFormatter(new LegacyRawChatFormatter($message));
+        $session->addValue("chat");
     }
 
     public function onJoin(PlayerJoinEvent $event): void
@@ -332,7 +337,7 @@ class EventListener implements Listener
         $bar = Util::stringToIcon("dark-bar");
         $player->sendMessage($bar);
         $player->sendMessage("§fBienvenue, §n" . $player->getName() . "!");
-        $player->sendMessage(Util::caracterToUnicode("down-right-arrow") . " §fUtilisez §n/lobby §fpour revenir au lobby");
+        $player->sendMessage(Util::caracterToUnicode("down-right-arrow") . " §fVous vous trouvez sur §9Nitro Kitmap §famusez vous bien !");
         $player->sendMessage("§r ");
         $player->sendMessage(Util::PREFIX . "Discord: §ndiscord.gg/nitrofaction");
         $player->sendMessage(Util::PREFIX . "Boutique: §nstore.nitrofaction.fr");
@@ -344,6 +349,8 @@ class EventListener implements Listener
         Rank::addPermissions($player);
 
         Cosmetic::checkSkin($player);
+
+        $session->addValue("connexion");
     }
 
     public function onChangeSkin(PlayerChangeSkinEvent $event): void
@@ -446,7 +453,7 @@ class EventListener implements Listener
             GamblingTask::stop($otherPlayerName);
 
             if (Faction::hasFaction($player)) {
-                Faction::addPower($session->data["faction"], -4);
+                Faction::addPower($session->data["faction"], -1);
             }
 
             $cause = $player->getLastDamageCause();
@@ -459,7 +466,7 @@ class EventListener implements Listener
 
             if ($damager instanceof Player && Faction::hasFaction($damager)) {
                 $damagerSession = Session::get($damager);
-                Faction::addPower($damagerSession->data["faction"], 6);
+                Faction::addPower($damagerSession->data["faction"], 2);
             }
 
             return;
@@ -515,25 +522,25 @@ class EventListener implements Listener
                 $damagerSession->addValue("kill");
                 $damagerSession->addValue("killstreak");
 
-                if (Faction::hasFaction($damager)) Faction::addPower($damagerSession->data["faction"], 6);
-                if (Faction::hasFaction($player)) Faction::addPower($session->data["faction"], -4);
+                if (Faction::hasFaction($damager)) Faction::addPower($damagerSession->data["faction"], 2);
+                if (Faction::hasFaction($player)) Faction::addPower($session->data["faction"], -1);
 
                 $damagerKillstreak = $damagerSession->data["killstreak"];
 
                 if ($playerBounty > 0) {
                     $damagerSession->addValue("money", $playerBounty);
-                    Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§n" . $damager->getName() . " §fvient de remporter une prime de §n" . $playerBounty . " pièce(s) §fen tuant §n" . $player->getName() . " §f!");
+                    Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§n" . $damager->getName() . " §fvient de remporter une prime de §n" . $playerBounty . "$ §fen tuant §n" . $player->getName() . " §f!");
                 }
 
                 if ($damagerKillstreak % 5 == 0) {
                     $amount = Cache::$config["bounties"][array_rand(Cache::$config["bounties"])];
                     $damagerSession->addValue("bounty", $amount);
 
-                    Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§n" . $damager->getName() . " §fa fait §n" . $damagerSession->data["killstreak"] . " §fkills sans mourrir ! Sa mort est désormais mise à prix à §n" . Session::get($damager)->data["bounty"] . " pièce(s) §8(§7+" . $amount . "§8) §f!");
+                    Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§n" . $damager->getName() . " §fa fait §n" . $damagerSession->data["killstreak"] . " §fkills sans mourrir ! Sa mort est désormais mise à prix à §n" . Session::get($damager)->data["bounty"] . "$ §8(§7+" . $amount . "§8) §f!");
                 }
 
-                $lossElo = mt_rand(1, 5);
-                $winElo = mt_rand(3, 8);
+                $lossElo = mt_rand(1, 4);
+                $winElo = mt_rand(3, 10);
 
                 $session->addValue("elo", $lossElo, true);
                 $damagerSession->addValue("elo", $winElo);
@@ -875,8 +882,12 @@ class EventListener implements Listener
         }
 
         if ($block instanceof Block) {
-            ExtraVanillaBlocks::getBlock($block)->onPlace($event);
+            if (ExtraVanillaBlocks::getBlock($block)->onPlace($event)) {
+                return;
+            }
         }
+
+        Session::get($player)->addValue("place");
     }
 
     public function onSpread(BlockSpreadEvent $event): void
@@ -990,13 +1001,9 @@ class EventListener implements Listener
                 break;
             }
         }
+
+        Session::get($player)->addValue("craft");
     }
-
-    /*public function onSupportBreak(BlockSupportBreakEvent $event): void
-    {
-        ExtraVanillaBlocks::getBlock($event->getBlock())->onSupportBreak($event);
-    }*/
-
 
     public function onBreak(BlockBreakEvent $event): void
     {
@@ -1081,6 +1088,8 @@ class EventListener implements Listener
 
         $event->setDrops([]);
         $event->setXpDropAmount(0);
+
+        $session->addValue("break");
     }
 
     public function onLeavesDecay(LeavesDecayEvent $event): void
@@ -1186,6 +1195,8 @@ class EventListener implements Listener
 
             $command[0] = strtolower($command[0]);
             $event->setCommand(implode(" ", $command));
+
+            $session->addValue("command");
         }
     }
 
@@ -1244,7 +1255,7 @@ class EventListener implements Listener
         }
     }
 
-    public function onDataPacketSendMaxoooz(DataPacketSendEvent $event): void
+    public function onDataPacketSend(DataPacketSendEvent $event): void
     {
         $packets = $event->getPackets();
 
@@ -1255,10 +1266,10 @@ class EventListener implements Listener
         }
     }
 
-    public function onPacketReceive(DataPacketReceiveEvent $event): void
+    /*public function onPacketReceive(DataPacketReceiveEvent $event): void
     {
         WaterdogPacketHandler::process($event);
-    }
+    }*/
 
     public function onBrewItem(BrewItemEvent $event): void
     {

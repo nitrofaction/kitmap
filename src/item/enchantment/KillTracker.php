@@ -21,16 +21,17 @@ class KillTracker extends Enchantment
         $i = 0;
 
         foreach (explode(",", $names) as $name) {
-            $i++;
-
-            $lore .= "§r§n#" . $i . " " . Util::PREFIX . " " . $name . "\n";
+            if (strlen($name) > 1) {
+                $i++;
+                $lore .= "§r§n#" . $i . " " . Util::PREFIX . " " . $name . "\n";
+            }
         }
 
         $lore .= "\n" . Util::stringToIcon("bar");
 
         $item->getNamedTag()->setInt("kills", $kills);
         $item->getNamedTag()->setString("names", $names);
-        $item->setCustomName("§r§bÉpée de " . $player->getName() . " §8(§7" . $kills . " kill(s)§8)");
+        $item->setCustomName("§r§bÉpée de " . $player->getName() . " §8(§7" . $kills . " kills§8)");
         $item->setLore([$lore]);
 
         $player->getInventory()->setItemInHand($item);

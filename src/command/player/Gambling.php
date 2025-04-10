@@ -150,7 +150,7 @@ class Gambling extends BaseCommand
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
 
         foreach (self::$gamblings as $target => $value) {
-            $form->addButton($value["upper_name"] . "\nMise de §n" . Util::formatNumberWithSuffix($value["bet"]) . " pièces §8- Kit §n" . $value["kit"] + 1, -1, "", $target);
+            $form->addButton($value["upper_name"] . "\nMise de §n" . Util::formatNumberWithSuffix($value["bet"]) . "$ §8- Kit §n" . $value["kit"] + 1, -1, "", $target);
         }
 
         $form->addButton("Rafraîchir", -1, "", "refresh");

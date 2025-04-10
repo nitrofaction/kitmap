@@ -3,6 +3,7 @@
 namespace Kitmap\entity\floating;
 
 use Kitmap\command\player\Gambling;
+use Kitmap\command\util\Bourse;
 use Kitmap\handler\Cache;
 use Kitmap\handler\Faction;
 use Kitmap\task\repeat\child\DominationTask;
@@ -97,12 +98,14 @@ class DynamicFloatingText extends FloatingText
             case "jump":
                 $this->period = null;
                 return Util::PREFIX . "Jump" . Util::IARROW . "\nLe niveau §nROUGE §fcontient une récompense §n!!";
+            case "bourse":
+                return Bourse::floating();
         }
 
         if ($name[0] === "#") {
             $text = substr($name, 1);
         } else {
-            $text = "§r   \n  " . Util::stringToUnicode($name, 1) . "  \n§r   ";
+            $text = "§r   \n  " . Util::stringToUnicode(str_replace("!", "", ($name)), 1) . "  \n§r   ";
         }
 
         $this->period = null;

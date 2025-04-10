@@ -68,7 +68,7 @@ class CoinFlip extends BaseCommand
             $price = intval($data[0]);
 
             if (1000 > $price) {
-                $player->sendMessage(Util::PREFIX . "Vous ne pouvez pas miser moins de 1000 pièces");
+                $player->sendMessage(Util::PREFIX . "Vous ne pouvez pas miser moins de §n1000$");
                 return;
             } else if ($price > $session->data["money"]) {
                 $player->sendMessage(Util::PREFIX . "Vous n'avez pas assez d'argent pour créer ce coinflip");
@@ -94,7 +94,7 @@ class CoinFlip extends BaseCommand
             ];
 
             $session->setCooldown("coinflip", 30);
-            $player->sendMessage(Util::PREFIX . "Vous venez de miser §n" . $price . " §fpièces!");
+            $player->sendMessage(Util::PREFIX . "Vous venez de miser §n" . $price . "$ §f!");
         });
         $form->setTitle("§nCoinflip");
         $form->addInput(Util::PREFIX . "Choisissez le prix de votre choix");
@@ -167,10 +167,10 @@ class CoinFlip extends BaseCommand
             shuffle($players);
 
             if ($players[array_rand($players)] === $player->getName()) {
-                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§n" . $player->getName() . " §fa remporté un coinflip de §n" . Util::formatNumberWithSuffix($price) . " §fpièces contre §n" . $target->getName() . " §f!");
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§n" . $player->getName() . " §fa remporté un coinflip de §n" . Util::formatNumberWithSuffix($price) . "$ §fcontre §n" . $target->getName() . " §f!");
                 $session->addValue("money", $_price);
             } else {
-                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§n" . $target->getName() . " §fa remporté un coinflip de §n" . Util::formatNumberWithSuffix($price) . " §fpièces contre §n" . $player->getName() . " §f!");
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§n" . $target->getName() . " §fa remporté un coinflip de §n" . Util::formatNumberWithSuffix($price) . "$ §fcontre §n" . $player->getName() . " §f!");
                 Session::get($target)->addValue("money", $_price);
             }
 

@@ -271,7 +271,7 @@ class Market extends BaseCommand
         unset(Cache::$market[$id]);
 
         if ($type === 0) {
-            $player->sendMessage(Util::PREFIX . "Vous venez d'acheter un item à l'hotel des ventes pour §n" . $price . " §fpièces");
+            $player->sendMessage(Util::PREFIX . "Vous venez d'acheter un item à l'hotel des ventes pour §n" . $price . "$");
         } else if ($type === 1) {
             $player->sendMessage(Util::PREFIX . "Vous venez de supprimer un de vos items dans l'hotel des ventes");
         }

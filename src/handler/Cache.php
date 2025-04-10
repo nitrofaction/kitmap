@@ -86,13 +86,14 @@ class Cache
 
             $file = Util::getFile("data/players/" . $username);
 
-            self::$players["money"][$username] = $file->get("money", 0);
-            self::$players["kill"][$username] = $file->get("kill", 0);
-            self::$players["death"][$username] = $file->get("death", 0);
-            self::$players["elo"][$username] = $file->get("elo", 0);
-            self::$players["bounty"][$username] = $file->get("bounty", 0);
-            self::$players["killstreak"][$username] = $file->get("killstreak", 0);
-            self::$players["played_time"][$username] = $file->get("played_time", 0);
+            foreach (Cache::$config["top"] as $value) {
+                if ($value === "nerd") {
+                    $value = "played_time";
+                }
+
+                self::$players[$value][$username] = $file->get($value, 0);
+            }
+
             self::$players["upper_name"][strtolower($username)] = $file->get("upper_name", $username);
 
             foreach (Cache::$config["save-data"] as $column) {

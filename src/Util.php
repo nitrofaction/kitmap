@@ -151,7 +151,7 @@ class Util
         return new Config(Main::getInstance()->getDataFolder() . $name . ".json", Config::JSON);
     }
 
-    public static function addArrayValue(array $data, array|string $path, int $value, bool $substraction = false): array
+    public static function addArrayValue(array $data, array|string $path, int|float $value, bool $substraction = false): array
     {
         $path = is_string($path) ? [$path] : $path;
         $lastPart = array_pop($path);
@@ -166,7 +166,7 @@ class Util
             $current = &$current[$part];
         }
 
-        $current[$lastPart] = max(0, ($substraction ? ($current[$lastPart] ?? 0) - $value : ($current[$lastPart] ?? 0) + $value));
+        $current[$lastPart] = max(0, round(($substraction ? ($current[$lastPart] ?? 0) - $value : ($current[$lastPart] ?? 0) + $value), 2));
         return $data;
     }
 
@@ -439,22 +439,29 @@ class Util
     {
         $data = Cache::$data["bourse"] ?? [];
 
-        $bourse = [];
-        $count = 0;
-
         if (count($data) == 0) {
             $data = self::resetBourse();
         }
 
         arsort($data);
 
-        foreach ($data as $name => $selled) {
-            $count = $count + 1;
+        $bourse = [];
+        $total = count($data);
 
-            $sellPrice = $count * 2;
+        $minPrice = 0.25;
+        $maxPrice = 15;
+        $expFactor = 2;
+
+        $index = 0;
+
+        foreach ($data as $name => $selled) {
+            $progress = $index / max(1, ($total - 1));
+            $sellPrice = $minPrice + ($maxPrice - $minPrice) * pow($progress, $expFactor);
             $buyPrice = ceil($sellPrice * 1.3);
 
-            $bourse[] = $name . ":" . Cache::$config["bourse"][$name] . ":" . $buyPrice . ":" . floor($sellPrice);
+            $bourse[] = $name . ":" . Cache::$config["bourse"][$name] . ":" . $buyPrice . ":" . round($sellPrice, 2);
+
+            $index++;
         }
 
         return $bourse;

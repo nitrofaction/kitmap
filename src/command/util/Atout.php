@@ -100,7 +100,7 @@ class Atout extends BaseCommand
                     $session->addValue("money", $atout["price"], true);
                     $session->data["atouts"][$name] = [true, true];
 
-                    $player->sendMessage(Util::PREFIX . "Vous venez d'acheter l'atout §n" . $name . " §favec §n" . $atout["price"] . " §fpièces");
+                    $player->sendMessage(Util::PREFIX . "Vous venez d'acheter l'atout §n" . $name . " §favec §n" . $atout["price"] . "$");
                     return;
                 case 1:
                     if ($atout["gem"] > $session->data["gem"]) {

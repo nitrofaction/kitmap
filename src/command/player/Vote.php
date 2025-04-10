@@ -80,7 +80,7 @@ class Vote extends BaseCommand
             $packs = mt_rand(2, 4);
 
             foreach (Main::getInstance()->getServer()->getOnlinePlayers() as $target) {
-                Session::get($target)->addValue("packs", $packs);
+                Session::get($target)->addValue("pack", $packs);
                 $target->sendTitle("§nVoteParty !", "§fVos récompenses vous ont été données");
             }
 
@@ -88,7 +88,7 @@ class Vote extends BaseCommand
             Cache::$data["voteparty"] = 0;
         }
 
-        Session::get($player)->addValue("packs", 2);
+        Session::get($player)->addValue("pack", 2);
 
         $player->sendMessage(Util::PREFIX . "Vous venez de recevoir §n2 packs vote §fcar vous avez voté sur le serveur !");
         Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "Le joueur §n" . $player->getDisplayName() . " §fvient de recevoir §n2 packs vote §fcar il a voté sur §nhttps://nitrofaction.fr/vote");

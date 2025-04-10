@@ -90,7 +90,7 @@ class Casino
             $amount = intval($data["bet"]);
 
             if ($amount < 10000) {
-                $player->sendMessage(Util::PREFIX . "La mise minimale de ce jeu est 10k de pièces");
+                $player->sendMessage(Util::PREFIX . "La mise minimale de ce jeu est 10k$");
                 return;
             } else if ($session->data["money"] < $amount) {
                 $player->sendMessage(Util::PREFIX . "Votre monnaie est infèrieur à §n" . $amount);
@@ -314,7 +314,7 @@ class Casino
         $game = ucwords(implode(" ", explode("-", $game)));
 
         if ($bet > 99999) {
-            Server::getInstance()->broadcastMessage(Util::PREFIX . "§n" . $player->getName() . " §fa perdu §n" . Util::formatNumberWithSuffix($bet) . " §fpièces " . $suffix . " §n" . $game);
+            Server::getInstance()->broadcastMessage(Util::PREFIX . "§n" . $player->getName() . " §fa perdu §n" . Util::formatNumberWithSuffix($bet) . "$ §f" . $suffix . " §n" . $game);
         }
 
         $player->sendMessage(Util::PREFIX . "Vous n'avez rien gagné en jouant " . $suffix . " " . $game);
@@ -332,15 +332,15 @@ class Casino
         $session->addValue("money", $finalGain);
 
         $playerName = strtolower($player->getName());
-        $player->sendTitle("§n+ " . $finalGain . " +", "§7Vous avez gagné " . $formattedFinalGain . " pièce(s) en jouant à " . self::getGameName($game) . " !");
+        $player->sendTitle("§n+ " . $finalGain . " +", "§7Vous avez gagné " . $formattedFinalGain . "$ §fen jouant à " . self::getGameName($game) . " !");
 
         switch ($game) {
             case "dragon-tower":
-                Server::getInstance()->broadcastMessage(Util::PREFIX . "§n" . $player->getName() . " §fa remporté §n" . $formattedFinalGain . " pièces §fen réussissant §n" . $score . " palier(s) §fau §nDragon Tower §f! §8(§n/casino§8)");
+                Server::getInstance()->broadcastMessage(Util::PREFIX . "§n" . $player->getName() . " §fa remporté §n" . $formattedFinalGain . "$ §fen réussissant §n" . $score . " palier(s) §fau §nDragon Tower §f! §8(§n/casino§8)");
                 break;
             case "mines":
                 if ($multiplier > 1) {
-                    Server::getInstance()->broadcastMessage(Util::PREFIX . "§n" . $player->getName() . " §fa remporté §n" . $formattedFinalGain . " pièces §8[§7x" . $multiplier . "§8] §fen esquivant §n" . $score . "/" . $scoreToComplete . " mine(s) §fdans les §nMines §f! §8(§n/casino§8)");
+                    Server::getInstance()->broadcastMessage(Util::PREFIX . "§n" . $player->getName() . " §fa remporté §n" . $formattedFinalGain . "$ §8[§7x" . $multiplier . "§8] §fen esquivant §n" . $score . "/" . $scoreToComplete . " mine(s) §fdans les §nMines §f! §8(§n/casino§8)");
                 }
                 break;
         }

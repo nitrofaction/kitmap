@@ -47,7 +47,7 @@ class Sell extends BaseCommand
                 }
 
                 $session->addValue("money", $total);
-                $sender->sendMessage(Util::PREFIX . "Tous les items vendable de votre inventaire ont été vendu, cela vous a rapporté §n" . $total . " §fpièces");
+                $sender->sendMessage(Util::PREFIX . "Tous les items vendable de votre inventaire ont été vendu, cela vous a rapporté §n" . $total . "$");
                 return;
             }
 
@@ -64,7 +64,7 @@ class Sell extends BaseCommand
                 $total = ($item->getCount() * $sell[2]);
                 $session->addValue("money", $total);
 
-                $sender->sendMessage(Util::PREFIX . "Vous venez de vendre §n" . $item->getCount() . " " . $sell[1] . " §fpour §n" . $total . " §fpièces");
+                $sender->sendMessage(Util::PREFIX . "Vous venez de vendre §n" . $item->getCount() . " " . $sell[1] . " §fpour §n" . $total . "$");
             }
         }
     }
@@ -89,7 +89,7 @@ class Sell extends BaseCommand
                 [$name, $_itemName, , $sell] = explode(":", $_item);
                 $testItem = StringToItemParser::getInstance()->parse($_itemName) ?? VanillaItems::AIR();
 
-                if (intval($sell) !== 0 && $item->equals($testItem)) {
+                if (floatval($sell) > 0.01 && $item->equals($testItem)) {
                     $itemName = $name;
                     $sellPrice = $sell;
                     break;

@@ -70,7 +70,7 @@ class Fly extends BaseCommand
             if ($money >= 500000) {
                 $session->addValue("money", 500000, true);
                 $session->data["fly"] = true;
-                $player->sendMessage(Util::PREFIX . "Vous venez d'acheter la commande §n/fly §favec §n1M §fpièces");
+                $player->sendMessage(Util::PREFIX . "Vous venez d'acheter la commande §n/fly §favec §n1M$");
             } else {
                 $player->sendMessage(Util::PREFIX . "Vous ne possedez pas assez de pièces pour acheter la commande §n/fly");
             }
@@ -79,8 +79,7 @@ class Fly extends BaseCommand
         });
 
         $form->setTitle("§nFly");
-        // TODO AJOUTER UN COMMENTAIRE ON PEUT ACHETER NANA SUR LA BOUTIQUE
-        $form->addLabel(Util::PREFIX . "Cette commande vous donnera la possibilité de voler dans votre île de faction !\n\nPrix: §n500k§f$\n\nVous possedez §n" . Util::formatNumberWithSuffix($session->data["money"]) . " §fpièces(s)\n");
+        $form->addLabel(Util::PREFIX . "Cette commande vous donnera la possibilité de voler dans votre île de faction, pour ne pas payer vous pouvez passer par la boutique en achetant le grade VIP: §nstore.nitrofaction.fr §f!\n\nPrix: §n500k§f$\n\nVous possedez §n" . Util::formatNumberWithSuffix($session->data["money"]) . "$\n");
         $form->addToggle("Acheter la commande /fly ?", true);
 
         $player->sendForm($form);

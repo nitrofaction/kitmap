@@ -3,6 +3,7 @@
 namespace Kitmap\handler;
 
 use Kitmap\Session;
+use Kitmap\task\repeat\child\FarmWarsTask;
 use Kitmap\Util;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\enchantment\EnchantmentInstance;
@@ -18,6 +19,8 @@ class Job
     {
         if ($player->isCreative()) {
             return;
+        } else if ($job === "Farmeur") {
+            FarmWarsTask::incrementScore($player);
         }
 
         $session = Session::get($player);
@@ -91,9 +94,9 @@ class Job
 
         if ($option === 1) {
             if ($levelIndex >= $lastLevelIndex) {
-                return "0§n/§8-1 §n- §8Level: §n" . $levelIndex;
+                return "0§n/§8-1 §n- §8Niveau: §n" . $levelIndex;
             } else {
-                return $xp . "§n/§8" . $nextXp . " §n- §8Level: §n" . $levelIndex;
+                return $xp . "§n/§8" . $nextXp . " §n- §8Niveau: §n" . $levelIndex;
             }
         }
 

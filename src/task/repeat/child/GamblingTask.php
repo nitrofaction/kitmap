@@ -155,7 +155,7 @@ class GamblingTask
         if (!is_null($winner)) {
             $loser = (self::$players[0] === $winner) ? self::$players[1] : self::$players[0];
 
-            $message = $bet > 1 ? " Le prix de la victoire était de §n" . Util::formatNumberWithSuffix($bet * 2) . " §fpièces !" : "";
+            $message = $bet > 1 ? " Le prix de la victoire était de §n" . Util::formatNumberWithSuffix($bet * 2) . "$ §f!" : "";
             Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "§n" . $winner . "[§7" . $winnerPot . "§n] §fvient de gagner un gambling ou il affrontait §n" . $loser . "[§7" . $loserPot . "§n] §f!" . $message);
 
             if (($p = Main::getInstance()->getServer()->getPlayerExact($winner)) instanceof Player) {

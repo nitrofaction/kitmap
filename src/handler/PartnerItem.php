@@ -288,7 +288,7 @@ class PartnerItem
         $item = StringToItemParser::getInstance()->parse($itemName) ?? VanillaItems::AIR();
 
         $item->setCustomName($customName);
-        $item->setLore([Util::stringToIcon("bar") . "\n§r" . $description . "\n\n" . Util::caracterToUnicode("down-right-arrow") . " §7Obtenable dans les §npacks\n" . Util::stringToIcon("bar")]);
+        $item->setLore([Util::stringToIcon("bar") . "\n§r" . $description . "\n\n" . Util::caracterToUnicode("down-right-arrow") . " §7Obtenable dans les §npacks §7et au §nshop\n" . Util::stringToIcon("bar")]);
 
         $item->getNamedTag()->setString("partneritem", $name);
         $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(-1), 255));

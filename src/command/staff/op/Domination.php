@@ -45,7 +45,7 @@ class Domination extends BaseCommand
                 DominationTask::$zones = [];
                 DominationTask::$time = 900;
 
-                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "L'event §ndomination §fa été arrêté");
+                Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "L'event §nDOMINATION §fa été arrêté par un administrateur du serveur");
                 break;
         }
     }

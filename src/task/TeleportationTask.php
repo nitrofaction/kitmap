@@ -46,7 +46,7 @@ class TeleportationTask extends Task
             return;
         } else if (!$session->inCooldown("teleportation")) {
             if (is_string($this->position)) {
-                $player->transfer("lobby");
+                $player->transfer("nitrofaction.fr", 19140);
             } else if ($this->position instanceof Position && $this->position->world instanceof World && $this->position->world->isLoaded()) {
                 $player->teleport($this->position);
                 $player->broadcastSound(new BlazeShootSound());

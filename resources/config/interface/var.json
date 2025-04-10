@@ -247,23 +247,23 @@
     "paradis"
   ],
   "partneritem": {
-    "refill": "fermented_spider_eye:§r§7Faites un clic droit sur cet item pour\ndéplacez toutes les potions de votre inventaire\ndans les espaces vide de votre hotbar:§r§uRefill:1",
-    "ninjastar": "nether_star:§r§7Faites un clic droit sur cet item pour\npour vous téléporter au dernier joueur que vous avez frappé ou\nqui vous a frappé durant les 15 dernières secondes:§r§dNinjaStar:1",
-    "repairstick": "stick:§r§7Faites un clic droit sur cet item pour\nque une pièce au hasard de votre inventaire\nse répare:§r§aRepairStick:1",
-    "bump": "feather:§r§7Faites un clic droit sur cet item pour\nvous expulser vers devant:§r§bBump:1",
-    "rocket": "red_dye:§r§7Faites un clic droit sur cet item pour\nvous expulser dans les airs:§r§cRocket:1",
-    "focusmode": "gold_nugget:§r§7Faites un clic droit sur cet item pour\nque le dernier joueur que vous avez frappé prenne\n10% de dégats de plus lorsque vous le frappez\nles 10 prochaine secondes:§r§2FocusMode:1",
-    "resistance": "iron_ingot:§r§7Faites un clic droit sur cet item pour\nobtenir resistance III pendant 5 à 10 secondes:§r§nResistance III:1",
-    "strength": "blaze_powder:§r§7Faites un clic droit sur cet item pour\nobtenir force II pendant 5 à 10 secondes:§r§cForce II:1",
-    "timewarp": "feather:§r§7Faites un clic droit sur cet item pour\nactiver un timer de 3 secondes qui vous teleportera à lemplacement de\nvotre dernière perle des 15 dernières secondes:§r§bTime-Warp:1",
-    "switchball": "snowball:§r§7Lancer sur un autre joueur\npour inverser sa position et la votre:§r§cSwitchBall:1",
-    "eggtrap": "egg:§r§7Lancer sur un autre joueur pour le\npieger dans des toiles d'araignées:§r§eEggTrap:1",
-    "antibackball": "snowball:§r§7Lancer sur un autre joueur\npour le freeze pendant 2 secondes\net le mettre en combat:§r§nAntiBackBall:1",
-    "antibuild": "bone:§r§7Frappez un joueur pour quil ne puisse\nplus placer de blocs pendant 15 secondes:§r§4AntiBuild:2",
-    "partneritemblocker": "redstone:§r§7Frappez un joueur et il ne pourra\nplus utiliser de partner-items pendant 30 secondes:§r§cPartner-Item Blocker:2",
-    "antipearl": "ender_pearl:§r§7Frappez un joueur et il ne pourra plus\nutiliser de pearl pendant 30 secondes:§r§bAntiPearl:2",
-    "pumpkinaxe": "golden_axe:§r§7Frappez un joueur et son casque sera\nchanger par une citrouille pendant 5 secondes:§r§nPumpkin Axe:2",
-    "shuffle": "stone_axe:§r§7Frappez un joueur et épée sera changé \nde place dans son inventaire:§r§bShuffle:2"
+    "refill": "fermented_spider_eye:§r§7Faites un clic droit sur cet item pour\ndéplacez toutes les potions de votre inventaire\ndans les espaces vide de votre hotbar:§r§uRefill:1:15000",
+    "ninjastar": "nether_star:§r§7Faites un clic droit sur cet item pour\npour vous téléporter au dernier joueur que vous avez frappé ou\nqui vous a frappé durant les 15 dernières secondes:§r§dNinjaStar:1:25000",
+    "repairstick": "stick:§r§7Faites un clic droit sur cet item pour\nque une pièce au hasard de votre inventaire\nse répare:§r§aRepairStick:1:15000",
+    "bump": "feather:§r§7Faites un clic droit sur cet item pour\nvous expulser vers devant:§r§bBump:1:15000",
+    "rocket": "red_dye:§r§7Faites un clic droit sur cet item pour\nvous expulser dans les airs:§r§cRocket:1:25000",
+    "focusmode": "gold_nugget:§r§7Faites un clic droit sur cet item pour\nque le dernier joueur que vous avez frappé prenne\n10% de dégats de plus lorsque vous le frappez\nles 10 prochaine secondes:§r§2FocusMode:1:25000",
+    "resistance": "iron_ingot:§r§7Faites un clic droit sur cet item pour\nobtenir resistance III pendant 5 à 10 secondes:§r§nResistance III:1:15000",
+    "strength": "blaze_powder:§r§7Faites un clic droit sur cet item pour\nobtenir force II pendant 5 à 10 secondes:§r§cForce II:1:15000",
+    "timewarp": "feather:§r§7Faites un clic droit sur cet item pour\nactiver un timer de 3 secondes qui vous teleportera à lemplacement de\nvotre dernière perle des 15 dernières secondes:§r§bTime-Warp:1:15000",
+    "switchball": "snowball:§r§7Lancer sur un autre joueur\npour inverser sa position et la votre:§r§cSwitchBall:1:25000",
+    "eggtrap": "egg:§r§7Lancer sur un autre joueur pour le\npieger dans des toiles d'araignées:§r§eEggTrap:1:25000",
+    "antibackball": "snowball:§r§7Lancer sur un autre joueur\npour le freeze pendant 2 secondes\net le mettre en combat:§r§nAntiBackBall:1:25000",
+    "antibuild": "bone:§r§7Frappez un joueur pour quil ne puisse\nplus placer de blocs pendant 15 secondes:§r§4AntiBuild:2:15000",
+    "partneritemblocker": "redstone:§r§7Frappez un joueur et il ne pourra\nplus utiliser de partner-items pendant 30 secondes:§r§cPartner-Item Blocker:2:15000",
+    "antipearl": "ender_pearl:§r§7Frappez un joueur et il ne pourra plus\nutiliser de pearl pendant 30 secondes:§r§bAntiPearl:2:25000",
+    "pumpkinaxe": "gold_axe:§r§7Frappez un joueur et son casque sera\nchanger par une citrouille pendant 5 secondes:§r§nPumpkin Axe:2:50000",
+    "shuffle": "stone_axe:§r§7Frappez un joueur et épée sera changé \nde place dans son inventaire:§r§bShuffle:2:15000"
   },
   "npc": {
     "mine": [
@@ -611,5 +611,22 @@
     "§s": "Couleur diamant",
     "§t": "Couleur lapis",
     "§u": "Couleur amethyst"
-  }
+  },
+  "point": [
+    "money",
+    "kill",
+    "death",
+    "killstreak",
+    "elo",
+    "bounty",
+    "played_time",
+    "atm",
+    "break",
+    "place",
+    "connexion",
+    "chat",
+    "command",
+    "craft",
+    "pack"
+  ]
 }

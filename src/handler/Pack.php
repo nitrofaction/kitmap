@@ -36,7 +36,7 @@ class Pack
 
             switch ($data) {
                 case 0:
-                    if (0 >= $session->data["packs"]) {
+                    if (0 >= $session->data["pack"]) {
                         $player->sendMessage(Util::PREFIX . "Vous ne possedez pas de pack actuellement");
                         return;
                     }
@@ -52,7 +52,7 @@ class Pack
             }
         });
         $form->setTitle("§nPack ");
-        $form->setContent(Util::PREFIX . "Vous possedez actuellement §n" . $session->data["packs"] . " §fpack(s)");
+        $form->setContent(Util::PREFIX . "Vous possedez actuellement §n" . $session->data["pack"] . " §fpack(s)");
         if ($primeTime[0]) {
             $form->addButton("Ouvrir un pack\n§8(§aPrime time pendant encore: " . Util::formatDurationFromSeconds($primeTime[1], 1) . "§8)");
         } else {
@@ -89,16 +89,16 @@ class Pack
     {
         $session = Session::get($player);
 
-        if (0 >= $session->data["packs"]) {
+        if (0 >= $session->data["pack"]) {
             $player->sendMessage(Util::PREFIX . "Vous ne possedez pas de pack actuellement");
             return;
         }
 
-        $session->addValue("packs", 1, true);
+        $session->addValue("pack", 1, true);
 
         if ($animationBlock instanceof Block) {
             if ($session->inCooldown("pack")) {
-                $session->addValue("packs");
+                $session->addValue("pack");
                 $player->sendMessage(Util::PREFIX . "Veuillez attendre un peu avant de ré-ouvrir un §npack §f(commande /pack pour éviter l'animation)..");
                 return;
             }
@@ -207,7 +207,7 @@ class Pack
                     }
 
                     $session->addValue("money", Cache::$config["pack"]["money"], true);
-                    $player->sendMessage(Util::PREFIX . "Vous venez d'acheter un pack avec §n" . Util::formatNumberWithSuffix(Cache::$config["pack"]["money"]) . " §fpièces");
+                    $player->sendMessage(Util::PREFIX . "Vous venez d'acheter un pack avec §n" . Util::formatNumberWithSuffix(Cache::$config["pack"]["money"]) . "$");
 
                     Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient d'acheter un pack avec des pièces");
                     break;
@@ -215,7 +215,7 @@ class Pack
                     return;
             }
 
-            $session->addValue("packs");
+            $session->addValue("pack");
             self::openPackUI($player);
         });
         $form->setTitle("§nPack");

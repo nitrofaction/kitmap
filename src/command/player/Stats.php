@@ -56,14 +56,17 @@ class Stats extends BaseCommand
             }
 
             $bar = Util::stringToIcon("dark-bar");
-            $playtime = Util::formatDurationFromSeconds($data["played_time"]);
+            $playtime = Util::formatDurationFromSeconds($data["played_time"], 1);
 
             $faction = $data["faction"];
             $faction = (is_null($faction)) ? "Aucune Faction" : Faction::getFactionUpperName($faction);
 
+            $kd = round(($data["kill"] / max(1, $data["death"])), 2);
+
             $sender->sendMessage($bar);
             $sender->sendMessage("§n[§f" . $faction . "§n] [§f" . ucfirst(strtolower($data["rank"])) . "§n] §f" . $data["upper_name"]);
-            $sender->sendMessage("§nK: §f" . $data["kill"] . " §nD: §f" . $data["death"] . " §nElo: §f" . $data["elo"]);
+            $sender->sendMessage("§nK: §f" . $data["kill"] . " §nD: §f" . $data["death"] . " §nK/D: §f" . $kd);
+            $sender->sendMessage("§nElo: §f" . $data["elo"] . " §nPoints: §f" . $data["point"]);
             $sender->sendMessage("§nEco: §f" . $data["money"] . "§f$ §n| §f" . $data["gem"] . " gemmes");
             $sender->sendMessage("§nKS: §f" . $data["killstreak"] . " §nPrime: §f" . $data["bounty"]);
             $sender->sendMessage("§nTemps: §f" . $playtime);

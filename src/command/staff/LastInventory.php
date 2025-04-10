@@ -115,7 +115,7 @@ class LastInventory extends BaseCommand
 
         $message = "§n- §fXP: §n" . $information["xp"] . "\n§n- §fDate: §n" . $information["date"] . "\n§n- §fKillstreak: §n" . $information["killstreak"];
 
-        $form = new /*TODO COLOR*/ SimpleForm(function (?Player $player, mixed $choice) use ($target, $data) {
+        $form = new SimpleForm(function (?Player $player, mixed $choice) use ($target, $data) {
             if ($choice === 0) {
                 $this->sendInventory($player, $target, $data);
             }

@@ -22,6 +22,18 @@ class Bourse extends BaseCommand
         $this->setPermissions([DefaultPermissions::ROOT_USER]);
     }
 
+    public static function floating(): string
+    {
+        $text = Util::PREFIX . "Bourse" . Util::IARROW;
+
+        foreach (Util::getBourse() as $item) {
+            [$name, , , $sell] = explode(":", $item);
+            $text .= "\n" . Util::caracterToUnicode("|") . " " . $name . ": §n" . $sell . "$ §8(§7" . Util::formatNumberWithSuffix(Cache::$data["bourse"][$name]) . "§8)" . Util::caracterToUnicode("|");
+        }
+
+        return $text;
+    }
+
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
         $items = Util::getBourse();
@@ -31,7 +43,7 @@ class Bourse extends BaseCommand
 
         foreach ($items as $item) {
             [$name, , , $sell] = explode(":", $item);
-            $sender->sendMessage("§n" . $name . "§f - Prix: §n" . $sell . " §fpièces§n/u - §fVendus: §n" . Util::formatNumberWithSuffix(Cache::$data["bourse"][$name]));
+            $sender->sendMessage(Util::caracterToUnicode("|") . " " . $name . " " . Util::PREFIX . "Prix: §n" . $sell . "$ §8(§7" . Util::formatNumberWithSuffix(Cache::$data["bourse"][$name]) . "§8)");
         }
 
         $sender->sendMessage($bar);

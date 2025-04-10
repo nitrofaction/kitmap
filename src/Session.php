@@ -125,7 +125,15 @@ class Session
 
     public function addValue(array|string $path, int|float $value = 1, bool $substraction = false): void
     {
-        $this->data = Util::addArrayValue($this->data, $path, intval($value), $substraction);
+        if ($path !== "money") {
+            $value = intval($value);
+        }
+
+        if (in_array($path, Cache::$config["point"])) {
+            $this->addValue("point");
+        }
+
+        $this->data = Util::addArrayValue($this->data, $path, $value, $substraction);
 
         if ($path === "bounty") {
             Util::updateBounty($this->player);

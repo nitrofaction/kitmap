@@ -81,7 +81,7 @@ class OutpostTask
                     $player->sendMessage(Util::PREFIX . "Vous venez de recevoir §n" . $price . " §fgrace à l'outpost");
                 }
 
-                Faction::addPower(Cache::$data["outpost"], 8);
+                Faction::addPower(Cache::$data["outpost"], 10);
                 Main::getInstance()->getServer()->broadcastMessage(Util::PREFIX . "La faction §n" . Faction::getFactionUpperName(Cache::$data["outpost"]) . " §fvient de récuperer leurs récompenses grace à l'outpost");
             }
             return;

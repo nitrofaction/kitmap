@@ -42,7 +42,7 @@ class Money extends BaseCommand
     {
         if (!isset($args["joueur"])) {
             if ($sender instanceof Player) {
-                $sender->sendMessage(Util::PREFIX . "Vous possèdez §n" . Session::get($sender)->data["money"] . " §fpièces");
+                $sender->sendMessage(Util::PREFIX . "Vous possèdez §n" . Session::get($sender)->data["money"] . "$");
             }
         } else {
             /** @noinspection PhpDeprecationInspection */
@@ -50,11 +50,11 @@ class Money extends BaseCommand
 
             if (!$target instanceof Player) {
                 if ($sender instanceof Player) {
-                    $sender->sendMessage(Util::PREFIX . "Vous possèdez §n" . Session::get($sender)->data["money"] . " §fpièces");
+                    $sender->sendMessage(Util::PREFIX . "Vous possèdez §n" . Session::get($sender)->data["money"] . "$");
                 }
                 return;
             }
-            $sender->sendMessage(Util::PREFIX . "Le joueur §n" . $target->getName() . "§f possède §n" . Session::get($target)->data["money"] . " §fpièces");
+            $sender->sendMessage(Util::PREFIX . "Le joueur §n" . $target->getName() . "§f possède §n" . Session::get($target)->data["money"] . "$");
         }
     }
 

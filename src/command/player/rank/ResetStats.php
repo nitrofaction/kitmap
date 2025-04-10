@@ -36,17 +36,24 @@ class ResetStats extends BaseCommand
                 return;
             }
 
+            $username = strtolower($sender->getName());
+
             $session->data["kill"] = 0;
             $session->data["death"] = 0;
             $session->data["elo"] = 0;
             $session->data["killstreak"] = 0;
-
-            $username = strtolower($sender->getName());
+            $session->data["point"] = 0;
+            $session->data["break"] = 0;
+            $session->data["place"] = 0;
+            $session->data["connexion"] = 0;
+            $session->data["craft"] = 0;
+            $session->data["command"] = 0;
 
             Cache::$players["kill"][$username] = 0;
             Cache::$players["death"][$username] = 0;
             Cache::$players["elo"][$username] = 0;
             Cache::$players["killstreak"][$username] = 0;
+            Cache::$players["point"][$username] = 0;
 
             $sender->sendMessage(Util::PREFIX . "Vous venez de réinitialiser vos statistiques");
         }

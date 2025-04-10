@@ -54,7 +54,7 @@ class Reclaim extends BaseCommand
                 return;
             }
 
-            $session->addValue("packs", $pack);
+            $session->addValue("pack", $pack);
             $session->setCooldown("reclaim", 60 * 60 * 24);
 
             $sender->sendMessage(Util::PREFIX . "Vous venez de recevoir §n" . $pack . " §fpack(s)  grace à votre reclaim !");

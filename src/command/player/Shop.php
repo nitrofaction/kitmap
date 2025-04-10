@@ -6,6 +6,7 @@ use CortexPE\Commando\BaseCommand;
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\SimpleForm;
 use Kitmap\handler\Cache;
+use Kitmap\handler\PartnerItem;
 use Kitmap\Main;
 use Kitmap\Session;
 use Kitmap\Util;
@@ -15,6 +16,7 @@ use pocketmine\item\VanillaItems;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\TextFormat;
 
 class Shop extends BaseCommand
 {
@@ -52,7 +54,7 @@ class Shop extends BaseCommand
         });
 
         foreach (Cache::$config["shop"] as $item => $value) {
-            $form->addButton($item, -1, "", $item);
+            $form->addButton($item, 0, $value["texture"] ?? "", $item);
         }
 
         $form->setTitle("§nBoutique");
@@ -74,16 +76,21 @@ class Shop extends BaseCommand
         $form->setContent(Util::PREFIX . "Cliquez sur le boutton de votre choix");
 
         $category = Cache::$config["shop"][$category];
-        $items = ($category["type"] === "bourse") ? Util::getBourse() : $category["items"];
+
+        $items = match ($category["type"]) {
+            "bourse" => Util::getBourse(),
+            "partneritem" => Shop::getPartnerItems(),
+            default => $category["items"]
+        };
 
         foreach ($items as $item) {
             [$name, $itemName, $buy] = explode(":", $item);
 
             $form->addButton(
-                $name . "\nPrix: §n" . $buy . " §8pièces§n/u",
+                TextFormat::clean($name) . "\n§r§8Prix: §n" . $buy . " §8pièces§n/u",
                 0,
                 "textures/render/" . $itemName,
-                $item
+                $item . ":" . $category["type"]
             );
         }
 
@@ -95,12 +102,18 @@ class Shop extends BaseCommand
         $item = explode(":", $item);
         $customName = $item[5] ?? null;
 
-        [$name, $itemName, $buy, $sell] = $item;
+        [$name, $itemName, $buy, $sell, $type] = $item;
 
-        $testItem = StringToItemParser::getInstance()->parse($itemName) ?? VanillaItems::AIR();
+        if ($type === "partneritem") {
+            $testItem = PartnerItem::createItem($itemName);
+        } else {
+            $testItem = StringToItemParser::getInstance()->parse($itemName) ?? VanillaItems::AIR();
+        }
+
         $limit = (($items = Util::getItemCount($player, $testItem)) > 256) ? $items : 256;
+        $name = TextFormat::clean($name);
 
-        $form = new CustomForm(function (Player $player, mixed $data) use ($name, $testItem, $sell, $buy, $customName) {
+        $form = new CustomForm(function (Player $player, mixed $data) use ($name, $testItem, $sell, $buy, $customName, $type) {
             if (!is_array($data) || !isset($data[2]) || !isset($data[1])) {
                 return;
             } else if (1 > ($count = intval($data[2]))) {
@@ -129,7 +142,7 @@ class Shop extends BaseCommand
                 Util::addItem($player, $item);
 
                 Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient d'acheter au shop " . $name . " x" . $count . " pour " . ($sell * $count));
-                $player->sendMessage(Util::PREFIX . "Vous venez d'acheter §n" . $count . " §f" . $name . " pour §n" . ($buy * $count) . " §fpièces");
+                $player->sendMessage(Util::PREFIX . "Vous venez d'acheter §n" . $count . " §f" . $name . " pour §n" . ($buy * $count) . "$");
             } else {
                 if ($count > Util::getItemCount($player, $testItem)) {
                     $player->sendMessage(Util::PREFIX . "Vous n'avez pas assez d'item dans votre inventaire");
@@ -144,14 +157,26 @@ class Shop extends BaseCommand
                 }
 
                 Main::getInstance()->getLogger()->info("Le joueur " . $player->getName() . " vient de vendre au shop " . $name . " x" . $count . " pour " . ($sell * $count));
-                $player->sendMessage(Util::PREFIX . "Vous venez de vendre §n" . $count . " §f" . $name . " pour §n" . ($sell * $count) . " §fpièces");
+                $player->sendMessage(Util::PREFIX . "Vous venez de vendre §n" . $count . " §f" . $name . " pour §n" . ($sell * $count) . "$");
             }
         });
         $form->setTitle("§nBoutique");
         $form->addLabel("Nombre de §n" . $name . " §rdans votre inventaire: §n" . $items . "\n\n§fPrix achat unité: §n" . $buy . "\n§fPrix vente unité: §n" . $sell);
-        $form->addDropdown("Voulez vous achetez ou vendre", (intval($sell) == 0) ? ["Acheter"] : ["Acheter", "Vendre"]);
+        $form->addDropdown("Voulez vous achetez ou vendre", (0.01 > floatval($sell)) ? ["Acheter"] : ["Acheter", "Vendre"]);
         $form->addSlider("Combien voulez vous en acheter/vendre?", 1, $limit);
         $player->sendForm($form);
+    }
+
+    public function getPartnerItems(): array
+    {
+        $partneritems = [];
+
+        foreach (Cache::$config["partneritem"] as $name => $item) {
+            [, , $customName, , $price] = explode(":", $item);
+            $partneritems[] = $customName . ":" . $name . ":" . intval($price) . ":0";
+        }
+
+        return $partneritems;
     }
 
     protected function prepare(): void

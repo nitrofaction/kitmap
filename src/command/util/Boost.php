@@ -38,7 +38,7 @@ class Boost extends BaseCommand
                 return;
             }
 
-            $session->addValue("packs", 2);
+            $session->addValue("pack", 2);
             $session->data["boost"][1] = true;
 
             Util::executeCommand("givekit \"" . $sender->getName() . "\" vip-plus");
