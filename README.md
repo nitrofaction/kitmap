@@ -12,7 +12,7 @@ Open-source for pocketmine dev: use for personal projects, but not commercially 
 
 ## Contact
 
-Send me a message on [discord](https://discordapp.com/users/1042541730823667814) (username: .roimee6)
+Send me a message on [discord](https://discordapp.com/users/1042541730823667814) (username: neuilleneuille)
 
 ## Virions Used
 
